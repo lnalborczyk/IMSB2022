@@ -2,8 +2,6 @@
 
 ## Introduction à la modélisation statistique bayésienne : Un cours avec R, Stan, et brms
 
----
-
 [![GitHub repo size](https://img.shields.io/github/repo-size/lnalborczyk/IMSB2022?color=brightgreen&logo=github)](https://github.com/lnalborczyk/IMSB2022)
 [![GitHub last commit](https://img.shields.io/github/last-commit/lnalborczyk/IMSB2022?color=orange&logo=github)](https://github.com/lnalborczyk/IMSB2022)
 
