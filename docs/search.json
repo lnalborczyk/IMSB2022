@@ -210,13 +210,6 @@
     "text": "Contenu de la formation\nCette formation est composée de dix séances de deux heures durant lesquelles seront dispensées connaissances théoriques et travaux pratiques en R, dans l’environnement RStudio."
   },
   {
-    "objectID": "syllabus.html#philosophie-de-la-formation",
-    "href": "syllabus.html#philosophie-de-la-formation",
-    "title": "Syllabus",
-    "section": "Philosophie de la formation",
-    "text": "Philosophie de la formation\nAu cours de cette formation, nous privilégierons une approache… il y aura peu d’équations, et plus de code, pour vous permettre de comprendre les concepts mobilisés par la pratique. Il y aura un peu moins de :\n\\[\nf(x) = \\dfrac{1}{\\sqrt{2\\pi}} e^{-\\frac12 x^2}\n\\]\nEt un peu plus de code en R :\n\nsummary_monthly_temp <- weather %>%\n  group_by(month) %>%\n  summarize(mean = mean(temp), std_dev = sd(temp) )"
-  },
-  {
     "objectID": "resources.html",
     "href": "resources.html",
     "title": "Ressources",

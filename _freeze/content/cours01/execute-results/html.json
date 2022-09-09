@@ -1,5 +1,5 @@
 {
-  "hash": "b55bdaf3fe7c7dfbeb72117a6d702981",
+  "hash": "043cdda5b7a02dd064fa828cd4d228db",
   "result": {
     "markdown": "---\ntitle: \"Cours n°01\"\nsubtitle: \"Introduction à l'inférence bayésienne\"\ndate: 2022-10-11\nlang: fr\n---\n\n\n## En préparation\n\n- {{< fa book >}} *Statistical Rethinking* chapter 1: \"The Golem of Prague\"\n- {{< fa video >}} Statistical Rethinking 2022, lecture 1: [\"The Golem of Prague\"](https://youtu.be/cclUd_HoRlo)\n\n## Slides\n\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](../slides/Cours01.html){width=100%}\n:::\n:::\n\n\n::: {.callout-tip appearance=\"simple\"}\nYou can enable Overview Mode by pressing the <kbd>O</kbd> key.\n:::\n",
     "supporting": [
