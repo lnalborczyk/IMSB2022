@@ -9,17 +9,13 @@ lang: fr
 
 - {{< fa book >}} *Statistical Rethinking* chapter 1: "The Golem of Prague"
 - {{< fa video >}} Statistical Rethinking 2022, lecture 1: ["The Golem of Prague"](https://youtu.be/cclUd_HoRlo)
-- {{< fa book >}} *Bayes Rules* chapter 1: ["The (Big) Bayesian Picture"](https://www.bayesrulesbook.com/chapter-1.html)
 
 ## Slides
 
 The slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.
 
-```{r slides, eval = FALSE, echo = TRUE}
-knitr::include_graphics(path = "slides/Cours01.html")
-```
-
-``` {.markdown .reveal-demo code-preview = "slides/cours01.qmd", echo = FALSE}
+```{r slides01, eval = TRUE, echo = FALSE, out.width = "100%"}
+knitr::include_graphics(path = "/Users/ladislas/Desktop/IMSB2022/slides/Cours01.html")
 ```
 
 ::: {.callout-tip appearance="simple"}

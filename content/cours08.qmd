@@ -1,14 +1,14 @@
 ---
-title: "Week 8"
-subtitle: "Ordered regression"
-date: 2022-10-13
+title: "Cours n°08"
+subtitle: "Modèles multi-niveaux"
+date: 2022-11-10
+lang: fr
 ---
 
-## Prepare
+## En préparation
 
-- {{< fa book >}} *Statistical Rethinking* chapter 12: "Monsters and Mixtures"
-- {{< fa video >}} Statistical Rethinking 2022, lecture 11: ["Ordered Categories"](https://youtu.be/-397DMPooR8)
+...
 
+## Slides
 
-## Practice
-
+...

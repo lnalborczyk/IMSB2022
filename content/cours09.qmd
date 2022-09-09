@@ -1,17 +1,14 @@
 ---
-title: "Week 9"
-subtitle: "Multilevel models I"
-date: 2022-10-20
+title: "Cours n°09"
+subtitle: "Modèles multi-niveaux généralisés"
+date: 2022-11-10
+lang: fr
 ---
 
-## Prepare
+## En préparation
 
-- {{< fa book >}} *Statistical Rethinking* chapter 13: "Models with Memory"
-- {{< fa video >}} Statistical Rethinking 2022, lecture 12: ["Multilevel Models"](https://youtu.be/SocRgsf202M)
-- {{< fa book >}} *Bayes Rules* chapter 15: ["Hierarchical Models are Exciting"](https://www.bayesrulesbook.com/chapter-15.html)
-- {{< fa book >}} *Bayes Rules* chapter 16: ["(Normal) Hierarchical Models without Predictors"](https://www.bayesrulesbook.com/chapter-16.html)
-- {{< fa book >}} *Bayes Rules* chapter 17: ["(Normal) Hierarchical Models with Predictors"](https://www.bayesrulesbook.com/chapter-17.html)
+...
 
+## Slides
 
-## Practice
-
+...

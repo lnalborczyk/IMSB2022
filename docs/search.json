@@ -9,30 +9,30 @@
   {
     "objectID": "content/cours08.html",
     "href": "content/cours08.html",
-    "title": "Week 8",
+    "title": "Cours n°08",
     "section": "",
-    "text": "Statistical Rethinking chapter 12: “Monsters and Mixtures”\n Statistical Rethinking 2022, lecture 11: “Ordered Categories”"
+    "text": "…"
   },
   {
-    "objectID": "content/cours08.html#practice",
-    "href": "content/cours08.html#practice",
-    "title": "Week 8",
-    "section": "Practice",
-    "text": "Practice"
+    "objectID": "content/cours08.html#slides",
+    "href": "content/cours08.html#slides",
+    "title": "Cours n°08",
+    "section": "Slides",
+    "text": "Slides\n…"
   },
   {
     "objectID": "content/cours09.html",
     "href": "content/cours09.html",
-    "title": "Week 9",
+    "title": "Cours n°09",
     "section": "",
-    "text": "Statistical Rethinking chapter 13: “Models with Memory”\n Statistical Rethinking 2022, lecture 12: “Multilevel Models”\n Bayes Rules chapter 15: “Hierarchical Models are Exciting”\n Bayes Rules chapter 16: “(Normal) Hierarchical Models without Predictors”\n Bayes Rules chapter 17: “(Normal) Hierarchical Models with Predictors”"
+    "text": "…"
   },
   {
-    "objectID": "content/cours09.html#practice",
-    "href": "content/cours09.html#practice",
-    "title": "Week 9",
-    "section": "Practice",
-    "text": "Practice"
+    "objectID": "content/cours09.html#slides",
+    "href": "content/cours09.html#slides",
+    "title": "Cours n°09",
+    "section": "Slides",
+    "text": "Slides\n…"
   },
   {
     "objectID": "content/index.html",
@@ -44,114 +44,114 @@
   {
     "objectID": "content/cours02.html",
     "href": "content/cours02.html",
-    "title": "Week 2",
+    "title": "Cours n°02",
     "section": "",
-    "text": "Statistical Rethinking chapter 2: “Small Worlds and Large Worlds”\n Statistical Rethinking chapter 3: “Sampling the Imaginary”\n Statistical Rethinking 2022, lecture 2: “Bayesian Inference”\n Bayes Rules chapter 2: “Bayes’ Rule”\n Bayes Rules chapter 3: “The Beta-Binomial Bayesian Model”"
+    "text": "…"
   },
   {
-    "objectID": "content/cours02.html#practice",
-    "href": "content/cours02.html#practice",
-    "title": "Week 2",
-    "section": "Practice",
-    "text": "Practice"
+    "objectID": "content/cours02.html#slides",
+    "href": "content/cours02.html#slides",
+    "title": "Cours n°02",
+    "section": "Slides",
+    "text": "Slides\n…"
   },
   {
     "objectID": "content/cours03.html",
     "href": "content/cours03.html",
-    "title": "Week 3",
+    "title": "Cours n°03",
     "section": "",
-    "text": "Statistical Rethinking chapter 4: “Geocentric Models”\n Statistical Rethinking chapter 5: “The Many Variables & The Spurious Waffles”\n Statistical Rethinking 2022, lecture 3: “Basic Regression”\n Statistical Rethinking 2022, lecture 4: “Categories & Curves”\n Bayes Rules chapter 4: “Balance and Sequentiality in Bayesian Analyses”\n Bayes Rules chapter 5: “Conjugate Families”"
+    "text": "…"
   },
   {
-    "objectID": "content/cours03.html#practice",
-    "href": "content/cours03.html#practice",
-    "title": "Week 3",
-    "section": "Practice",
-    "text": "Practice"
+    "objectID": "content/cours03.html#slides",
+    "href": "content/cours03.html#slides",
+    "title": "Cours n°03",
+    "section": "Slides",
+    "text": "Slides\n…"
   },
   {
     "objectID": "content/cours01.html",
     "href": "content/cours01.html",
     "title": "Cours n°01",
     "section": "",
-    "text": "Statistical Rethinking chapter 1: “The Golem of Prague”\n Statistical Rethinking 2022, lecture 1: “The Golem of Prague”\n Bayes Rules chapter 1: “The (Big) Bayesian Picture”"
+    "text": "Statistical Rethinking chapter 1: “The Golem of Prague”\n Statistical Rethinking 2022, lecture 1: “The Golem of Prague”"
   },
   {
     "objectID": "content/cours01.html#slides",
     "href": "content/cours01.html#slides",
     "title": "Cours n°01",
     "section": "Slides",
-    "text": "Slides\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\nknitr::include_graphics(path = \"slides/Cours01.html\")\n\n{.markdown .reveal-demo code-preview = \"slides/cours01.qmd\", echo = FALSE}\n\n\n\n\n\n\nYou can enable Overview Mode by pressing the O key."
+    "text": "Slides\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n\n\n\n\n\n\n\n\n\n\nYou can enable Overview Mode by pressing the O key."
   },
   {
     "objectID": "content/cours10.html",
     "href": "content/cours10.html",
-    "title": "Week 10",
+    "title": "Cours n°10",
     "section": "",
-    "text": "Continue last week’s materials on multilevel models."
+    "text": "…"
   },
   {
-    "objectID": "content/cours10.html#practice",
-    "href": "content/cours10.html#practice",
-    "title": "Week 10",
-    "section": "Practice",
-    "text": "Practice"
+    "objectID": "content/cours10.html#slides",
+    "href": "content/cours10.html#slides",
+    "title": "Cours n°10",
+    "section": "Slides",
+    "text": "Slides\n…"
   },
   {
     "objectID": "content/cours04.html",
     "href": "content/cours04.html",
-    "title": "Week 4",
+    "title": "Cours n°05",
     "section": "",
-    "text": "Statistical Rethinking chapter 5: “The Many Variables & The Spurious Waffles”\n Statistical Rethinking chapter 6: “The Haunted DAG & The Causal Terror”\n Statistical Rethinking 2022, lecture 5: “Elemental Confounds”\n Statistical Rethinking 2022, lecture 6: “Good and Bad Controls”"
+    "text": "…"
   },
   {
-    "objectID": "content/cours04.html#practice",
-    "href": "content/cours04.html#practice",
-    "title": "Week 4",
-    "section": "Practice",
-    "text": "Practice"
+    "objectID": "content/cours04.html#slides",
+    "href": "content/cours04.html#slides",
+    "title": "Cours n°05",
+    "section": "Slides",
+    "text": "Slides\n…"
   },
   {
     "objectID": "content/cours05.html",
     "href": "content/cours05.html",
-    "title": "Week 5",
+    "title": "Cours n°05",
     "section": "",
-    "text": "Statistical Rethinking chapter 8: “Markov Chain Monte Carlo”\n Statistical Rethinking 2022, lecture 8: “Markov Chain Monte Carlo”\n Bayes Rules chapter 6: “Approximating the Posterior”\n Bayes Rules chapter 7: “MCMC under the Hood”\n Bayes Rules chapter 8: “Posterior Inference & Prediction”"
+    "text": "…"
   },
   {
-    "objectID": "content/cours05.html#practice",
-    "href": "content/cours05.html#practice",
-    "title": "Week 5",
-    "section": "Practice",
-    "text": "Practice"
+    "objectID": "content/cours05.html#slides",
+    "href": "content/cours05.html#slides",
+    "title": "Cours n°05",
+    "section": "Slides",
+    "text": "Slides\n…"
   },
   {
     "objectID": "content/cours07.html",
     "href": "content/cours07.html",
-    "title": "Week 7",
+    "title": "Cours n°07",
     "section": "",
-    "text": "Statistical Rethinking chapter 10: “Big Entropy and the Generalized Linear Model”\n Statistical Rethinking chapter 11: “God Spiked the Integers”\n Statistical Rethinking 2022, lecture 9: “Logistic and Binomial GLMs”\n Statistical Rethinking 2022, lecture 10: “Sensitivity and Poisson GLMs”\n Bayes Rules chapter 12: “Poisson & Negative Binomial Regression”\n Bayes Rules chapter 13: “Logistic Regression”"
+    "text": "…"
   },
   {
-    "objectID": "content/cours07.html#practice",
-    "href": "content/cours07.html#practice",
-    "title": "Week 7",
-    "section": "Practice",
-    "text": "Practice"
+    "objectID": "content/cours07.html#slides",
+    "href": "content/cours07.html#slides",
+    "title": "Cours n°07",
+    "section": "Slides",
+    "text": "Slides\n…"
   },
   {
     "objectID": "content/cours06.html",
     "href": "content/cours06.html",
-    "title": "Week 6",
+    "title": "Cours n°06",
     "section": "",
-    "text": "Statistical Rethinking chapter 7: “Ulysses’ Compass”\n Statistical Rethinking 2022, lecture 7: “Overfitting”\n Bayes Rules chapter 9: “Simple Normal Regression”\n Bayes Rules chapter 10: “Evaluating Regression Models”\n Bayes Rules chapter 11: “Extending the Normal Regression Model”"
+    "text": "…"
   },
   {
-    "objectID": "content/cours06.html#practice",
-    "href": "content/cours06.html#practice",
-    "title": "Week 6",
-    "section": "Practice",
-    "text": "Practice"
+    "objectID": "content/cours06.html#slides",
+    "href": "content/cours06.html#slides",
+    "title": "Cours n°06",
+    "section": "Slides",
+    "text": "Slides\n…"
   },
   {
     "objectID": "index.html",
@@ -214,7 +214,7 @@
     "href": "syllabus.html#philosophie-de-la-formation",
     "title": "Syllabus",
     "section": "Philosophie de la formation",
-    "text": "Philosophie de la formation\nClassical statistics classes spend substantial time covering probability theory, null hypothesis testing, and other statistical tests first developed hundreds of years ago. Some classes don’t use software or actual real data and instead live in the world of mathematical proofs. They can be math-heavy and full of often unintuitive concepts and equations.\nIn this class, we will take the opposite approach. We begin with data and learn how to tidy, wrangle, manipulate, and visualize it with code. Later in the semester we’ll turn to the powerful toolbox of causal inference approaches, but continue to keep the focus on data as we do so.\nIn other words, there’s way less of this:\n\\[\nf(x) = \\dfrac{1}{\\sqrt{2\\pi}} e^{-\\frac12 x^2}\n\\]\nAnd way more of this:\n\nsummary_monthly_temp <- weather %>%\n  group_by(month) %>%\n  summarize(mean = mean(temp),\n            std_dev = sd(temp))\n\nOver the last decade there has been a revolution in statistical and scientific computing. Open source languages like R and Python have overtaken older (and expensive!) corporate software packages like SAS and SPSS, and there are now thousands of books and blog posts and other online resources with excellent tutorials about how to analyze pretty much any kind of data…"
+    "text": "Philosophie de la formation\nAu cours de cette formation, nous privilégierons une approache… il y aura peu d’équations, et plus de code, pour vous permettre de comprendre les concepts mobilisés par la pratique. Il y aura un peu moins de :\n\\[\nf(x) = \\dfrac{1}{\\sqrt{2\\pi}} e^{-\\frac12 x^2}\n\\]\nEt un peu plus de code en R :\n\nsummary_monthly_temp <- weather %>%\n  group_by(month) %>%\n  summarize(mean = mean(temp), std_dev = sd(temp) )"
   },
   {
     "objectID": "resources.html",

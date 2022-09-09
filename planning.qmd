@@ -2,7 +2,7 @@
 title: Planning
 sidebar: false
 toc: false
-# page-layout: full
+page-layout: full
 ---
 
 | Cours | Date | Sujet | Détails | Slides | Données | Zoom | Rethinking |

@@ -238,20 +238,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="philosophie-de-la-formation" class="level2">
 <h2 class="anchored" data-anchor-id="philosophie-de-la-formation">Philosophie de la formation</h2>
-<p>Classical statistics classes spend substantial time covering probability theory, null hypothesis testing, and other statistical tests first developed hundreds of years ago. Some classes don’t use software or actual real data and instead live in the world of mathematical proofs. They can be math-heavy and full of often unintuitive concepts and equations.</p>
-<p>In this class, we will take the opposite approach. We <em>begin</em> with data and learn how to tidy, wrangle, manipulate, and visualize it with code. Later in the semester we’ll turn to the powerful toolbox of causal inference approaches, but continue to keep the focus on data as we do so.</p>
-<p>In other words, there’s way less of this:</p>
+<p>Au cours de cette formation, nous privilégierons une approache… il y aura peu d’équations, et plus de code, pour vous permettre de comprendre les concepts mobilisés par la pratique. Il y aura un peu moins de :</p>
 <p><span class="math display">\[
 f(x) = \dfrac{1}{\sqrt{2\pi}} e^{-\frac12 x^2}
 \]</span></p>
-<p>And way more of this:</p>
+<p>Et un peu plus de code en <code>R</code> :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>summary_monthly_temp <span class="ot">&lt;-</span> weather <span class="sc">%&gt;%</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(temp),</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">std_dev =</span> <span class="fu">sd</span>(temp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(temp), <span class="at">std_dev =</span> <span class="fu">sd</span>(temp) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Over the last decade there has been a revolution in statistical and scientific computing. Open source languages like R and Python have overtaken older (and expensive!) corporate software packages like SAS and SPSS, and there are now thousands of books and blog posts and other online resources with excellent tutorials about how to analyze pretty much any kind of data…</p>
 
 
 </section>

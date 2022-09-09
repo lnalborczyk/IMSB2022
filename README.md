@@ -13,18 +13,18 @@ La formation est proposée sous une double étiquette Collège doctoral / MaiMoS
 
 ## Planning
 
-| Cours | Calendrier | Matériel |
-|-------|:----------:|:--------:|
-| Cours n°01 : Introduction à l'inférence bayésienne | Mardi 11 octobre 14h-16h | <[slides]()> |
-| Cours n°02 : Modèle Beta-Binomial | Jeudi 13 octobre 14h-16h | <[slides]()> |
-| Cours n°03 : Introduction à brms, modèle de régression linéaire | Mardi 18 octobre 14h-16h | <[slides]()> |
-| Cours n°04 : Modèle de régression linéaire (suite) | Jeudi 20 octobre 14h-16 | <[slides]()> |
-| Cours n°05 : Markov Chain Monte Carlo | Mardi 25 octobre 14h-16h | <[slides]()> |
-| Cours n°06 : Modèle linéaire généralisé | Jeudi 27 octobre 14h-16h | <[slides]()> |
-| Cours n°07 : Comparaison de modèles | Mardi 8 novembre 14h-16h | <[slides]()> |
-| Cours n°08 : Modèles multi-niveaux | Jeudi 10 novembre 14h-16h | <[slides]()> |
-| Cours n°09 : Modèles multi-niveaux généralisés | Mardi 15 novembre 14h-16h | <[slides]()> |
-| Cours n°10 : Data Hackathon | Jeudi 17 novembre 14h-16h | <[slides]()> |
+| Cours | Calendrier |
+|-------|:----------:|
+| Cours n°01 : Introduction à l'inférence bayésienne | Mardi 11 octobre 14h-16h |
+| Cours n°02 : Modèle Beta-Binomial | Jeudi 13 octobre 14h-16h |
+| Cours n°03 : Introduction à brms, modèle de régression linéaire | Mardi 18 octobre 14h-16h |
+| Cours n°04 : Modèle de régression linéaire (suite) | Jeudi 20 octobre 14h-16 |
+| Cours n°05 : Markov Chain Monte Carlo | Mardi 25 octobre 14h-16h |
+| Cours n°06 : Modèle linéaire généralisé | Jeudi 27 octobre 14h-16h |
+| Cours n°07 : Comparaison de modèles | Mardi 8 novembre 14h-16h |
+| Cours n°08 : Modèles multi-niveaux | Jeudi 10 novembre 14h-16h |
+| Cours n°09 : Modèles multi-niveaux généralisés | Mardi 15 novembre 14h-16h |
+| Cours n°10 : Data Hackathon | Jeudi 17 novembre 14h-16h |
 
 ## Contact
 

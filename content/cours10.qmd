@@ -1,13 +1,14 @@
 ---
-title: "Week 10"
-subtitle: "Multilevel models II"
-date: 2022-10-27
+title: "Cours n°10"
+subtitle: "Data Hackathon"
+date: 2022-11-17
+lang: fr
 ---
 
-## Prepare
+## En préparation
 
-Continue [last week's materials](/schedule/09-week.qmd) on multilevel models.
+...
 
+## Slides
 
-## Practice
-
+...
