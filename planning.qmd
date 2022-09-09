@@ -1,0 +1,21 @@
+---
+title: Planning
+sidebar: false
+toc: false
+# page-layout: full
+---
+
+| Cours | Date | Sujet | Détails | Slides | Données | Zoom | Rethinking |
+|:-----:|------|-------|:----------:|:-------:|:------:|:-------:|:----:|
+| 01 | 11.10.2022 | **Introduction à l'inférence bayésienne** | [{{< fa book >}}](/content/cours01.qmd) | 1 | 1 | 1 | 1 |
+| 02 | 13.10.2022 | **Modèle Beta-Binomial** | [{{< fa book >}}](/content/cours02.qmd) | 1 | 1 | 1 | 1 |
+| 03 | 18.10.2022 | **Introduction à brms, modèle de régression linéaire** | [{{< fa book >}}](/content/cours03.qmd) | 1 | 1 | 1 | 1 |
+| 04 | 20.10.2022 | **Modèle de régression linéaire (suite)** | [{{< fa book >}}](/content/cours04.qmd) | 1 | 1 | 1 | 1 |
+| 05 | 25.10.2022 | **Markov Chain Monte Carlo** | [{{< fa book >}}](/content/cours05.qmd) | 1 | 1 | 1 | 1 |
+| 06 | 27.10.2022 | **Modèle linéaire généralisé** | [{{< fa book >}}](/content/cours06.qmd) | 1 | 1 | 1 | 1 |
+| 07 | 08.11.2022 | **Comparaison de modèles** | [{{< fa book >}}](/content/cours07.qmd) | 1 | 1 | 1 | 1 |
+| 08 | 10.11.2022 | **Modèles multi-niveaux** | [{{< fa book >}}](/content/cours08.qmd) | 1 | 1 | 1 | 1 |
+| 09 | 15.11.2022 | **Modèles multi-niveaux généralisés** | [{{< fa book >}}](/content/cours09.qmd) | 1 | 1 | 1 | 1 |
+| 10 | 17.11.2022 | **Data Hackathon** | [{{< fa book >}}](/content/cours10.qmd) | 1 | 1 | 1 | 1 |
+
+: {tbl-colwidths="\[5,20,40,10,10,10,10\]"}
