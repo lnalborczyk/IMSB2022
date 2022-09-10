@@ -35,7 +35,6 @@ knitr::opts_chunk$set(
 - {{< fa user >}} &nbsp; [{{< var instructor.name >}}]({{< var instructor.url >}})
 - {{< fa envelope >}} &nbsp; <a href="mailto:{{< var instructor.email >}}">{{< var instructor.email >}}</a>
 - {{< fa brands twitter >}} &nbsp; [{{< var instructor.twitter >}}](https://www.twitter.com/{{< var instructor.twitter >}})
-- {{< fa brands github >}} &nbsp; [{{< var instructor.github >}}](https://www.github.com/{{< var instructor.github >}})
 - {{< fa calendar-check >}} &nbsp; [Prendre un RDV]({{< var instructor.appointment_url >}})
 
 :::

@@ -100,14 +100,14 @@
   {
     "objectID": "content/cours04.html",
     "href": "content/cours04.html",
-    "title": "Cours n°05",
+    "title": "Cours n°04",
     "section": "",
     "text": "…"
   },
   {
     "objectID": "content/cours04.html#slides",
     "href": "content/cours04.html#slides",
-    "title": "Cours n°05",
+    "title": "Cours n°04",
     "section": "Slides",
     "text": "Slides\n…"
   },
@@ -158,7 +158,7 @@
     "href": "index.html",
     "title": "IMSB2022",
     "section": "",
-    "text": "Enseignant\n\n   Ladislas Nalborczyk\n   ladislas.nalborczyk@univ-amu.fr\n   lnalborczyk\n   lnalborczyk\n   Prendre un RDV\n\n\n\nInformations pratiques\n\n   Mardi et Jeudi\n   14h-16h\n   10 octobre - 17 novembre 2022\n   Zoom\n\n\n\nContact\nLe plus efficace est de me contacter par e-mail, je répond assez rapidement (sous 24-48h)."
+    "text": "Enseignant\n\n   Ladislas Nalborczyk\n   ladislas.nalborczyk@univ-amu.fr\n   lnalborczyk\n   Prendre un RDV\n\n\n\nInformations pratiques\n\n   Mardi et Jeudi\n   14h-16h\n   10 octobre - 17 novembre 2022\n   Zoom\n\n\n\nContact\nLe plus efficace est de me contacter par e-mail, je répond assez rapidement (sous 24-48h)."
   },
   {
     "objectID": "install.html",
@@ -172,7 +172,7 @@
     "href": "planning.html",
     "title": "Planning",
     "section": "",
-    "text": "Cours\nDate\nSujet\nDétails\nSlides\nDonnées\nZoom\nRethinking\n\n\n\n\n01\n11.10.2022\nIntroduction à l’inférence bayésienne\n\n\n\n\n1\n\n\n02\n13.10.2022\nModèle Beta-Binomial\n\n1\n1\n1\n1\n\n\n03\n18.10.2022\nIntroduction à brms, modèle de régression linéaire\n\n1\n1\n1\n1\n\n\n04\n20.10.2022\nModèle de régression linéaire (suite)\n\n1\n1\n1\n1\n\n\n05\n25.10.2022\nMarkov Chain Monte Carlo\n\n1\n1\n1\n1\n\n\n06\n27.10.2022\nModèle linéaire généralisé\n\n1\n1\n1\n1\n\n\n07\n08.11.2022\nComparaison de modèles\n\n1\n1\n1\n1\n\n\n08\n10.11.2022\nModèles multi-niveaux\n\n1\n1\n1\n1\n\n\n09\n15.11.2022\nModèles multi-niveaux généralisés\n\n1\n1\n1\n1\n\n\n10\n17.11.2022\nData Hackathon\n\n1\n1\n1\n1"
+    "text": "Cours\nDate\nSujet\nDétails\nSlides\nDonnées\nZoom\nRethinking\n\n\n\n\n01\n11.10.2022\nIntroduction à l’inférence bayésienne\n\n\n\n\n1-2\n\n\n02\n13.10.2022\nModèle Beta-Binomial\n\n1\n1\n1\n1\n\n\n03\n18.10.2022\nIntroduction à brms, modèle de régression linéaire\n\n1\n1\n1\n1\n\n\n04\n20.10.2022\nModèle de régression linéaire (suite)\n\n1\n1\n1\n1\n\n\n05\n25.10.2022\nMarkov Chain Monte Carlo\n\n1\n1\n1\n1\n\n\n06\n27.10.2022\nModèle linéaire généralisé\n\n1\n1\n1\n1\n\n\n07\n08.11.2022\nComparaison de modèles\n\n1\n1\n1\n1\n\n\n08\n10.11.2022\nModèles multi-niveaux\n\n1\n1\n1\n1\n\n\n09\n15.11.2022\nModèles multi-niveaux généralisés\n\n1\n1\n1\n1\n\n\n10\n17.11.2022\nData Hackathon\n\n1\n1\n1\n1"
   },
   {
     "objectID": "syllabus.html",
@@ -208,6 +208,41 @@
     "title": "Syllabus",
     "section": "Contenu de la formation",
     "text": "Contenu de la formation\nCette formation est composée de dix séances de deux heures durant lesquelles seront dispensées connaissances théoriques et travaux pratiques en R, dans l’environnement RStudio."
+  },
+  {
+    "objectID": "synopsis/synopsis.html",
+    "href": "synopsis/synopsis.html",
+    "title": "Introduction à la modélisation statistique bayésienne",
+    "section": "",
+    "text": "L’approche bayésienne consiste à traiter chaque entité (e.g., variables observées, paramètres du modèle, données manquantes) comme des variables aléatoires caractérisées par des distributions de probabilité. Dans une analyse bayésienne, chaque entité inconnue se voit assignée une distribution a priori qui représente un état de connaissance avant d’observer les données. Une fois les données observées, le théorème de Bayes est utilisé pour mettre à jour la distribution a priori en une distribution a posteriori. La distribution a posteriori est le but d’une analyse bayésienne et peut être résumée par des valeurs ponctuelles ou des intervalles, et interprétée directement dans un cadre probabiliste cohérent.\nCette approche se différencie –à la fois philosophiquement et en pratique– de l’approche traditionnelle fréquentiste, qui constitue actuellement la majorité des formations proposées. Un des avantages de l’approche bayésienne est qu’elle permet à l’analyste de résoudre des problèmes difficiles voire impossibles à résoudre pour l’approche fréquentiste traditionnelle.\nAu fil des exemples proposés, nous réaliserons que même dans des situations de modélisation simples, l’approche bayésienne permet un raisonnement probabiliste plus naturel et plus flexible que la machinerie inférentielle de l’approche fréquentiste. La modélisation statistique bayésienne représente une alternative attirante aux approches fréquentistes en ce qu’elle offre un cadre cohérent à la modélisation statistique. L’approche bayésienne permet de construire et de fitter des modèles complexes tout en offrant des conclusions relativement intuitives et qui incorporent toute l’incertitude intrinsèque au processus inférentiel."
+  },
+  {
+    "objectID": "synopsis/synopsis.html#objectifs",
+    "href": "synopsis/synopsis.html#objectifs",
+    "title": "Introduction à la modélisation statistique bayésienne",
+    "section": "Objectifs",
+    "text": "Objectifs\nL’objectif de cette formation est de vous faire découvrir l’approche bayésienne. Les concepts et outils qui seront présentés tout au long de la formation seront illustrés par des cas concrets d’analyse de données. Ce cours est construit autour du langage R et du paquet brms, une interface au langage probabiliste Stan. Par conséquent, il est indispensable d’avoir quelques connaissances élementaires du langage R.\nLa formation est proposée sous une double étiquette Collège doctoral/MaiMoSiNE (Maison de la Modélisation et de la Simulation) avec une priorité d’accès aux étudiant.e.s du collège doctoral de Grenoble."
+  },
+  {
+    "objectID": "synopsis/synopsis.html#pré-requis",
+    "href": "synopsis/synopsis.html#pré-requis",
+    "title": "Introduction à la modélisation statistique bayésienne",
+    "section": "Pré-requis",
+    "text": "Pré-requis\nAttention, certains pré-requis sont indispensables pour participer à cette formation :\n\nÊtre familier avec les concepts de base de la statistique inférentielle (e.g., test d’hypothèse, intervalles de confiance, régression linéaire).\nConnaissances élémentaires en manipulation de données en R. Objets et calculs élémentaires en R."
+  },
+  {
+    "objectID": "synopsis/synopsis.html#contenu-de-la-formation",
+    "href": "synopsis/synopsis.html#contenu-de-la-formation",
+    "title": "Introduction à la modélisation statistique bayésienne",
+    "section": "Contenu de la formation",
+    "text": "Contenu de la formation\nCette formation est composée de dix séances de deux heures durant lesquelles seront dispensées connaissances théoriques et travaux pratiques en R, dans l’environnement RStudio."
+  },
+  {
+    "objectID": "synopsis/synopsis.html#planning-20h-denseignement",
+    "href": "synopsis/synopsis.html#planning-20h-denseignement",
+    "title": "Introduction à la modélisation statistique bayésienne",
+    "section": "Planning (20h d’enseignement)",
+    "text": "Planning (20h d’enseignement)\n\nCours n°01 : Mardi 11 octobre 2022 de 14h à 16h\n\nInterprétations probabilistes, rappels de probabilité\nHasard et déterminisme, modèles et théories, théorème de Bayes\n\nCours n°02 : Jeudi 13 octobre 2022 de 14h à 16h\n\nModèle beta-binomial\nPrior, posterior, Bayes factor\n\nCours n°03 : Mardi 18 octobre 2022 de 14h à 16h\n\nPrésentation du package brms\nModèle de régression linéaire, prédicteurs continus\n\nCours n°04 : Jeudi 20 octobre 2022 de 14h à 16h\n\nModèle de régression linéaire (suite)\nPrédicteurs catégoriels, interactions, taille d’effet\n\nCours n°05 : Mardi 25 octobre 2022 de 14h à 16h\n\nMarkov Chain Monte Carlo\nAlgorithmes, outils diagnostiques\n\nCours n°06 : Jeudi 27 octobre 2022 de 14h à 16h\n\nModèle linéaire généralisé (GLM)\nRégression logistique, link function\n\nCours n°07 : Mardi 8 novembre 2022 de 14h à 16h\n\nComparaison de modèles\nRégularisation, critères d’information\n\nCours n°08 : Jeudi 10 novembre 2022 de 14h à 16h\n\nModèles multi-niveaux (MLMs)\nShrinkage, constant effect, varying effect, taille d’effet\n\nCours n°09 : Mardi 15 novembre 2022 de 14h à 16h\n\nModèles multi-niveaux généralisés (GMLMs)\nRégression logistique multi-niveaux, méta-analyse\n\nCours n°10 : Jeudi 17 novembre 2022 de 14h à 16h\n\nData hackathon\nQuestions, recommandations"
   },
   {
     "objectID": "resources.html",

@@ -1,5 +1,5 @@
 ---
-title: "Cours n°05"
+title: "Cours n°04"
 subtitle: "Modèle de régression linéaire (suite)"
 date: 2022-10-20
 lang: fr

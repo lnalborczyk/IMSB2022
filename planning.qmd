@@ -3,11 +3,30 @@ title: Planning
 sidebar: false
 toc: false
 page-layout: full
+lang: fr
 ---
+
+::: {.callout-tip}
+
+Vous pouvez télécharger directement le planning dans votre calendrier Outlook, Google Calendar, ou Apple en cliquant sur le lien suivant :
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-2}
+<p class="download-btn"><a class="btn btn-danger btn-sm" href="./files/planning.ics" role="button">{{< fa calendar-alt >}} Télécharger </a></p>
+:::
+
+::: {.g-col-12 .g-col-md-10}
+<p><input class="form-control" type="text" value="https://www.barelysignificant.com/IMSB2022/files/planning.ics" onclick="this.select()" readonly></p>
+:::
+
+:::
+
+:::
 
 | Cours | Date | Sujet | Détails | Slides | Données | Zoom | Rethinking |
 |:-----:|------|-------|:----------:|:-------:|:------:|:-------:|:----:|
-| 01 | 11.10.2022 | **Introduction à l'inférence bayésienne** | [{{< fa book >}}](./content/cours01.qmd) | [{{< fa book >}}](./slides/cours01.html) | [{{< fa database >}}](./slides/cours01.html) | [{{< fa link >}}](./slides/cours01.html) | 1 |
+| 01 | 11.10.2022 | **Introduction à l'inférence bayésienne** | [{{< fa book >}}](./content/cours01.qmd) | [{{< fa display >}}](./slides/cours01.html) | [{{< fa database >}}](./data/experiment_TP2_1.csv) | [{{< fa link >}}](./slides/cours01.html) | 1-2 |
 | 02 | 13.10.2022 | **Modèle Beta-Binomial** | [{{< fa book >}}](/content/cours02.qmd) | 1 | 1 | 1 | 1 |
 | 03 | 18.10.2022 | **Introduction à brms, modèle de régression linéaire** | [{{< fa book >}}](/content/cours03.qmd) | 1 | 1 | 1 | 1 |
 | 04 | 20.10.2022 | **Modèle de régression linéaire (suite)** | [{{< fa book >}}](/content/cours04.qmd) | 1 | 1 | 1 | 1 |

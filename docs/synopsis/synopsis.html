@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.0.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Ladislas Nalborczyk">
+<meta name="dcterms.date" content="2022-10-09">
 
-<title>IMSB2022 - Cours n°04</title>
+<title>IMSB2022 - Introduction à la modélisation statistique bayésienne</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,8 +26,6 @@ ul.task-list{list-style: none;}
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../content/cours05.html" rel="next">
-<link href="../content/cours03.html" rel="prev">
 <link href=".././files/cover.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -46,15 +46,15 @@ ul.task-list{list-style: none;}
   "type": "overlay",
   "limit": 20,
   "language": {
-    "search-no-results-text": "Pas de résultats",
-    "search-matching-documents-text": "documents trouvés",
-    "search-copy-link-title": "Copier le lien vers la recherche",
-    "search-hide-matches-text": "Cacher les correspondances additionnelles",
-    "search-more-match-text": "correspondance de plus dans ce document",
-    "search-more-matches-text": "correspondances de plus dans ce document",
-    "search-clear-button-title": "Effacer",
-    "search-detached-cancel-button-title": "Annuler",
-    "search-submit-button-title": "Envoyer"
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
   }
 }</script>
 
@@ -97,7 +97,7 @@ ul.task-list{list-style: none;}
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Cours n°04</h1>
+      <h1 class="quarto-secondary-nav-title">Introduction à la modélisation statistique bayésienne</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -150,7 +150,7 @@ ul.task-list{list-style: none;}
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/cours04.html" class="sidebar-item-text sidebar-link active">Modèle de régression linéaire (suite)</a>
+  <a href="../content/cours04.html" class="sidebar-item-text sidebar-link">Modèle de régression linéaire (suite)</a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -191,11 +191,14 @@ ul.task-list{list-style: none;}
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc">
-    <h2 id="toc-title">Sur cette page</h2>
+    <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#en-préparation" id="toc-en-préparation" class="nav-link active" data-scroll-target="#en-préparation">En préparation</a></li>
-  <li><a href="#slides" id="toc-slides" class="nav-link" data-scroll-target="#slides">Slides</a></li>
+  <li><a href="#quest-ce-que-la-modélisation-statistique-bayésienne" id="toc-quest-ce-que-la-modélisation-statistique-bayésienne" class="nav-link active" data-scroll-target="#quest-ce-que-la-modélisation-statistique-bayésienne">Qu’est-ce que la modélisation statistique bayésienne ?</a></li>
+  <li><a href="#objectifs" id="toc-objectifs" class="nav-link" data-scroll-target="#objectifs">Objectifs</a></li>
+  <li><a href="#pré-requis" id="toc-pré-requis" class="nav-link" data-scroll-target="#pré-requis">Pré-requis</a></li>
+  <li><a href="#contenu-de-la-formation" id="toc-contenu-de-la-formation" class="nav-link" data-scroll-target="#contenu-de-la-formation">Contenu de la formation</a></li>
+  <li><a href="#planning-20h-denseignement" id="toc-planning-20h-denseignement" class="nav-link" data-scroll-target="#planning-20h-denseignement">Planning (20h d’enseignement)</a></li>
   </ul>
 </nav>
     </div>
@@ -204,19 +207,25 @@ ul.task-list{list-style: none;}
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Cours n°04</h1>
-<p class="subtitle lead">Modèle de régression linéaire (suite)</p>
+<h1 class="title d-none d-lg-block">Introduction à la modélisation statistique bayésienne</h1>
+<p class="subtitle lead">Un cours avec R, Stan, et brms</p>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ladislas Nalborczyk </p>
+          </div>
+  </div>
     
     <div>
-    <div class="quarto-title-meta-heading">Matériel pour le cours du :</div>
+    <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">20 octobre 2022</p>
+      <p class="date">October 9, 2022</p>
     </div>
   </div>
     
@@ -225,13 +234,83 @@ ul.task-list{list-style: none;}
 
 </header>
 
-<section id="en-préparation" class="level2">
-<h2 class="anchored" data-anchor-id="en-préparation">En préparation</h2>
-<p>…</p>
+<section id="quest-ce-que-la-modélisation-statistique-bayésienne" class="level2">
+<h2 class="anchored" data-anchor-id="quest-ce-que-la-modélisation-statistique-bayésienne">Qu’est-ce que la modélisation statistique bayésienne ?</h2>
+<p>L’approche bayésienne consiste à traiter chaque entité (e.g., variables observées, paramètres du modèle, données manquantes) comme des variables aléatoires caractérisées par des distributions de probabilité. Dans une analyse bayésienne, chaque entité inconnue se voit assignée une distribution <em>a priori</em> qui représente un état de connaissance avant d’observer les données. Une fois les données observées, le théorème de Bayes est utilisé pour mettre à jour la distribution <em>a priori</em> en une distribution <em>a posteriori</em>. La distribution <em>a posteriori</em> est le but d’une analyse bayésienne et peut être résumée par des valeurs ponctuelles ou des intervalles, et interprétée directement dans un cadre probabiliste cohérent.</p>
+<p>Cette approche se différencie –à la fois philosophiquement et en pratique– de l’approche traditionnelle fréquentiste, qui constitue actuellement la majorité des formations proposées. Un des avantages de l’approche bayésienne est qu’elle permet à l’analyste de résoudre des problèmes difficiles voire impossibles à résoudre pour l’approche fréquentiste traditionnelle.</p>
+<p>Au fil des exemples proposés, nous réaliserons que même dans des situations de modélisation simples, l’approche bayésienne permet un raisonnement probabiliste plus naturel et plus flexible que la machinerie inférentielle de l’approche fréquentiste. La modélisation statistique bayésienne représente une alternative attirante aux approches fréquentistes en ce qu’elle offre un cadre cohérent à la modélisation statistique. L’approche bayésienne permet de construire et de <em>fitter</em> des modèles complexes tout en offrant des conclusions relativement intuitives et qui incorporent toute l’incertitude intrinsèque au processus inférentiel.</p>
 </section>
-<section id="slides" class="level2">
-<h2 class="anchored" data-anchor-id="slides">Slides</h2>
-<p>…</p>
+<section id="objectifs" class="level2">
+<h2 class="anchored" data-anchor-id="objectifs">Objectifs</h2>
+<p>L’objectif de cette formation est de vous faire découvrir l’approche bayésienne. Les concepts et outils qui seront présentés tout au long de la formation seront illustrés par des cas concrets d’analyse de données. Ce cours est construit autour du langage <code>R</code> et du paquet <code>brms</code>, une interface au langage probabiliste <code>Stan</code>. Par conséquent, il est <em>indispensable</em> d’avoir quelques connaissances élementaires du langage <code>R</code>.</p>
+<p>La formation est proposée sous une double étiquette Collège doctoral/MaiMoSiNE (Maison de la Modélisation et de la Simulation) avec une priorité d’accès aux étudiant.e.s du collège doctoral de Grenoble.</p>
+</section>
+<section id="pré-requis" class="level2">
+<h2 class="anchored" data-anchor-id="pré-requis">Pré-requis</h2>
+<p>Attention, certains pré-requis sont <em>indispensables</em> pour participer à cette formation :</p>
+<ul>
+<li><p>Être familier avec les concepts de base de la statistique inférentielle (e.g., test d’hypothèse, intervalles de confiance, régression linéaire).</p></li>
+<li><p>Connaissances élémentaires en manipulation de données en <code>R</code>. Objets et calculs élémentaires en <code>R</code>.</p></li>
+</ul>
+</section>
+<section id="contenu-de-la-formation" class="level2">
+<h2 class="anchored" data-anchor-id="contenu-de-la-formation">Contenu de la formation</h2>
+<p>Cette formation est composée de dix séances de deux heures durant lesquelles seront dispensées connaissances théoriques et travaux pratiques en <code>R</code>, dans l’environnement RStudio.</p>
+</section>
+<section id="planning-20h-denseignement" class="level2">
+<h2 class="anchored" data-anchor-id="planning-20h-denseignement">Planning (20h d’enseignement)</h2>
+<ol type="1">
+<li><strong>Cours n°01 : Mardi 11 octobre 2022 de 14h à 16h</strong>
+<ul>
+<li>Interprétations probabilistes, rappels de probabilité</li>
+<li>Hasard et déterminisme, modèles et théories, théorème de Bayes</li>
+</ul></li>
+<li><strong>Cours n°02 : Jeudi 13 octobre 2022 de 14h à 16h</strong>
+<ul>
+<li>Modèle beta-binomial</li>
+<li>Prior, posterior, Bayes factor</li>
+</ul></li>
+<li><strong>Cours n°03 : Mardi 18 octobre 2022 de 14h à 16h</strong>
+<ul>
+<li>Présentation du package <code>brms</code></li>
+<li>Modèle de régression linéaire, prédicteurs continus</li>
+</ul></li>
+<li><strong>Cours n°04 : Jeudi 20 octobre 2022 de 14h à 16h</strong>
+<ul>
+<li>Modèle de régression linéaire (suite)</li>
+<li>Prédicteurs catégoriels, interactions, taille d’effet</li>
+</ul></li>
+<li><strong>Cours n°05 : Mardi 25 octobre 2022 de 14h à 16h</strong>
+<ul>
+<li>Markov Chain Monte Carlo</li>
+<li>Algorithmes, outils diagnostiques</li>
+</ul></li>
+<li><strong>Cours n°06 : Jeudi 27 octobre 2022 de 14h à 16h</strong>
+<ul>
+<li>Modèle linéaire généralisé (GLM)</li>
+<li>Régression logistique, link function</li>
+</ul></li>
+<li><strong>Cours n°07 : Mardi 8 novembre 2022 de 14h à 16h</strong>
+<ul>
+<li>Comparaison de modèles</li>
+<li>Régularisation, critères d’information</li>
+</ul></li>
+<li><strong>Cours n°08 : Jeudi 10 novembre 2022 de 14h à 16h</strong>
+<ul>
+<li>Modèles multi-niveaux (MLMs)</li>
+<li>Shrinkage, constant effect, varying effect, taille d’effet</li>
+</ul></li>
+<li><strong>Cours n°09 : Mardi 15 novembre 2022 de 14h à 16h</strong>
+<ul>
+<li>Modèles multi-niveaux généralisés (GMLMs)</li>
+<li>Régression logistique multi-niveaux, méta-analyse</li>
+</ul></li>
+<li><strong>Cours n°10 : Jeudi 17 novembre 2022 de 14h à 16h</strong>
+<ul>
+<li>Data hackathon</li>
+<li>Questions, recommandations</li>
+</ul></li>
+</ol>
 
 
 </section>
@@ -277,7 +356,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // flash "checked"
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copié");
+    button.setAttribute("title", "Copied!");
     setTimeout(function() {
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
@@ -334,18 +413,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="../content/cours03.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Modèle de régression linéaire, intro brms</span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../content/cours05.html" class="pagination-link">
-        <span class="nav-page-text">Markov Chain Monte Carlo</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">

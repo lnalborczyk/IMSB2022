@@ -1,11 +1,20 @@
 library(hexSticker)
 library(tidyverse)
 
-thetaSize    = 100      # number of trial
-a            = 4        # beta first parameter
-b            = 16       # beta second parameter
-N            = 40       # Specify the total number of flips, denoted N.
-z            = 24        # number of 'Face'
+# number of trial
+thetaSize <- 100     
+
+# beta first parameter
+a <- 4
+
+# beta second parameter
+b <- 16
+
+# specify the total number of flips
+N <- 40
+
+# number of "Face"
+z <- 24
 
 p <- tibble(
     theta = seq(from = 0, to = 1, length.out = thetaSize),
@@ -18,27 +27,37 @@ p <- tibble(
     ggplot(aes(x = theta) ) +
     geom_area(
         aes(y = prior, fill = "prior"),
-        color = "white", show.legend = FALSE, alpha = 0.8
-    ) +
+        color = "white",
+        show.legend = FALSE, alpha = 0.8
+        ) +
     geom_area(
         aes(y = likelihood, fill = "likelihood"),
-        color = "white", show.legend = FALSE, alpha = 0.8
-    ) +
+        color = "white",
+        show.legend = FALSE, alpha = 0.8
+        ) +
     geom_area(
         aes(y = posterior, fill = "posterior"),
-        color = "white", show.legend = FALSE, alpha = 0.8
-    ) +
+        color = "white",
+        show.legend = FALSE, alpha = 0.8
+        ) +
     # geom_line(aes(y = prior, color = "prior"), show.legend = FALSE) +
     # geom_line(aes(y = likelihood, color = "likelihood"), show.legend = FALSE) +
     # geom_line(aes(y = posterior, color = "posterior"), show.legend = FALSE) +
     scale_fill_manual(values = c("orangered", "magenta4","steelblue") )
-    # theme_void(base_size = 12)
 
 p <- p + theme_void(base_family = "Open Sans") + theme_transparent()
 
 sticker(
     subplot = p,
     package = "IMSB2022",
-    p_size = 20, s_x = 1, s_y = 0.75, s_width = 1.3, s_height = 1,
-    filename = "files/hex.png"
+    p_size = 20,
+    p_x = 1, p_y = 1.45,
+    # p_color = "#1c5253", # p_family = "Montserrat",
+    s_x = 1, s_y = 0.85,
+    # h_color = "#1c5253",
+    # spotlight = TRUE, l_alpha = 0.2,
+    s_width = 1.3, s_height = 0.9,
+    h_fill = "#1c5253",
+    # white_around_sticker = F,
+    filename = "files/hex.png", dpi = 300
     )
