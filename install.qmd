@@ -3,7 +3,7 @@ title: Installation
 sidebar: false
 ---
 
-Pour cette formation, vous pourrez utiliser votre propre ordinateur sur lequel vous aurez installé ou mis à jour `R` (version 4.1.2 souhaitée). Nous avons fait le choix d'utiliser l'interface utilisateur RStudio. Pour faciliter nos interactions, nous vous conseillons donc de l'installer : <https://www.rstudio.com/products/rstudio/>.
+Pour cette formation, vous pourrez utiliser votre propre ordinateur sur lequel vous aurez [installé](https://pbil.univ-lyon1.fr/CRAN/) ou mis à jour `R` (version 4.2.1 souhaitée). Nous avons fait le choix d'utiliser l'interface utilisateur RStudio. Pour faciliter nos interactions, nous vous conseillons donc de l'installer : <https://www.rstudio.com/products/rstudio/>.
 
 Nous utiliserons les packages listés ci-dessous, que vous pouvez installer avec une seule commande (à partir de RStudio) :
 
@@ -20,6 +20,8 @@ install.packages(
     )
 ```
 
-Nous utiliserons également `Stan`, à partir de RStudio, grâce au package `rstan`. Vous trouverez toutes les infos pour installer rstan selon votre plateforme ici : <https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started> or <https://learnb4ss.github.io/learnB4SS/articles/install-brms.html>. Attention, cette étape peut être assez complexe selon votre plateforme (surtout sur Windows), il faudra veiller à ne pas la réaliser au dernier moment. Nous utiliserons également un package non publié sur le CRAN, que vous pouvez télécharger directement depuis Github, avec la commande suivante en R (après avoir installé `devtools`) : `devtools::install_github("rmcelreath/rethinking")`. Si cette commande ne fonctionne pas, se référer aux instructions d'installation détaillées sur le répertoire Github associé au package : <https://github.com/rmcelreath/rethinking>.
+Nous utiliserons également `Stan`, à partir de RStudio, grâce au package `rstan`. Vous trouverez toutes les infos pour installer rstan selon votre plateforme ici : <https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started> ou <https://learnb4ss.github.io/learnB4SS/articles/install-brms.html>. Attention, cette étape peut être assez complexe selon votre plateforme (surtout sur Windows), il faudra veiller à ne pas la réaliser au dernier moment.
 
-Bien qu'une bonne connaissance de `R` soit un pré-requis d'inscription à la formation, vous trouverez [ici](https://cran.r-project.org/doc/contrib/Torfs+Brauer-Short-R-Intro.pdf) une courte introduction aux bases du langage, qui seront nécessaires afin de bien comprendre les exemples traités lors de la formation.
+Nous utiliserons également un package non publié sur le CRAN, que vous pouvez télécharger directement depuis Github, avec la commande suivante en `R` (après avoir installé `devtools`) : `devtools::install_github("rmcelreath/rethinking")`. Si cette commande ne fonctionne pas, se référer aux instructions d'installation détaillées sur le répertoire Github associé au package : <https://github.com/rmcelreath/rethinking>.
+
+Bien qu'une bonne connaissance de `R` soit un **pré-requis** d'inscription, vous trouverez [ici](https://cran.r-project.org/doc/contrib/Torfs+Brauer-Short-R-Intro.pdf) une courte introduction aux bases du langage, qui seront nécessaires afin de bien comprendre les exemples traités lors de la formation.

@@ -6,9 +6,10 @@ toc: false
 lang: fr
 ---
 
-## En préparation
+## En préparation du cours
 
-Lecture du premier chapitre de {{< fa book >}} *Statistical Rethinking* : "The Golem of Prague"... installation des paquets: voir page installation...
+- Installation des paquets `R` : voir page [installation](../install.qmd).
+- Lecture du premier chapitre de {{< fa book >}} *Statistical Rethinking* : "The Golem of Prague". 
 
 ## Slides
 
