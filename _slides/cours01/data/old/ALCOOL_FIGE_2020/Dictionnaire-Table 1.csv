@@ -1,0 +1,7 @@
+Variables;Nom détaillé;Echelle;Modalité;
+;;;;
+sujet;;;;
+Genre;;Nominale;Homme Femme;
+QAB;Quantité d'alcool bue;Ordinale;Aucune Faible Importante;
+QAE;Quantité d'alcool Espérée;Ordinale;Aucune Faible Importante;
+QE;Quantité d'épices;Intervalle;;

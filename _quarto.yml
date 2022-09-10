@@ -3,6 +3,8 @@ project:
   output-dir: docs
   resources:
     - "./files/"
+  # render:
+  # - "!slides/"
 
 execute:
   freeze: auto
@@ -34,7 +36,7 @@ website:
       search: false
       background: dark
       contents:
-        - section: "Overview"
+        - section: "Vue d'ensemble"
           contents:
             - content/index.qmd
         - section: "Planning détaillé"

@@ -2,24 +2,28 @@
 title: "Cours n°01"
 subtitle: "Introduction à l'inférence bayésienne"
 date: 2022-10-11
+toc: false
 lang: fr
 ---
 
 ## En préparation
 
-- {{< fa book >}} *Statistical Rethinking* chapter 1: "The Golem of Prague"
-- {{< fa video >}} Statistical Rethinking 2022, lecture 1: ["The Golem of Prague"](https://youtu.be/cclUd_HoRlo)
+Lecture du premier chapitre de {{< fa book >}} *Statistical Rethinking* : "The Golem of Prague"... installation des paquets: voir page installation...
 
 ## Slides
 
-The slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.
+Les slides de ce cours sont disponibles en ligne. Vous pouvez naviguer dans ces slides avec <kbd>←</kbd> et <kbd>→</kbd>. Si vous tapez <kbd>h</kbd> vous verrez apparaitre un ensemble de commandes spécifiques à la lecture des ces slides (e.g., <kbd>f</kbd> pour passer en plein écran). Vous pouvez aussi télécharger une version PDF des slides via la bouton ci-dessous.
 
-```{r slides01, eval = TRUE, echo = FALSE, out.width = "100%"}
+<p class="buttons" style="text-align:center;"><a class="btn btn-danger" target="_blank" href="../_slides/cours01.html"><i class="fa-solid fa-arrow-up-right-from-square"></i> Voir les slides en ligne </a> <a class="btn btn-danger" target="_blank" href="../_slides/cours01.html" role="button"><i class="fa-solid fa-file-pdf"></i> Télécharger la version PDF </a></p>
+
+```{r slides01, eval = FALSE, echo = FALSE, out.width = "100%"}
 knitr::include_graphics(
-    path = "/Users/ladislas/Desktop/IMSB2022/slides/Cours01.html"
+    path = "/Users/ladislas/Desktop/IMSB2022/_slides/Cours01.html"
     )
 ```
 
-::: {.callout-tip appearance="simple"}
-You can enable Overview Mode by pressing the <kbd>O</kbd> key.
+<div class="ratio ratio-16x9"> <iframe src="../_slides/cours01.html"></iframe> </div>
+
+::: {.callout-tip}
+Voir toutes les commandes de `revealjs` en appuyant sur <kbd>m</kbd> puis <kbd>h</kbd>.
 :::

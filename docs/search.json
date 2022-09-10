@@ -39,7 +39,7 @@
     "href": "content/index.html",
     "title": "Contenu",
     "section": "",
-    "text": "View all slides in new window  Download PDF of all slides\n\nThe slides are also embedded on each page. You can click in the slides and navigate through them with ← and →. If you type ? (or shift + /) while viewing the slides you can see a list of slide-specific commands (like f for fullscreen)."
+    "text": "Voir les slides en ligne   Télécharger la version PDF \n\nLes slides sont aussi affichées sur la page de chaque ccours. Vous pouvez naviguer dans ces slides avec ← et →. Si vous tapez h vous verrez apparaitre un ensemble de commandes spécifiques à la lecture des ces slides (e.g., f pour passer en plein écran)."
   },
   {
     "objectID": "content/cours02.html",
@@ -74,14 +74,14 @@
     "href": "content/cours01.html",
     "title": "Cours n°01",
     "section": "",
-    "text": "Statistical Rethinking chapter 1: “The Golem of Prague”\n Statistical Rethinking 2022, lecture 1: “The Golem of Prague”"
+    "text": "Lecture du premier chapitre de  Statistical Rethinking : “The Golem of Prague”… installation des paquets: voir page installation…"
   },
   {
     "objectID": "content/cours01.html#slides",
     "href": "content/cours01.html#slides",
     "title": "Cours n°01",
     "section": "Slides",
-    "text": "Slides\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n\n\n\n\n\n\n\n\n\n\nYou can enable Overview Mode by pressing the O key."
+    "text": "Slides\nLes slides de ce cours sont disponibles en ligne. Vous pouvez naviguer dans ces slides avec ← et →. Si vous tapez h vous verrez apparaitre un ensemble de commandes spécifiques à la lecture des ces slides (e.g., f pour passer en plein écran). Vous pouvez aussi télécharger une version PDF des slides via la bouton ci-dessous.\n\n Voir les slides en ligne   Télécharger la version PDF \n\n\n\n\n\n\n\n\n\n\n\n\n\nAstuce\n\n\n\nVoir toutes les commandes de revealjs en appuyant sur m puis h."
   },
   {
     "objectID": "content/cours10.html",
@@ -165,14 +165,14 @@
     "href": "install.html",
     "title": "Installation",
     "section": "",
-    "text": "Nous utiliserons également Stan, à partir de RStudio, grâce au package rstan. Vous trouverez toutes les infos pour installer rstan selon votre plateforme ici : https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started.\nNous utiliserons les packages listés ci-dessous, que vous pouvez installer avec une seule commande (à partir de RStudio) :\n\ninstall.packages(\n    c(\n        \"data.table\", \"coda\", \"mvtnorm\", \"devtools\", \"MASS\", \"ellipse\",\n        \"rstan\", \"BayesFactor\", \"BEST\", \"coda\", \"LearnBayes\", \"markdown\",\n        \"mcmc\", \"MCMCpack\", \"MuMIn\", \"reshape2\", \"rmarkdown\", \"brms\",\n        \"tidyverse\", \"tidybayes\", \"bayesplot\", \"shinystan\", \"lme4\", \"patchwork\"\n        ),\n    dependencies = TRUE\n    )\n\nNous utiliserons également un package non publié sur le CRAN, que vous pouvez télécharger directement depuis Github, avec la commande suivante en R (après avoir installé “devtools”) : devtools::install_github(\"rmcelreath/rethinking\"). Si cette commande ne fonctionne pas, se référer aux instructions d’installation détaillées sur le répertoire Github associé au package : https://github.com/rmcelreath/rethinking.\nBien qu’une bonne connaissance de R soit un pré-requis d’inscription à la formation, vous trouverez ici une courte introduction aux bases du langage, qui seront nécessaires afin de bien comprendre les exemples traités lors de la formation."
+    "text": "Nous utiliserons les packages listés ci-dessous, que vous pouvez installer avec une seule commande (à partir de RStudio) :\n\ninstall.packages(\n    c(\n        \"data.table\", \"coda\", \"mvtnorm\", \"devtools\", \"MASS\", \"ellipse\",\n        \"rstan\", \"BayesFactor\", \"BEST\", \"coda\", \"LearnBayes\", \"markdown\",\n        \"mcmc\", \"MCMCpack\", \"MuMIn\", \"reshape2\", \"rmarkdown\", \"brms\",\n        \"tidyverse\", \"tidybayes\", \"bayesplot\", \"shinystan\", \"lme4\",\n        \"patchwork\"\n        ),\n    dependencies = TRUE\n    )\n\nNous utiliserons également Stan, à partir de RStudio, grâce au package rstan. Vous trouverez toutes les infos pour installer rstan selon votre plateforme ici : https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started or https://learnb4ss.github.io/learnB4SS/articles/install-brms.html. Attention, cette étape peut être assez complexe selon votre plateforme (surtout sur Windows), il faudra veiller à ne pas la réaliser au dernier moment. Nous utiliserons également un package non publié sur le CRAN, que vous pouvez télécharger directement depuis Github, avec la commande suivante en R (après avoir installé devtools) : devtools::install_github(\"rmcelreath/rethinking\"). Si cette commande ne fonctionne pas, se référer aux instructions d’installation détaillées sur le répertoire Github associé au package : https://github.com/rmcelreath/rethinking.\nBien qu’une bonne connaissance de R soit un pré-requis d’inscription à la formation, vous trouverez ici une courte introduction aux bases du langage, qui seront nécessaires afin de bien comprendre les exemples traités lors de la formation."
   },
   {
     "objectID": "planning.html",
     "href": "planning.html",
     "title": "Planning",
     "section": "",
-    "text": "Cours\nDate\nSujet\nDétails\nSlides\nDonnées\nZoom\nRethinking\n\n\n\n\n01\n11.10.2022\nIntroduction à l’inférence bayésienne\n\n1\n1\n1\n1\n\n\n02\n13.10.2022\nModèle Beta-Binomial\n\n1\n1\n1\n1\n\n\n03\n18.10.2022\nIntroduction à brms, modèle de régression linéaire\n\n1\n1\n1\n1\n\n\n04\n20.10.2022\nModèle de régression linéaire (suite)\n\n1\n1\n1\n1\n\n\n05\n25.10.2022\nMarkov Chain Monte Carlo\n\n1\n1\n1\n1\n\n\n06\n27.10.2022\nModèle linéaire généralisé\n\n1\n1\n1\n1\n\n\n07\n08.11.2022\nComparaison de modèles\n\n1\n1\n1\n1\n\n\n08\n10.11.2022\nModèles multi-niveaux\n\n1\n1\n1\n1\n\n\n09\n15.11.2022\nModèles multi-niveaux généralisés\n\n1\n1\n1\n1\n\n\n10\n17.11.2022\nData Hackathon\n\n1\n1\n1\n1"
+    "text": "Cours\nDate\nSujet\nDétails\nSlides\nDonnées\nZoom\nRethinking\n\n\n\n\n01\n11.10.2022\nIntroduction à l’inférence bayésienne\n\n\n\n\n1\n\n\n02\n13.10.2022\nModèle Beta-Binomial\n\n1\n1\n1\n1\n\n\n03\n18.10.2022\nIntroduction à brms, modèle de régression linéaire\n\n1\n1\n1\n1\n\n\n04\n20.10.2022\nModèle de régression linéaire (suite)\n\n1\n1\n1\n1\n\n\n05\n25.10.2022\nMarkov Chain Monte Carlo\n\n1\n1\n1\n1\n\n\n06\n27.10.2022\nModèle linéaire généralisé\n\n1\n1\n1\n1\n\n\n07\n08.11.2022\nComparaison de modèles\n\n1\n1\n1\n1\n\n\n08\n10.11.2022\nModèles multi-niveaux\n\n1\n1\n1\n1\n\n\n09\n15.11.2022\nModèles multi-niveaux généralisés\n\n1\n1\n1\n1\n\n\n10\n17.11.2022\nData Hackathon\n\n1\n1\n1\n1"
   },
   {
     "objectID": "syllabus.html",
@@ -193,7 +193,7 @@
     "href": "syllabus.html#objectifs-de-la-formation",
     "title": "Syllabus",
     "section": "Objectifs de la formation",
-    "text": "Objectifs de la formation\nL’objectif de cette formation est de vous faire découvrir l’approche bayésienne. Les concepts et outils qui seront présentés tout au long de la formation seront illustrés par des cas concrets d’analyse de données. Ce cours est construit autour du langage R et du paquet brms, une interface au langage probabiliste Stan. À la fin du cours, vous devriez pouvoir construire et fitter des modèles de régressions adapté à votre problème avec brms."
+    "text": "Objectifs de la formation\nL’objectif de cette formation est de vous faire découvrir l’approche bayésienne. Les concepts et outils qui seront présentés seront illustrés par des cas concrets d’analyse de données. Cette formation est construite autour du langage R et du paquet brms, une interface au langage probabiliste Stan. À l’issue de cette formation, vous devriez pouvoir construire et fitter des modèles de régressions adaptés à votre problème avec brms."
   },
   {
     "objectID": "syllabus.html#pré-requis",
@@ -221,13 +221,13 @@
     "href": "resources.html#livre-conseillé-statistical-rethinking",
     "title": "Ressources",
     "section": "Livre conseillé: Statistical Rethinking",
-    "text": "Livre conseillé: Statistical Rethinking\n\nRichard McElreath, Statistical Rethinking: A Bayesian Course with Examples in R and Stan (McElreath, 2020)\n\nOfficial links:\n\n Book page\n R package\n 2022 lecture videos\n 2022 lecture slides and homework and answers\n\nTranslations:\n\n A. Solomon Kurz, Statistical Rethinking with brms, ggplot2, and the tidyverse: Second edition (Kurz, 2021)\n Vincent Arel-Bundock, Statistical Rethinking 2 with Stan and R, (Arel-Bundock, 2020)"
+    "text": "Livre conseillé: Statistical Rethinking\n\nRichard McElreath, Statistical Rethinking: A Bayesian Course with Examples in R and Stan (McElreath, 2020).\n\nLiens officiels :\n\n Book page\n R package\n 2022 lecture videos\n 2022 lecture slides and homework and answers\n\nTraduction avec tidyverse et brms (en ligne) :\n\n A. Solomon Kurz, Statistical Rethinking with brms, ggplot2, and the tidyverse: Second edition (Kurz, 2021)\n Vincent Arel-Bundock, Statistical Rethinking 2 with Stan and R, (Arel-Bundock, 2020)"
   },
   {
     "objectID": "resources.html#autres-livres",
     "href": "resources.html#autres-livres",
     "title": "Ressources",
     "section": "Autres livres",
-    "text": "Autres livres\nWe don’t have time to cover these this semester, but these are all really great and useful resources!\n\n John K. Kruschke, Doing Bayesian Data Analysis: A Tutorial with R, JAGS, and Stan (Kruschke, 2015)\n\n Website\n A. Solomon Kurz, Doing Bayesian Data Analysis in brms and the tidyverse, translation to brms (Kurz, 2022)\n\n Ben Lambert, A Student’s Guide to Bayesian Statistics (Lambert, 2018)\n Andrew Gelman, John Carlin, Hal Stern, David Dunson, Aki Vehtari, and Donald Rubin, Bayesian Data Analysis (Gelman et al., 2013)\n Allen B. Downey, Think Bayes 2 (Downey, 2021)"
+    "text": "Autres livres\nWe don’t have time to cover these this semester, but these are all really great and useful resources!\n\n John K. Kruschke, Doing Bayesian Data Analysis: A Tutorial with R, JAGS, and Stan (Kruschke, 2015)\n Ben Lambert, A Student’s Guide to Bayesian Statistics (Lambert, 2018)\n Andrew Gelman, John Carlin, Hal Stern, David Dunson, Aki Vehtari, and Donald Rubin, Bayesian Data Analysis (Gelman et al., 2013)\n Allen B. Downey, Think Bayes 2 (Downey, 2021)"
   }
 ]

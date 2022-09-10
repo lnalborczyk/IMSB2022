@@ -39,7 +39,7 @@ Au fil des exemples proposés, nous réaliserons que même dans des situations d
 
 ## Objectifs de la formation
 
-L’objectif de cette formation est de vous faire découvrir l’approche bayésienne. Les concepts et outils qui seront présentés tout au long de la formation seront illustrés par des cas concrets d’analyse de données. Ce cours est construit autour du langage `R` et du paquet `brms`, une interface au langage probabiliste `Stan`. À la fin du cours, vous devriez pouvoir construire et fitter des modèles de régressions adapté à votre problème avec `brms`.
+L’objectif de cette formation est de vous faire découvrir l’approche bayésienne. Les concepts et outils qui seront présentés seront illustrés par des cas concrets d’analyse de données. Cette formation est construite autour du langage `R` et du paquet `brms`, une interface au langage probabiliste `Stan`. À l'issue de cette formation, vous devriez pouvoir construire et fitter des modèles de régressions adaptés à votre problème avec `brms`.
 
 ## Pré-requis
 
