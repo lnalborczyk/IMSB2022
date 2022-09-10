@@ -1,9 +1,10 @@
 ---
 title: Installation
 sidebar: false
+lang: fr
 ---
 
-Pour cette formation, vous pourrez utiliser votre propre ordinateur sur lequel vous aurez [installé](https://pbil.univ-lyon1.fr/CRAN/) ou mis à jour `R` (version 4.2.1 souhaitée). Nous avons fait le choix d'utiliser l'interface utilisateur RStudio. Pour faciliter nos interactions, nous vous conseillons donc de l'installer : <https://www.rstudio.com/products/rstudio/>.
+Pour cette formation, vous pourrez utiliser votre propre ordinateur sur lequel vous aurez [installé ou mis à jour](https://pbil.univ-lyon1.fr/CRAN/) `R` (version 4.2.1 souhaitée). Nous avons fait le choix d'utiliser l'interface utilisateur `RStudio`. Pour faciliter nos interactions, nous vous conseillons donc de l'installer : <https://www.rstudio.com/products/rstudio/>.
 
 Nous utiliserons les packages listés ci-dessous, que vous pouvez installer avec une seule commande (à partir de RStudio) :
 

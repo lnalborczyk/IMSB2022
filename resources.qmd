@@ -1,11 +1,12 @@
 ---
 title: Ressources
 sidebar: false
+lang: fr
 ---
 
 Vous pouvez télécharger le `.bib` contenant toutes les références citées pendant la formation en cliquant sur le bouton ci-dessous.
 
-<p><a href="./files/bib/references.bib" class="btn btn-success" role="button">{{< fa download >}} .bib file of all references</a></p>
+<p><a href="./files/bib/references.bib" class="btn btn-success" role="button">{{< fa download >}} fichier .bib contenant toutes les références </a></p>
 
 ## Livre conseillé : Statistical Rethinking
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.0.38">
@@ -107,15 +107,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   "type": "overlay",
   "limit": 20,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer"
   }
 }</script>
 
@@ -183,7 +183,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>Pour cette formation, vous pourrez utiliser votre propre ordinateur sur lequel vous aurez <a href="https://pbil.univ-lyon1.fr/CRAN/">installé</a> ou mis à jour <code>R</code> (version 4.2.1 souhaitée). Nous avons fait le choix d’utiliser l’interface utilisateur RStudio. Pour faciliter nos interactions, nous vous conseillons donc de l’installer : <a href="https://www.rstudio.com/products/rstudio/" class="uri">https://www.rstudio.com/products/rstudio/</a>.</p>
+<p>Pour cette formation, vous pourrez utiliser votre propre ordinateur sur lequel vous aurez <a href="https://pbil.univ-lyon1.fr/CRAN/">installé ou mis à jour</a> <code>R</code> (version 4.2.1 souhaitée). Nous avons fait le choix d’utiliser l’interface utilisateur <code>RStudio</code>. Pour faciliter nos interactions, nous vous conseillons donc de l’installer : <a href="https://www.rstudio.com/products/rstudio/" class="uri">https://www.rstudio.com/products/rstudio/</a>.</p>
 <p>Nous utiliserons les packages listés ci-dessous, que vous pouvez installer avec une seule commande (à partir de RStudio) :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(</span>
@@ -195,7 +195,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"patchwork"</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        ),</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">dependencies =</span> <span class="cn">TRUE</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Nous utiliserons également <code>Stan</code>, à partir de RStudio, grâce au package <code>rstan</code>. Vous trouverez toutes les infos pour installer rstan selon votre plateforme ici : <a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started" class="uri">https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started</a> ou <a href="https://learnb4ss.github.io/learnB4SS/articles/install-brms.html" class="uri">https://learnb4ss.github.io/learnB4SS/articles/install-brms.html</a>. Attention, cette étape peut être assez complexe selon votre plateforme (surtout sur Windows), il faudra veiller à ne pas la réaliser au dernier moment.</p>
 <p>Nous utiliserons également un package non publié sur le CRAN, que vous pouvez télécharger directement depuis Github, avec la commande suivante en <code>R</code> (après avoir installé <code>devtools</code>) : <code>devtools::install_github("rmcelreath/rethinking")</code>. Si cette commande ne fonctionne pas, se référer aux instructions d’installation détaillées sur le répertoire Github associé au package : <a href="https://github.com/rmcelreath/rethinking" class="uri">https://github.com/rmcelreath/rethinking</a>.</p>
@@ -244,7 +244,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // flash "checked"
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
+    button.setAttribute("title", "Copié");
     setTimeout(function() {
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
