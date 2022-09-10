@@ -7,9 +7,9 @@ Vous pouvez télécharger le `.bib` contenant toutes les références citées pe
 
 <p><a href="./files/bib/references.bib" class="btn btn-success" role="button">{{< fa download >}} .bib file of all references</a></p>
 
-## Livre conseillé: Statistical Rethinking
+## Livre conseillé : Statistical Rethinking
 
-> Richard McElreath, *Statistical Rethinking: A Bayesian Course with Examples in R and Stan* [@McElreath:2020].
+> Richard McElreath, *Statistical Rethinking: A Bayesian Course with Examples in R and Stan*. Second Edition. CRC Press [@McElreath:2020].
 
 Liens officiels :
 
@@ -25,9 +25,10 @@ Traduction avec `tidyverse` et `brms` (en ligne) :
 
 ## Autres livres
 
-We don't have time to cover these this semester, but these are all really great and useful resources!
+Quelques autres suggestions de lecture sur lesquelles je me suis appuyé pour préparer ce cours.
 
 - {{< fa book >}} John K. Kruschke, *Doing Bayesian Data Analysis: A Tutorial with R, JAGS, and Stan* [@Kruschke:2015]
 - {{< fa book >}} Ben Lambert, *A Student’s Guide to Bayesian Statistics* [@Lambert:2018]
 - {{< fa book >}} Andrew Gelman, John Carlin, Hal Stern, David Dunson, Aki Vehtari, and Donald Rubin, *Bayesian Data Analysis* [@GelmanCarlinStern:2013]
 - {{< fa book >}} Allen B. Downey, [*Think Bayes 2*](https://allendowney.github.io/ThinkBayes2/) [@Downey:2021]
+- {{< fa book >}} Nicenboim, B., Schad, D., & Vasishth, S. (2021). An Introduction to Bayesian Data Analysis for Cognitive Science. Available [online](https://vasishth.github.io/bayescogsci/book/).

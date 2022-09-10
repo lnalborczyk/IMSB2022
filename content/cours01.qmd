@@ -21,3 +21,7 @@ Les slides de ce cours sont disponibles en ligne. Vous pouvez naviguer dans ces 
 ::: {.callout-tip}
 Voir toutes les commandes de `revealjs` en appuyant sur <kbd>m</kbd> puis <kbd>h</kbd>.
 :::
+
+## Pour aller plus loin
+
+Bayes theorem. 3Blue1Brown, 22 December 2019. https://www.youtube.com/watch?v=HZGCoVF3YvM
