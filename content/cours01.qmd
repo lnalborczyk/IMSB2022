@@ -14,15 +14,9 @@ Lecture du premier chapitre de {{< fa book >}} *Statistical Rethinking* : "The G
 
 Les slides de ce cours sont disponibles en ligne. Vous pouvez naviguer dans ces slides avec <kbd>←</kbd> et <kbd>→</kbd>. Si vous tapez <kbd>h</kbd> vous verrez apparaitre un ensemble de commandes spécifiques à la lecture des ces slides (e.g., <kbd>f</kbd> pour passer en plein écran). Vous pouvez aussi télécharger une version PDF des slides via la bouton ci-dessous.
 
-<p class="buttons" style="text-align:center;"><a class="btn btn-danger" target="_blank" href="../_slides/cours01.html"><i class="fa-solid fa-arrow-up-right-from-square"></i> Voir les slides en ligne </a> <a class="btn btn-danger" target="_blank" href="../_slides/cours01.html" role="button"><i class="fa-solid fa-file-pdf"></i> Télécharger la version PDF </a></p>
+<p class="buttons" style="text-align:center;"><a class="btn btn-danger" target="_blank" href="./_slides/cours01.html"><i class="fa-solid fa-arrow-up-right-from-square"></i> Voir les slides en ligne </a> <a class="btn btn-danger" target="_blank" href="./_slides/cours01.html" role="button"><i class="fa-solid fa-file-pdf"></i> Télécharger la version PDF </a></p>
 
-```{r slides01, eval = FALSE, echo = FALSE, out.width = "100%"}
-knitr::include_graphics(
-    path = "/Users/ladislas/Desktop/IMSB2022/_slides/Cours01.html"
-    )
-```
-
-<div class="ratio ratio-16x9"> <iframe src="../_slides/cours01.html"></iframe> </div>
+<div class="ratio ratio-16x9"> <iframe src="./_slides/cours01.html"></iframe> </div>
 
 ::: {.callout-tip}
 Voir toutes les commandes de `revealjs` en appuyant sur <kbd>m</kbd> puis <kbd>h</kbd>.
