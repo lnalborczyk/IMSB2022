@@ -7,7 +7,7 @@ page-layout: full
 
 | Cours | Date | Sujet | Détails | Slides | Données | Zoom | Rethinking |
 |:-----:|------|-------|:----------:|:-------:|:------:|:-------:|:----:|
-| 01 | 11.10.2022 | **Introduction à l'inférence bayésienne** | [{{< fa book >}}](/.content/cours01.qmd) | [{{< fa book >}}](./_slides/cours01.html) | [{{< fa database >}}](./_slides/cours01.html) | [{{< fa link >}}](./_slides/cours01.html) | 1 |
+| 01 | 11.10.2022 | **Introduction à l'inférence bayésienne** | [{{< fa book >}}](./content/cours01.qmd) | [{{< fa book >}}](./slides/cours01.html) | [{{< fa database >}}](./slides/cours01.html) | [{{< fa link >}}](./slides/cours01.html) | 1 |
 | 02 | 13.10.2022 | **Modèle Beta-Binomial** | [{{< fa book >}}](/content/cours02.qmd) | 1 | 1 | 1 | 1 |
 | 03 | 18.10.2022 | **Introduction à brms, modèle de régression linéaire** | [{{< fa book >}}](/content/cours03.qmd) | 1 | 1 | 1 | 1 |
 | 04 | 20.10.2022 | **Modèle de régression linéaire (suite)** | [{{< fa book >}}](/content/cours04.qmd) | 1 | 1 | 1 | 1 |
