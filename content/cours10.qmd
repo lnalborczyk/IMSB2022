@@ -2,13 +2,18 @@
 title: "Cours n°10"
 subtitle: "Data Hackathon"
 date: 2022-11-17
+toc: false
 lang: fr
 ---
 
-## En préparation
+## En préparation du cours
 
 ...
 
 ## Slides
+
+...
+
+## Pour aller plus loin
 
 ...

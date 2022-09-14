@@ -2,13 +2,18 @@
 title: "Cours n°07"
 subtitle: "Comparaison de modèles"
 date: 2022-11-08
+toc: false
 lang: fr
 ---
 
-## En préparation
+## En préparation du cours
 
 ...
 
 ## Slides
+
+...
+
+## Pour aller plus loin
 
 ...

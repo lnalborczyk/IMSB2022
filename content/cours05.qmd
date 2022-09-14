@@ -2,13 +2,18 @@
 title: "Cours n°05"
 subtitle: "Markov Chain Monte Carlo"
 date: 2022-10-25
+toc: false
 lang: fr
 ---
 
-## En préparation
+## En préparation du cours
 
 ...
 
 ## Slides
+
+...
+
+## Pour aller plus loin
 
 ...

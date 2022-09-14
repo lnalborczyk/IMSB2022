@@ -2,13 +2,18 @@
 title: "Cours n°02"
 subtitle: "Modèle Beta-Binomial"
 date: 2022-10-13
+toc: false
 lang: fr
 ---
 
-## En préparation
+## En préparation du cours
 
 ...
 
 ## Slides
+
+...
+
+## Pour aller plus loin
 
 ...

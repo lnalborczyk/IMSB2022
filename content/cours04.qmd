@@ -2,13 +2,18 @@
 title: "Cours n°04"
 subtitle: "Modèle de régression linéaire (suite)"
 date: 2022-10-20
+toc: false
 lang: fr
 ---
 
-## En préparation
+## En préparation du cours
 
 ...
 
 ## Slides
+
+...
+
+## Pour aller plus loin
 
 ...

@@ -2,13 +2,18 @@
 title: "Cours n°06"
 subtitle: "Modèle linéaire généralisé"
 date: 2022-10-27
+toc: false
 lang: fr
 ---
 
-## En préparation
+## En préparation du cours
 
 ...
 
 ## Slides
+
+...
+
+## Pour aller plus loin
 
 ...

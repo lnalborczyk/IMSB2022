@@ -9,4 +9,4 @@ Sur la page de chaque session (chaque cours), vous trouverez un bouton comme cel
 
 <p class="buttons" style="text-align:center;"><span class="btn btn-danger">{{< fa arrow-up-right-from-square >}} Voir les slides en ligne </span> <span class="btn btn-danger">{{< fa file-pdf >}} Télécharger la version PDF </span></p>
 
-Les slides sont aussi affichées sur la page de chaque ccours. Vous pouvez naviguer dans ces slides avec <kbd>←</kbd> et <kbd>→</kbd>. Si vous tapez <kbd>h</kbd> vous verrez apparaitre un ensemble de commandes spécifiques à la lecture des ces slides (e.g., <kbd>f</kbd> pour passer en plein écran).
+Les slides sont aussi affichées sur la page de chaque ccours. Vous pouvez naviguer dans ces slides avec <kbd>←</kbd> et <kbd>→</kbd>. Si vous tapez <kbd>m</kbd> vous verrez apparaitre un ensemble de commandes spécifiques à la lecture des ces slides (e.g., <kbd>f</kbd> pour passer en plein écran).

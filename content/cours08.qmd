@@ -2,13 +2,18 @@
 title: "Cours n°08"
 subtitle: "Modèles multi-niveaux"
 date: 2022-11-10
+toc: false
 lang: fr
 ---
 
-## En préparation
+## En préparation du cours
 
 ...
 
 ## Slides
+
+...
+
+## Pour aller plus loin
 
 ...

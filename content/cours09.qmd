@@ -2,13 +2,18 @@
 title: "Cours n°09"
 subtitle: "Modèles multi-niveaux généralisés"
 date: 2022-11-15
+toc: false
 lang: fr
 ---
 
-## En préparation
+## En préparation du cours
 
 ...
 
 ## Slides
+
+...
+
+## Pour aller plus loin
 
 ...

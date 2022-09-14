@@ -2,13 +2,18 @@
 title: "Cours n°03"
 subtitle: "Introduction à brms, modèle de régression linéaire"
 date: 2022-10-18
+toc: false
 lang: fr
 ---
 
-## En préparation
+## En préparation du cours
 
 ...
 
 ## Slides
+
+...
+
+## Pour aller plus loin
 
 ...

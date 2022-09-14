@@ -7,10 +7,11 @@ library(stringr)
 
 dirs <- list.files(pattern = "_cours", recursive = FALSE)
 dirs <- str_replace_all(string = dirs, pattern = "_", replace = "")
+i <- "cours01"
 
 for (i in dirs) {
 
-  url <- paste0("https://www.barelysignificant.com/IMSB2022/slides/html/", i, ".html")
+  url <- paste0("https://www.barelysignificant.com/IMSB2022/slides/html/", i)
   output <- paste0("/pdf/", i, ".pdf")
   
   # system(paste0("decktape generic ", url, " ", output) )
@@ -19,6 +20,7 @@ for (i in dirs) {
   decktape(
     file = url, output = output,
     args = "generic",
+    # args = "generic --key=ArrowRight",
     docker = FALSE
     )
   
