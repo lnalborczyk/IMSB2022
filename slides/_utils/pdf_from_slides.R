@@ -3,13 +3,15 @@
 ####################################################
 
 library(xaringan)
+library(stringr)
 
-dirs <- list.files(pattern = "Cours", recursive = FALSE)
+dirs <- list.files(pattern = "_cours", recursive = FALSE)
+dirs <- str_replace_all(string = dirs, pattern = "_", replace = "")
 
 for (i in dirs) {
 
-  url <- paste0("https://www.barelysignificant.com/IMSB2021/slides/", i)
-  output <- paste0(i, "/", i, ".pdf")
+  url <- paste0("https://www.barelysignificant.com/IMSB2022/slides/html/", i, ".html")
+  output <- paste0("/pdf/", i, ".pdf")
   
   # system(paste0("decktape generic ", url, " ", output) )
   # system(paste0("decktape generic --key=ArrowRight ", url, " ", output) )

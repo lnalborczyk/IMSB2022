@@ -2,6 +2,7 @@
 title: Contenu
 sidebar: true
 toc: false
+lang: fr
 ---
 
 Sur la page de chaque session (chaque cours), vous trouverez un bouton comme celui ci-dessous pour soit ouvrir les slides dans un nouvel onglet et les consulter en ligne (préférable), soit pour télécharger une version PDF des slides.

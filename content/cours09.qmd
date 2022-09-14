@@ -1,7 +1,7 @@
 ---
 title: "Cours n°09"
 subtitle: "Modèles multi-niveaux généralisés"
-date: 2022-11-10
+date: 2022-11-15
 lang: fr
 ---
 

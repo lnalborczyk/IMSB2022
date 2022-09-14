@@ -13,7 +13,7 @@ format:
   html:
     template-partials:
       - html/home/title-block.html
-course-logo: "files/cover.png"
+course-logo: "./files/cover.png"
 ---
 
 ```{r setup, include = FALSE}
