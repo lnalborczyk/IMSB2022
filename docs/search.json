@@ -235,7 +235,21 @@
     "href": "install.html",
     "title": "Installation",
     "section": "",
-    "text": "Nous utiliserons les paquets R listés ci-dessous, que vous pouvez installer en une seule commande depuis la console :\n\ninstall.packages(\n    c(\n        \"data.table\", \"coda\", \"mvtnorm\", \"devtools\", \"MASS\", \"ellipse\",\n        \"rstan\", \"BayesFactor\", \"BEST\", \"coda\", \"LearnBayes\", \"markdown\",\n        \"mcmc\", \"MCMCpack\", \"MuMIn\", \"reshape2\", \"rmarkdown\", \"brms\",\n        \"tidyverse\", \"tidybayes\", \"bayesplot\", \"shinystan\", \"lme4\",\n        \"patchwork\"\n        ),\n    dependencies = TRUE\n    )\n\nNous utiliserons également un paquet non publié sur le CRAN, que vous pouvez télécharger directement depuis Github, avec la commande suivante en R (après avoir installé devtools) : devtools::install_github(\"rmcelreath/rethinking\"). Si cette commande ne fonctionne pas, se référer aux instructions d’installation détaillées sur le répertoire Github du paquet : https://github.com/rmcelreath/rethinking.\nBien qu’une bonne connaissance de R soit un pré-requis à l’inscription, vous trouverez ici une courte introduction aux bases du langage, qui seront nécessaires afin de bien comprendre les exemples traités lors de la formation."
+    "text": "Pour cette formation, vous pourrez utiliser votre propre ordinateur sur lequel vous aurez installé ou mis à jour R (version 4.2.1 souhaitée) et l’interface utilisateur RStudio : https://www.rstudio.com/products/rstudio/. Nous utiliserons également Stan via les paquets brms et rstan. Vous trouverez toutes les infos pour installer brms selon votre plateforme ici : https://learnb4ss.github.io/learnB4SS/articles/install-brms.html. Attention, cette étape peut être assez longue complexe selon votre plateforme (surtout sur Windows), il faudra veiller à ne pas la réaliser au dernier moment et à ce que tout fonctionne au début de la formation."
+  },
+  {
+    "objectID": "install.html#installer-imsb",
+    "href": "install.html#installer-imsb",
+    "title": "Installation",
+    "section": "Installer imsb",
+    "text": "Installer imsb\nLe reste des paquets ainsi que les données utilisées dans les exercices, et quelques fonctions utiles, peuvent être installées ensemble sous la forme d’un paquet “companion” de la formation, le paquet imsb. Pour l’installer, vous devez d’abord installer le paquet remotes, puis installer imsb depuis Github.\n\ninstall.packages(\"remotes\")\nremotes::install_github(repo = \"lnalborczyk/IMSB2022/_imsb\", dependencies = TRUE)\n\nAu cours de la formation, ce paquet pourra être utilisé pour lire les slides des différents cours (du cours 00 au cours 10) en ligne via la fonction open_slides().\n\nlibrary(imsb)\nopen_slides(01)\n\nLes jeux de données utilisés dans les différents exercices sont également contenus dans ce paquet. Vous pouvez les importer via la function data().\n\ndata(tartine1)"
+  },
+  {
+    "objectID": "install.html#rappel-concernant-les-pré-requis",
+    "href": "install.html#rappel-concernant-les-pré-requis",
+    "title": "Installation",
+    "section": "Rappel concernant les pré-requis",
+    "text": "Rappel concernant les pré-requis\nBien qu’une bonne connaissance de R soit un pré-requis à l’inscription, vous trouverez ici une courte introduction aux bases du langage, qui seront nécessaires afin de bien comprendre les exemples traités lors de la formation."
   },
   {
     "objectID": "planning.html",

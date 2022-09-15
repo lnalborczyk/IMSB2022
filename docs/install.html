@@ -162,7 +162,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Sur cette page</h2>
+   
+  <ul>
+  <li><a href="#installer-brms-et-cie" id="toc-installer-brms-et-cie" class="nav-link active" data-scroll-target="#installer-brms-et-cie">Installer <code>brms</code> et cie</a></li>
+  <li><a href="#installer-imsb" id="toc-installer-imsb" class="nav-link" data-scroll-target="#installer-imsb">Installer <code>imsb</code></a></li>
+  <li><a href="#rappel-concernant-les-pré-requis" id="toc-rappel-concernant-les-pré-requis" class="nav-link" data-scroll-target="#rappel-concernant-les-pré-requis">Rappel concernant les pré-requis</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -183,24 +191,59 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
+<section id="installer-brms-et-cie" class="level2">
+<h2 class="anchored" data-anchor-id="installer-brms-et-cie">Installer <code>brms</code> et cie</h2>
 <p>Pour cette formation, vous pourrez utiliser votre propre ordinateur sur lequel vous aurez <a href="https://pbil.univ-lyon1.fr/CRAN/">installé ou mis à jour</a> <code>R</code> (version 4.2.1 souhaitée) et l’interface utilisateur <code>RStudio</code> : <a href="https://www.rstudio.com/products/rstudio/" class="uri">https://www.rstudio.com/products/rstudio/</a>. Nous utiliserons également <code>Stan</code> via les paquets <code>brms</code> et <code>rstan</code>. Vous trouverez toutes les infos pour installer <code>brms</code> selon votre plateforme ici : <a href="https://learnb4ss.github.io/learnB4SS/articles/install-brms.html" class="uri">https://learnb4ss.github.io/learnB4SS/articles/install-brms.html</a>. <strong>Attention</strong>, cette étape peut être assez longue complexe selon votre plateforme (surtout sur Windows), il faudra veiller à ne pas la réaliser au dernier moment et à ce que tout fonctionne au début de la formation.</p>
-<p>Nous utiliserons les paquets <code>R</code> listés ci-dessous, que vous pouvez installer en une seule commande depuis la console :</p>
+</section>
+<section id="installer-imsb" class="level2">
+<h2 class="anchored" data-anchor-id="installer-imsb">Installer <code>imsb</code></h2>
+<p>Le reste des paquets ainsi que les données utilisées dans les exercices, et quelques fonctions utiles, peuvent être installées ensemble sous la forme d’un paquet “companion” de la formation, le paquet <code>imsb</code>. Pour l’installer, vous devez d’abord installer le paquet <code>remotes</code>, puis installer <code>imsb</code> depuis Github.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"data.table"</span>, <span class="st">"coda"</span>, <span class="st">"mvtnorm"</span>, <span class="st">"devtools"</span>, <span class="st">"MASS"</span>, <span class="st">"ellipse"</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"rstan"</span>, <span class="st">"BayesFactor"</span>, <span class="st">"BEST"</span>, <span class="st">"coda"</span>, <span class="st">"LearnBayes"</span>, <span class="st">"markdown"</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"mcmc"</span>, <span class="st">"MCMCpack"</span>, <span class="st">"MuMIn"</span>, <span class="st">"reshape2"</span>, <span class="st">"rmarkdown"</span>, <span class="st">"brms"</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"tidyverse"</span>, <span class="st">"tidybayes"</span>, <span class="st">"bayesplot"</span>, <span class="st">"shinystan"</span>, <span class="st">"lme4"</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"patchwork"</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        ),</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">dependencies =</span> <span class="cn">TRUE</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"remotes"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="at">repo =</span> <span class="st">"lnalborczyk/IMSB2022/_imsb"</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Nous utiliserons également un paquet non publié sur le CRAN, que vous pouvez télécharger directement depuis Github, avec la commande suivante en <code>R</code> (après avoir installé <code>devtools</code>) : <code>devtools::install_github("rmcelreath/rethinking")</code>. Si cette commande ne fonctionne pas, se référer aux instructions d’installation détaillées sur le répertoire Github du paquet : <a href="https://github.com/rmcelreath/rethinking" class="uri">https://github.com/rmcelreath/rethinking</a>.</p>
+<p>Au cours de la formation, ce paquet pourra être utilisé pour lire les slides des différents cours (du cours <code>00</code> au cours <code>10</code>) en ligne via la fonction <code>open_slides()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(imsb)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">open_slides</span>(<span class="dv">01</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Les jeux de données utilisés dans les différents exercices sont également contenus dans ce paquet. Vous pouvez les importer via la function <code>data()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(tartine1)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+<!--
+
+Nous utiliserons les paquets `R` listés ci-dessous, que vous pouvez installer en une seule commande depuis la console :
+
+
+::: {.cell}
+
+```{.r .cell-code}
+install.packages(
+    c(
+        "data.table", "coda", "mvtnorm", "devtools", "MASS", "ellipse",
+        "rstan", "BayesFactor", "BEST", "coda", "LearnBayes", "markdown",
+        "mcmc", "MCMCpack", "MuMIn", "reshape2", "rmarkdown", "brms",
+        "tidyverse", "tidybayes", "bayesplot", "shinystan", "lme4",
+        "patchwork", "easystats"
+        ),
+    dependencies = TRUE
+    )
+```
+:::
+
+
+Nous utiliserons également un paquet non publié sur le CRAN, que vous pouvez télécharger directement depuis Github, avec la commande suivante en `R` (après avoir installé `devtools`) : `devtools::install_github("rmcelreath/rethinking")`. Si cette commande ne fonctionne pas, se référer aux instructions d'installation détaillées sur le répertoire Github du paquet : <https://github.com/rmcelreath/rethinking>.
+
+-->
+</section>
+<section id="rappel-concernant-les-pré-requis" class="level2">
+<h2 class="anchored" data-anchor-id="rappel-concernant-les-pré-requis">Rappel concernant les pré-requis</h2>
 <p>Bien qu’une bonne connaissance de <code>R</code> soit un <strong>pré-requis à l’inscription</strong>, vous trouverez <a href="https://cran.r-project.org/doc/contrib/Torfs+Brauer-Short-R-Intro.pdf">ici</a> une courte introduction aux bases du langage, qui seront nécessaires afin de bien comprendre les exemples traités lors de la formation.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

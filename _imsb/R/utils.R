@@ -26,3 +26,23 @@ open_slides <- function(cours) {
 
     }
 }
+
+#' Find the mode of a distribution from its samples
+#'
+#' @param samples samples from some distribution
+#' @param ... extra parameters to be passed to the `density` function
+#'
+#' @return returns the mode of the distribution
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' find_mode(sample = rnorm(n = 1e4, mean = 0, sd = 1) )
+#' }
+
+find_mode <- function(samples, ...) {
+
+    dd <- stats::density(samples, ...)
+    dd$x[which.max(dd$y)]
+
+}
