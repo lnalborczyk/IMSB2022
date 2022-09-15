@@ -11,7 +11,7 @@ Vous pouvez télécharger le `.bib` contenant toutes les références citées pe
 
 ## Livre conseillé : Statistical Rethinking
 
-> Richard McElreath, *Statistical Rethinking: A Bayesian Course with Examples in R and Stan*. Second Edition. CRC Press [@McElreath:2020].
+> McElreath, R. (2020), *Statistical Rethinking: A Bayesian Course with Examples in R and Stan*. Second Edition. CRC Press.
 
 Liens officiels :
 
@@ -22,15 +22,14 @@ Liens officiels :
 
 Traduction avec `tidyverse` et `brms` (en ligne) :
 
-- {{< fa laptop-code >}} A. Solomon Kurz, [*Statistical Rethinking with brms, ggplot2, and the tidyverse: Second edition*](https://bookdown.org/content/4857/) [@Kurz:2021]
-- {{< fa laptop-code >}} Vincent Arel-Bundock, [*Statistical Rethinking 2 with Stan and R*](https://vincentarelbundock.github.io/rethinking2/), [@Arel-Bundock:2020]
+- {{< fa laptop-code >}} Kurz, A. S. (2021), [*Statistical Rethinking with brms, ggplot2, and the tidyverse: Second edition*](https://bookdown.org/content/4857/).
+- {{< fa laptop-code >}} Arel-Bundock, V. (2020), [*Statistical Rethinking 2 with Stan and R*](https://vincentarelbundock.github.io/rethinking2/).
 
 ## Autres livres
 
-Quelques autres suggestions de lecture sur lesquelles je me suis appuyé pour préparer ce cours.
+Quelques autres livres sur lesquels je me suis appuyé pour préparer ce cours.
 
-- {{< fa book >}} John K. Kruschke, *Doing Bayesian Data Analysis: A Tutorial with R, JAGS, and Stan* [@Kruschke:2015]
-- {{< fa book >}} Ben Lambert, *A Student’s Guide to Bayesian Statistics* [@Lambert:2018]
-- {{< fa book >}} Andrew Gelman, John Carlin, Hal Stern, David Dunson, Aki Vehtari, and Donald Rubin, *Bayesian Data Analysis* [@GelmanCarlinStern:2013]
-- {{< fa book >}} Allen B. Downey, [*Think Bayes 2*](https://allendowney.github.io/ThinkBayes2/) [@Downey:2021]
+- {{< fa book >}} Kruschke, J. K. (2015), *Doing Bayesian Data Analysis: A Tutorial with R, JAGS, and Stan*.
+- {{< fa book >}} Lambert, B. (2018), *A Student’s Guide to Bayesian Statistics*.
+- {{< fa book >}} Gelman, A., Carlin, J., Stern, H., Dunson, D., Vehtari, A., & Rubin, D. (2013), *Bayesian Data Analysis*.
 - {{< fa book >}} Nicenboim, B., Schad, D., & Vasishth, S. (2021). An Introduction to Bayesian Data Analysis for Cognitive Science. Available [online](https://vasishth.github.io/bayescogsci/book/).

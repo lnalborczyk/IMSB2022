@@ -11,7 +11,7 @@ Pour cette formation, vous pourrez utiliser votre propre ordinateur sur lequel v
 
 ## Installer `imsb`
 
-Le reste des paquets ainsi que les données utilisées dans les exercices, et quelques fonctions utiles, peuvent être installées ensemble sous la forme d'un paquet "companion" de la formation, le paquet `imsb`. Pour l'installer, vous devez d'abord installer le paquet `remotes`, puis installer `imsb` depuis Github.
+Le reste des paquets ainsi que les données utilisées dans les exercices, et quelques fonctions utiles, peuvent être installées ensemble sous la forme d'un paquet "compagnon" de la formation, le paquet `imsb`. Pour l'installer, vous devez d'abord installer le paquet `remotes`, puis installer `imsb` depuis Github.
 
 ```{r, eval = FALSE, echo = TRUE}
 install.packages("remotes")

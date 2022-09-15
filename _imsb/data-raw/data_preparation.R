@@ -11,6 +11,3 @@ tartine2 <- read.csv(file = here("data-raw/tartine2.csv") ) %>%
     select(-X, trial, side = value)
 
 usethis::use_data(tartine2, overwrite = TRUE)
-
-# declaring package dependencies
-# usethis::use_package(package = "tidyverse")

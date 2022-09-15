@@ -20,7 +20,7 @@ check_install <- function (...) {
     # if (!require (brms) ) return (cat("Please install the brms package") )
     # if (!require (rstan) ) return (cat("Please install the rstan package") )
 
-    # verifying the rstan installation
+    # testing the rstan installation
     utils::capture.output({
         utils::example(
             rstan::stan_model, package = "rstan",

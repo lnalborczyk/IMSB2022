@@ -242,7 +242,7 @@
     "href": "install.html#installer-imsb",
     "title": "Installation",
     "section": "Installer imsb",
-    "text": "Installer imsb\nLe reste des paquets ainsi que les données utilisées dans les exercices, et quelques fonctions utiles, peuvent être installées ensemble sous la forme d’un paquet “companion” de la formation, le paquet imsb. Pour l’installer, vous devez d’abord installer le paquet remotes, puis installer imsb depuis Github.\n\ninstall.packages(\"remotes\")\nremotes::install_github(repo = \"lnalborczyk/IMSB2022/_imsb\", dependencies = TRUE)\n\nAu cours de la formation, ce paquet pourra être utilisé pour lire les slides des différents cours (du cours 01 au cours 10) en ligne via la fonction open_slides().\n\nlibrary(imsb)\nopen_slides(01)\n\nLes jeux de données utilisés dans les différents exercices sont également contenus dans ce paquet. Vous pouvez les importer via la function data().\n\ndata(tartine1)"
+    "text": "Installer imsb\nLe reste des paquets ainsi que les données utilisées dans les exercices, et quelques fonctions utiles, peuvent être installées ensemble sous la forme d’un paquet “compagnon” de la formation, le paquet imsb. Pour l’installer, vous devez d’abord installer le paquet remotes, puis installer imsb depuis Github.\n\ninstall.packages(\"remotes\")\nremotes::install_github(repo = \"lnalborczyk/IMSB2022/_imsb\", dependencies = TRUE)\n\nAu cours de la formation, ce paquet pourra être utilisé pour lire les slides des différents cours (du cours 01 au cours 10) en ligne via la fonction open_slides().\n\nlibrary(imsb)\nopen_slides(01)\n\nLes jeux de données utilisés dans les différents exercices sont également contenus dans ce paquet. Vous pouvez les importer via la function data().\n\ndata(tartine1)"
   },
   {
     "objectID": "install.html#rappel-concernant-les-pré-requis",
@@ -305,13 +305,13 @@
     "href": "resources.html#livre-conseillé-statistical-rethinking",
     "title": "Ressources",
     "section": "Livre conseillé : Statistical Rethinking",
-    "text": "Livre conseillé : Statistical Rethinking\n\nRichard McElreath, Statistical Rethinking: A Bayesian Course with Examples in R and Stan. Second Edition. CRC Press (McElreath, 2020).\n\nLiens officiels :\n\n Book page\n R package\n 2022 lecture videos\n 2022 lecture slides and homework and answers\n\nTraduction avec tidyverse et brms (en ligne) :\n\n A. Solomon Kurz, Statistical Rethinking with brms, ggplot2, and the tidyverse: Second edition (Kurz, 2021)\n Vincent Arel-Bundock, Statistical Rethinking 2 with Stan and R, (Arel-Bundock, 2020)"
+    "text": "Livre conseillé : Statistical Rethinking\n\nMcElreath, R. (2020), Statistical Rethinking: A Bayesian Course with Examples in R and Stan. Second Edition. CRC Press.\n\nLiens officiels :\n\n Book page\n R package\n 2022 lecture videos\n 2022 lecture slides and homework and answers\n\nTraduction avec tidyverse et brms (en ligne) :\n\n Kurz, A. S. (2021), Statistical Rethinking with brms, ggplot2, and the tidyverse: Second edition.\n Arel-Bundock, V. (2020), Statistical Rethinking 2 with Stan and R."
   },
   {
     "objectID": "resources.html#autres-livres",
     "href": "resources.html#autres-livres",
     "title": "Ressources",
     "section": "Autres livres",
-    "text": "Autres livres\nQuelques autres suggestions de lecture sur lesquelles je me suis appuyé pour préparer ce cours.\n\n John K. Kruschke, Doing Bayesian Data Analysis: A Tutorial with R, JAGS, and Stan (Kruschke, 2015)\n Ben Lambert, A Student’s Guide to Bayesian Statistics (Lambert, 2018)\n Andrew Gelman, John Carlin, Hal Stern, David Dunson, Aki Vehtari, and Donald Rubin, Bayesian Data Analysis (Gelman et al., 2013)\n Allen B. Downey, Think Bayes 2 (Downey, 2021)\n Nicenboim, B., Schad, D., & Vasishth, S. (2021). An Introduction to Bayesian Data Analysis for Cognitive Science. Available online."
+    "text": "Autres livres\nQuelques autres livres sur lesquels je me suis appuyé pour préparer ce cours.\n\n Kruschke, J. K. (2015), Doing Bayesian Data Analysis: A Tutorial with R, JAGS, and Stan.\n Lambert, B. (2018), A Student’s Guide to Bayesian Statistics.\n Gelman, A., Carlin, J., Stern, H., Dunson, D., Vehtari, A., & Rubin, D. (2013), Bayesian Data Analysis.\n Nicenboim, B., Schad, D., & Vasishth, S. (2021). An Introduction to Bayesian Data Analysis for Cognitive Science. Available online."
   }
 ]
