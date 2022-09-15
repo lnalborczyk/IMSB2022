@@ -43,6 +43,6 @@ open_slides <- function (cours) {
 find_mode <- function (samples, ...) {
 
     dd <- stats::density(samples, ...)
-    dd$x[which.max(dd$y)]
+    return (dd$x[which.max(dd$y)])
 
 }

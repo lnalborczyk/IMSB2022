@@ -9,7 +9,6 @@ A data frame with 500 rows and 2 variables:
 \describe{
 \item{trial}{the trial number}
 \item{side}{the side of the toast, 1 is butter}
-...
 }
 }
 \source{

@@ -17,8 +17,8 @@ check_install <- function (...) {
     if (r_version != "4.2.1") return (cat("Please install R version 4.2.1") )
 
     # checking the brms and rstan install
-    # if (!require (brms) ) return (cat("Please install the brms package") )
-    # if (!require (rstan) ) return (cat("Please install the rstan package") )
+    if (!requireNamespace("brms", quietly = TRUE) ) return (cat("Please install the brms package") )
+    if (!requireNamespace("rstan", quietly = TRUE) ) return (cat("Please install the rstan package") )
 
     # testing the rstan installation
     utils::capture.output({
@@ -34,7 +34,7 @@ check_install <- function (...) {
         ") )
 
     # checking the rethinking install
-    if (!require (rethinking) ) return (cat("
+    if (!requireNamespace("rethinking", quietly = TRUE) ) return (cat("
         Please install the rethinking package from Github:
         https://github.com/rmcelreath/rethinking
         ") )
