@@ -9,7 +9,7 @@ lang: fr
 ## En préparation du cours
 
 - Installation des paquets `R` : voir page [installation](../install.qmd).
-- Lecture du premier chapitre de {{< fa book >}} *Statistical Rethinking* : "The Golem of Prague". 
+- (*optionnel*) Lecture du premier chapitre de {{< fa book >}} *Statistical Rethinking* : "The Golem of Prague". 
 
 ## Slides
 
@@ -17,7 +17,7 @@ Les slides de ce cours sont disponibles en ligne. Vous pouvez naviguer dans ces 
 
 <p class="buttons" style="text-align:center;"><a class="btn btn-danger" target="_blank" href="../slides/html/cours01.html"><i class="fa-solid fa-arrow-up-right-from-square"></i> Voir les slides en ligne </a> <a class="btn btn-danger" target="_blank" href="../slides/pdf/cours01.pdf" role="button"><i class="fa-solid fa-file-pdf"></i> Télécharger la version PDF </a></p>
 
-<div class="ratio ratio-16x9"> <iframe src="../slides/cours01.html"></iframe> </div>
+<div class="ratio ratio-16x9"> <iframe src="../slides/html/cours01.html"></iframe> </div>
 
 ::: {.callout-tip}
 Voir toutes les commandes de `revealjs` en appuyant sur <kbd>m</kbd> puis <kbd>h</kbd>.

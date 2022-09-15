@@ -10,7 +10,7 @@
 #' open_slides(cours = 01)
 #' }
 
-open_slides <- function(cours) {
+open_slides <- function (cours) {
 
     num <- stringr::str_pad(string = cours, width = 2, pad = "0")
 
@@ -22,7 +22,7 @@ open_slides <- function(cours) {
 
     } else {
 
-        warning("I am sorry, I am not aware of this course... I only know Course 01 to 10...")
+        warning ("I am sorry, I am not aware of this course... I only know Course 01 to 10...")
 
     }
 }
@@ -40,7 +40,7 @@ open_slides <- function(cours) {
 #' find_mode(sample = rnorm(n = 1e4, mean = 0, sd = 1) )
 #' }
 
-find_mode <- function(samples, ...) {
+find_mode <- function (samples, ...) {
 
     dd <- stats::density(samples, ...)
     dd$x[which.max(dd$y)]

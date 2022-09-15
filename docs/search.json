@@ -60,21 +60,21 @@
     "href": "content/cours02.html",
     "title": "Cours n°02",
     "section": "",
-    "text": "…"
+    "text": "Vérification de l’installation des paquets R avec imsb::check_install().\n(optionnel) Lecture des chapitres 2 et 3 de  Statistical Rethinking."
   },
   {
     "objectID": "content/cours02.html#slides",
     "href": "content/cours02.html#slides",
     "title": "Cours n°02",
     "section": "Slides",
-    "text": "Slides\n…"
+    "text": "Slides\nLes slides de ce cours sont disponibles en ligne. Vous pouvez naviguer dans ces slides avec ← et →. Si vous tapez h vous verrez apparaitre un ensemble de commandes spécifiques à la lecture des ces slides (e.g., f pour passer en plein écran). Vous pouvez aussi télécharger une version PDF des slides via la bouton ci-dessous.\n\n Voir les slides en ligne   Télécharger la version PDF \n\n\n\n\n\n\n\n\n\n\nAstuce\n\n\n\nVoir toutes les commandes de revealjs en appuyant sur m puis h."
   },
   {
     "objectID": "content/cours02.html#pour-aller-plus-loin",
     "href": "content/cours02.html#pour-aller-plus-loin",
     "title": "Cours n°02",
     "section": "Pour aller plus loin",
-    "text": "Pour aller plus loin\n…"
+    "text": "Pour aller plus loin\n\nVidéo Binomial distributions. Probabilities of probabilities, part 1. 3Blue1Brown: https://www.youtube.com/watch?v=8idr1WZ1A7Q.\nVidéo Why “probability of 0” does not mean “impossible”. Probabilities of probabilities, part 2. 3Blue1Brown: https://www.youtube.com/watch?v=ZA4JkHKZM50."
   },
   {
     "objectID": "content/cours03.html",
@@ -88,7 +88,7 @@
     "href": "content/cours03.html#slides",
     "title": "Cours n°03",
     "section": "Slides",
-    "text": "Slides\n…"
+    "text": "Slides\nLes slides de ce cours sont disponibles en ligne. Vous pouvez naviguer dans ces slides avec ← et →. Si vous tapez h vous verrez apparaitre un ensemble de commandes spécifiques à la lecture des ces slides (e.g., f pour passer en plein écran). Vous pouvez aussi télécharger une version PDF des slides via la bouton ci-dessous.\n\n Voir les slides en ligne   Télécharger la version PDF \n\n\n\n\n\n\n\n\n\n\nAstuce\n\n\n\nVoir toutes les commandes de revealjs en appuyant sur m puis h."
   },
   {
     "objectID": "content/cours03.html#pour-aller-plus-loin",
@@ -102,7 +102,7 @@
     "href": "content/cours01.html",
     "title": "Cours n°01",
     "section": "",
-    "text": "Installation des paquets R : voir page installation.\nLecture du premier chapitre de  Statistical Rethinking : “The Golem of Prague”."
+    "text": "Installation des paquets R : voir page installation.\n(optionnel) Lecture du premier chapitre de  Statistical Rethinking : “The Golem of Prague”."
   },
   {
     "objectID": "content/cours01.html#slides",
@@ -242,7 +242,7 @@
     "href": "install.html#installer-imsb",
     "title": "Installation",
     "section": "Installer imsb",
-    "text": "Installer imsb\nLe reste des paquets ainsi que les données utilisées dans les exercices, et quelques fonctions utiles, peuvent être installées ensemble sous la forme d’un paquet “companion” de la formation, le paquet imsb. Pour l’installer, vous devez d’abord installer le paquet remotes, puis installer imsb depuis Github.\n\ninstall.packages(\"remotes\")\nremotes::install_github(repo = \"lnalborczyk/IMSB2022/_imsb\", dependencies = TRUE)\n\nAu cours de la formation, ce paquet pourra être utilisé pour lire les slides des différents cours (du cours 00 au cours 10) en ligne via la fonction open_slides().\n\nlibrary(imsb)\nopen_slides(01)\n\nLes jeux de données utilisés dans les différents exercices sont également contenus dans ce paquet. Vous pouvez les importer via la function data().\n\ndata(tartine1)"
+    "text": "Installer imsb\nLe reste des paquets ainsi que les données utilisées dans les exercices, et quelques fonctions utiles, peuvent être installées ensemble sous la forme d’un paquet “companion” de la formation, le paquet imsb. Pour l’installer, vous devez d’abord installer le paquet remotes, puis installer imsb depuis Github.\n\ninstall.packages(\"remotes\")\nremotes::install_github(repo = \"lnalborczyk/IMSB2022/_imsb\", dependencies = TRUE)\n\nAu cours de la formation, ce paquet pourra être utilisé pour lire les slides des différents cours (du cours 01 au cours 10) en ligne via la fonction open_slides().\n\nlibrary(imsb)\nopen_slides(01)\n\nLes jeux de données utilisés dans les différents exercices sont également contenus dans ce paquet. Vous pouvez les importer via la function data().\n\ndata(tartine1)"
   },
   {
     "objectID": "install.html#rappel-concernant-les-pré-requis",
@@ -256,7 +256,7 @@
     "href": "planning.html",
     "title": "Planning",
     "section": "",
-    "text": "Cours\nDate\nSujet\nDétails\nSlides\nZoom\nDonnées\nRethinking\n\n\n\n\n01\n11.10.2022\nIntroduction à l’inférence bayésienne\n\n\n\n-\n1-2\n\n\n02\n13.10.2022\nModèle Beta-Binomial\n\n\n\n\n3\n\n\n03\n18.10.2022\nIntroduction à brms, modèle de régression linéaire\n\n\n\n\n4\n\n\n04\n20.10.2022\nModèle de régression linéaire (suite)\n\n\n\n\n5-6\n\n\n05\n25.10.2022\nMarkov Chain Monte Carlo\n\n\n\n\n9\n\n\n06\n27.10.2022\nModèle linéaire généralisé\n\n\n\n\n10-11\n\n\n07\n08.11.2022\nComparaison de modèles\n\n\n\n\n7\n\n\n08\n10.11.2022\nModèles multi-niveaux\n\n\n\n\n13\n\n\n09\n15.11.2022\nModèles multi-niveaux généralisés\n\n\n\n\n14-16\n\n\n10\n17.11.2022\nData Hackathon\n\n\n\n\n-"
+    "text": "Cours\nDate\nSujet\nDétails\nSlides\nZoom\nDonnées\nRethinking\n\n\n\n\n01\n11.10.2022\nIntroduction à l’inférence bayésienne\n\n\n\n-\n1\n\n\n02\n13.10.2022\nModèle Beta-Binomial\n\n\n\n\n2-3\n\n\n03\n18.10.2022\nIntroduction à brms, modèle de régression linéaire\n\n\n\n\n4\n\n\n04\n20.10.2022\nModèle de régression linéaire (suite)\n\n\n\n\n5-6\n\n\n05\n25.10.2022\nMarkov Chain Monte Carlo\n\n\n\n\n9\n\n\n06\n27.10.2022\nModèle linéaire généralisé\n\n\n\n\n10-11\n\n\n07\n08.11.2022\nComparaison de modèles\n\n\n\n\n7\n\n\n08\n10.11.2022\nModèles multi-niveaux\n\n\n\n\n13\n\n\n09\n15.11.2022\nModèles multi-niveaux généralisés\n\n\n\n\n14-16\n\n\n10\n17.11.2022\nData Hackathon\n\n\n\n\n-"
   },
   {
     "objectID": "syllabus.html",

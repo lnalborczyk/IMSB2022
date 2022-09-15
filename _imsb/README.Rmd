@@ -4,13 +4,13 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
   out.width = "100%"
-)
+  )
 ```
 
 # IMSB
@@ -25,22 +25,28 @@ The goal of `imsb` is to ...
 
 You can install the development version of `imsb` from [GitHub](https://github.com/) with:
 
-```r
-# install.packages("remotes")
+```{r, eval = FALSE}
+install.packages("remotes")
 remotes::install_github(repo = "lnalborczyk/IMSB2022/_imsb", dependencies = TRUE)
 ```
 
-## Example
+## Usage
+
+Checking install...
+
+```{r example1, eval = FALSE}
+library(imsb)
+check_install()
+```
 
 Opening slides...
 
-```{r example}
-library(imsb)
+```{r example2, eval = FALSE}
 open_slides(cours = 01)
 ```
 
 Loading data...
 
-```{r example}
+```{r example3, eval = FALSE}
 data(tartine1)
 ```

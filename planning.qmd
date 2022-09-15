@@ -26,8 +26,8 @@ Vous pouvez télécharger directement le planning dans votre calendrier Outlook,
 
 | Cours | Date | Sujet | Détails | Slides | Zoom | Données | Rethinking |
 |:-----:|------|-------|:----------:|:-------:|:------:|:-------:|:----:|
-| 01 | 11.10.2022 | **Introduction à l'inférence bayésienne** | [{{< fa book >}}](./content/cours01.qmd) | [{{< fa display >}}](./slides/html/cours01.html) | {{< fa link >}} | - | 1-2 |
-| 02 | 13.10.2022 | **Modèle Beta-Binomial** | [{{< fa book >}}](./content/cours02.qmd) | {{< fa display >}} | {{< fa link >}} | [{{< fa database >}}](./data/experiment_TP2_1.csv) | 3 |
+| 01 | 11.10.2022 | **Introduction à l'inférence bayésienne** | [{{< fa book >}}](./content/cours01.qmd) | [{{< fa display >}}](./slides/html/cours01.html) | {{< fa link >}} | - | 1 |
+| 02 | 13.10.2022 | **Modèle Beta-Binomial** | [{{< fa book >}}](./content/cours02.qmd) | {{< fa display >}} | {{< fa link >}} | [{{< fa database >}}](./data/experiment_TP2_1.csv) | 2-3 |
 | 03 | 18.10.2022 | **Introduction à brms, modèle de régression linéaire** | [{{< fa book >}}](./content/cours03.qmd) | {{< fa display >}} | {{< fa link >}} | {{< fa database >}} | 4 |
 | 04 | 20.10.2022 | **Modèle de régression linéaire (suite)** | [{{< fa book >}}](./content/cours04.qmd) | {{< fa display >}} | {{< fa link >}} | {{< fa database >}} | 5-6 |
 | 05 | 25.10.2022 | **Markov Chain Monte Carlo** | [{{< fa book >}}](./content/cours05.qmd) | {{< fa display >}} | {{< fa link >}} | {{< fa database >}} | 9 |

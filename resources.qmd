@@ -1,6 +1,7 @@
 ---
 title: Ressources
 sidebar: false
+toc: true
 lang: fr
 ---
 

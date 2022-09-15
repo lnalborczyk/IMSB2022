@@ -166,7 +166,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Sur cette page</h2>
    
   <ul>
-  <li><a href="#installer-brms-et-cie" id="toc-installer-brms-et-cie" class="nav-link active" data-scroll-target="#installer-brms-et-cie">Installer <code>brms</code> et cie</a></li>
+  <li><a href="#installer-brms-et-rstan" id="toc-installer-brms-et-rstan" class="nav-link active" data-scroll-target="#installer-brms-et-rstan">Installer <code>brms</code> et <code>rstan</code></a></li>
   <li><a href="#installer-imsb" id="toc-installer-imsb" class="nav-link" data-scroll-target="#installer-imsb">Installer <code>imsb</code></a></li>
   <li><a href="#rappel-concernant-les-pré-requis" id="toc-rappel-concernant-les-pré-requis" class="nav-link" data-scroll-target="#rappel-concernant-les-pré-requis">Rappel concernant les pré-requis</a></li>
   </ul>
@@ -191,8 +191,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="installer-brms-et-cie" class="level2">
-<h2 class="anchored" data-anchor-id="installer-brms-et-cie">Installer <code>brms</code> et cie</h2>
+<section id="installer-brms-et-rstan" class="level2">
+<h2 class="anchored" data-anchor-id="installer-brms-et-rstan">Installer <code>brms</code> et <code>rstan</code></h2>
 <p>Pour cette formation, vous pourrez utiliser votre propre ordinateur sur lequel vous aurez <a href="https://pbil.univ-lyon1.fr/CRAN/">installé ou mis à jour</a> <code>R</code> (version 4.2.1 souhaitée) et l’interface utilisateur <code>RStudio</code> : <a href="https://www.rstudio.com/products/rstudio/" class="uri">https://www.rstudio.com/products/rstudio/</a>. Nous utiliserons également <code>Stan</code> via les paquets <code>brms</code> et <code>rstan</code>. Vous trouverez toutes les infos pour installer <code>brms</code> selon votre plateforme ici : <a href="https://learnb4ss.github.io/learnB4SS/articles/install-brms.html" class="uri">https://learnb4ss.github.io/learnB4SS/articles/install-brms.html</a>. <strong>Attention</strong>, cette étape peut être assez longue complexe selon votre plateforme (surtout sur Windows), il faudra veiller à ne pas la réaliser au dernier moment et à ce que tout fonctionne au début de la formation.</p>
 </section>
 <section id="installer-imsb" class="level2">
@@ -202,7 +202,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"remotes"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="at">repo =</span> <span class="st">"lnalborczyk/IMSB2022/_imsb"</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Au cours de la formation, ce paquet pourra être utilisé pour lire les slides des différents cours (du cours <code>00</code> au cours <code>10</code>) en ligne via la fonction <code>open_slides()</code>.</p>
+<p>Au cours de la formation, ce paquet pourra être utilisé pour lire les slides des différents cours (du cours <code>01</code> au cours <code>10</code>) en ligne via la fonction <code>open_slides()</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(imsb)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">open_slides</span>(<span class="dv">01</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>

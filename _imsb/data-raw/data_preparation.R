@@ -13,4 +13,4 @@ tartine2 <- read.csv(file = here("data-raw/tartine2.csv") ) %>%
 usethis::use_data(tartine2, overwrite = TRUE)
 
 # declaring package dependencies
-# usethis::use_package("easystats")
+# usethis::use_package(package = "tidyverse")

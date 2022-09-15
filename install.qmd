@@ -1,10 +1,11 @@
 ---
 title: Installation
 sidebar: false
+toc: true
 lang: fr
 ---
 
-## Installer `brms` et cie
+## Installer `brms` et `rstan`
 
 Pour cette formation, vous pourrez utiliser votre propre ordinateur sur lequel vous aurez [installé ou mis à jour](https://pbil.univ-lyon1.fr/CRAN/) `R` (version 4.2.1 souhaitée) et l'interface utilisateur `RStudio` : <https://www.rstudio.com/products/rstudio/>. Nous utiliserons également `Stan` via les paquets `brms` et `rstan`. Vous trouverez toutes les infos pour installer `brms` selon votre plateforme ici : <https://learnb4ss.github.io/learnB4SS/articles/install-brms.html>. **Attention**, cette étape peut être assez longue complexe selon votre plateforme (surtout sur Windows), il faudra veiller à ne pas la réaliser au dernier moment et à ce que tout fonctionne au début de la formation.
 
@@ -17,7 +18,7 @@ install.packages("remotes")
 remotes::install_github(repo = "lnalborczyk/IMSB2022/_imsb", dependencies = TRUE)
 ```
 
-Au cours de la formation, ce paquet pourra être utilisé pour lire les slides des différents cours (du cours `00` au cours `10`) en ligne via la fonction `open_slides()`.
+Au cours de la formation, ce paquet pourra être utilisé pour lire les slides des différents cours (du cours `01` au cours `10`) en ligne via la fonction `open_slides()`.
 
 ```{r, eval = FALSE, echo = TRUE}
 library(imsb)
