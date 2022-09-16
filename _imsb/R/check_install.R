@@ -23,7 +23,7 @@ check_install <- function (...) {
     # testing the rstan installation
     utils::capture.output({
         utils::example(
-            rstan::stan_model, package = "rstan",
+            stan_model, package = "rstan",
             run.dontrun = TRUE, verbose = FALSE, echo = FALSE
             )
         })

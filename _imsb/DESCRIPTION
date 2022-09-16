@@ -1,7 +1,7 @@
 Package: imsb
 Title: Helper package for the IMSB course
 Version: 1.0.0.9000
-Date: 2022-09-15
+Date: 2022-09-16
 Authors@R: 
     person(
     given = "Ladislas", family = "Nalborczyk",
@@ -22,7 +22,6 @@ Imports:
     stats,
     lme4,
     coda,
-    BayesFactor,
     BEST,
     brms,
     rstan,
@@ -33,5 +32,5 @@ Imports:
     rethinking
 Remotes: rmcelreath/rethinking
 Depends: 
-    R (>= 3.5.0),
+    R (>= 4.2.0),
 LazyData: true
