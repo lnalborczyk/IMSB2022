@@ -30,12 +30,13 @@ check_install <- function (...) {
             )
         })
 
+    # if the model did not fit...
     if (!exists(x = "fit") ) return (cat("
         Something seems wrong... Please check again your brms and rstan install and follow the
         instructions at: https://learnb4ss.github.io/learnB4SS/articles/install-brms.html
         ") )
 
-    # everything seems fine
+    # otherwise, state that everything seems fine
     return ("Everything seems fine...")
 
 }

@@ -3,4 +3,6 @@
 export(check_install)
 export(find_mode)
 export(open_slides)
+export(posterior_plot)
+importFrom(rlang,.data)
 importFrom(rstan,stan_model)

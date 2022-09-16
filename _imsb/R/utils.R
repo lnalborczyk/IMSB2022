@@ -14,7 +14,7 @@ open_slides <- function (cours) {
 
     num <- stringr::str_pad(string = cours, width = 2, pad = "0")
 
-    if (num > 0 & num < 11) {
+    if (as.numeric(num) > 0 & num < 11) {
 
         utils::browseURL(
             url = paste0("https://www.barelysignificant.com/IMSB2022/slides/html/cours", num)
@@ -22,7 +22,7 @@ open_slides <- function (cours) {
 
     } else {
 
-        warning ("I am sorry, I am not aware of this course... I only know Course 01 to 10...")
+        stop ("I am sorry, I am not aware of this course... I only know Courses 01 to 10.")
 
     }
 }

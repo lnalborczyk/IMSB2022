@@ -17,17 +17,20 @@ RoxygenNote: 7.2.1
 URL: https://github.com/lnalborczyk/IMSB2022
 BugReports: https://github.com/lnalborczyk/IMSB2022
 Imports:
-    BEST,
+    bayestestR,
     brms,
     coda,
     easystats,
+    ggplot2,
     lme4,
     MuMIn,
     patchwork,
     rstan,
     stats,
     stringr,
-    tidybayes
+    tidybayes,
+    tidyr,
+    rlang
 Depends: 
     R (>= 4.2.0),
 LazyData: true
