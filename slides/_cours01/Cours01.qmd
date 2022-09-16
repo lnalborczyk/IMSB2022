@@ -283,78 +283,7 @@ Les probabilités dépendent d'un état du monde, de caractéristiques physiques
 :::
 
 ##  {background-image="figures/pill2.jpg"}
-
-## Aparté - Vous avez dit "hasard" ?
-
-Une suite de nombres "au hasard"...
-
-```{r eval = TRUE, echo = FALSE, fig.align = "center"}
-set.seed(666)
-as.integer(runif(5, 10, 100) )
-```
-
-. . .
-
-`runif, rnorm, rbinom...`
-
-```{r eval = TRUE, echo = TRUE}
-RNGkind() # default random number generator
-```
-
-## Mersenne-Twister
-
-Inventé par Makoto Matsumoto et Takuji Nishimura en 1997, le [Mersenne Twister](https://en.wikipedia.org/wiki/Mersenne_Twister) est un générateur de nombres pseudo-aléatoires. L'algorithme Mersenne-Twister est le générateur par défaut en `Python`, `Ruby`, `R`, `Matlab`...
-
-![](figures/mersenne.png){fig-align="center" width="50%"}
-
-## Hasard déterministe
-
-$$ Y_{i} \sim \mathrm{Uniform}(10,100) $$
-
-. . .
-
-```{r eval = TRUE, echo = TRUE, fig.align = "center"}
-set.seed(666)
-as.integer(runif(5, 10, 100) )
-```
-
-. . .
-
-Si je connais la *graine* d'origine (i.e., le "départ" de l'algorithme) et le fonctionnement précis de l'algorithme, je peux prédire les nombres qui vont être générés. Il sera alors difficile de soutenir que ces nombres auront été générés "au hasard"...
-
-```{r eval = TRUE, echo = FALSE, fig.align = "center"}
-set.seed(666)
-as.integer(runif(6, 10, 100) )
-```
-
-. . .
-
-```{r eval = TRUE, echo = FALSE, fig.align = "center"}
-set.seed(666)
-as.integer(runif(7, 10, 100) )
-```
-
-## Le langage de l'incertain
-
-Selon [Wikipédia](https://fr.wikipedia.org/wiki/Hasard), 'le hasard est un concept indiquant l'aspect aléatoire des choses, des événements ou encore des décisions, signalant ainsi l'impossibilité de prévoir avec certitude un fait quelconque. Ainsi, pour éclairer le sens du mot, il peut-être dit que le hasard est synonyme d'"imprévisibilité", ou "imprédictibilité'.
-
-. . .
-
-> Ce que nous appelons hasard n'est et ne peut être que la cause ignorée d'un effet connu (Voltaire).
-
-```{=html}
-<!--
-
-. . .
-
-> Le hasard, ce sont les lois que nous ne connaissons pas (Émile Borel).
-
--->
-```
-. . .
-
-Le hasard apparaît donc comme un **état subjectif d'indétermination des causes**. Ou comme dirait Richard McElreath, *randomness is a proxy for lack of knowledge*. Pour parler de l'incertain (i.e., pour quantifier l'incertitude), on utilise les probabilités comme langage.
-
+s
 ## Un peu de logique
 
 ![](figures/penguin.jpg){fig-align="center" width="50%"}
@@ -622,7 +551,7 @@ countdown(
 
 ```{r, echo = FALSE, eval = TRUE, fig.height = 10, fig.width = 10, fig.align = "center"}
 library(rethinking)
-source("code/forking_data_McElreath.R")
+source("./code/forking_data_McElreath.R")
 
 dat <- c(1)
 arc <- c(0, pi)
@@ -633,7 +562,8 @@ garden(
     data = dat,
     hedge = 0.05,
     ring_dist = ring_dist,
-    alpha.fade = 1)
+    alpha.fade = 1
+    )
 ```
 
 ## Énumérer les possibilités
@@ -649,9 +579,6 @@ garden(
 :::
 
 ```{r, echo = FALSE, eval = TRUE, fig.height = 10, fig.width = 10, fig.align = "center"}
-library(rethinking)
-source("code/forking_data_McElreath.R")
-
 dat <- c(1, 0)
 arc <- c(0, pi)
 
@@ -661,7 +588,8 @@ garden(
     data = dat,
     hedge = 0.05,
     ring_dist = ring_dist,
-    alpha.fade = 1)
+    alpha.fade = 1
+    )
 ```
 
 ## Énumérer les possibilités
@@ -677,9 +605,6 @@ garden(
 :::
 
 ```{r, echo = FALSE, eval = TRUE, fig.height = 10, fig.width = 10, fig.align = "center"}
-library(rethinking)
-source("code/forking_data_McElreath.R")
-
 dat <- c(1, 0, 1)
 arc <- c(0, pi)
 
@@ -689,7 +614,8 @@ garden(
     data = dat,
     hedge = 0.05,
     ring_dist = ring_dist,
-    alpha.fade = 1)
+    alpha.fade = 1
+    )
 ```
 
 ## Énumérer les possibilités
@@ -705,21 +631,17 @@ garden(
 :::
 
 ```{r, echo = FALSE, eval = TRUE, fig.height = 10, fig.width = 10, fig.align = "center"}
-library(rethinking)
-source("code/forking_data_McElreath.R")
-
-dat <- c(1,0,1)
-arc <- c(0,pi)
+dat <- c(1, 0, 1)
+arc <- c(0, pi)
 
 garden(
-        arc = arc,
-        possibilities = c(0,0,0,1),
-        data = dat,
-        hedge = 0.05,
-        ring_dist = ring_dist,
-        alpha.fade = 0.3
-)
-
+    arc = arc,
+    possibilities = c(0, 0, 0, 1),
+    data = dat,
+    hedge = 0.05,
+    ring_dist = ring_dist,
+    alpha.fade = 0.3
+    )
 ```
 
 ## Énumérer les possibilités
@@ -727,8 +649,6 @@ garden(
 Sous cette hypothèse, $3$ chemins (sur $4^{3} = 64$) conduisent au résultat obtenu. Qu'en est-il des autres hypothèses ?
 
 ```{r, echo = FALSE, eval = TRUE, fig.height = 7, fig.width = 7, fig.align = "center"}
-source("code/forking_data_McElreath.R")
-
 dat <- c(1, 0, 1)
 ac <- c(1.2, 0.9, 0.6)
 
@@ -739,7 +659,8 @@ garden(
     possibilities = c(1, 0, 0, 0),
     data = dat,
     hedge = 0.05,
-    adj.cex = ac) 
+    adj.cex = ac
+    ) 
 
 arc <- c(arc[2], arc[2] + (2 / 3) * pi)
 
@@ -749,7 +670,8 @@ garden(
     data = dat,
     hedge = 0.05,
     newplot = FALSE,
-    adj.cex = ac)
+    adj.cex = ac
+    )
 
 arc <- c(arc[2], arc[2] + (2 / 3) * pi)
 
@@ -759,7 +681,8 @@ garden(
     data = dat,
     hedge = 0.05,
     newplot = FALSE,
-    adj.cex = ac)
+    adj.cex = ac
+    )
 
 line.polar(c(0, 2), pi / 2, lwd = 1)
 line.polar(c(0, 2), pi / 2 + (2 / 3) * pi, lwd = 1)

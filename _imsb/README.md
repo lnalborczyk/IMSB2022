@@ -36,8 +36,8 @@ Opening the slides of the first course in browser.
 open_slides(cours = 01)
 ```
 
-Loading the `tartine1` data.
+Loading the `robot` data.
 
 ``` r
-data(tartine1)
+data(robot)
 ```

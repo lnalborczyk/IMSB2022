@@ -18,7 +18,7 @@
     "href": "content/cours08.html#slides",
     "title": "Cours n°08",
     "section": "Slides",
-    "text": "Slides\n…"
+    "text": "Slides\nLes slides de ce cours sont disponibles en ligne. Vous pouvez naviguer dans ces slides avec ← et →. Si vous tapez h vous verrez apparaitre un ensemble de commandes spécifiques à la lecture des ces slides (e.g., f pour passer en plein écran). Vous pouvez aussi télécharger une version PDF des slides via la bouton ci-dessous.\n\n Voir les slides en ligne   Télécharger la version PDF \n\n\n\n\n\n\n\n\n\n\nAstuce\n\n\n\nVoir toutes les commandes de revealjs en appuyant sur m puis h."
   },
   {
     "objectID": "content/cours08.html#pour-aller-plus-loin",
@@ -39,7 +39,7 @@
     "href": "content/cours09.html#slides",
     "title": "Cours n°09",
     "section": "Slides",
-    "text": "Slides\n…"
+    "text": "Slides\nLes slides de ce cours sont disponibles en ligne. Vous pouvez naviguer dans ces slides avec ← et →. Si vous tapez h vous verrez apparaitre un ensemble de commandes spécifiques à la lecture des ces slides (e.g., f pour passer en plein écran). Vous pouvez aussi télécharger une version PDF des slides via la bouton ci-dessous.\n\n Voir les slides en ligne   Télécharger la version PDF \n\n\n\n\n\n\n\n\n\n\nAstuce\n\n\n\nVoir toutes les commandes de revealjs en appuyant sur m puis h."
   },
   {
     "objectID": "content/cours09.html#pour-aller-plus-loin",
@@ -130,7 +130,7 @@
     "href": "content/cours10.html#slides",
     "title": "Cours n°10",
     "section": "Slides",
-    "text": "Slides\n…"
+    "text": "Slides\nLes slides de ce cours sont disponibles en ligne. Vous pouvez naviguer dans ces slides avec ← et →. Si vous tapez h vous verrez apparaitre un ensemble de commandes spécifiques à la lecture des ces slides (e.g., f pour passer en plein écran). Vous pouvez aussi télécharger une version PDF des slides via la bouton ci-dessous.\n\n Voir les slides en ligne   Télécharger la version PDF \n\n\n\n\n\n\n\n\n\n\nAstuce\n\n\n\nVoir toutes les commandes de revealjs en appuyant sur m puis h."
   },
   {
     "objectID": "content/cours10.html#pour-aller-plus-loin",
@@ -151,7 +151,7 @@
     "href": "content/cours04.html#slides",
     "title": "Cours n°04",
     "section": "Slides",
-    "text": "Slides\n…"
+    "text": "Slides\nLes slides de ce cours sont disponibles en ligne. Vous pouvez naviguer dans ces slides avec ← et →. Si vous tapez h vous verrez apparaitre un ensemble de commandes spécifiques à la lecture des ces slides (e.g., f pour passer en plein écran). Vous pouvez aussi télécharger une version PDF des slides via la bouton ci-dessous.\n\n Voir les slides en ligne   Télécharger la version PDF \n\n\n\n\n\n\n\n\n\n\nAstuce\n\n\n\nVoir toutes les commandes de revealjs en appuyant sur m puis h."
   },
   {
     "objectID": "content/cours04.html#pour-aller-plus-loin",
@@ -172,7 +172,7 @@
     "href": "content/cours05.html#slides",
     "title": "Cours n°05",
     "section": "Slides",
-    "text": "Slides\n…"
+    "text": "Slides\nLes slides de ce cours sont disponibles en ligne. Vous pouvez naviguer dans ces slides avec ← et →. Si vous tapez h vous verrez apparaitre un ensemble de commandes spécifiques à la lecture des ces slides (e.g., f pour passer en plein écran). Vous pouvez aussi télécharger une version PDF des slides via la bouton ci-dessous.\n\n Voir les slides en ligne   Télécharger la version PDF \n\n\n\n\n\n\n\n\n\n\nAstuce\n\n\n\nVoir toutes les commandes de revealjs en appuyant sur m puis h."
   },
   {
     "objectID": "content/cours05.html#pour-aller-plus-loin",
@@ -193,7 +193,7 @@
     "href": "content/cours07.html#slides",
     "title": "Cours n°07",
     "section": "Slides",
-    "text": "Slides\n…"
+    "text": "Slides\nLes slides de ce cours sont disponibles en ligne. Vous pouvez naviguer dans ces slides avec ← et →. Si vous tapez h vous verrez apparaitre un ensemble de commandes spécifiques à la lecture des ces slides (e.g., f pour passer en plein écran). Vous pouvez aussi télécharger une version PDF des slides via la bouton ci-dessous.\n\n Voir les slides en ligne   Télécharger la version PDF \n\n\n\n\n\n\n\n\n\n\nAstuce\n\n\n\nVoir toutes les commandes de revealjs en appuyant sur m puis h."
   },
   {
     "objectID": "content/cours07.html#pour-aller-plus-loin",
@@ -214,7 +214,7 @@
     "href": "content/cours06.html#slides",
     "title": "Cours n°06",
     "section": "Slides",
-    "text": "Slides\n…"
+    "text": "Slides\nLes slides de ce cours sont disponibles en ligne. Vous pouvez naviguer dans ces slides avec ← et →. Si vous tapez h vous verrez apparaitre un ensemble de commandes spécifiques à la lecture des ces slides (e.g., f pour passer en plein écran). Vous pouvez aussi télécharger une version PDF des slides via la bouton ci-dessous.\n\n Voir les slides en ligne   Télécharger la version PDF \n\n\n\n\n\n\n\n\n\n\nAstuce\n\n\n\nVoir toutes les commandes de revealjs en appuyant sur m puis h."
   },
   {
     "objectID": "content/cours06.html#pour-aller-plus-loin",
@@ -242,7 +242,7 @@
     "href": "install.html#installer-imsb",
     "title": "Installation",
     "section": "Installer imsb",
-    "text": "Installer imsb\nLe reste des paquets ainsi que les données utilisées dans les exercices, et quelques fonctions utiles, peuvent être installées ensemble sous la forme d’un paquet “compagnon” de la formation, le paquet imsb. Pour l’installer, vous devez d’abord installer le paquet remotes, puis installer imsb depuis Github.\n\ninstall.packages(\"remotes\")\nremotes::install_github(repo = \"lnalborczyk/IMSB2022/_imsb\", dependencies = TRUE)\n\nAu cours de la formation, ce paquet pourra être utilisé pour lire les slides des différents cours (du cours 01 au cours 10) en ligne via la fonction open_slides().\n\nlibrary(imsb)\nopen_slides(01)\n\nLes jeux de données utilisés dans les différents exercices sont également contenus dans ce paquet. Vous pouvez les importer via la function data().\n\ndata(tartine1)"
+    "text": "Installer imsb\nLe reste des paquets ainsi que les données utilisées dans les exercices, et quelques fonctions utiles, peuvent être installées ensemble sous la forme d’un paquet “compagnon” de la formation, le paquet imsb. Pour l’installer, vous devez d’abord installer le paquet remotes (et tidyverse au passage), puis installer imsb depuis Github.\n\ninstall.packages(\"remotes\")\ninstall.packages(\"tidyverse\")\nremotes::install_github(repo = \"lnalborczyk/IMSB2022/_imsb\", dependencies = TRUE)\n\nAu cours de la formation, ce paquet pourra être utilisé pour lire les slides des différents cours (du cours 01 au cours 10) en ligne via la fonction open_slides().\n\nlibrary(imsb)\nopen_slides(01)\n\nLes jeux de données utilisés dans les différents exercices sont également contenus dans ce paquet. Vous pouvez les importer via la function data().\n\ndata(robot)"
   },
   {
     "objectID": "install.html#rappel-concernant-les-pré-requis",
@@ -256,7 +256,7 @@
     "href": "planning.html",
     "title": "Planning",
     "section": "",
-    "text": "Cours\nDate\nSujet\nDétails\nSlides\nZoom\nDonnées\nRethinking\n\n\n\n\n01\n11.10.2022\nIntroduction à l’inférence bayésienne\n\n\n\n-\n1\n\n\n02\n13.10.2022\nModèle Beta-Binomial\n\n\n\n\n2-3\n\n\n03\n18.10.2022\nIntroduction à brms, modèle de régression linéaire\n\n\n\n\n4\n\n\n04\n20.10.2022\nModèle de régression linéaire (suite)\n\n\n\n\n5-6\n\n\n05\n25.10.2022\nMarkov Chain Monte Carlo\n\n\n\n\n9\n\n\n06\n27.10.2022\nModèle linéaire généralisé\n\n\n\n\n10-11\n\n\n07\n08.11.2022\nComparaison de modèles\n\n\n\n\n7\n\n\n08\n10.11.2022\nModèles multi-niveaux\n\n\n\n\n13\n\n\n09\n15.11.2022\nModèles multi-niveaux généralisés\n\n\n\n\n14-16\n\n\n10\n17.11.2022\nData Hackathon\n\n\n\n\n-"
+    "text": "Cours\nDate\nSujet\nDétails\nSlides\nZoom\nRethinking\n\n\n\n\n01\n11.10.2022\nIntroduction à l’inférence bayésienne\n\n\n\n1\n\n\n02\n13.10.2022\nModèle Beta-Binomial\n\n\n\n2-3\n\n\n03\n18.10.2022\nIntroduction à brms, modèle de régression linéaire\n\n\n\n4\n\n\n04\n20.10.2022\nModèle de régression linéaire (suite)\n\n\n\n5-6\n\n\n05\n25.10.2022\nMarkov Chain Monte Carlo\n\n\n\n9\n\n\n06\n27.10.2022\nModèle linéaire généralisé\n\n\n\n10-11\n\n\n07\n08.11.2022\nComparaison de modèles\n\n\n\n7\n\n\n08\n10.11.2022\nModèles multi-niveaux\n\n\n\n13\n\n\n09\n15.11.2022\nModèles multi-niveaux généralisés\n\n\n\n14-16\n\n\n10\n17.11.2022\nData Hackathon\n\n\n\n17"
   },
   {
     "objectID": "syllabus.html",

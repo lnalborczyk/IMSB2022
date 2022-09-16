@@ -12,10 +12,10 @@ A data frame with 100 rows and 2 variables:
 }
 }
 \source{
-home-made dataset
+Home-made dataset
 }
 \usage{
-tartine1
+data(tartine1)
 }
 \description{
 A dataset containing the results of 100 trials.

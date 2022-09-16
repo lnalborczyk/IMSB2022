@@ -16,7 +16,7 @@ A data frame with 450 rows and 3 variables:
 home-made dataset
 }
 \usage{
-robot_unequal
+data(robot_unequal)
 }
 \description{
 A dataset containing the time it takes to get a coffee at various coffee places

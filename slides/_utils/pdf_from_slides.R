@@ -7,7 +7,6 @@ library(stringr)
 
 dirs <- list.files(pattern = "_cours", recursive = FALSE)
 dirs <- str_replace_all(string = dirs, pattern = "_", replace = "")
-# i <- "cours01"
 
 for (i in dirs) {
 

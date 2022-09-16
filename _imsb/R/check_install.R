@@ -3,6 +3,8 @@
 #' @param ... the function takes no argument at the moment
 #'
 #' @return returns the status of the installation
+#'
+#' @importFrom rstan stan_model
 #' @export
 #'
 #' @examples
@@ -31,12 +33,6 @@ check_install <- function (...) {
     if (!exists(x = "fit") ) return (cat("
         Something seems wrong... Please check again your brms and rstan install and follow the
         instructions at: https://learnb4ss.github.io/learnB4SS/articles/install-brms.html
-        ") )
-
-    # checking the rethinking install
-    if (!requireNamespace("rethinking", quietly = TRUE) ) return (cat("
-        Please install the rethinking package from Github:
-        https://github.com/rmcelreath/rethinking
         ") )
 
     # everything seems fine

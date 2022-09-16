@@ -19,7 +19,7 @@ A data frame with 13 rows and 6 variables:
 home-made dataset
 }
 \usage{
-absence
+data(absence)
 }
 \description{
 A dataset containing the presence percentage according to weekdays

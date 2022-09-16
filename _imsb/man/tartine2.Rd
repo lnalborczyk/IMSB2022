@@ -15,7 +15,7 @@ A data frame with 500 rows and 2 variables:
 home-made dataset
 }
 \usage{
-tartine2
+data(tartine2)
 }
 \description{
 A dataset containing the results of 500 trials.

@@ -197,10 +197,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="installer-imsb" class="level2">
 <h2 class="anchored" data-anchor-id="installer-imsb">Installer <code>imsb</code></h2>
-<p>Le reste des paquets ainsi que les données utilisées dans les exercices, et quelques fonctions utiles, peuvent être installées ensemble sous la forme d’un paquet “compagnon” de la formation, le paquet <code>imsb</code>. Pour l’installer, vous devez d’abord installer le paquet <code>remotes</code>, puis installer <code>imsb</code> depuis Github.</p>
+<p>Le reste des paquets ainsi que les données utilisées dans les exercices, et quelques fonctions utiles, peuvent être installées ensemble sous la forme d’un paquet “compagnon” de la formation, le paquet <code>imsb</code>. Pour l’installer, vous devez d’abord installer le paquet <code>remotes</code> (et <code>tidyverse</code> au passage), puis installer <code>imsb</code> depuis Github.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"remotes"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="at">repo =</span> <span class="st">"lnalborczyk/IMSB2022/_imsb"</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="at">repo =</span> <span class="st">"lnalborczyk/IMSB2022/_imsb"</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Au cours de la formation, ce paquet pourra être utilisé pour lire les slides des différents cours (du cours <code>01</code> au cours <code>10</code>) en ligne via la fonction <code>open_slides()</code>.</p>
 <div class="cell">
@@ -209,34 +210,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Les jeux de données utilisés dans les différents exercices sont également contenus dans ce paquet. Vous pouvez les importer via la function <code>data()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(tartine1)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(robot)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-
-<!--
-
-Nous utiliserons les paquets `R` listés ci-dessous, que vous pouvez installer en une seule commande depuis la console :
-
-
-::: {.cell}
-
-```{.r .cell-code}
-install.packages(
-    c(
-        "data.table", "coda", "mvtnorm", "devtools", "MASS", "ellipse",
-        "rstan", "BayesFactor", "BEST", "coda", "LearnBayes", "markdown",
-        "mcmc", "MCMCpack", "MuMIn", "reshape2", "rmarkdown", "brms",
-        "tidyverse", "tidybayes", "bayesplot", "shinystan", "lme4",
-        "patchwork", "easystats"
-        ),
-    dependencies = TRUE
-    )
-```
-:::
-
-
-Nous utiliserons également un paquet non publié sur le CRAN, que vous pouvez télécharger directement depuis Github, avec la commande suivante en `R` (après avoir installé `devtools`) : `devtools::install_github("rmcelreath/rethinking")`. Si cette commande ne fonctionne pas, se référer aux instructions d'installation détaillées sur le répertoire Github du paquet : <https://github.com/rmcelreath/rethinking>.
-
--->
 </section>
 <section id="rappel-concernant-les-pré-requis" class="level2">
 <h2 class="anchored" data-anchor-id="rappel-concernant-les-pré-requis">Rappel concernant les pré-requis</h2>

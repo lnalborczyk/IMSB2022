@@ -11,10 +11,11 @@ Pour cette formation, vous pourrez utiliser votre propre ordinateur sur lequel v
 
 ## Installer `imsb`
 
-Le reste des paquets ainsi que les données utilisées dans les exercices, et quelques fonctions utiles, peuvent être installées ensemble sous la forme d'un paquet "compagnon" de la formation, le paquet `imsb`. Pour l'installer, vous devez d'abord installer le paquet `remotes`, puis installer `imsb` depuis Github.
+Le reste des paquets ainsi que les données utilisées dans les exercices, et quelques fonctions utiles, peuvent être installées ensemble sous la forme d'un paquet "compagnon" de la formation, le paquet `imsb`. Pour l'installer, vous devez d'abord installer le paquet `remotes` (et `tidyverse` au passage), puis installer `imsb` depuis Github.
 
 ```{r, eval = FALSE, echo = TRUE}
 install.packages("remotes")
+install.packages("tidyverse")
 remotes::install_github(repo = "lnalborczyk/IMSB2022/_imsb", dependencies = TRUE)
 ```
 
@@ -28,29 +29,8 @@ open_slides(01)
 Les jeux de données utilisés dans les différents exercices sont également contenus dans ce paquet. Vous pouvez les importer via la function `data()`.
 
 ```{r, eval = FALSE, echo = TRUE}
-data(tartine1)
+data(robot)
 ```
-
-<!--
-
-Nous utiliserons les paquets `R` listés ci-dessous, que vous pouvez installer en une seule commande depuis la console :
-
-```{r eval = FALSE}
-install.packages(
-    c(
-        "data.table", "coda", "mvtnorm", "devtools", "MASS", "ellipse",
-        "rstan", "BayesFactor", "BEST", "coda", "LearnBayes", "markdown",
-        "mcmc", "MCMCpack", "MuMIn", "reshape2", "rmarkdown", "brms",
-        "tidyverse", "tidybayes", "bayesplot", "shinystan", "lme4",
-        "patchwork", "easystats"
-        ),
-    dependencies = TRUE
-    )
-```
-
-Nous utiliserons également un paquet non publié sur le CRAN, que vous pouvez télécharger directement depuis Github, avec la commande suivante en `R` (après avoir installé `devtools`) : `devtools::install_github("rmcelreath/rethinking")`. Si cette commande ne fonctionne pas, se référer aux instructions d'installation détaillées sur le répertoire Github du paquet : <https://github.com/rmcelreath/rethinking>.
-
--->
 
 ## Rappel concernant les pré-requis
 

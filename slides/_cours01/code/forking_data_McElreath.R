@@ -1,12 +1,13 @@
 # functions for plotting garden of forking data plots
+# library(rethinking)
 
-library(rethinking)
-
-polar2screen <- function( dist, origin, theta ) {
-        ## takes dist, angle and origin and returns x and y of destination point
-        vx <- cos(theta) * dist;
-        vy <- sin(theta) * dist;
-        c( origin[1]+vx , origin[2]+vy );
+polar2screen <- function (dist, origin, theta) {
+    
+        # takes dist, angle, and origin and returns x and y of destination point
+        vx <- cos(theta) * dist
+        vy <- sin(theta) * dist
+        c(origin[1] + vx, origin[2] + vy)
+        
 }
 
 screen2polar <- function( origin, dest ) {
@@ -151,128 +152,8 @@ garden <- function( arc , possibilities , data , alpha.fade = 0.25 , hedge=0.1 ,
 
 }
 
-
-##
-
 goldrat <- 1.618
-ring_dist <- rep(1,3)
-for ( i in 2:3 ) ring_dist[i] <- ring_dist[i-1]*goldrat
+ring_dist <- rep(1, 3)
+for (i in 2:3) ring_dist[i] <- ring_dist[i - 1] * goldrat
 ring_dist <- ring_dist / sum(ring_dist)
 ring_dist <- cumsum(ring_dist)
-
-# dat <- c(1,0,1)
-# 
-# arc <- c( 0 , pi )
-# 
-# garden(
-#         arc = arc,
-#         possibilities = c(0,0,0,1),
-#         data = dat,
-#         hedge = 0.05,
-#         ring_dist=ring_dist,
-#         alpha.fade=0.35
-# )
-
-# ####
-# # compare {1,0,0,0}, {1,1,0,0} and {1,1,1,0}
-# 
-# dat <- c(1,0,1)
-# 
-# arc <- c( 0 , pi )
-# garden(
-#         arc = arc,
-#         possibilities = c(0,0,0,1),
-#         data = dat,
-#         hedge = 0.05,
-#         ring_dist=ring_dist,
-#         alpha.fade=0.35
-# )
-# 
-# 
-# ####
-# # second plot
-# # compare {1,0,0,0} to {1,1,1,0}
-# 
-# dat <- c(1,0,1)
-# 
-# arc <- c( pi/2 , pi/2+pi )
-# garden(
-#         arc = arc,
-#         possibilities = c(0,0,0,1),
-#         data = dat,
-#         hedge = 0.05,
-#         adj.cex=c(1.2,1,0.8)
-# )
-# 
-# arc <- c( arc[2] , arc[2] + pi )
-# garden(
-#         arc = arc,
-#         possibilities = c(0,0,1,1),
-#         data = dat,
-#         hedge = 0.05,
-#         newplot=FALSE,
-#         adj.cex=c(1.2,1,0.8)
-# )
-# 
-# 
-# ####
-# # third plot
-# # three options: {1,0,0,0}, {1,1,0,0}, {1,1,1,0}
-# 
-# dat <- c(1,0,1)
-# ac <- c(1.2,0.9,0.6)
-# 
-# arc <- c( pi/2 , pi/2 + (2/3)*pi )
-# garden(
-#         arc = arc,
-#         possibilities = c(1,0,0,0),
-#         data = dat,
-#         hedge = 0.05,
-#         adj.cex=ac
-# )
-# 
-# arc <- c( arc[2] , arc[2] + (2/3)*pi )
-# garden(
-#         arc = arc,
-#         possibilities = c(1,1,0,0),
-#         data = dat,
-#         hedge = 0.05,
-#         newplot=FALSE,
-#         adj.cex=ac
-# )
-# 
-# arc <- c( arc[2] , arc[2] + (2/3)*pi )
-# garden(
-#         arc = arc,
-#         possibilities = c(1,1,1,0),
-#         data = dat,
-#         hedge = 0.05,
-#         newplot=FALSE,
-#         adj.cex=ac
-# )
-# 
-# line.polar( c(0,2) , pi/2 , lwd=1 )
-# line.polar( c(0,2) , pi/2 + (2/3)*pi , lwd=1 )
-# line.polar( c(0,2) , pi/2 + 2*(2/3)*pi , lwd=1 )
-# 
-# 
-# 
-# #####
-# # single possibility out of 10 plot
-# 
-# dat <- c(1,0,1)
-# ac <- c(1.2,0.9,0.65)
-# al <- c(1,1,0.6)
-# 
-# n <- 6
-# nblue <- 3
-# 
-# arc <- c( pi/2 , pi/2 + 2*pi )
-# garden(
-#         arc = arc,
-#         possibilities = c(rep(1,nblue),rep(0,n-nblue)),
-#         data = dat,
-#         hedge = 0.05,
-#         adj.cex=ac,
-#         adj.lwd=al
-# )
