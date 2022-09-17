@@ -1,10 +1,12 @@
-#' Plotting posterior samples in Kruschke's style
+#' Plotting posterior samples in the BEST package's style
 #'
 #' @param samples samples from some distribution
 #' @param credmass credibility mass (default to 0.89)
+#' @param usemode boolean, using the mean (default) or the mode?
 #' @param compval to what value comparing the posterior?
 #' @param rope region of practical equivalence (such as c(-0.1, 0.1) )
 #' @param histcolour histogram colour
+#' @param textsize size of the text elements
 #'
 #' @return a ggplot of some (posterior) samples
 #'
@@ -19,7 +21,8 @@
 
 posterior_plot <- function (
         samples, credmass = 0.89, usemode = FALSE,
-        compval = NULL, rope = NULL, histcolour = "steelblue"
+        compval = NULL, rope = NULL,
+        histcolour = "steelblue", textsize = 5
         ) {
 
     # computing the credible interval
@@ -29,8 +32,9 @@ posterior_plot <- function (
     # computes the density to scale the positions of elements
     densCurve <- stats::density(x = samples, adjust = 2, n = 2048)
 
-    # computes the posterior mode
-    if (usemode) posterior_mode <- imsb::find_mode(samples)
+    # computes the posterior central tendency (mean or mode)
+    if (usemode) central_tendency <- imsb::find_mode(samples)
+    if (!usemode) central_tendency <- mean(samples)
 
     # computing the percentage of samples above the comparison value
     lower_than_compval <- round(x = mean(samples < compval) * 100, digits = 2)
@@ -48,17 +52,13 @@ posterior_plot <- function (
         digits = 2
         )
 
-    # aesthetics parameters
-    text_size <- 5
-
     # plotting it
     samples |>
         data.frame() |>
         ggplot2::ggplot(ggplot2::aes(x = .data$samples, y = .data$..density..) ) +
         ggplot2::geom_histogram(
             bins = sqrt(length(samples) ),
-            alpha = 0.4, # size = 0.4,
-            colour = "white", fill = histcolour
+            alpha = 0.4, colour = "white", fill = histcolour
             ) +
         ggplot2::geom_errorbarh(
             data = hdis,
@@ -73,7 +73,7 @@ posterior_plot <- function (
                 label = round(x = .data$value, digits = 2)
                 ),
             nudge_y = 0.05 * max(densCurve$y),
-            size = text_size,
+            size = textsize,
             inherit.aes = FALSE, show.legend = FALSE
             ) +
         ggplot2::geom_text(
@@ -82,15 +82,19 @@ posterior_plot <- function (
                 label = paste0(100 * credmass, "% HDI")
                 ),
             nudge_y = 0.1 * max(densCurve$y),
-            size = text_size,
+            size = textsize,
             inherit.aes = FALSE, show.legend = FALSE
             ) +
         ggplot2::geom_text(
             ggplot2::aes(
-                x = posterior_mode, y = 0.9 * max(densCurve$y),
-                label = paste("mode =", round(x = posterior_mode, digits = 2) )
+                x = central_tendency, y = 0.9 * max(densCurve$y),
+                label = ifelse(
+                    test = usemode,
+                    yes = paste("mode =", round(x = central_tendency, digits = 2) ),
+                    no = paste("mean =", round(x = central_tendency, digits = 2) )
+                    )
                 ),
-            size = text_size,
+            size = textsize,
             inherit.aes = FALSE, show.legend = FALSE
             ) +
         {if (!is.null(compval) ) ggplot2::geom_segment(
@@ -107,7 +111,7 @@ posterior_plot <- function (
                 label = compval_text
                 ),
             colour = "darkgreen",
-            size = text_size,
+            size = textsize,
             nudge_y = 0.05 * max(densCurve$y),
             inherit.aes = FALSE, show.legend = FALSE
             )} +
@@ -133,7 +137,7 @@ posterior_plot <- function (
                 label = paste0(pc_rope, "% in ROPE")
                 ),
             colour = "darkred",
-            size = text_size,
+            size = textsize,
             nudge_y = 0.05 * max(densCurve$y),
             inherit.aes = FALSE, show.legend = FALSE
             )} +

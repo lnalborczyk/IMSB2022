@@ -2,14 +2,16 @@
 % Please edit documentation in R/posterior_plot.R
 \name{posterior_plot}
 \alias{posterior_plot}
-\title{Plotting posterior samples in Kruschke's style}
+\title{Plotting posterior samples in the BEST package's style}
 \usage{
 posterior_plot(
   samples,
   credmass = 0.89,
+  usemode = FALSE,
   compval = NULL,
   rope = NULL,
-  histcolour = "steelblue"
+  histcolour = "steelblue",
+  textsize = 5
 )
 }
 \arguments{
@@ -17,17 +19,21 @@ posterior_plot(
 
 \item{credmass}{credibility mass (default to 0.89)}
 
+\item{usemode}{boolean, using the mean (default) or the mode?}
+
 \item{compval}{to what value comparing the posterior?}
 
 \item{rope}{region of practical equivalence (such as c(-0.1, 0.1) )}
 
 \item{histcolour}{histogram colour}
+
+\item{textsize}{size of the text elements}
 }
 \value{
 a ggplot of some (posterior) samples
 }
 \description{
-Plotting posterior samples in Kruschke's style
+Plotting posterior samples in the BEST package's style
 }
 \examples{
 \dontrun{
