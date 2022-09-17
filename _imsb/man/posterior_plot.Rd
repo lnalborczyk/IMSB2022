@@ -4,7 +4,13 @@
 \alias{posterior_plot}
 \title{Plotting posterior samples in Kruschke's style}
 \usage{
-posterior_plot(samples, credmass = 0.89, compval = NULL, rope = NULL)
+posterior_plot(
+  samples,
+  credmass = 0.89,
+  compval = NULL,
+  rope = NULL,
+  histcolour = "steelblue"
+)
 }
 \arguments{
 \item{samples}{samples from some distribution}
@@ -14,6 +20,8 @@ posterior_plot(samples, credmass = 0.89, compval = NULL, rope = NULL)
 \item{compval}{to what value comparing the posterior?}
 
 \item{rope}{region of practical equivalence (such as c(-0.1, 0.1) )}
+
+\item{histcolour}{histogram colour}
 }
 \value{
 a ggplot of some (posterior) samples

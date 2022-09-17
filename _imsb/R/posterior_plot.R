@@ -4,6 +4,7 @@
 #' @param credmass credibility mass (default to 0.89)
 #' @param compval to what value comparing the posterior?
 #' @param rope region of practical equivalence (such as c(-0.1, 0.1) )
+#' @param histcolour histogram colour
 #'
 #' @return a ggplot of some (posterior) samples
 #'
@@ -17,10 +18,10 @@
 #' }
 
 posterior_plot <- function (
-        samples, credmass = 0.89, compval = NULL, rope = NULL
+        samples, credmass = 0.89, usemode = FALSE,
+        compval = NULL, rope = NULL, histcolour = "steelblue"
         ) {
 
-    # https://cran.r-project.org/web/packages/ggplot2/vignettes/ggplot2-in-packages.html
     # computing the credible interval
     hdis <- bayestestR::hdi(x = samples, ci = credmass) |> data.frame()
     hdi_text <- hdis |> tidyr::pivot_longer(cols = 2:3)
@@ -29,21 +30,35 @@ posterior_plot <- function (
     densCurve <- stats::density(x = samples, adjust = 2, n = 2048)
 
     # computes the posterior mode
-    posterior_mode <- imsb::find_mode(samples)
+    if (usemode) posterior_mode <- imsb::find_mode(samples)
+
+    # computing the percentage of samples above the comparison value
+    lower_than_compval <- round(x = mean(samples < compval) * 100, digits = 2)
+    higher_than_compval <- round(x = mean(samples > compval) * 100, digits = 2)
+
+    # preparing the compval text
+    compval_text <- paste0(
+        lower_than_compval, "% < ", compval, " < ",
+        higher_than_compval, "%"
+        )
+
+    # compute the percentage of samples in ROPE
+    pc_rope <- round(
+        x = mean(samples > rope[1] & samples < rope[2] ) * 100,
+        digits = 2
+        )
+
+    # aesthetics parameters
+    text_size <- 5
 
     # plotting it
     samples |>
         data.frame() |>
         ggplot2::ggplot(ggplot2::aes(x = .data$samples, y = .data$..density..) ) +
-        {if (!is.null(rope) ) ggplot2::annotate(
-            geom = "rect", xmin = rope[1], xmax = rope[2],
-            ymin = 0, ymax = Inf,
-            fill = "orangered", alpha = 0.5
-            )} +
         ggplot2::geom_histogram(
             bins = sqrt(length(samples) ),
-            alpha = 0.5, size = 0.5,
-            colour = "white", fill = "steelblue"
+            alpha = 0.4, # size = 0.4,
+            colour = "white", fill = histcolour
             ) +
         ggplot2::geom_errorbarh(
             data = hdis,
@@ -57,7 +72,17 @@ posterior_plot <- function (
                 x = .data$value, y = 0,
                 label = round(x = .data$value, digits = 2)
                 ),
-            nudge_y = 0.05 * max(densCurve$y), size = 5,
+            nudge_y = 0.05 * max(densCurve$y),
+            size = text_size,
+            inherit.aes = FALSE, show.legend = FALSE
+            ) +
+        ggplot2::geom_text(
+            ggplot2::aes(
+                x = mean(c(hdis$CI_low, hdis$CI_high) ), y = 0,
+                label = paste0(100 * credmass, "% HDI")
+                ),
+            nudge_y = 0.1 * max(densCurve$y),
+            size = text_size,
             inherit.aes = FALSE, show.legend = FALSE
             ) +
         ggplot2::geom_text(
@@ -65,16 +90,55 @@ posterior_plot <- function (
                 x = posterior_mode, y = 0.9 * max(densCurve$y),
                 label = paste("mode =", round(x = posterior_mode, digits = 2) )
                 ),
-            size = 5,
+            size = text_size,
             inherit.aes = FALSE, show.legend = FALSE
             ) +
-        {if (!is.null(compval) ) ggplot2::geom_vline(
-            xintercept = compval,
+        {if (!is.null(compval) ) ggplot2::geom_segment(
+            ggplot2::aes(
+                x = compval[1], xend = compval[1],
+                y = 0, yend = 0.7 * max(densCurve$y)
+                ),
             linetype = 2,
             colour = "darkgreen"
             )} +
+        {if (!is.null(compval) ) ggplot2::geom_text(
+            ggplot2::aes(
+                x = compval, y = 0.7 * max(densCurve$y),
+                label = compval_text
+                ),
+            colour = "darkgreen",
+            size = text_size,
+            nudge_y = 0.05 * max(densCurve$y),
+            inherit.aes = FALSE, show.legend = FALSE
+            )} +
+        {if (!is.null(rope) ) ggplot2::geom_segment(
+            ggplot2::aes(
+                x = rope[1], xend = rope[1],
+                y = 0, yend = 0.55 * max(densCurve$y)
+                ),
+            linetype = 3,
+            colour = "darkred"
+            )} +
+        {if (!is.null(rope) ) ggplot2::geom_segment(
+            ggplot2::aes(
+                x = rope[2], xend = rope[2],
+                y = 0, yend = 0.55 * max(densCurve$y)
+                ),
+            linetype = 3,
+            colour = "darkred"
+            )} +
+        {if (!is.null(rope) ) ggplot2::geom_text(
+            ggplot2::aes(
+                x = compval, y = 0.55 * max(densCurve$y),
+                label = paste0(pc_rope, "% in ROPE")
+                ),
+            colour = "darkred",
+            size = text_size,
+            nudge_y = 0.05 * max(densCurve$y),
+            inherit.aes = FALSE, show.legend = FALSE
+            )} +
         ggplot2::labs(y = "") +
-        ggplot2::theme_classic() +
+        ggplot2::theme_classic(base_size = 12) +
         ggplot2::theme(
             axis.text.y = ggplot2::element_blank(),
             axis.ticks.y = ggplot2::element_blank(),
