@@ -7,8 +7,6 @@ purrr
 dplyr
 stringr
 forcats
-imsb
 Rcpp
 brms
-HDInterval
-BEST
+imsb

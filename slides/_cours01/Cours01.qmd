@@ -5,8 +5,6 @@ author: Ladislas Nalborczyk (LPC, LNC, CNRS, Aix-Marseille Univ)
 from: markdown+emoji
 format:
   revealjs:
-    # https://quarto.org/docs/presentations/revealjs/
-    # https://quarto.org/docs/presentations/revealjs/presenting.html
     theme: [default, ../custom.scss]
     transition: fade
     background-transition: fade
@@ -16,9 +14,9 @@ format:
     preview-links: true
     self-contained: true # when sharing slides
     # chalkboard: true
-    csl: csl/apa7.csl
+    csl: ../../files/bib/apa7.csl
     incremental: false
-    logo: https://github.com/lnalborczyk/IMSB2021/raw/master/cover.png
+    logo: ../../files/cover.png
     footer: "Ladislas Nalborczyk - IMSB2022"
     # width: 1200 # defaults to 1050
     # height: 900 # default to 700
@@ -35,8 +33,7 @@ format:
     progress: false
 title-slide-attributes:
     data-background-color: "#1c5253"
-# bibliography: ./bib/references.bib
-bibliography: ../_bib/references.bib
+bibliography: ../../files/bib/references.bib
 ---
 
 ## Préface :wave: :wave:

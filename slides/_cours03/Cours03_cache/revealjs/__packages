@@ -9,9 +9,7 @@ dplyr
 stringr
 forcats
 knitr
-StanHeaders
-rstan
-rethinking
+imsb
 viridisLite
 viridis
 Rcpp

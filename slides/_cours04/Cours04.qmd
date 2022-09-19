@@ -6,8 +6,6 @@ from: markdown+emoji
 format:
   revealjs:
     incremental: true
-    # https://quarto.org/docs/presentations/revealjs/
-    # https://quarto.org/docs/presentations/revealjs/presenting.html
     theme: [default, ../custom.scss]
     transition: fade
     background-transition: fade
@@ -17,7 +15,7 @@ format:
     preview-links: true
     self-contained: true # when sharing slides
     # chalkboard: true
-    csl: csl/apa7.csl
+    csl: ../../files/bib/apa7.csl
     logo: ../../files/cover.png
     footer: "Ladislas Nalborczyk - IMSB2022"
     # width: 1200 # defaults to 1050
@@ -35,10 +33,9 @@ format:
     progress: false
 title-slide-attributes:
     data-background-color: "#1c5253"
-bibliography: ./bib/references.bib
-editor: 
-  markdown: 
-    wrap: 72
+bibliography: ../../files/bib/references.bib
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## Planning
@@ -262,14 +259,13 @@ summary(mod1)
 ```{r posterior-mod1, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5}
 nd <- data.frame(Marriage.s = seq(from = -2.5, to = 3.5, length.out = 1e2) )
 
-posterior_samples(mod1, pars = "^b_") %>%
+as_draws_df(x = mod1, pars = "^b_") %>%
   sample_n(size = 1e2) %>%
-  rownames_to_column("draw") %>%
-  expand(nesting(draw, b_Intercept, b_Marriage.s), a = c(-2.5, 3.5) ) %>%
+  expand(nesting(.draw, b_Intercept, b_Marriage.s), a = c(-2.5, 3.5) ) %>%
   mutate(d = b_Intercept + b_Marriage.s * a) %>%
   ggplot(aes(x = a, y = d) ) +
   geom_point(data = df1, aes(x = Marriage.s, y = Divorce.s), size = 2) +
-  geom_line(aes(group = draw), color = "purple", size = 0.5, alpha = 0.5) +
+  geom_line(aes(group = .draw), color = "purple", size = 0.5, alpha = 0.5) +
   labs(x = "Taux de mariage (standardisé)", y = "Taux de divorce (standardisé)")
 ```
 
@@ -311,14 +307,13 @@ summary(mod2)
 ```{r posterior-mod2, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5}
 nd <- data.frame(MedianAgeMarriage.s = seq(from = -3, to = 3.5, length.out = 1e2) )
 
-posterior_samples(mod2, pars = "^b_") %>%
+as_draws_df(x = mod2, pars = "^b_") %>%
   sample_n(size = 1e2) %>%
-  rownames_to_column("draw") %>%
-  expand(nesting(draw, b_Intercept, b_MedianAgeMarriage.s), a = c(-2.5, 3.5) ) %>%
+  expand(nesting(.draw, b_Intercept, b_MedianAgeMarriage.s), a = c(-2.5, 3.5) ) %>%
   mutate(d = b_Intercept + b_MedianAgeMarriage.s * a) %>%
   ggplot(aes(x = a, y = d) ) +
   geom_point(data = df1, aes(x = MedianAgeMarriage.s, y = Divorce.s), size = 2) +
-  geom_line(aes(group = draw), color = "purple", size = 0.5, alpha = 0.5) +
+  geom_line(aes(group = .draw), color = "purple", size = 0.5, alpha = 0.5) +
   labs(x = "Age médian de mariage (standardisé)", y = "Taux de divorce (standardisé)")
 ```
 
@@ -495,7 +490,7 @@ pairs(mod4, pars = parnames(mod4)[1:3])
 Comment traquer la colinéarité de deux prédicteurs ? En représentant la distribution postérieure de ces deux paramètres.
 
 ```{r post-plot-mod4, eval = TRUE, echo = TRUE, fig.width = 7.5, fig.height = 5}
-post <- posterior_samples(mod4)
+post <- as_draws_df(x = mod4)
 
 post %>%
   ggplot(aes(x = b_leg_left, y = b_leg_right) ) +
@@ -514,10 +509,9 @@ y_{i} &\sim \mathrm{Normal}(\mu_{i}, \sigma) \\
 \end{aligned}
 $$
 
-```{r plotpost-legs, eval = TRUE, echo = TRUE, fig.width = 7.5, fig.height = 5}
-library(BEST)
+```{r plotpost-legs, eval = TRUE, echo = TRUE, fig.width = 7.5, fig.height = 5, dev = "png", dpi = 200}
 sum_legs <- post$b_leg_left + post$b_leg_right
-plotPost(sum_legs, xlab = expression(beta[1] + beta[2]), compVal = 0)
+posterior_plot(samples = sum_legs, compval = 0) + labs(x = expression(beta[1] + beta[2]) )
 ```
 
 ## Multicolinéarité
@@ -691,7 +685,7 @@ fixef(mod8) # retrieves fixed effects
 La pente $\beta$ nous indique la différence de taille moyenne entre les hommes et les femmes. Pour obtenir la taille moyenne des hommes, il suffit donc d'ajouter $\alpha$ et $\beta$.
 
 ```{r summary-female, eval = TRUE, echo = TRUE}
-post <- posterior_samples(mod8)
+post <- as_draws_df(x = mod8)
 mu.male <- post$b_Intercept + post$b_male
 quantile(x = mu.male, probs = c(0.025, 0.5, 0.975) )
 ```
@@ -747,10 +741,9 @@ mod9 <- brm(
 summary(mod9)
 ```
 
-```{r r2, eval = FALSE, echo = FALSE, fig.width = 7.5, fig.height = 5}
+```{r r2, eval = FALSE, echo = FALSE, fig.width = 7.5, fig.height = 5, dev = "png", dpi = 200}
 library(effectsize)
 library(bayestestR)
-library(BEST)
 
 r2 <- eta_squared_posterior(
   model = mod9, partial = FALSE,
@@ -758,7 +751,8 @@ r2 <- eta_squared_posterior(
   )
 
 # bayestestR::describe_posterior(r2, rope_range = c(0, 0.1), test = "rope")
-BEST::plotPost(r2$Marriage.s)
+# BEST::plotPost(r2$Marriage.s)
+posterior_plot(samples = r2$Marriage.s)
 ```
 
 ## Prédicteurs catégoriels
@@ -767,13 +761,11 @@ $$
 \text{Cohen's d} = \frac{\text{différence des moyennes}}{\text{écart-type}}
 $$
 
-```{r cohen, eval = TRUE, echo = TRUE, fig.width = 7.5, fig.height = 5}
-post <- posterior_samples(mod9)
+```{r cohen, eval = TRUE, echo = TRUE, fig.width = 7.5, fig.height = 5, dev = "png", dpi = 200}
+post <- as_draws_df(x = mod9)
 
-plotPost(
-  (post$b_male - post$b_female) / post$sigma,
-  cex = 2, xlab = expression(delta)
-  )
+posterior_plot(samples = (post$b_male - post$b_female) / post$sigma) +
+    labs(x = expression(delta) )
 ```
 
 ## Prédicteurs catégoriels
@@ -839,7 +831,7 @@ summary(mod10)
 
 ```{r pairs-mod10, eval = TRUE, echo = TRUE}
 # retrieves posterior samples
-post <- posterior_samples(mod10)
+post <- as_draws_df(x = mod10)
 
 # retrieves posterior samples for each category
 mu.ape <- post$b_Intercept
@@ -862,8 +854,8 @@ diff.NWM.OWM <- mu.NWM - mu.OWM
 quantile(diff.NWM.OWM, probs = c(0.025, 0.5, 0.975) )
 ```
 
-```{r plotpost-mod10, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5}
-plotPost(diff.NWM.OWM, compVal = 0, ROPE = c(-0.1, 0.1) )
+```{r plotpost-mod10, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5, dev = "png", dpi = 200}
+posterior_plot(samples = diff.NWM.OWM, compval = 0, rope = c(-0.1, 0.1) )
 ```
 
 ## Prédicteurs catégoriels
@@ -1217,11 +1209,11 @@ head(df7, 10)
 
 On s'intéresse à la concentration d'Ozone en fonction de la force du vent et de la température.
 
-1. Écrire le modèle mathématique.
+- Écrire le modèle mathématique.
+- Fitter ce modèle aver `brms::brm()`, interpréter les estimations du modèle, et conclure sur l'effet de la force du vent et de la température.
+- Évaluer le modèle en faisant du *posterior predictive checking*.
 
-2. Fitter ce modèle aver `brms::brm()`, interpréter les estimations du modèle, et conclure sur l'effet de la force du vent et de la température.
-
-3. Évaluer le modèle en faisant du *posterior predictive checking*.
+. . .
 
 Utilisez les fonctions suivantes (et lisez la documentation !) :
 

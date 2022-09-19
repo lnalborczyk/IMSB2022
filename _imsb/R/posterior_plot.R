@@ -1,9 +1,9 @@
-#' Plotting posterior samples in the style of the \code{BEST} package
+#' Plotting posterior samples in the style of the `BEST` package
 #'
-#' Plotting posterior samples in the style of the \code{BEST} package.
+#' Plotting posterior samples in the style of the `BEST` package.
 #'
 #' @param samples Numeric, samples from some distribution.
-#' @param credmass Numeric, credibility mass (default to 0.89).
+#' @param credmass Numeric, credibility mass (default to 0.91).
 #' @param usemode Logical, indicating whether we should use the using the mean
 #'   (default) or the mode?
 #' @param compval Numeric, to what value comparing the posterior?
@@ -39,7 +39,7 @@
 #' }
 
 posterior_plot <- function (
-        samples, credmass = 0.89, usemode = FALSE,
+        samples, credmass = 0.91, usemode = FALSE,
         compval = NULL, rope = NULL, showcurve = FALSE,
         maincolour = "steelblue", compvalcolour = "darkgreen",
         ROPEcolour = "darkred", textsize = 5, nbins = NULL
@@ -102,6 +102,9 @@ posterior_plot <- function (
 
     }
 
+    # if null, define nbins using Freedman-Diaconis rule
+    if (is.null(nbins) ) nbins <- imsb::fd_nbins(samples)
+
     # computing the credible interval (HDI)
     hdis <- bayestestR::hdi(x = samples, ci = credmass) |> data.frame()
     hdi_text <- hdis |> tidyr::pivot_longer(cols = 2:3)
@@ -144,11 +147,9 @@ posterior_plot <- function (
         data.frame() |>
         ggplot2::ggplot(ggplot2::aes(x = .data$samples, y = .data$..density..) ) +
         {if (!showcurve) ggplot2::geom_histogram(
-            bins = ifelse(
-                test = is.null(nbins),
-                yes = sqrt(length(samples) ), no = nbins
-                ),
-            alpha = 0.4, colour = "white", fill = maincolour
+            bins = nbins,
+            alpha = 0.4,
+            colour = "white", fill = maincolour
             )} +
         {if (showcurve) ggplot2::geom_density(
             alpha = 0.4, size = 2, colour = maincolour

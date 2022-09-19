@@ -6,8 +6,6 @@ from: markdown+emoji
 format:
   revealjs:
     incremental: true
-    # https://quarto.org/docs/presentations/revealjs/
-    # https://quarto.org/docs/presentations/revealjs/presenting.html
     theme: [default, ../custom.scss]
     transition: fade
     background-transition: fade
@@ -17,8 +15,8 @@ format:
     preview-links: true
     self-contained: true # when sharing slides
     # chalkboard: true
-    csl: csl/apa7.csl
-    logo: https://github.com/lnalborczyk/IMSB2021/raw/master/cover.png
+    csl: ../../files/bib/apa7.csl
+    logo: ../../files/cover.png
     footer: "Ladislas Nalborczyk - IMSB2022"
     # width: 1200 # defaults to 1050
     # height: 900 # default to 700
@@ -35,7 +33,7 @@ format:
     progress: false
 title-slide-attributes:
     data-background-color: "#1c5253"
-bibliography: ./bib/references.bib
+bibliography: ../../files/bib/references.bib
 ---
 
 ## Planning
@@ -92,11 +90,10 @@ suivrons les trois mêmes étapes :
 ## Un premier modèle
 
 ```{r echo = TRUE}
-library(rethinking)
 library(tidyverse)
+library(imsb)
 
-data(Howell1)
-d <- Howell1
+d <- get(data(howell) )
 str(d)
 ```
 
@@ -529,8 +526,8 @@ ggplot(
     geom_hline(yintercept = mean(sample.sigma), lty = 2) +
     scale_fill_viridis(na.value = "black") +
     coord_cartesian(
-      xlim = c(min(sample.mu),max(sample.mu) ),
-      ylim = c(min(sample.sigma),max(sample.sigma) )
+      xlim = c(min(sample.mu), max(sample.mu) ),
+      ylim = c(min(sample.sigma), max(sample.sigma) )
       ) +
     scale_x_continuous(expand = c(0, 0) ) +
     scale_y_continuous(expand = c(0, 0) ) +
@@ -539,18 +536,14 @@ ggplot(
 
 ## Distribution postérieure - Distributions marginales
 
-```{r eval = TRUE, echo = TRUE, fig.align = "center"}
-BEST::plotPost(
-  sample.mu, breaks = 40, xlab = expression(mu)
-  )
+```{r eval = TRUE, echo = TRUE, dev = "png", dpi = 200}
+posterior_plot(samples = sample.mu, nbins = 40) + labs(x = expression(mu) )
 ```
 
 ## Distribution postérieure - Distributions marginales
 
-```{r eval = TRUE, echo = TRUE, fig.align = "center"}
-BEST::plotPost(
-  sample.sigma, breaks = 40, xlab = expression(sigma)
-  )
+```{r eval = TRUE, echo = TRUE, dev = "png", dpi = 200}
+posterior_plot(samples = sample.sigma, nbins = 40) + labs(x = expression(sigma) )
 ```
 
 ## Introduction à brms
@@ -868,7 +861,7 @@ get_density <- function(x, y, n = 100) {
 ```
 
 ```{r samples-plot, eval = TRUE, echo = TRUE, fig.align = "center", fig.width = 8, fig.height = 6}
-post <- posterior_samples(mod2) %>%
+post <- as_draws_df(x = mod2) %>%
     mutate(density = get_density(b_Intercept, sigma, n = 1e2) )
 
 ggplot(post, aes(x = b_Intercept, y = sigma, color = density) ) +
@@ -955,7 +948,7 @@ $$
 
 ```{r lm-regression, eval = TRUE, echo = TRUE, fig.align = "center"}
 linear_model <- lm(height ~ weight, data = d2)
-precis(linear_model, prob = 0.95)
+rethinking::precis(linear_model, prob = 0.95)
 ```
 
 ```{r lm-regression-plot, eval = TRUE, echo = FALSE, fig.align = "center", fig.width = 7.5, fig.height = 5}
@@ -1293,7 +1286,7 @@ $$
 . . .
 
 ```{r effsize, eval = TRUE, echo = TRUE}
-post <- posterior_samples(mod4)
+post <- as_draws_df(x = mod4)
 beta <- post$b_weight
 sigma <- post$sigma
 
@@ -1306,8 +1299,8 @@ covariance...
 
 ## Modèle de régression, taille d'effet
 
-```{r effsize-BEST-plot1, eval = TRUE, echo = TRUE, fig.align = "center", fig.width = 6, fig.height = 5}
-BEST::plotPost(rho, showMode = TRUE, xlab = expression(rho) )
+```{r effsize-plot1, eval = TRUE, echo = TRUE, dev = "png", dpi = 200}
+posterior_plot(samples = rho, usemode = TRUE) + labs(x = expression(rho) )
 ```
 
 . . .
@@ -1318,9 +1311,11 @@ summary(lm(height ~ weight, data = d2) )$r.squared
 
 ## Modèle de régression, taille d'effet
 
-```{r effsize-BEST-plot2, eval = TRUE, echo = TRUE, fig.align = "center", fig.width = 6, fig.height = 5}
+```{r effsize-plot2, eval = TRUE, echo = TRUE, dev = "png", dpi = 200}
 bayes_R2(mod4)
-BEST::plotPost(bayes_R2(mod4, summary = FALSE), showMode = TRUE, xlab = expression(rho) )
+bayes_R2(mod4, summary = FALSE)[, 1] %>%
+    posterior_plot(usemode = TRUE) +
+    labs(x = expression(rho) )
 ```
 
 ## Résumé du cours
@@ -1353,7 +1348,7 @@ modèle fitté avec `brms`.
 
 ## Travaux pratiques - 1/2
 
-Sélectionner toutes les lignes du jeu de données `Howell1` correspondant
+Sélectionner toutes les lignes du jeu de données `howell` correspondant
 à des individus mineurs (age \< 18). Cela devrait résulter en une
 dataframe de 192 lignes.
 
@@ -1388,7 +1383,7 @@ poids qui est relié à la taille !
 . . .
 
 Modéliser alors la relation entre la taille (cm) et le log du poids
-(log-kg). Utiliser la dataframe `Howell1` en entier (les 544 lignes).
+(log-kg). Utiliser la dataframe `howell` en entier (les 544 lignes).
 Fitter le modèle suivant en utilisant `brms::brm()`.
 
 $$
@@ -1409,10 +1404,8 @@ un plot des données brutes et surimposer les prédictions du modèle...
 ## Proposition de solution
 
 ```{r mod7, eval = TRUE, echo = TRUE, results = "hide"}
-data(Howell1)
-
 # on garde seulement les individus ayant moins de 18 ans
-d <- Howell1 %>% filter(age < 18)
+d <- get(data(howell) ) %>% filter(age < 18)
 
 priors <- c(
   prior(normal(150, 100), class = Intercept),
@@ -1475,7 +1468,7 @@ d %>%
 
 ```{r mod8, eval = TRUE, echo = TRUE, results = "hide"}
 # on considère maintenant tous les individus
-d <- Howell1
+d <- howell
 
 mod8 <- brm(
   # on prédit la taille par le logarithme du poids

@@ -1,3 +1,4 @@
+countdown
 tidyverse
 ggplot2
 tibble
@@ -10,6 +11,5 @@ forcats
 knitr
 StanHeaders
 rstan
-rethinking
-countdown
 cmdstanr
+rethinking

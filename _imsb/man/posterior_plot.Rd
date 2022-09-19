@@ -6,7 +6,7 @@
 \usage{
 posterior_plot(
   samples,
-  credmass = 0.89,
+  credmass = 0.91,
   usemode = FALSE,
   compval = NULL,
   rope = NULL,
@@ -21,7 +21,7 @@ posterior_plot(
 \arguments{
 \item{samples}{Numeric, samples from some distribution.}
 
-\item{credmass}{Numeric, credibility mass (default to 0.89).}
+\item{credmass}{Numeric, credibility mass (default to 0.91).}
 
 \item{usemode}{Logical, indicating whether we should use the using the mean
 (default) or the mode?}

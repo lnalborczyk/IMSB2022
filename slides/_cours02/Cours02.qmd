@@ -6,19 +6,17 @@ from: markdown+emoji
 format:
   revealjs:
     incremental: true
-    # https://quarto.org/docs/presentations/revealjs/
-    # https://quarto.org/docs/presentations/revealjs/presenting.html
     theme: [default, ../custom.scss]
     transition: fade
     background-transition: fade
-    transition-speed: default # default, fast, or slow
+    transition-speed: default
     slide-number: c/t
     show-slide-number: all
     preview-links: true
     self-contained: true # when sharing slides
     # chalkboard: true
-    csl: csl/apa7.csl
-    logo: https://github.com/lnalborczyk/IMSB2021/raw/master/cover.png
+    csl: ../../files/bib/apa7.csl
+    logo: ../../files/cover.png
     footer: "Ladislas Nalborczyk - IMSB2022"
     # width: 1200 # defaults to 1050
     # height: 900 # default to 700
@@ -26,7 +24,6 @@ format:
     scrollable: true
     hide-inactive-cursor: true
     pdf-separate-fragments: false
-    # https://quarto.org/docs/output-formats/html-code.html#highlighting
     highlight-style: zenburn
     code-copy: true
     code-link: false
@@ -36,8 +33,7 @@ format:
     progress: false
 title-slide-attributes:
     data-background-color: "#1c5253"
-# bibliography: ./bib/references.bib
-bibliography: ../_bib/references.bib
+bibliography: ../../files/bib/references.bib
 ---
 
 ## Planning
@@ -1399,7 +1395,7 @@ knitr::include_graphics("figures/HDI.png")
 
 ## Highest density interval (HDI)
 
-```{r eval = TRUE, echo = TRUE, fig.width = 8, fig.height = 6, dev = "png", dpi = 300}
+```{r eval = TRUE, echo = TRUE, fig.width = 8, fig.height = 6, dev = "png", dpi = 200}
 library(imsb)
 
 set.seed(666)
@@ -1408,7 +1404,7 @@ pTheta <- dbeta(p_grid, 3, 10)
 massVec <- pTheta / sum(pTheta)
 samples <- sample(x = p_grid, size = 1e4, replace = TRUE, prob = pTheta)
 
-posterior_plot(samples = samples, credmass = 0.89)
+posterior_plot(samples = samples)
 ```
 
 ## Region of practical equivalence (ROPE)
@@ -1439,11 +1435,8 @@ massVec <- pTheta / sum(pTheta)
 samples <- sample(p_grid, size = 1e4, replace = TRUE, prob = pTheta)
 ```
 
-```{r eval = TRUE, echo = TRUE, fig.width = 7.5, fig.height = 5, dev = "png", dpi = 300}
-posterior_plot(
-    samples = samples, credmass = 0.89,
-    rope = c(0.49, 0.51)
-    ) +
+```{r eval = TRUE, echo = TRUE, fig.width = 7.5, fig.height = 5, dev = "png", dpi = 200}
+posterior_plot(samples = samples, rope = c(0.49, 0.51) ) +
     labs(x = expression(theta) )
 ```
 
@@ -1625,18 +1618,15 @@ tartine tombe toujours du côté du beurre ? À défaut de proposer une
 réponse plausible, il se propose de vérifier cette assertion. La première
 expérience qu'il réalise consiste à faire tomber une tartine
 beurrée de la hauteur d'une table. Les résultats obtenus sont
-accessibles dans le document suivant : `Cours02/data/experiment_TP2_1.csv`.
+disponibles dans le jeu de données `tartine1` du paquet `imsb`.
 
 ## Récupérer les données
 
-Première tâche : Ouvrir ce fichier (utiliser si besoin les fonctions
-`getwd()` et `setwd()`).
+Première tâche : Récupérer les donées.
 
 ```{r eval = TRUE, echo = TRUE}
-library(tidyverse)
-
 # importer les données
-data <- read.csv("data/experiment_TP2_1.csv")
+data <- get(data(tartine1) )
 
 # description sommaire des données
 str(data)
@@ -1657,7 +1647,7 @@ str(data)
 - Peut-on rejeter l'hypothèse nulle selon laquelle $\theta = 0.5$ ?
     Répondez à cette question en utilisant la procédure HDI+ROPE.
 
-- Importer les observations du fichier `experiment_TP2_2.csv`. Mettre
+- Importer les donnes `tartine2` du paquet `imsb`. Mettre
     à jour le modèle en utilisant le mode de la distribution postérieure
     calculée précédemment.
 :::
@@ -1673,7 +1663,7 @@ distribution postérieure du paramètre $\theta$ ?
 nbTrial <- length(data$trial)
 
 # nombre de "succès" (i.e., la tartine tombe du côté du beurre)
-nbSuccess <- sum(data$value)
+nbSuccess <- sum(data$side)
 
 # taile de la grille
 grid_size <- 1e3
@@ -1696,8 +1686,8 @@ posterior <- likelihood * prior / sum(likelihood * prior)
 Calculer le HDI à 95% de la distribution postérieure et en donner une
 représentation graphique.
 
-```{r eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 6, dev = "png", dpi = 300}
-samples <- sample(x = p_grid, prob = posterior, size = 1e4, replace = TRUE)
+```{r eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 6, dev = "png", dpi = 200}
+samples <- sample(x = p_grid, prob = posterior, size = 1e3, replace = TRUE)
 posterior_plot(samples = samples, credmass = 0.95) + labs(x = expression(theta) )
 ```
 
@@ -1705,11 +1695,12 @@ posterior_plot(samples = samples, credmass = 0.95) + labs(x = expression(theta) 
 
 Peut-on rejeter l'hypothèse nulle selon laquelle $\theta = 0.5$ ?
 
-```{r eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 6, dev = "png", dpi = 300}
+```{r eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 6, dev = "png", dpi = 200}
 posterior_plot(
   samples = samples, credmass = 0.95,
   compval = 0.5, rope = c(0.49, 0.51)
   ) + labs(x = expression(theta) )
+
 ```
 
 ## Proposition de solution - Question 4
@@ -1718,10 +1709,10 @@ posterior_plot(
 série d'observations afin d'affiner ses résultats.
 
 ```{r eval = TRUE, echo = TRUE}
-data2 <- read.csv("data/experiment_TP2_2.csv")
+data2 <- get(data(tartine2) )
 str(data2)
 nbTrial2 <- length(data2$trial) # nombre d'essais
-nbSucces2 <- sum(data2$value) # nombre de succès
+nbSucces2 <- sum(data2$side) # nombre de succès
 ```
 
 ## Proposition de solution - Question 4
@@ -1741,7 +1732,7 @@ data.frame(x = p_grid, y = prior2) %>%
 
 ## Proposition de solution - Question 4 (suite)
 
-```{r eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 6, dev = "png", dpi = 300}
+```{r eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 6, dev = "png", dpi = 200}
 likelihood2 <- dbinom(x = nbSucces2, size = nbTrial2, prob = p_grid)
 posterior2 <- likelihood2 * prior2 / sum(likelihood2 * prior2)
 samples2 <- sample(p_grid, prob = posterior2, size = 1e4, replace = TRUE)
