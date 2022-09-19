@@ -2,7 +2,7 @@
 % Please edit documentation in R/posterior_plot.R
 \name{posterior_plot}
 \alias{posterior_plot}
-\title{Plotting posterior samples in the BEST package's style}
+\title{Plotting posterior samples in the style of the \code{BEST} package}
 \usage{
 posterior_plot(
   samples,
@@ -10,34 +10,59 @@ posterior_plot(
   usemode = FALSE,
   compval = NULL,
   rope = NULL,
-  histcolour = "steelblue",
-  textsize = 5
+  showcurve = FALSE,
+  maincolour = "steelblue",
+  compvalcolour = "darkgreen",
+  ROPEcolour = "darkred",
+  textsize = 5,
+  nbins = NULL
 )
 }
 \arguments{
-\item{samples}{samples from some distribution}
+\item{samples}{Numeric, samples from some distribution.}
 
-\item{credmass}{credibility mass (default to 0.89)}
+\item{credmass}{Numeric, credibility mass (default to 0.89).}
 
-\item{usemode}{boolean, using the mean (default) or the mode?}
+\item{usemode}{Logical, indicating whether we should use the using the mean
+(default) or the mode?}
 
-\item{compval}{to what value comparing the posterior?}
+\item{compval}{Numeric, to what value comparing the posterior?}
 
-\item{rope}{region of practical equivalence (such as c(-0.1, 0.1) )}
+\item{rope}{Numeric, defining the region of practical equivalence
+(such as c(-0.1, 0.1) ).}
 
-\item{histcolour}{histogram colour}
+\item{showcurve}{Logical, indicates whether we should plot a density (TRUE)
+instead of the histogram (FALSE).}
 
-\item{textsize}{size of the text elements}
+\item{maincolour}{Character string indicating the colour of the
+histogram (or density).}
+
+\item{compvalcolour}{Character string indicating the colour the comparison
+value's text.}
+
+\item{ROPEcolour}{Character string indicating the colour of the ROPE's text}
+
+\item{textsize}{Numeric, defining the size of the text elements.}
+
+\item{nbins}{Numeric, defining the number of bins.}
 }
 \value{
-a ggplot of some (posterior) samples
+A ggplot histogram or density of posterior samples.
 }
 \description{
-Plotting posterior samples in the BEST package's style
+Plotting posterior samples in the style of the \code{BEST} package.
 }
 \examples{
 \dontrun{
+# getting samples for a normal distribution
 samples <- rnorm(n = 1e3, mean = 0, sd = 1)
-posterior_plot(samples) + labs(x = expression(theta) )
+
+# plotting it
+posterior_plot(
+  samples = samples, credmass = 0.96, usemode = FALSE,
+  compval = 1, rope = c(0.8, 1.2), showcurve = FALSE
+  ) +
+  # the resulting plot is a ggplot than can be customised
+  labs(x = expression(theta) )
 }
 }

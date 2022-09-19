@@ -1,8 +1,12 @@
 #' Check the correct installation of the packages needed for the course
 #'
-#' @param ... the function takes no argument at the moment
+#' This function can be used without argument to check the installation of the
+#' correct `R` version, the install of `brms` and `rstan` and
+#' to check that `Stan` models can be correctly fitted using a simple example.
 #'
-#' @return returns the status of the installation
+#' @param ... The function takes no argument at the moment.
+#'
+#' @return Returns the status of the installation.
 #'
 #' @importFrom rstan stan_model
 #' @export
@@ -19,8 +23,8 @@ check_install <- function (...) {
     if (r_version != "4.2.1") return (cat("Please install R version 4.2.1") )
 
     # checking the brms and rstan install
-    if (!requireNamespace("brms", quietly = TRUE) ) return (cat("Please install the brms package") )
-    if (!requireNamespace("rstan", quietly = TRUE) ) return (cat("Please install the rstan package") )
+    if (!requireNamespace("brms", quietly = TRUE) ) return (cat("Please install the brms package.") )
+    if (!requireNamespace("rstan", quietly = TRUE) ) return (cat("Please install the rstan package.") )
 
     # testing the rstan installation
     utils::capture.output({

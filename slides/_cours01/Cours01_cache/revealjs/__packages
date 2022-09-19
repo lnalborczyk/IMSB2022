@@ -12,3 +12,4 @@ StanHeaders
 rstan
 rethinking
 countdown
+cmdstanr

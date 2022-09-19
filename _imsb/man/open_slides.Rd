@@ -13,7 +13,7 @@ open_slides(cours)
 nothing but opens the slides in browser
 }
 \description{
-Open slides in browser
+Opening the slides of the corresponding course (from 01 to 10) in browser.
 }
 \examples{
 \dontrun{

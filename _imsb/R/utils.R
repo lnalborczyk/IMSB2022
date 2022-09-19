@@ -1,5 +1,7 @@
 #' Open slides in browser
 #'
+#' Opening the slides of the corresponding course (from 01 to 10) in browser.
+#'
 #' @param cours course number
 #'
 #' @return nothing but opens the slides in browser
@@ -29,15 +31,18 @@ open_slides <- function (cours) {
 
 #' Find the mode of a distribution from its samples
 #'
-#' @param samples samples from some distribution
-#' @param ... extra parameters to be passed to the `density` function
+#' Find the mode of a distribution from its samples.
 #'
-#' @return returns the mode of the distribution
+#' @param samples Numeric, samples from some distribution.
+#' @param ... Extra parameters to be passed to the `stats::density()` function.
+#'
+#' @return Returns the mode of the distribution.
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' find_mode(sample = rnorm(n = 1e4, mean = 0, sd = 1) )
+#' samples <- rnorm(n = 1e3, mean = 0, sd = 1)
+#' find_mode(samples = samples)
 #' }
 
 find_mode <- function (samples, ...) {

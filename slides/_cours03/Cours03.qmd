@@ -36,9 +36,6 @@ format:
 title-slide-attributes:
     data-background-color: "#1c5253"
 bibliography: ./bib/references.bib
-editor: 
-  markdown: 
-    wrap: 72
 ---
 
 ## Planning

@@ -7,18 +7,19 @@
 find_mode(samples, ...)
 }
 \arguments{
-\item{samples}{samples from some distribution}
+\item{samples}{Numeric, samples from some distribution.}
 
-\item{...}{extra parameters to be passed to the \code{density} function}
+\item{...}{Extra parameters to be passed to the \code{stats::density()} function.}
 }
 \value{
-returns the mode of the distribution
+Returns the mode of the distribution.
 }
 \description{
-Find the mode of a distribution from its samples
+Find the mode of a distribution from its samples.
 }
 \examples{
 \dontrun{
-find_mode(sample = rnorm(n = 1e4, mean = 0, sd = 1) )
+samples <- rnorm(n = 1e3, mean = 0, sd = 1)
+find_mode(samples = samples)
 }
 }

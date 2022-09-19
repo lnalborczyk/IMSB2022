@@ -35,7 +35,8 @@ format:
     progress: false
 title-slide-attributes:
     data-background-color: "#1c5253"
-bibliography: ./bib/references.bib
+# bibliography: ./bib/references.bib
+bibliography: ../_bib/references.bib
 ---
 
 ## Préface :wave: :wave:
@@ -70,7 +71,7 @@ Ce cours est grandement inspiré des livres suivants :
 
 -   Nicenboim, B., Schad, D., & Vasishth, S. (2021). An Introduction to Bayesian Data Analysis for Cognitive Science. Available [online](https://vasishth.github.io/bayescogsci/book/).
 
-Les slides, données, et scripts seront disponibles juste avant chaque séance sur Github : <https://github.com/lnalborczyk/IMSB2022>.
+Les slides seront disponibles juste avant chaque séance sur le site de la formation : <https://www.barelysignificant.com/IMSB2022/>.
 
 ## Objectifs
 
@@ -283,7 +284,7 @@ Les probabilités dépendent d'un état du monde, de caractéristiques physiques
 :::
 
 ##  {background-image="figures/pill2.jpg"}
-s
+
 ## Un peu de logique
 
 ![](figures/penguin.jpg){fig-align="center" width="50%"}

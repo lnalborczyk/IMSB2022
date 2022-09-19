@@ -7,13 +7,15 @@
 check_install(...)
 }
 \arguments{
-\item{...}{the function takes no argument at the moment}
+\item{...}{The function takes no argument at the moment.}
 }
 \value{
-returns the status of the installation
+Returns the status of the installation.
 }
 \description{
-Check the correct installation of the packages needed for the course
+This function can be used without argument to check the installation of the
+correct \code{R} version, the install of \code{brms} and \code{rstan} and
+to check that \code{Stan} models can be correctly fitted using a simple example.
 }
 \examples{
 \dontrun{
