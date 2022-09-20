@@ -76,7 +76,7 @@ posterior_plot <- function (
 
     }
 
-    # warning is number of samples is low
+    # issuig a warning when the number of samples is low
     if (length(samples) < 1e2) {
 
         warning ("
@@ -95,14 +95,14 @@ posterior_plot <- function (
             warning ("
             The number of bins does not sound sensible, you should probably
             define a better number of bins. A good rule of thumbs is to use
-            sqrt(length(samples) ) (the default).
+            Freedman-Diaconis' rule (the default).
                      ")
 
             }
 
     }
 
-    # if null, define nbins using Freedman-Diaconis rule
+    # if null, define nbins using Freedman-Diaconis' rule
     if (is.null(nbins) ) nbins <- imsb::fd_nbins(samples)
 
     # computing the credible interval (HDI)

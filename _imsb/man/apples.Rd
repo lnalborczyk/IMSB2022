@@ -3,15 +3,15 @@
 \docType{data}
 \name{apples}
 \alias{apples}
-\title{Growth of apples}
+\title{Apples growth}
 \format{
 A data frame with 480 rows and 5 variables:
 \describe{
-\item{tree}{id of the ree}
+\item{tree}{id of the tree}
 \item{apple}{id of the apple (per apple)}
-\item{id}{unique tree-apple id}
-\item{time}{time (in days)}
-\item{diam}{diameter (in cms)}
+\item{id}{id for each tree-apple combination}
+\item{time}{time in days}
+\item{diam}{diameter (in cm)}
 }
 }
 \source{
@@ -21,6 +21,7 @@ home-made dataset
 data(apples)
 }
 \description{
-A dataset containing the diameter of apples recorded over multiple days
+A dataset containing the diameter of apples recorded over multiple days and
+multiple trees.
 }
 \keyword{datasets}

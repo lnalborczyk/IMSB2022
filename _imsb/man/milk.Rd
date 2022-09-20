@@ -3,7 +3,7 @@
 \docType{data}
 \name{milk}
 \alias{milk}
-\title{Waffle House and marriage statistics}
+\title{Milk data...}
 \format{
 A data frame with 29 rows and 8 variables:
 \describe{
@@ -24,6 +24,6 @@ A data frame with 29 rows and 8 variables:
 data(milk)
 }
 \description{
-...
+Milk data...
 }
 \keyword{datasets}

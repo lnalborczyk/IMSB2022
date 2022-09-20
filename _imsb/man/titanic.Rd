@@ -3,7 +3,7 @@
 \docType{data}
 \name{titanic}
 \alias{titanic}
-\title{How long does it take to get a coffee?}
+\title{Titanic data...}
 \format{
 A data frame with 539 rows and 5 variables:
 \describe{
@@ -21,6 +21,6 @@ home-made dataset
 data(titanic)
 }
 \description{
-A dataset containing the time it takes to get a coffee at various coffee places
+Titanic data...
 }
 \keyword{datasets}

@@ -13,12 +13,13 @@ A data frame with 200 rows and 3 variables:
 }
 }
 \source{
-home-made dataset
+Home-made dataset, adapted from the \verb{rethinking package}.
 }
 \usage{
 data(robot)
 }
 \description{
-A dataset containing the time it takes to get a coffee at various coffee places
+A dataset containing the time it takes to get a coffee at various coffee
+places.
 }
 \keyword{datasets}

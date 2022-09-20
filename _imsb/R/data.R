@@ -26,7 +26,7 @@
 
 #' Estimating the probability of presence in a Psychology experiment
 #'
-#' A dataset containing the presence percentage according to weekdays
+#' A dataset containing the presence percentage according to weekdays.
 #'
 #' @usage data(absence)
 #' @format A data frame with 13 rows and 6 variables:
@@ -43,7 +43,8 @@
 
 #' How long does it take to get a coffee?
 #'
-#' A dataset containing the time it takes to get a coffee at various coffee places
+#' A dataset containing the time it takes to get a coffee at various coffee
+#' places.
 #'
 #' @usage data(robot)
 #' @format A data frame with 200 rows and 3 variables:
@@ -52,12 +53,13 @@
 #'   \item{afternoon}{morning or afternoon}
 #'   \item{wait}{waiting time in minutes}
 #'   }
-#' @source home-made dataset
+#' @source Home-made dataset, adapted from the `rethinking package`.
 "robot"
 
 #' How long does it take to get a coffee?
 #'
-#' A dataset containing the time it takes to get a coffee at various coffee places
+#' A dataset containing the time it takes to get a coffee at various coffee
+#' places, with unequal variance.
 #'
 #' @usage data(robot_unequal)
 #' @format A data frame with 450 rows and 3 variables:
@@ -66,46 +68,47 @@
 #'   \item{afternoon}{morning or afternoon}
 #'   \item{wait}{waiting time in minutes}
 #'   }
-#' @source home-made dataset
+#' @source Home-made dataset, adapted from the `rethinking package`.
 "robot_unequal"
 
-#' Growth of apples
+#' Apples growth
 #'
-#' A dataset containing the diameter of apples recorded over multiple days
+#' A dataset containing the diameter of apples recorded over multiple days and
+#' multiple trees.
 #'
 #' @usage data(apples)
 #' @format A data frame with 480 rows and 5 variables:
 #' \describe{
-#'   \item{tree}{id of the ree}
+#'   \item{tree}{id of the tree}
 #'   \item{apple}{id of the apple (per apple)}
-#'   \item{id}{unique tree-apple id}
-#'   \item{time}{time (in days)}
-#'   \item{diam}{diameter (in cms)}
+#'   \item{id}{id for each tree-apple combination}
+#'   \item{time}{time in days}
+#'   \item{diam}{diameter (in cm)}
 #'   }
 #' @source home-made dataset
 "apples"
 
 #' How moral was it?
 #'
-#' A dataset containing morality judgments
+#' A dataset containing morality judgements in multiple conditions.
 #'
 #' @usage data(morale)
 #' @format A data frame with 9930 rows and 7 variables:
 #' \describe{
-#'   \item{response}{...}
-#'   \item{id}{...}
-#'   \item{age}{...}
-#'   \item{male}{...}
-#'   \item{action}{...}
-#'   \item{intention}{...}
-#'   \item{contact}{...}
+#'   \item{response}{how moral was it? response from 1 to 5}
+#'   \item{id}{id of the subject}
+#'   \item{age}{age of the subject}
+#'   \item{male}{gender indicator}
+#'   \item{action}{action condition (binary)}
+#'   \item{intention}{intention condition (binary)}
+#'   \item{contact}{contact conditio (binary)}
 #'   }
 #' @source home-made dataset
 "morale"
 
-#' How long does it take to get a coffee?
+#' Height...
 #'
-#' A dataset containing the time it takes to get a coffee at various coffee places
+#' A dataset containing height data...
 #'
 #' @usage data(parents)
 #' @format A data frame with 40 rows and 4 variables:
@@ -118,9 +121,9 @@
 #' @source home-made dataset
 "parents"
 
-#' How long does it take to get a coffee?
+#' Titanic data...
 #'
-#' A dataset containing the time it takes to get a coffee at various coffee places
+#' Titanic data...
 #'
 #' @usage data(titanic)
 #' @format A data frame with 539 rows and 5 variables:
@@ -146,12 +149,14 @@
 #'   \item{age}{age in years}
 #'   \item{male}{gender indicator}
 #'   }
-#' @source Downloaded from https://tspace.library.utoronto.ca/handle/1807/10395 and re-used from the rethinking package.
+#' @source Downloaded from https://tspace.library.utoronto.ca/handle/1807/10395
+#' and re-used from the `rethinking` package.
 "howell"
 
 #' Waffle House and marriage statistics
 #'
-#' Data for the individual States of the United States, describing number of Waffle House diners and various marriage and demographic facts.
+#' Data for the individual States of the United States, describing number of
+#' Waffle House diners and various marriage and demographic facts.
 #'
 #' @usage data(waffle)
 #' @format A data frame with 50 rows and 13 variables:
@@ -170,12 +175,14 @@
 #'   \item{Population1860}{Population from 1860 census}
 #'   \item{PropSlaves1860}{Proportion of total population that were slaves in 1860}
 #'   }
-#' @source 1860 census data from http://mapserver.lib.virginia.edu. Marriage and divorce rates from 2009 American Community Survey (ACS). Waffle House density data from wafflehouse.com (retrieved January 2012).
+#' @source 1860 census data from http://mapserver.lib.virginia.edu.
+#' Marriage and divorce rates from 2009 American Community Survey (ACS).
+#' Waffle House density data from wafflehouse.com (retrieved January 2012).
 "waffle"
 
-#' Waffle House and marriage statistics
+#' Milk data...
 #'
-#' ...
+#' Milk data...
 #'
 #' @usage data(milk)
 #' @format A data frame with 29 rows and 8 variables:
@@ -192,9 +199,9 @@
 #' @source ...
 "milk"
 
-#' Waffle House and marriage statistics
+#' Tulips data...
 #'
-#' ...
+#' Tulips data...
 #'
 #' @usage data(tulips)
 #' @format A data frame with 29 rows and 8 variables:

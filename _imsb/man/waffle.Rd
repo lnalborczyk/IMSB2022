@@ -23,12 +23,15 @@ A data frame with 50 rows and 13 variables:
 }
 }
 \source{
-1860 census data from http://mapserver.lib.virginia.edu. Marriage and divorce rates from 2009 American Community Survey (ACS). Waffle House density data from wafflehouse.com (retrieved January 2012).
+1860 census data from http://mapserver.lib.virginia.edu.
+Marriage and divorce rates from 2009 American Community Survey (ACS).
+Waffle House density data from wafflehouse.com (retrieved January 2012).
 }
 \usage{
 data(waffle)
 }
 \description{
-Data for the individual States of the United States, describing number of Waffle House diners and various marriage and demographic facts.
+Data for the individual States of the United States, describing number of
+Waffle House diners and various marriage and demographic facts.
 }
 \keyword{datasets}

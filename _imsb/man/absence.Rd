@@ -22,6 +22,6 @@ home-made dataset
 data(absence)
 }
 \description{
-A dataset containing the presence percentage according to weekdays
+A dataset containing the presence percentage according to weekdays.
 }
 \keyword{datasets}

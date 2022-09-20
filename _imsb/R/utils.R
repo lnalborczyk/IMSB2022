@@ -29,6 +29,26 @@ open_slides <- function (cours) {
     }
 }
 
+#' Open data
+#'
+#' Opening data from `R` packages.
+#'
+#' @param df The desired dataset (from a R package).
+#'
+#' @return Returns the desired dataset
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' open_data(absence)
+#' }
+
+open_data <- function (df) {
+
+    return (suppressWarnings(get(utils::data(df) ) ) )
+
+}
+
 #' Find the mode of a distribution from its samples
 #'
 #' Find the mode of a distribution from its samples.
@@ -48,6 +68,7 @@ open_slides <- function (cours) {
 find_mode <- function (samples, ...) {
 
     dd <- stats::density(samples, ...)
+
     return (dd$x[which.max(dd$y)])
 
 }

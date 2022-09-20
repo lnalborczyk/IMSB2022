@@ -3,7 +3,7 @@
 \docType{data}
 \name{parents}
 \alias{parents}
-\title{How long does it take to get a coffee?}
+\title{Height...}
 \format{
 A data frame with 40 rows and 4 variables:
 \describe{
@@ -20,6 +20,6 @@ home-made dataset
 data(parents)
 }
 \description{
-A dataset containing the time it takes to get a coffee at various coffee places
+A dataset containing height data...
 }
 \keyword{datasets}

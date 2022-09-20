@@ -7,13 +7,13 @@
 \format{
 A data frame with 9930 rows and 7 variables:
 \describe{
-\item{response}{...}
-\item{id}{...}
-\item{age}{...}
-\item{male}{...}
-\item{action}{...}
-\item{intention}{...}
-\item{contact}{...}
+\item{response}{how moral was it? response from 1 to 5}
+\item{id}{id of the subject}
+\item{age}{age of the subject}
+\item{male}{gender indicator}
+\item{action}{action condition (binary)}
+\item{intention}{intention condition (binary)}
+\item{contact}{contact conditio (binary)}
 }
 }
 \source{
@@ -23,6 +23,6 @@ home-made dataset
 data(morale)
 }
 \description{
-A dataset containing morality judgments
+A dataset containing morality judgements in multiple conditions.
 }
 \keyword{datasets}

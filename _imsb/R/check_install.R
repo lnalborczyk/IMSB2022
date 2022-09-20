@@ -20,11 +20,11 @@ check_install <- function (...) {
 
     # checking the R version
     r_version <- paste0(version$major, ".", version$minor)
-    if (r_version != "4.2.1") return (cat("Please install R version 4.2.1") )
+    if (r_version != "4.2.1") stop ("Please install R version 4.2.1.")
 
     # checking the brms and rstan install
-    if (!requireNamespace("brms", quietly = TRUE) ) return (cat("Please install the brms package.") )
-    if (!requireNamespace("rstan", quietly = TRUE) ) return (cat("Please install the rstan package.") )
+    if (!requireNamespace("brms", quietly = TRUE) ) stop ("Please install the brms package.")
+    if (!requireNamespace("rstan", quietly = TRUE) ) stop ("Please install the rstan package.")
 
     # testing the rstan installation
     utils::capture.output({
@@ -35,12 +35,13 @@ check_install <- function (...) {
         })
 
     # if the model did not fit...
-    if (!exists(x = "fit") ) return (cat("
-        Something seems wrong... Please check again your brms and rstan install and follow the
-        instructions at: https://learnb4ss.github.io/learnB4SS/articles/install-brms.html
-        ") )
+    if (!exists(x = "fit") ) stop (
+    "Something seems wrong... Please check again your brms and rstan install
+    and follow the instructions at:
+    https://learnb4ss.github.io/learnB4SS/articles/install-brms.html"
+    )
 
-    # otherwise, state that everything seems fine
+    # otherwise, stating that everything seems fine
     return ("Everything seems fine...")
 
 }
