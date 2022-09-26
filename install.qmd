@@ -26,10 +26,10 @@ library(imsb)
 open_slides(01)
 ```
 
-Les jeux de données utilisés dans les différents exercices sont également contenus dans ce paquet. Vous pouvez les importer via la function `data()`.
+Les jeux de données utilisés dans les différents exercices sont également contenus dans ce paquet. Vous pouvez les importer via la function `open_data()`.
 
 ```{r, eval = FALSE, echo = TRUE}
-data(robot)
+open_data(robot)
 ```
 
 ## Rappel concernant les pré-requis

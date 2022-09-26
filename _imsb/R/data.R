@@ -213,3 +213,19 @@
 #'   }
 #' @source ...
 "tulips"
+
+#' Rugged data...
+#'
+#' Rugged data...
+#'
+#' @usage data(tulips)
+#' @format A data frame with 234 rows and 5 variables:
+#' \describe{
+#'   \item{isocode}{...}
+#'   \item{country}{...}
+#'   \item{rugged}{...}
+#'   \item{cont_africa}{...}
+#'   \item{rgdppc_2000}{...}
+#'   }
+#' @source ...
+"rugged"

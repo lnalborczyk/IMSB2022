@@ -9,6 +9,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
+  fig.align = "center",
   out.width = "50%"
   )
 ```
@@ -17,9 +18,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 `r badger::badge_custom("version", badger::ver_devel(), color = "FFA70B")`
-`r badger::badge_code_size("https://github.com/lnalborczyk/IMSB2022/tree/master/_imsb")`
-`r badger::badge_last_commit("https://github.com/lnalborczyk/IMSB2022/tree/master/_imsb")`
-`r badger::badge_github_actions("https://github.com/lnalborczyk/IMSB2022/tree/master/_imsb")`
+[![GitHub last commit](https://img.shields.io/github/last-commit/lnalborczyk/IMSB2022?color=orange&logo=github)](https://github.com/lnalborczyk/IMSB2022)
 <!-- badges: end -->
 
 The goal of the `imsb` package is to provide all the materials (e.g., data, utility functions) needed for the [IMSB course](https://www.barelysignificant.com/IMSB2022/).
@@ -65,7 +64,7 @@ Posterior plot in the style of the `BEST` package using the `imsb::posterior_plo
 samples <- rnorm(n = 1e3, mean = 0, sd = 1)
 
 # plotting it
-posterior_plot(samples, credmass = 0.96, usemode = FALSE, compval = 1) +
+posterior_plot(samples, credmass = 0.96, compval = 1) +
     # the resulting plot is a ggplot than can be customised at will
     ggplot2::labs(x = expression(theta) )
 ```

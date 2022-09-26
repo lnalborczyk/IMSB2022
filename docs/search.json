@@ -11,7 +11,7 @@
     "href": "content/cours08.html",
     "title": "Cours n°08",
     "section": "",
-    "text": "…"
+    "text": "Rappel des cours précédents.\n(optionnel) Lecture du chapitre 13 de  Statistical Rethinking."
   },
   {
     "objectID": "content/cours08.html#slides",
@@ -32,7 +32,7 @@
     "href": "content/cours09.html",
     "title": "Cours n°09",
     "section": "",
-    "text": "…"
+    "text": "Rappel des cours précédents.\n(optionnel) Lecture des chapitres 14, 15, et 16 de  Statistical Rethinking."
   },
   {
     "objectID": "content/cours09.html#slides",
@@ -81,7 +81,7 @@
     "href": "content/cours03.html",
     "title": "Cours n°03",
     "section": "",
-    "text": "…"
+    "text": "Rappel des cours précédents.\n(optionnel) Lecture du chapitre 4 de  Statistical Rethinking."
   },
   {
     "objectID": "content/cours03.html#slides",
@@ -102,7 +102,7 @@
     "href": "content/cours01.html",
     "title": "Cours n°01",
     "section": "",
-    "text": "Installation des paquets R : voir page installation.\n(optionnel) Lecture du premier chapitre de  Statistical Rethinking : “The Golem of Prague”."
+    "text": "Installation des paquets R : voir page installation.\n(optionnel) Lecture du premier chapitre de  Statistical Rethinking."
   },
   {
     "objectID": "content/cours01.html#slides",
@@ -123,7 +123,7 @@
     "href": "content/cours10.html",
     "title": "Cours n°10",
     "section": "",
-    "text": "…"
+    "text": "Rappel des cours précédents.\n(optionnel) Lecture du chapitre 17 de  Statistical Rethinking."
   },
   {
     "objectID": "content/cours10.html#slides",
@@ -144,7 +144,7 @@
     "href": "content/cours04.html",
     "title": "Cours n°04",
     "section": "",
-    "text": "…"
+    "text": "Rappel des cours précédents.\n(optionnel) Lecture des chapitres 5 et 6 de  Statistical Rethinking."
   },
   {
     "objectID": "content/cours04.html#slides",
@@ -165,7 +165,7 @@
     "href": "content/cours05.html",
     "title": "Cours n°05",
     "section": "",
-    "text": "…"
+    "text": "Rappel des cours précédents.\n(optionnel) Lecture du chapitre 9 de  Statistical Rethinking."
   },
   {
     "objectID": "content/cours05.html#slides",
@@ -186,7 +186,7 @@
     "href": "content/cours07.html",
     "title": "Cours n°07",
     "section": "",
-    "text": "…"
+    "text": "Rappel des cours précédents.\n(optionnel) Lecture du chapitre 7 de  Statistical Rethinking."
   },
   {
     "objectID": "content/cours07.html#slides",
@@ -207,7 +207,7 @@
     "href": "content/cours06.html",
     "title": "Cours n°06",
     "section": "",
-    "text": "…"
+    "text": "Rappel des cours précédents.\n(optionnel) Lecture des chapitres 10 et 11 de  Statistical Rethinking."
   },
   {
     "objectID": "content/cours06.html#slides",
@@ -242,7 +242,7 @@
     "href": "install.html#installer-imsb",
     "title": "Installation",
     "section": "Installer imsb",
-    "text": "Installer imsb\nLe reste des paquets ainsi que les données utilisées dans les exercices, et quelques fonctions utiles, peuvent être installées ensemble sous la forme d’un paquet “compagnon” de la formation, le paquet imsb. Pour l’installer, vous devez d’abord installer le paquet remotes (et tidyverse au passage), puis installer imsb depuis Github.\n\ninstall.packages(\"remotes\")\ninstall.packages(\"tidyverse\")\nremotes::install_github(repo = \"lnalborczyk/IMSB2022/_imsb\", dependencies = TRUE)\n\nAu cours de la formation, ce paquet pourra être utilisé pour lire les slides des différents cours (du cours 01 au cours 10) en ligne via la fonction open_slides().\n\nlibrary(imsb)\nopen_slides(01)\n\nLes jeux de données utilisés dans les différents exercices sont également contenus dans ce paquet. Vous pouvez les importer via la function data().\n\ndata(robot)"
+    "text": "Installer imsb\nLe reste des paquets ainsi que les données utilisées dans les exercices, et quelques fonctions utiles, peuvent être installées ensemble sous la forme d’un paquet “compagnon” de la formation, le paquet imsb. Pour l’installer, vous devez d’abord installer le paquet remotes (et tidyverse au passage), puis installer imsb depuis Github.\n\ninstall.packages(\"remotes\")\ninstall.packages(\"tidyverse\")\nremotes::install_github(repo = \"lnalborczyk/IMSB2022/_imsb\", dependencies = TRUE)\n\nAu cours de la formation, ce paquet pourra être utilisé pour lire les slides des différents cours (du cours 01 au cours 10) en ligne via la fonction open_slides().\n\nlibrary(imsb)\nopen_slides(01)\n\nLes jeux de données utilisés dans les différents exercices sont également contenus dans ce paquet. Vous pouvez les importer via la function open_data().\n\nopen_data(robot)"
   },
   {
     "objectID": "install.html#rappel-concernant-les-pré-requis",

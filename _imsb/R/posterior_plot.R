@@ -109,7 +109,7 @@ posterior_plot <- function (
     hdis <- bayestestR::hdi(x = samples, ci = credmass) |> data.frame()
     hdi_text <- hdis |> tidyr::pivot_longer(cols = 2:3)
 
-    # computing the density to scale the positions of elements
+    # computing the density to scale the position of elements
     densCurve <- stats::density(x = samples, adjust = 2, n = 2048)
 
     # computing the posterior central tendency (mean or mode)

@@ -5,11 +5,9 @@
 
 <!-- badges: start -->
 
-![](https://img.shields.io/badge/version-0.0.1.9000-FFA70B.svg)
-[![](https://img.shields.io/github/languages/code-size/https://github.com/lnalborczyk/IMSB2022/tree/master/_imsb.svg)](https://github.com/https://github.com/lnalborczyk/IMSB2022/tree/master/_imsb)
-[![](https://img.shields.io/github/last-commit/https://github.com/lnalborczyk/IMSB2022/tree/master/_imsb.svg)](https://github.com/https://github.com/lnalborczyk/IMSB2022/tree/master/_imsb/commits/master)
-[![R build
-status](https://github.com/https://github.com/lnalborczyk/IMSB2022/tree/master/_imsb/workflows/R-CMD-check/badge.svg)](https://github.com/https://github.com/lnalborczyk/IMSB2022/tree/master/_imsb/actions)
+![](https://img.shields.io/badge/version-0.0.1-FFA70B.svg) [![GitHub
+last
+commit](https://img.shields.io/github/last-commit/lnalborczyk/IMSB2022?color=orange&logo=github)](https://github.com/lnalborczyk/IMSB2022)
 <!-- badges: end -->
 
 The goal of the `imsb` package is to provide all the materials (e.g.,
@@ -54,9 +52,9 @@ Posterior plot in the style of the `BEST` package using the
 samples <- rnorm(n = 1e3, mean = 0, sd = 1)
 
 # plotting it
-posterior_plot(samples, credmass = 0.96, usemode = FALSE, compval = 1) +
+posterior_plot(samples, credmass = 0.96, compval = 1) +
     # the resulting plot is a ggplot than can be customised at will
     ggplot2::labs(x = expression(theta) )
 ```
 
-<img src="man/figures/README-example4-1.png" width="50%" />
+<img src="man/figures/README-example4-1.png" width="50%" style="display: block; margin: auto;" />

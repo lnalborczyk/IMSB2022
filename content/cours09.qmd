@@ -8,7 +8,8 @@ lang: fr
 
 ## En préparation du cours
 
-...
+- Rappel des cours précédents.
+- (*optionnel*) Lecture des chapitres 14, 15, et 16 de {{< fa book >}} *Statistical Rethinking*.
 
 ## Slides
 

@@ -53,3 +53,9 @@ usethis::use_data(milk, overwrite = TRUE)
 # code to prepare the tulips data
 tulips <- read.csv(file = here::here("data-raw/tulips.csv"), sep = ";")
 usethis::use_data(tulips, overwrite = TRUE)
+
+# code to prepare the rugged data
+rugged <- read.csv(file = here::here("data-raw/rugged.csv"), sep = ";") |>
+    dplyr::select(isocode, country, rugged, cont_africa, rgdppc_2000)
+
+usethis::use_data(rugged, overwrite = TRUE)
