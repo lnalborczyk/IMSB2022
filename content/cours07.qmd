@@ -25,4 +25,5 @@ Voir toutes les commandes de `revealjs` en appuyant sur <kbd>m</kbd> puis <kbd>h
 
 ## Pour aller plus loin
 
-...
+- http://www.nicebread.de/two-meanings-of-priors-1/
+- http://www.nicebread.de/two-meanings-of-priors-2/
