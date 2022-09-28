@@ -13,7 +13,7 @@ A data frame with 450 rows and 3 variables:
 }
 }
 \source{
-Home-made dataset, adapted from the \verb{rethinking package}.
+Adapted from the \verb{rethinking package}.
 }
 \usage{
 data(robot_unequal)

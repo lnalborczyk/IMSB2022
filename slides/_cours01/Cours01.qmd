@@ -102,15 +102,9 @@ Une probabilité est une valeur numérique assignée à un événement $A$, comp
 
 Les probabilités se conforment aux axiomes suivants :
 
--   Non-negativité : $\Pr(A) \geq 0$
-
-. . .
-
--   Normalisation : $\Pr(\Omega) = 1$
-
-. . .
-
--   Additivité (pour des événements incompatibles) : $\Pr(A_{1} \cup A_{2}) = \Pr(A_{1}) + \Pr(A_{2})$
+- Non-negativité : $\Pr(A) \geq 0$
+- Normalisation : $\Pr(\Omega) = 1$
+- Additivité (pour des événements incompatibles) : $\Pr(A_{1} \cup A_{2}) = \Pr(A_{1}) + \Pr(A_{2})$
 
 . . .
 

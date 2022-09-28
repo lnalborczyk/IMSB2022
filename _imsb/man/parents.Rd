@@ -3,7 +3,7 @@
 \docType{data}
 \name{parents}
 \alias{parents}
-\title{Height...}
+\title{Heritance of human height}
 \format{
 A data frame with 40 rows and 4 variables:
 \describe{
@@ -14,12 +14,12 @@ A data frame with 40 rows and 4 variables:
 }
 }
 \source{
-home-made dataset
+Adapted from the \code{rethinking} package.
 }
 \usage{
 data(parents)
 }
 \description{
-A dataset containing height data...
+A dataset containing height data for individuals and their parents.
 }
 \keyword{datasets}

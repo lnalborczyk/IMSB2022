@@ -15,10 +15,10 @@ A data frame with 234 rows and 5 variables:
 }
 }
 \source{
-...
+Adapted from the \verb{rethinking package}.
 }
 \usage{
-data(tulips)
+data(rugged)
 }
 \description{
 Rugged data...

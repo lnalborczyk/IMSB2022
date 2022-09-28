@@ -1,7 +1,7 @@
 Package: imsb
 Title: Helper package for the IMSB course
 Version: 0.0.1
-Date: 2022-09-27
+Date: 2022-09-28
 Authors@R:
     person(
     given = "Ladislas", family = "Nalborczyk",
@@ -28,7 +28,8 @@ Imports:
     stringr,
     tidybayes,
     tidyr,
-    rlang
+    rlang,
+    modelr
 Depends: 
     R (>= 4.2.0),
 LazyData: true

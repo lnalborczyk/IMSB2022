@@ -3,7 +3,7 @@
 \docType{data}
 \name{titanic}
 \alias{titanic}
-\title{Titanic data...}
+\title{Survival of Titanic's passengers}
 \format{
 A data frame with 539 rows and 5 variables:
 \describe{
@@ -15,7 +15,7 @@ A data frame with 539 rows and 5 variables:
 }
 }
 \source{
-home-made dataset
+Adapted from \code{datasets::Titanic}.
 }
 \usage{
 data(titanic)

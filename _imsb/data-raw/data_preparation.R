@@ -14,6 +14,10 @@ usethis::use_data(tartine2, overwrite = TRUE)
 absence <- read.csv(file = here::here("data-raw/absence.csv") )
 usethis::use_data(absence, overwrite = TRUE)
 
+# code to prepare the absence_multilevel data
+absence_multilevel <- read.csv(file = here::here("data-raw/absenteeism.csv"), sep = ",")
+usethis::use_data(absence_multilevel, overwrite = TRUE)
+
 # code to prepare the robot data
 robot <- read.csv(file = here::here("data-raw/robot.csv") )
 usethis::use_data(robot, overwrite = TRUE)
@@ -59,3 +63,15 @@ rugged <- read.csv(file = here::here("data-raw/rugged.csv"), sep = ";") |>
     dplyr::select(isocode, country, rugged, cont_africa, rgdppc_2000)
 
 usethis::use_data(rugged, overwrite = TRUE)
+
+# code to prepare the meta data
+meta <- read.csv(file = here::here("data-raw/meta.csv"), sep = ",")
+usethis::use_data(meta, overwrite = TRUE)
+
+# code to prepare the popular data
+popular <- read.csv(file = here::here("data-raw/popular.csv"), sep = ",")
+usethis::use_data(popular, overwrite = TRUE)
+
+# code to prepare the admission data
+admission <- read.csv(file = here::here("data-raw/UCBadmit.csv"), sep = ";")
+usethis::use_data(admission, overwrite = TRUE)

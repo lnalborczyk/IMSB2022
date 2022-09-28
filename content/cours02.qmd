@@ -9,6 +9,7 @@ lang: fr
 ## En préparation du cours
 
 - Vérification de l'installation des paquets `R` avec `imsb::check_install()`.
+- Relire les cours précédents.
 - (*optionnel*) Lecture des chapitres 2 et 3 de {{< fa book >}} *Statistical Rethinking*.
 
 ## Slides

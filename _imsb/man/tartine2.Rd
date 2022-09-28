@@ -12,12 +12,12 @@ A data frame with 500 rows and 2 variables:
 }
 }
 \source{
-home-made dataset
+Home-made dataset.
 }
 \usage{
 data(tartine2)
 }
 \description{
-A dataset containing the results of 500 trials.
+A dataset containing the results of 500 toast throws.
 }
 \keyword{datasets}

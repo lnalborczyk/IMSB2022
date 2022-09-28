@@ -1,6 +1,6 @@
 #' Did the toast fall on the butter side?
 #'
-#' A dataset containing the results of 100 trials.
+#' A dataset containing the results of 100 toast throws.
 #'
 #' @usage data(tartine1)
 #' @format A data frame with 100 rows and 2 variables:
@@ -8,12 +8,12 @@
 #'   \item{trial}{the trial number}
 #'   \item{side}{the side of the toast, 1 is butter}
 #'   }
-#' @source Home-made dataset
+#' @source Home-made dataset.
 "tartine1"
 
 #' Did the toast fall on the butter side?
 #'
-#' A dataset containing the results of 500 trials.
+#' A dataset containing the results of 500 toast throws.
 #'
 #' @usage data(tartine2)
 #' @format A data frame with 500 rows and 2 variables:
@@ -21,12 +21,13 @@
 #'   \item{trial}{the trial number}
 #'   \item{side}{the side of the toast, 1 is butter}
 #'   }
-#' @source home-made dataset
+#' @source Home-made dataset.
 "tartine2"
 
 #' Estimating the probability of presence in a Psychology experiment
 #'
-#' A dataset containing the presence percentage according to weekdays.
+#' A dataset containing the presence percentage according to weekdays and whether
+#' a reminder email was sent.
 #'
 #' @usage data(absence)
 #' @format A data frame with 13 rows and 6 variables:
@@ -38,8 +39,25 @@
 #'   \item{presence}{the number of present participants}
 #'   \item{total}{the total number of participants}
 #'   }
-#' @source home-made dataset
+#' @source Home-made dataset.
 "absence"
+
+#' Estimating the probability of presence in a Psychology experiment
+#'
+#' A dataset containing the presence percentage according to weekdays and the
+#' researcher that collected the data.
+#'
+#' @usage data(absence_multilevel)
+#' @format A data frame with 20 rows and 5 variables:
+#' \describe{
+#'   \item{reminder}{whether a reminder email was sent}
+#'   \item{researcher}{id of the researcher who collected the data}
+#'   \item{presence}{the number of present participants}
+#'   \item{absence}{the number of absent participants}
+#'   \item{total}{the total number of participants}
+#'   }
+#' @source Home-made dataset.
+"absence_multilevel"
 
 #' How long does it take to get a coffee?
 #'
@@ -53,7 +71,7 @@
 #'   \item{afternoon}{morning or afternoon}
 #'   \item{wait}{waiting time in minutes}
 #'   }
-#' @source Home-made dataset, adapted from the `rethinking package`.
+#' @source Adapted from the `rethinking package`.
 "robot"
 
 #' How long does it take to get a coffee?
@@ -68,7 +86,7 @@
 #'   \item{afternoon}{morning or afternoon}
 #'   \item{wait}{waiting time in minutes}
 #'   }
-#' @source Home-made dataset, adapted from the `rethinking package`.
+#' @source Adapted from the `rethinking package`.
 "robot_unequal"
 
 #' Apples growth
@@ -85,7 +103,7 @@
 #'   \item{time}{time in days}
 #'   \item{diam}{diameter (in cm)}
 #'   }
-#' @source home-made dataset
+#' @source Home-made dataset.
 "apples"
 
 #' How moral was it?
@@ -103,12 +121,12 @@
 #'   \item{intention}{intention condition (binary)}
 #'   \item{contact}{contact conditio (binary)}
 #'   }
-#' @source home-made dataset
+#' @source Home-made dataset.
 "morale"
 
-#' Height...
+#' Heritance of human height
 #'
-#' A dataset containing height data...
+#' A dataset containing height data for individuals and their parents.
 #'
 #' @usage data(parents)
 #' @format A data frame with 40 rows and 4 variables:
@@ -118,10 +136,10 @@
 #'   \item{mother}{...}
 #'   \item{father}{...}
 #'   }
-#' @source home-made dataset
+#' @source Adapted from the `rethinking` package.
 "parents"
 
-#' Titanic data...
+#' Survival of Titanic's passengers
 #'
 #' Titanic data...
 #'
@@ -134,7 +152,7 @@
 #'   \item{age}{...}
 #'   \item{parch}{...}
 #'   }
-#' @source home-made dataset
+#' @source Adapted from `datasets::Titanic`.
 "titanic"
 
 #' Howell !Kung demography data
@@ -149,8 +167,7 @@
 #'   \item{age}{age in years}
 #'   \item{male}{gender indicator}
 #'   }
-#' @source Downloaded from https://tspace.library.utoronto.ca/handle/1807/10395
-#' and re-used from the `rethinking` package.
+#' @source Adapted from the `rethinking` package.
 "howell"
 
 #' Waffle House and marriage statistics
@@ -196,7 +213,7 @@
 #'   \item{mass}{...}
 #'   \item{neocortex.perc}{...}
 #'   }
-#' @source ...
+#' @source Adapted from the `rethinking package`.
 "milk"
 
 #' Tulips data...
@@ -211,14 +228,14 @@
 #'   \item{shade}{...}
 #'   \item{blooms}{...}
 #'   }
-#' @source ...
+#' @source Adapted from the `rethinking package`.
 "tulips"
 
 #' Rugged data...
 #'
 #' Rugged data...
 #'
-#' @usage data(tulips)
+#' @usage data(rugged)
 #' @format A data frame with 234 rows and 5 variables:
 #' \describe{
 #'   \item{isocode}{...}
@@ -227,5 +244,53 @@
 #'   \item{cont_africa}{...}
 #'   \item{rgdppc_2000}{...}
 #'   }
-#' @source ...
+#' @source Adapted from the `rethinking package`.
 "rugged"
+
+#' Meta-analysis data...
+#'
+#' Meta-analysis data...
+#'
+#' @usage data(meta)
+#' @format A data frame with 32 rows and 4 variables:
+#' \describe{
+#'   \item{study}{...}
+#'   \item{experiment}{...}
+#'   \item{yi}{...}
+#'   \item{vi}{...}
+#'   }
+#' @source ...
+"meta"
+
+#' Popularity data...
+#'
+#' Popularity data...
+#'
+#' @usage data(meta)
+#' @format A data frame with 2000 rows and 6 variables:
+#' \describe{
+#'   \item{pupil}{...}
+#'   \item{school}{...}
+#'   \item{popular}{...}
+#'   \item{sex}{...}
+#'   \item{texp}{...}
+#'   \item{teachpop}{...}
+#'   }
+#' @source ...
+"popular"
+
+#' Admission data...
+#'
+#' Admission data...
+#'
+#' @usage data(admission)
+#' @format A data frame with 12 rows and 5 variables:
+#' \describe{
+#'   \item{dept}{...}
+#'   \item{applicant.gender}{...}
+#'   \item{admit}{...}
+#'   \item{reject}{...}
+#'   \item{applications}{...}
+#'   }
+#' @source Adapted from the `rethinking package`.
+"admission"

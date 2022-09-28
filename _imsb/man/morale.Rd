@@ -17,7 +17,7 @@ A data frame with 9930 rows and 7 variables:
 }
 }
 \source{
-home-made dataset
+Home-made dataset.
 }
 \usage{
 data(morale)

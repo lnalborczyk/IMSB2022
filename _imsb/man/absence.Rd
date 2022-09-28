@@ -16,12 +16,13 @@ A data frame with 13 rows and 6 variables:
 }
 }
 \source{
-home-made dataset
+Home-made dataset.
 }
 \usage{
 data(absence)
 }
 \description{
-A dataset containing the presence percentage according to weekdays.
+A dataset containing the presence percentage according to weekdays and whether
+a reminder email was sent.
 }
 \keyword{datasets}

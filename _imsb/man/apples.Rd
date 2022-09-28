@@ -15,7 +15,7 @@ A data frame with 480 rows and 5 variables:
 }
 }
 \source{
-home-made dataset
+Home-made dataset.
 }
 \usage{
 data(apples)

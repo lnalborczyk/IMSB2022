@@ -70,9 +70,16 @@ $presentation-h3-font-size: 1.5em !default;
   color: #1c5253;
 }
 
-.MathJax {
-    //color: red !important;
-    font-size: 100% !important;
+//.MathJax { // all math
+//    font-size: 100% !important;
+//}
+
+.math.inline .MathJax  {
+  font-size: 100% !important;
+}
+
+.math.display .MathJax  {
+  font-size: 110% !important;
 }
 
 .reveal .slide a {

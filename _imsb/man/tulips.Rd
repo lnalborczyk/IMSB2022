@@ -14,7 +14,7 @@ A data frame with 29 rows and 8 variables:
 }
 }
 \source{
-...
+Adapted from the \verb{rethinking package}.
 }
 \usage{
 data(tulips)

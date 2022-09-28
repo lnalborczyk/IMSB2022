@@ -114,8 +114,7 @@ On va étendre le modèle précédent en ajoutant plusieurs prédicteurs, contin
 library(tidyverse)
 library(imsb)
 
-data(waffle) # import des données
-df1 <- waffle # import dans une dataframe nommée df1
+df1 <- open_data(waffle) # import des données dans une dataframe
 str(df1) # affiche la structure des données
 ```
 
@@ -639,8 +638,7 @@ L'influence du traitement est maintenant forte et positive.
 ## Prédicteurs catégoriels
 
 ```{r data-categ, eval = TRUE, echo = TRUE}
-data(howell)
-df4 <- howell
+df4 <- open_data(howell)
 
 str(df4)
 ```
@@ -773,8 +771,7 @@ posterior_plot(samples = (post$b_male - post$b_female) / post$sigma) +
 Nombre de catégories $\geq 3$.
 
 ```{r milk-data, eval = TRUE, echo = TRUE}
-data(milk)
-df5 <- milk
+df5 <- open_data(milk)
 str(df5)
 ```
 
@@ -907,8 +904,7 @@ Par exemple : on s'intéresse à la pousse des tulipes selon la quantité de lum
 ## Interaction
 
 ```{r data-tulips, eval = TRUE, echo = TRUE}
-data(tulips)
-df6 <- tulips
+df6 <- open_data(tulips)
 
 head(df6, 10)
 ```

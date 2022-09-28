@@ -14,8 +14,7 @@ A data frame with 544 rows and 4 variables:
 }
 }
 \source{
-Downloaded from https://tspace.library.utoronto.ca/handle/1807/10395
-and re-used from the \code{rethinking} package.
+Adapted from the \code{rethinking} package.
 }
 \usage{
 data(howell)
