@@ -7,11 +7,11 @@
 \format{
 A data frame with 539 rows and 5 variables:
 \describe{
-\item{survival}{...}
-\item{pclass}{...}
-\item{gender}{...}
-\item{age}{...}
-\item{parch}{...}
+\item{survival}{binary numerical variable (0 or 1)}
+\item{pclass}{lower or upper class}
+\item{gender}{binary sex indicator variable (female or male)}
+\item{age}{age in years}
+\item{parch}{number of relatives on board}
 }
 }
 \source{
@@ -21,6 +21,7 @@ Adapted from \code{datasets::Titanic}.
 data(titanic)
 }
 \description{
-Titanic data...
+Information on the survival of the passengers of the Titanic according to
+economic status, sex, and age.
 }
 \keyword{datasets}

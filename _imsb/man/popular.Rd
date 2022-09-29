@@ -19,7 +19,7 @@ A data frame with 2000 rows and 6 variables:
 ...
 }
 \usage{
-data(meta)
+data(popular)
 }
 \description{
 Popularity data...

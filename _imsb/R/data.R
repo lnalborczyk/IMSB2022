@@ -124,33 +124,34 @@
 #' @source Home-made dataset.
 "morale"
 
-#' Heritance of human height
+#' Inheritance of human height
 #'
 #' A dataset containing height data for individuals and their parents.
 #'
 #' @usage data(parents)
 #' @format A data frame with 40 rows and 4 variables:
 #' \describe{
-#'   \item{gender}{...}
-#'   \item{height}{...}
-#'   \item{mother}{...}
-#'   \item{father}{...}
+#'   \item{gender}{gender indicator variable (M vs. F)}
+#'   \item{height}{height in inches}
+#'   \item{mother}{height of mother in inches.}
+#'   \item{father}{height of father in inches}
 #'   }
 #' @source Adapted from the `rethinking` package.
 "parents"
 
 #' Survival of Titanic's passengers
 #'
-#' Titanic data...
+#' Information on the survival of the passengers of the Titanic according to
+#' economic status, sex, and age.
 #'
 #' @usage data(titanic)
 #' @format A data frame with 539 rows and 5 variables:
 #' \describe{
-#'   \item{survival}{...}
-#'   \item{pclass}{...}
-#'   \item{gender}{...}
-#'   \item{age}{...}
-#'   \item{parch}{...}
+#'   \item{survival}{binary numerical variable (0 or 1)}
+#'   \item{pclass}{lower or upper class}
+#'   \item{gender}{binary sex indicator variable (female or male)}
+#'   \item{age}{age in years}
+#'   \item{parch}{number of relatives on board}
 #'   }
 #' @source Adapted from `datasets::Titanic`.
 "titanic"
@@ -195,6 +196,7 @@
 #' @source 1860 census data from http://mapserver.lib.virginia.edu.
 #' Marriage and divorce rates from 2009 American Community Survey (ACS).
 #' Waffle House density data from wafflehouse.com (retrieved January 2012).
+#' Adapted from the `rethinking package`.
 "waffle"
 
 #' Milk data...
@@ -266,7 +268,7 @@
 #'
 #' Popularity data...
 #'
-#' @usage data(meta)
+#' @usage data(popular)
 #' @format A data frame with 2000 rows and 6 variables:
 #' \describe{
 #'   \item{pupil}{...}

@@ -3,14 +3,14 @@
 \docType{data}
 \name{parents}
 \alias{parents}
-\title{Heritance of human height}
+\title{Inheritance of human height}
 \format{
 A data frame with 40 rows and 4 variables:
 \describe{
-\item{gender}{...}
-\item{height}{...}
-\item{mother}{...}
-\item{father}{...}
+\item{gender}{gender indicator variable (M vs. F)}
+\item{height}{height in inches}
+\item{mother}{height of mother in inches.}
+\item{father}{height of father in inches}
 }
 }
 \source{

@@ -1,14 +1,13 @@
 #' Check the correct installation of the packages needed for the course
 #'
 #' This function can be used without argument to check the installation of the
-#' correct `R` version, the install of `brms` and `rstan` and
-#' to check that `Stan` models can be correctly fitted using a simple example.
+#' correct `R` version, the installation of `brms`, and to check that `brms`
+#' models can be correctly fitted using a simple example.
 #'
-#' @param ... The function takes no argument at the moment.
+#' @param ... The function takes no argument.
 #'
 #' @return Returns the status of the installation.
 #'
-#' @importFrom rstan stan_model
 #' @export
 #'
 #' @examples
@@ -22,16 +21,26 @@ check_install <- function (...) {
     r_version <- paste0(version$major, ".", version$minor)
     if (r_version != "4.2.1") stop ("Please install R version 4.2.1.")
 
-    # checking the brms and rstan install
+    # checking the brms install
     if (!requireNamespace("brms", quietly = TRUE) ) stop ("Please install the brms package.")
-    if (!requireNamespace("rstan", quietly = TRUE) ) stop ("Please install the rstan package.")
+
+    # checking the rstan install
+    # if (!requireNamespace("rstan", quietly = TRUE) ) stop ("Please install the rstan package.")
 
     # testing the rstan installation
-    utils::capture.output({
-        utils::example(
-            stan_model, package = "rstan",
-            run.dontrun = TRUE, verbose = FALSE, echo = FALSE
-            )
+    # utils::capture.output({
+    #     utils::example(
+    #         stan_model, package = "rstan",
+    #         run.dontrun = TRUE, verbose = FALSE, echo = FALSE
+    #         )
+    #     })
+
+    # loading the "howell" dataset
+    df <- imsb::howell
+
+    # testing the brms install
+    fit <- utils::capture.output({
+        brms::brm(formula = height ~ 1 + weight, data = df)
         })
 
     # if the model did not fit...
