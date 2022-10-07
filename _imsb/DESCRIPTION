@@ -31,5 +31,5 @@ Imports:
     rlang,
     modelr
 Depends: 
-    R (>= 4.2.0),
+    R (>= 4.1.0),
 LazyData: true
