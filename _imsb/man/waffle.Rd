@@ -26,7 +26,7 @@ A data frame with 50 rows and 13 variables:
 1860 census data from http://mapserver.lib.virginia.edu.
 Marriage and divorce rates from 2009 American Community Survey (ACS).
 Waffle House density data from wafflehouse.com (retrieved January 2012).
-Adapted from the \verb{rethinking package}.
+Adapted from the \code{rethinking} package.
 }
 \usage{
 data(waffle)

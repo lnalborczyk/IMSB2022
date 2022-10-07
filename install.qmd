@@ -7,7 +7,7 @@ lang: fr
 
 ## Installer `brms` et `rstan`
 
-Pour cette formation, vous pourrez utiliser votre propre ordinateur sur lequel vous aurez [installé ou mis à jour](https://pbil.univ-lyon1.fr/CRAN/) `R` (version 4.2.1) et l'interface utilisateur `RStudio` : <https://www.rstudio.com/products/rstudio/>. Nous utiliserons également `Stan` via les paquets `brms` et `rstan`. Vous trouverez toutes les infos pour installer `brms` selon votre plateforme ici : <https://learnb4ss.github.io/learnB4SS/articles/install-brms.html>. **Attention**, cette étape peut être assez longue complexe selon votre plateforme (surtout sur Windows), il faudra veiller à ne pas la réaliser au dernier moment et à ce que tout fonctionne au début de la formation.
+Pour cette formation, vous pourrez utiliser votre propre ordinateur sur lequel vous aurez [installé ou mis à jour](https://pbil.univ-lyon1.fr/CRAN/) `R` (version 4.2.1) et l'interface utilisateur `RStudio` : <https://www.rstudio.com/products/rstudio/>. Nous utiliserons également `Stan` via les paquets `brms` et `rstan`. Vous trouverez toutes les infos pour installer `brms` selon votre plateforme ici : <https://learnb4ss.github.io/learnB4SS/articles/install-brms.html>.^[En cas de problème, voir aussi : <https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started>.] **Attention**, cette étape peut être assez longue complexe selon votre plateforme (surtout sur Windows), il faudra veiller à ne pas la réaliser au dernier moment et à ce que tout fonctionne au début de la formation.
 
 ## Installer `imsb`
 

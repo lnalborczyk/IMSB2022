@@ -1626,7 +1626,7 @@ Première tâche : Récupérer les donées.
 
 ```{r eval = TRUE, echo = TRUE}
 # importer les données
-data <- get(data(tartine1) )
+data <- open_data(tartine1)
 
 # description sommaire des données
 str(data)
@@ -1709,7 +1709,7 @@ posterior_plot(
 série d'observations afin d'affiner ses résultats.
 
 ```{r eval = TRUE, echo = TRUE}
-data2 <- get(data(tartine2) )
+data2 <- open_data(tartine2)
 str(data2)
 nbTrial2 <- length(data2$trial) # nombre d'essais
 nbSucces2 <- sum(data2$side) # nombre de succès

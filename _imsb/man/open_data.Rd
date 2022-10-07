@@ -10,7 +10,7 @@ open_data(df)
 \item{df}{The desired dataset (from a R package).}
 }
 \value{
-Returns the desired dataset
+Returns the desired dataset in a dataframe.
 }
 \description{
 Opening data from \code{R} packages.

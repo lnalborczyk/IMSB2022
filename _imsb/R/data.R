@@ -196,12 +196,13 @@
 #' @source 1860 census data from http://mapserver.lib.virginia.edu.
 #' Marriage and divorce rates from 2009 American Community Survey (ACS).
 #' Waffle House density data from wafflehouse.com (retrieved January 2012).
-#' Adapted from the `rethinking package`.
+#' Adapted from the `rethinking` package.
 "waffle"
 
-#' Milk data...
+#' Primate milk data
 #'
-#' Milk data...
+#' Small dataset from Hinde and Milligan (2011) on primate milk composition.
+#' This data is discussed in detail in McElreath (2020).
 #'
 #' @usage data(milk)
 #' @format A data frame with 29 rows and 8 variables:
@@ -215,7 +216,7 @@
 #'   \item{mass}{...}
 #'   \item{neocortex.perc}{...}
 #'   }
-#' @source Adapted from the `rethinking package`.
+#' @source Adapted from the `rethinking` package.
 "milk"
 
 #' Tulips data...
@@ -230,7 +231,7 @@
 #'   \item{shade}{...}
 #'   \item{blooms}{...}
 #'   }
-#' @source Adapted from the `rethinking package`.
+#' @source Adapted from the `rethinking` package.
 "tulips"
 
 #' Rugged data...
@@ -246,7 +247,7 @@
 #'   \item{cont_africa}{...}
 #'   \item{rgdppc_2000}{...}
 #'   }
-#' @source Adapted from the `rethinking package`.
+#' @source Adapted from the `rethinking` package.
 "rugged"
 
 #' Meta-analysis data...
@@ -294,5 +295,5 @@
 #'   \item{reject}{...}
 #'   \item{applications}{...}
 #'   }
-#' @source Adapted from the `rethinking package`.
+#' @source Adapted from the `rethinking` package.
 "admission"

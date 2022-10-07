@@ -15,7 +15,7 @@ A data frame with 234 rows and 5 variables:
 }
 }
 \source{
-Adapted from the \verb{rethinking package}.
+Adapted from the \code{rethinking} package.
 }
 \usage{
 data(rugged)

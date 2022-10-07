@@ -4,7 +4,7 @@
 #'
 #' @param cours Course number, from 01 to 10.
 #'
-#' @return Returns nothing but opens the slides in browser?
+#' @return Returns nothing but opens the slides in browser.
 #' @export
 #'
 #' @examples
@@ -35,7 +35,7 @@ open_slides <- function (cours) {
 #'
 #' @param df The desired dataset (from a R package).
 #'
-#' @return Returns the desired dataset
+#' @return Returns the desired dataset in a dataframe.
 #' @export
 #'
 #' @examples

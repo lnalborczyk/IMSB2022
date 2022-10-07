@@ -76,8 +76,8 @@ Objectifs généraux :
 
 ::: incremental
 -   Comprendre les concepts fondamentaux de la statistique bayésienne.
--   Être capable d'implémenter des modèles bayésiens simples en `R`.
--   Réaliser que l'approche bayésienne est plus intuitive que l'approche fréquentiste.
+-   Être capable de comprendre des articles décrivant des analyses bayésiennes.
+-   Bonus : Réaliser que l'approche bayésienne est plus intuitive que l'approche fréquentiste.
 :::
 
 . . .
@@ -274,7 +274,7 @@ Les probabilités dépendent d'un état du monde, de caractéristiques physiques
 :::
 :::
 
-##  {background-image="figures/pill2.jpg"}
+## {background-image="figures/pill3.jpg"}
 
 ## Un peu de logique
 
@@ -814,8 +814,6 @@ coin <- dbinom(x = 0:10, size = 10, prob = 0.5)
 barplot(coin, names.arg = 0:10, border = NA, axes = FALSE, cex.names = 1.5, col = "grey20")
 ```
 
-. . .
-
 ```{r eval = TRUE, echo = TRUE}
 # PMFs sum to 1
 dbinom(x = 0:10, size = 10, prob = 0.5) %>% sum
@@ -835,8 +833,6 @@ data.frame(x = c(0, 200) ) %>%
         ) +
     labs(x = "QI", y = "Densité de probabilité")
 ```
-
-. . .
 
 ```{r echo = TRUE}
 # PDFs integrate to 1

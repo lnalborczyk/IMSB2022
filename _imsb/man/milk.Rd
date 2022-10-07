@@ -3,7 +3,7 @@
 \docType{data}
 \name{milk}
 \alias{milk}
-\title{Milk data...}
+\title{Primate milk data}
 \format{
 A data frame with 29 rows and 8 variables:
 \describe{
@@ -18,12 +18,13 @@ A data frame with 29 rows and 8 variables:
 }
 }
 \source{
-Adapted from the \verb{rethinking package}.
+Adapted from the \code{rethinking} package.
 }
 \usage{
 data(milk)
 }
 \description{
-Milk data...
+Small dataset from Hinde and Milligan (2011) on primate milk composition.
+This data is discussed in detail in McElreath (2020).
 }
 \keyword{datasets}
