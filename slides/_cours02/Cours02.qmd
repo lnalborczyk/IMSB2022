@@ -7,8 +7,8 @@ format:
   revealjs:
     incremental: true
     theme: [default, ../custom.scss]
-    transition: fade
-    background-transition: fade
+    transition: none # fade
+    background-transition: none # fade
     transition-speed: default
     slide-number: c/t
     show-slide-number: all
@@ -1472,7 +1472,7 @@ $$\frac{p(\mathcal{M}_{0} | \text{data})}{p(\mathcal{M}_{1} | \text{data})} = \c
 
 Soit dans notre exemple :
 
-$$BF_{01} = \frac{p(\mathcal{M}_{0} | \text{data})}{p(\mathcal{M}_{1} | \text{data})} = \frac{0.005955}{0.005} = 1.1971.$$
+$$\text{BF}_{01} = \frac{p(\mathcal{M}_{0} | \text{data})}{p(\mathcal{M}_{1} | \text{data})} = \frac{0.005955}{0.005} = 1.1971.$$
 
 Le rapport de probabilités a augmenté de 20% en faveur de
 $\mathcal{M}_{0}$ après avoir pris connaissance des données. Le facteur
@@ -1606,7 +1606,7 @@ library(patchwork)
 knitr::include_graphics("figures/ModelPredictions.jpg")
 ```
 
-## Exercices
+## Travaux pratiques
 
 ```{r tartine, echo = FALSE, out.width = "25%"}
 knitr::include_graphics("figures/tartine.jpg")

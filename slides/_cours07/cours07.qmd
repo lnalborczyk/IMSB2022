@@ -7,8 +7,8 @@ format:
   revealjs:
     incremental: true
     theme: [default, ../custom.scss]
-    transition: fade
-    background-transition: fade
+    transition: none # fade
+    background-transition: none # fade
     transition-speed: default # default, fast, or slow
     slide-number: c/t
     show-slide-number: all
@@ -192,7 +192,7 @@ admis que l'hypothèse nulle est vraie). La *p*-valeur indique la
 probabilité d'observer la valeur de la statistique de test observée, ou
 une valeur plus extrême, sous l'hypothèse nulle.
 
-$$p[\mathbf{t}(\mathbf{x}^{\text{rep}}; H_{0}) \geq t(x)]$$
+$$p[\mathbf{t}(\mathbf{x}^{\text{rep}}; \mathcal{H}_{0}) \geq t(x)]$$
 
 ```{r eval = TRUE, echo = TRUE}
 #| output-location: fragment

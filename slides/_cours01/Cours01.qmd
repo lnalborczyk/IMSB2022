@@ -6,8 +6,8 @@ from: markdown+emoji
 format:
   revealjs:
     theme: [default, ../custom.scss]
-    transition: fade
-    background-transition: fade
+    transition: none # fade
+    background-transition: none # fade
     transition-speed: default # default, fast, or slow
     slide-number: c/t
     show-slide-number: all

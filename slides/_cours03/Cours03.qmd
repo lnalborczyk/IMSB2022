@@ -7,8 +7,8 @@ format:
   revealjs:
     incremental: true
     theme: [default, ../custom.scss]
-    transition: fade
-    background-transition: fade
+    transition: none # fade
+    background-transition: none # fade
     transition-speed: default # default, fast, or slow
     slide-number: c/t
     show-slide-number: all
@@ -93,7 +93,7 @@ suivrons les trois mêmes étapes :
 library(tidyverse)
 library(imsb)
 
-d <- get(data(howell) )
+d <- open_data(howell)
 str(d)
 ```
 
@@ -128,7 +128,7 @@ data.frame(value = rnorm(1e4, 10, 1) ) %>% # 10.000 samples from Normal(10, 1)
 
 ## D'où vient la loi normale ?
 
-Certaines valeurs sont fortement probables (autour de la moyenne $\mu$).
+Contraintes : Certaines valeurs soient fortement probables (autour de la moyenne $\mu$).
 Plus on s'éloigne, moins les valeurs sont probables (en suivant une
 décroissance exponentielle).
 
@@ -420,7 +420,7 @@ $$
 p(x \ | \ \mu, \sigma) = \frac{1}{\sqrt{2 \pi \sigma^{2}}} \exp \bigg[-\frac{1}{2 \sigma^{2}} (\mu - x)^{2} \bigg]
 $$
 
-Ou à la main...
+Ou avec une fonction maison...
 
 ```{r eval = TRUE, echo = TRUE}
 normal_likelihood <- function (x, mu, sigma) {
@@ -454,7 +454,7 @@ $$
 
 Il s'agit de la même formule vue lors des cours 1 et 2, mais cette fois
 en considérant qu'il existe plusieurs observations de taille ($h_{i}$),
-et deux paramètres à estimer $\mu$ et $\sigma$.
+et deux paramètres à estimer : $\mu$ et $\sigma$.
 
 . . .
 
@@ -593,6 +593,8 @@ y_{i} &\sim \mathrm{Normal}(\mu_{i}, \sigma) \\
 \mu_{i} &= \alpha + \alpha_{subject[i]} + \alpha_{item[i]} + \beta x_{i} \\
 \end{align}
 $$
+
+. . .
 
 se spécifie avec `brms` (comme avec `lme4`) de la manière suivante :
 
@@ -1155,7 +1157,7 @@ Voir aussi ce court article par @ohagan2004.
 
 ## Régression polynomiale
 
-```{r plot-poly, eval = TRUE, echo = TRUE, fig.align = "center", fig.width = 6, fig.height = 4}
+```{r plot-poly, eval = TRUE, echo = TRUE, fig.align = "center"}
 d %>% # on utilise d au lieu de d2
   ggplot(aes(x = weight, y = height) ) +
   geom_point(colour = "white", fill = "black", pch = 21, size = 3, alpha = 0.8)
@@ -1313,6 +1315,11 @@ summary(lm(height ~ weight, data = d2) )$r.squared
 
 ```{r effsize-plot2, eval = TRUE, echo = TRUE, dev = "png", dpi = 200}
 bayes_R2(mod4)
+```
+
+. . .
+
+```{r effsize-plot3, eval = TRUE, echo = TRUE, dev = "png", dpi = 200}
 bayes_R2(mod4, summary = FALSE)[, 1] %>%
     posterior_plot(usemode = TRUE) +
     labs(x = expression(rho) )
@@ -1405,7 +1412,7 @@ un plot des données brutes et surimposer les prédictions du modèle...
 
 ```{r mod7, eval = TRUE, echo = TRUE, results = "hide"}
 # on garde seulement les individus ayant moins de 18 ans
-d <- get(data(howell) ) %>% filter(age < 18)
+d <- open_data(howell) %>% filter(age < 18)
 
 priors <- c(
   prior(normal(150, 100), class = Intercept),
@@ -1468,7 +1475,7 @@ d %>%
 
 ```{r mod8, eval = TRUE, echo = TRUE, results = "hide"}
 # on considère maintenant tous les individus
-d <- howell
+d <- open_data(howell)
 
 mod8 <- brm(
   # on prédit la taille par le logarithme du poids
