@@ -34,6 +34,9 @@ format:
 title-slide-attributes:
     data-background-color: "#1c5253"
 bibliography: ../../files/bib/references.bib
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 ## Planning
@@ -208,7 +211,11 @@ $\{0, 1, 1, 0, 0\}$)...
 Le **coefficient binomial** nous permet de calculer le nombre de
 combinaisons possibles résultant en $y$ succès pour $n$ lancers de la
 manière suivante (lu "$y$ parmi $n$" ou "nombre de combinaisons de $y$
-parmi $n$") :
+parmi $n$")[^1] :
+
+[^1]: La fonction factorielle notée $n!$ associe à tout entier naturel
+    $n$ l'entier :
+    $N! = N \times (N - 1) \times (N - 2) \times \ldots \times 3 \times 2 \times 1$
 
 $$
 \left(\begin{array}{l} n \\ y \end{array}\right) = C_{n}^{y} = \frac{n !}{y !(n - y) !}
@@ -339,13 +346,14 @@ integrate(f = f, lower = 0, upper = 1)
 
 . . .
 
-Quand on varie $\theta$, la fonction de vraisemblance *n'est pas* une
+Quand on varie $\theta$, la fonction de vraisemblance **n'est pas** une
 distribution de probabilité valide (i.e., son intégrale n'est pas égale
 à 1). On utilise le terme de **vraisemblance**, pour distinguer ce type
 de fonction des fonctions de densité de probabilité. On utilise la
 notation suivante pour mettre l'accent sur le fait que la fonction de
 vraisemblance est une fonction de $\theta$, et que les données sont
-fixes : $\mathcal{L}(\theta \ | \ data) = p(data \ | \ \theta)$.
+fixes :
+$\mathcal{L}(\theta \ | \ \text{data}) = p(\text{data} \ | \ \theta)$.
 
 ## Vraisemblance versus probabilité
 
@@ -574,7 +582,7 @@ $$
 p(\theta|y) \in \mathcal{P} \text{ for all } p(\cdot | \theta) \in \mathcal{F} \text{ and } p(\cdot) \in \mathcal{P}
 $$
 
-(Gelman et al., 2013, p.35). En d'autres termes, un prior est appelé
+[p.35, @gelman2013]. En d'autres termes, un prior est appelé
 **conjugué** si, lorsqu'il est converti en une distribution a posteriori
 en étant multiplié par la fonction de vraisemblance, il conserve la même
 forme. Dans notre cas, le prior Beta est un prior conjugué pour la
@@ -585,8 +593,8 @@ Beta.
 
 > Le résultat du produit d'un prior Beta et d'une fonction de
 > vraisemblance Binomiale est proportionnel à une distribution Beta. On
-> dit alors que la distribution Beta est **un prior conjugué** de la
-> fonction de vraisemblance Binomiale.
+> dit que la distribution Beta est **un prior conjugué** de la fonction
+> de vraisemblance Binomiale.
 
 ## Dérivation analytique de la distribution a posteriori
 
@@ -606,7 +614,7 @@ $$
 \color{purple}{p(\theta \ | \ y, n)} &\propto \color{orangered}{p(y \ | \ n, \theta)} \ \color{steelblue}{p(\theta)} &&\mbox{Théorème de Bayes} \\
 &\propto \color{orangered}{\mathrm{Bin}(y \ | \ n, \theta)} \ \color{steelblue}{\mathrm{Beta}(\theta \ | \ a, b)} \\
 &\propto \color{orangered}{\theta^{y}(1 - \theta)^{n - y}} \ \color{steelblue}{\theta^{a - 1}(1 - \theta)^{b - 1}} &&\mbox{Application des formules précédentes} \\
-&\propto \color{purple}{\theta}^{\color{orangered}{y} + \color{steelblue}{a - 1}}\color{purple}{(1 - \theta)}^{\color{orangered}{n - y} + \color{steelblue}{b - 1}} &&\mbox{En regroupant les termes identiques} \\
+&\propto \color{purple}{\theta}^{\color{orangered}{y} + \color{steelblue}{a - 1}}\color{purple}{(1 - \theta)}^{\color{orangered}{n - y} + \color{steelblue}{b - 1}} &&\mbox{En regroupant les puissances des termes identiques} \\
 &\propto \color{purple}{\theta^{a' - 1}(1 - \theta)^{b' - 1}} &&\mbox{Avec } a' = y + a \mbox{ et } b' = n - y + b \\
 \color{purple}{p(\theta \ | \ y, n)} \ &= \color{purple}{\mathrm{Beta}(y + a, n - y + b)}
 \end{align}
@@ -857,7 +865,7 @@ $$
 . . .
 
 Si on zoom sur la vraisemblance marginale (aussi connue comme
-*evidence*)...
+**evidence**)...
 
 $$
 \begin{align}
@@ -1120,7 +1128,7 @@ knitr::include_graphics("figures/not_gonna_work.gif")
 
 ## Échantillonner la distribution postérieure
 
-Pour échantillonner une distribution postérieure, on peut utiliser
+Échantillonner pour approcher une distribution. Pour échantillonner une distribution postérieure, on peut utiliser
 différentes implémentations des méthodes MCMC (e.g.,
 Metropolis-Hastings, Gibbs, Hamilton, cf. Cours n°05).
 
@@ -1128,7 +1136,7 @@ Metropolis-Hastings, Gibbs, Hamilton, cf. Cours n°05).
 
 En pratique :
 
-```{r sampling1, eval = TRUE, echo = TRUE, fig.width = 8, fig.height = 4}
+```{r sampling1, eval = TRUE, echo = TRUE, fig.width = 8, fig.height = 4,  `code-line-numbers` = "|5"}
 #| output-location: fragment
 p_grid <- seq(from = 0, to = 1, length.out = 1000) # creates a grid
 prior <- rep(1, 1000) # uniform prior
@@ -1208,10 +1216,10 @@ Cas analytique :
 
 ```{r eval = FALSE, echo = TRUE}
 p_grid <- seq(from = 0, to = 1, length.out = 1000)
-a <- b <- 1 # parameters of the Beta prior
-n <- 9 # number of observations
-y <- 6 # number of successes
-posterior <- dbeta(p_grid, y + a, n - y + b)
+a <- b <- 1 # paramètres du prior Beta
+n <- 9 # nombre d'observations
+y <- 6 # nombre de succès
+posterior <- dbeta(p_grid, y + a, n - y + b) # plot(posterior)
 ```
 
 . . .
@@ -1222,15 +1230,15 @@ Grid method :
 p_grid <- seq(from = 0, to = 1, length.out = 1000)
 prior <- rep(1, 1000) # uniform prior
 likelihood <- dbinom(x = y, size = n, prob = p_grid)
-posterior <- (likelihood * prior) / sum(likelihood * prior)
+posterior <- (likelihood * prior) / sum(likelihood * prior) # plot(posterior)
 ```
 
 . . .
 
-Échantillonner la distribution postérieure :
+Échantillonner la distribution postérieure pour la décrire :
 
 ```{r eval = FALSE, echo = TRUE}
-sample(x = p_grid, size = 1e4, prob = posterior, replace = TRUE)
+samples <- sample(x = p_grid, size = 1e4, prob = posterior, replace = TRUE) # hist(samples)
 ```
 
 ## La distribution postérieure, résumé
@@ -1242,13 +1250,13 @@ sample(x = p_grid, size = 1e4, prob = posterior, replace = TRUE)
 
 . . .
 
-**Méthode Grid**
+**Méthode sur grille**
 
 -   La distribution postérieure n'est donnée que pour un ensemble fini
     de valeurs
 -   Plus la grille est fine, meilleure est l'estimation de la
     distribution postérieure
--   Compromis *Précision - Temps de calcul*
+-   Compromis "Précision - Temps de calcul"
 
 ## Utiliser les échantillons pour résumer la distribution postérieure
 
@@ -1446,6 +1454,7 @@ On lance une pièce 200 fois et on obtient 115 "Faces". Est-ce que la
 pièce est biaisée ? Nous construisons deux modèles et essayons de savoir
 lequel rend le mieux compte des données.
 
+```{=tex}
 \begin{eqnarray*}
 \left\{ 
 \begin{array}{ll}
@@ -1453,10 +1462,10 @@ lequel rend le mieux compte des données.
     \mathcal{M}_1: Y \sim \mathrm{Binomial}(n, \theta \neq 0.5) & \quad \text{La pièce est biaisée}
 \end{array}\right.
 \end{eqnarray*}
-
+```
 . . .
 
-Le facteur de Bayes (*Bayes factor*) fait le rapport des vraisemblances
+Le facteur de Bayes (Bayes factor) fait le rapport des vraisemblances
 (marginales) des deux modèles.
 
 $$\frac{p(\mathcal{M}_{0} | \text{data})}{p(\mathcal{M}_{1} | \text{data})} = \color{green}{\frac{p(\text{data} | \mathcal{M}_{0})}{p(\text{data} | \mathcal{M}_{1})}} \ \frac{p(\mathcal{M}_{0})}{p(\mathcal{M}_{1})}$$
@@ -1466,13 +1475,13 @@ $$\frac{p(\mathcal{M}_{0} | \text{data})}{p(\mathcal{M}_{1} | \text{data})} = \c
 Le facteur de Bayes (Bayes factor) fait le rapport des vraisemblances
 (marginales) des deux modèles.
 
-$$\frac{p(\mathcal{M}_{0} | \text{data})}{p(\mathcal{M}_{1} | \text{data})} = \color{green}{\frac{p(\text{data} | \mathcal{M}_{0})}{p(\text{data} | \mathcal{M}_{1})}} \ \frac{p(\mathcal{M}_{0})}{p(\mathcal{M}_{1})}$$
+$$\frac{p(\mathcal{M}_{0} | \text{data})}{p(\mathcal{M}_{1} | \text{data})} = \color{green}{\frac{p(\text{data} | \mathcal{M}_{0})}{p(\text{data} | \mathcal{M}_{1})}} \times \frac{p(\mathcal{M}_{0})}{p(\mathcal{M}_{1})}$$
 
 . . .
 
 Soit dans notre exemple :
 
-$$\text{BF}_{01} = \frac{p(\mathcal{M}_{0} | \text{data})}{p(\mathcal{M}_{1} | \text{data})} = \frac{0.005955}{0.005} = 1.1971.$$
+$$\text{BF}_{01} = \color{green}{\frac{p(\text{data} | \mathcal{M}_{0})}{p(\text{data} | \mathcal{M}_{1})}} = \frac{0.005955}{0.005} = 1.1971.$$
 
 Le rapport de probabilités a augmenté de 20% en faveur de
 $\mathcal{M}_{0}$ après avoir pris connaissance des données. Le facteur
@@ -1505,7 +1514,7 @@ samples <- rbinom(n = 1e4, size = 10, prob = 0.6)
 
 ## Model checking
 
-Deux sources d'incertitude dans ces prédictions :
+Dans un modèle bayésien, il existe **deux sources d'incertitude** lorsqu'on génère des prédictions :
 
 -   Incertitude liée au processus d'échantillonnage <br> -\> On tire une
     donnée issue d'une distribution Binomiale
@@ -1615,8 +1624,8 @@ knitr::include_graphics("figures/tartine.jpg")
 Un analyste qui travaille dans une fabrique de célèbres petits pains
 suédois a lu un livre qui soulevait une épineuse question... Pourquoi la
 tartine tombe toujours du côté du beurre ? À défaut de proposer une
-réponse plausible, il se propose de vérifier cette assertion. La première
-expérience qu'il réalise consiste à faire tomber une tartine
+réponse plausible, il se propose de vérifier cette assertion. La
+première expérience qu'il réalise consiste à faire tomber une tartine
 beurrée de la hauteur d'une table. Les résultats obtenus sont
 disponibles dans le jeu de données `tartine1` du paquet `imsb`.
 
@@ -1635,21 +1644,22 @@ str(data)
 ## Questions
 
 ::: nonincremental
-- La tartine n'ayant que deux faces, le résultat s'apparente à un
+-   La tartine n'ayant que deux faces, le résultat s'apparente à un
     tirage sur une loi binomiale de paramètre $\theta$ inconnu. Quelle
     est la distribution postérieure du paramètre $\theta$ au vue de ces
     données, sachant que l'analyste n'avait aucun a priori (vous pouvez
     également utiliser vos propres connaissances a priori).
 
-- Calculer le HDI à 95% de la distribution postérieure et en donner
-    une représentation graphique (indice : utilisez la fonction `imsb::posterior_plot()`).
+-   Calculer le HDI à 95% de la distribution postérieure et en donner
+    une représentation graphique (indice : utilisez la fonction
+    `imsb::posterior_plot()`).
 
-- Peut-on rejeter l'hypothèse nulle selon laquelle $\theta = 0.5$ ?
+-   Peut-on rejeter l'hypothèse nulle selon laquelle $\theta = 0.5$ ?
     Répondez à cette question en utilisant la procédure HDI+ROPE.
 
-- Importer les donnes `tartine2` du paquet `imsb`. Mettre
-    à jour le modèle en utilisant le mode de la distribution postérieure
-    calculée précédemment.
+-   Importer les donnes `tartine2` du paquet `imsb`. Mettre à jour le
+    modèle en utilisant le mode de la distribution postérieure calculée
+    précédemment.
 :::
 
 ## Proposition de solution - Question 1

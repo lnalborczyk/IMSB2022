@@ -702,7 +702,7 @@ Ces données représentent les distributions marginales de chaque
 paramètre. En d'autres termes, la *probabilité* de chaque valeur de
 $\mu$, après avoir *moyenné* sur toutes les valeurs possible de
 $\sigma$, est décrite par une distribution gaussienne avec une moyenne
-de $154.59$ et un écart type de $0.41$. L'intervalle de crédibilité
+de $154.6$ et un écart type de $0.43$. L'intervalle de crédibilité
 ($\neq$ intervalle de confiance) nous indique les 95% valeurs de $\mu$
 ou $\sigma$ les plus probables (sachant les données et les priors).
 
@@ -1036,7 +1036,7 @@ mod4 <- brm(
 posterior_summary(mod4)
 ```
 
--   $\alpha = 113.87, 95\% \ \text{CrI} \ [110.18, 117.68]$ représente
+-   $\alpha = 113.86, 95\% \ \text{CrI} \ [110.01, 117.6]$ représente
     la taille moyenne quand le poids est égal à 0kg...
 
 -   $\beta = 0.91, 95\% \ \text{CrI} \ [0.82, 0.99]$ nous indique qu'une
@@ -1062,7 +1062,7 @@ fixef(mod5) # retrieves the fixed effects estimates
 ```
 
 Après avoir centré la réponse, l'intercept représente désormais la
-valeur attendue de *taille* lorsque le poids est à sa valeur moyenne.
+valeur attendue de taille (en cm) lorsque le poids est à sa valeur moyenne.
 
 ## Représenter les prédictions du modèle
 
@@ -1132,6 +1132,12 @@ d2 %>%
     stat = "identity", color = "black", alpha = 0.8, size = 1
     )
 ```
+
+## Built-in brms functions
+
+Le paquet `brms` propose aussi les fonctions `posterior_epred()`, `posterior_linpred()`, et `posterior_predict()`, qui permettent de générer des prédictions à partir de modèles fittés avc `brms`. Andrew Heiss décrit de manière détaillée le fonctionnement de ces fonction dans [cet article de blog](https://www.andrewheiss.com/blog/2022/09/26/guide-visualizing-types-posteriors/).
+
+![](figures/normal.png){fig-align="center"}
 
 ## Deux types d'incertitude
 
@@ -1266,7 +1272,7 @@ basé sur l'échantillon.
 @marsman2017 et @marsman2019 généralisent des méthodes existantes pour
 calculer un $\rho^{2}$ pour les designs de type ANOVA (i.e., avec
 prédicteurs catégoriels), qui représente une estimation de la taille
-d'effet *dans la population*, et non basé sur l'échantillon.
+d'effet **dans la population** (et non basée sur l'échantillon).
 
 . . .
 
@@ -1292,8 +1298,9 @@ post <- as_draws_df(x = mod4)
 beta <- post$b_weight
 sigma <- post$sigma
 
-f1 <- beta^2 * var(d2$weight)
-rho <- f1 / (f1 + sigma^2)
+# f1 <- beta^2 * var(d2$weight)
+# rho <- f1 / (f1 + sigma^2)
+rho <- beta^2 * var(d2$weight) / (sigma^2 + beta^2 * var(d2$weight) )
 ```
 
 Attention, si plusieurs prédicteurs, dépend de la structure de
@@ -1303,6 +1310,7 @@ covariance...
 
 ```{r effsize-plot1, eval = TRUE, echo = TRUE, dev = "png", dpi = 200}
 posterior_plot(samples = rho, usemode = TRUE) + labs(x = expression(rho) )
+
 ```
 
 . . .
@@ -1375,7 +1383,7 @@ un intervalle de crédibilité à 89% pour les tailles prédites.
 
 . . .
 
-Que pensez-vous du *fit* du modèle ? Quelles conditions d'application du
+Que pensez-vous du "fit" du modèle ? Quelles conditions d'application du
 modèle seriez-vous prêt.e.s à changer, afin d'améliorer le modèle ?
 
 ## Travaux pratiques - 2/2

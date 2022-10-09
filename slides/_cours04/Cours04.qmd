@@ -330,6 +330,8 @@ $$
 \end{aligned}
 $$
 
+. . .
+
 Ce modèle répond à deux questions :
 
 + Une fois connu le taux de mariage, quelle valeur ajoutée apporte la connaissance de l'âge médian de mariage ?
@@ -546,9 +548,15 @@ Conclusion : Lorsque deux variables sont fortement corrêlées (conditionnelleme
 
 Problèmes qui arrivent lorsqu'on inclut des prédicteurs qui sont eux-mêmes définis directement ou indirectement par d'autres prédicteurs inclus dans le modèle.
 
+. . .
+
 Supposons par exemple qu'on s'intéresse à la pousse des plantes en serre. On voudrait savoir quel traitement permettant de réduire la présence de champignons améliore la pousse des plantes.
 
+. . .
+
 On commence donc par planter et laisser germer des graines, mesurer la taille initiale des pousses, puis appliquer différents traitements.
+
+. . .
 
 Enfin, on mesure à la fin de l'expérience la taille finale de chaque plante et la présence de champignons.
 
@@ -680,6 +688,8 @@ L'intercept $\alpha$ représente la taille moyenne des femmes, car $\mu_{i} = \a
 fixef(mod8) # retrieves fixed effects
 ```
 
+. . .
+
 La pente $\beta$ nous indique la différence de taille moyenne entre les hommes et les femmes. Pour obtenir la taille moyenne des hommes, il suffit donc d'ajouter $\alpha$ et $\beta$.
 
 ```{r summary-female, eval = TRUE, echo = TRUE}
@@ -775,6 +785,8 @@ df5 <- open_data(milk)
 str(df5)
 ```
 
+. . .
+
 Règle : pour $k$ catégories, nous aurons besoin de $k - 1$ *dummy variables*. Pas la peine de créer une variable pour `ape`, qui sera notre *intercept*.
 
 ```{r categories, eval = TRUE, echo = TRUE}
@@ -837,6 +849,8 @@ mu.OWM <- post$b_Intercept + post$b_clade.OWM
 mu.S <- post$b_Intercept + post$b_clade.S
 ```
 
+. . .
+
 ```{r precis-mod10, eval = TRUE, echo = TRUE}
 # displays a summary of the posterior samples
 rethinking::precis(data.frame(mu.ape, mu.NWM, mu.OWM, mu.S), prob = 0.95)
@@ -850,6 +864,8 @@ Si on s'intéresse à la différence entre deux groupes, on peut calculer la dis
 diff.NWM.OWM <- mu.NWM - mu.OWM
 quantile(diff.NWM.OWM, probs = c(0.025, 0.5, 0.975) )
 ```
+
+. . .
 
 ```{r plotpost-mod10, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5, dev = "png", dpi = 200}
 posterior_plot(samples = diff.NWM.OWM, compval = 0, rope = c(-0.1, 0.1) )
@@ -905,7 +921,6 @@ Par exemple : on s'intéresse à la pousse des tulipes selon la quantité de lum
 
 ```{r data-tulips, eval = TRUE, echo = TRUE}
 df6 <- open_data(tulips)
-
 head(df6, 10)
 ```
 

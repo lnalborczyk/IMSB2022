@@ -102,9 +102,9 @@ Une probabilité est une valeur numérique assignée à un événement $A$, comp
 
 Les probabilités se conforment aux axiomes suivants :
 
-- Non-negativité : $\Pr(A) \geq 0$
-- Normalisation : $\Pr(\Omega) = 1$
-- Additivité (pour des événements incompatibles) : $\Pr(A_{1} \cup A_{2}) = \Pr(A_{1}) + \Pr(A_{2})$
+-   Non-negativité : $\Pr(A) \geq 0$
+-   Normalisation : $\Pr(\Omega) = 1$
+-   Additivité (pour des événements incompatibles) : $\Pr(A_{1} \cup A_{2}) = \Pr(A_{1}) + \Pr(A_{2})$
 
 . . .
 
@@ -274,7 +274,7 @@ Les probabilités dépendent d'un état du monde, de caractéristiques physiques
 :::
 :::
 
-## {background-image="figures/pill3.jpg"}
+##  {background-image="figures/pill3.jpg"}
 
 ## Un peu de logique
 
@@ -333,21 +333,21 @@ Les probabilités dépendent d'un état du monde, de caractéristiques physiques
 
 ![](figures/good.gif){fig-align="center" width="50%"}
 
-## Logique, fréquentisme et raisonnement probabiliste
+## Logique, fréquentisme, et raisonnement probabiliste
 
-Le *modus tollens* est un des raisonnements logiques les plus importants et les plus performants. Dans le cadre de l'inférence statistique, il s'applique parfaitement au cas suivant : "Si $H_{0}$ est vraie, alors $x$ ne devrait pas se produire. On observe $x$. Alors $H_{0}$ est fausse".
-
-. . .
-
-Mais nous avons le plus souvent affaire à des hypothèses "continues", probabilistes.
+Le **modus tollens** est un des raisonnements logiques les plus importants et les plus performants. Dans le cadre de l'inférence statistique, il s'applique parfaitement au cas suivant : "Si $\mathcal{H}_{0}$ est vraie, alors $x$ ne devrait pas se produire. On observe $x$. Alors $\mathcal{H}_{0}$ est fausse".
 
 . . .
 
-L'inférence fréquentiste (fishérienne) est elle aussi probabiliste, de la forme "Si $H_{0}$ est vraie, alors $x$ est peu probable. On observe $x$. Alors $H_{0}$ est peu probable."
+Mais nous avons le plus souvent affaire à des hypothèses "continues" (probabilistes).
 
 . . .
 
-Or cet argument est invalide, le *modus tollens* ne s'applique pas au monde probabiliste [e.g., @pollard1987; @rouder2016].
+L'inférence fréquentiste (fishérienne) est elle aussi probabiliste, de la forme "Si $\mathcal{H}_{0}$ est vraie, alors $x$ est peu probable. On observe $x$. Alors $\mathcal{H}_{0}$ est peu probable."
+
+. . .
+
+Or cet argument est invalide, le modus tollens ne s'applique pas au monde probabiliste [e.g., @pollard1987; @rouder2016].
 
 . . .
 
@@ -355,7 +355,7 @@ Par exemple : *si un individu est un homme, alors il est peu probable qu'il soit
 
 ## L'échec de la falsification
 
-*Poppérisme naïf* : la science progresse par falsification logique, donc la statistique devrait viser la falsification. Mais...
+**Poppérisme naïf** : la science progresse par falsification logique, donc la statistique devrait viser la falsification. Mais...
 
 -   Les hypothèses théoriques ne sont pas les modèles (hypothèses statistiques).
 
@@ -369,7 +369,7 @@ Par exemple : *si un individu est un homme, alors il est peu probable qu'il soit
 
 . . .
 
--   Erreurs de mesure.
+-   Erreurs de mesure (e.g., [faster-than-light neutrino anomaly](https://en.wikipedia.org/wiki/Faster-than-light_neutrino_anomaly)).
 
 . . .
 
@@ -412,7 +412,7 @@ data.frame(x, y) %>%
 
 ## Comparaison de modèles
 
-Cette description peut-être *améliorée* pour mieux prendre en compte les données qui s'écartent de la prédiction linéaire.
+Cette description peut-être améliorée pour mieux prendre en compte les données qui s'écartent de la prédiction linéaire.
 
 ```{r echo = FALSE, fig.align = "center", fig.width = 7.5, fig.height = 5}
 data.frame(x, y) %>%
@@ -688,7 +688,7 @@ Au vu des données, l'hypothèse la plus *probable* est celle qui **maximise le 
 <br>
 
 |                                    Hypothèse                                    | Façons d'obtenir les données |
-|:---------------------:|:----------------------------------------------:|
+|:----------------------:|:----------------------------------------------:|
 |           :white_circle: :white_circle: :white_circle: :white_circle:           |        0 x 4 x 0 = 0         |
 |        :large_blue_circle: :white_circle: :white_circle: :white_circle:         |        1 x 3 x 1 = 3         |
 |      :large_blue_circle: :large_blue_circle: :white_circle: :white_circle:      |        2 x 2 x 2 = 8         |
@@ -754,7 +754,7 @@ Définissons $p$ comme la proportion de billes bleues.
 <br>
 
 |                                    Hypothèse                                    | $p$  | Manières de produire les données | Probabilité |
-|:---------------:|:---------------:|:---------------------:|:---------------:|
+|:---------------:|:---------------:|:-------------------:|:---------------:|
 |           :white_circle: :white_circle: :white_circle: :white_circle:           |  0   |                0                 |      0      |
 |        :large_blue_circle: :white_circle: :white_circle: :white_circle:         | 0.25 |                3                 |    0.15     |
 |      :large_blue_circle: :large_blue_circle: :white_circle: :white_circle:      | 0.5  |                8                 |    0.40     |
@@ -801,7 +801,7 @@ Dans ce cadre, pour chaque problème, nous allons suivre 3 étapes :
 
 . . .
 
-> Bayesian inference is really just counting and comparing of possibilities \[...\] in order to make good inference about what actually happened, it helps to consider everything that could have happened (McElreath, 2015).
+> Bayesian inference is really just counting and comparing of possibilities \[...\] in order to make good inference about what actually happened, it helps to consider everything that could have happened [@mcelreath2016].
 
 # Rappels : Théorie des probabilités
 
@@ -898,7 +898,7 @@ cont <- round(cont / sum(cont), 2)
 cont
 ```
 
-Dans chaque cellule, on trouve la **probabilité conjointe** d'avoir telle couleur de cheveux **ET** telle couleur d'yeux, qui s'écrit $p(c,y)=p(y,c)$.
+Dans chaque cellule, on trouve la **probabilité conjointe** d'avoir telle couleur de cheveux **ET** telle couleur d'yeux, qui s'écrit $p(c, y) = p(y, c)$.
 
 ## Probabilité marginale
 
@@ -908,7 +908,7 @@ rownames(cont2) <- row.names(cont)
 cont2
 ```
 
-On peut aussi s'intéresser à la probabilité d'avoir des yeux bleus, de manière générale. Il s'agit de la probabilité **marginale** de l'événement *yeux bleus*, qui s'obtient par la somme de toutes les probabilités jointes impliquant l'événement *yeux bleus*. Elle s'écrit $p(y)=\sum\limits_{c}p(y|c)p(c)$.
+On peut aussi s'intéresser à la probabilité d'avoir des yeux bleus, de manière générale. Il s'agit de la probabilité **marginale** de l'événement *yeux bleus*, qui s'obtient par la somme de toutes les probabilités jointes impliquant l'événement *yeux bleus*. Elle s'écrit $p(y)$.
 
 ## Probabilité marginale
 
@@ -918,7 +918,7 @@ rownames(cont3) <- c(row.names(cont2), "marginal_hair")
 cont3
 ```
 
-On peut bien entendu aussi s'intéresser aux probabilités des couleurs de cheveux, de manière générale. Elle s'écrit $p(c)=\sum\limits_{y}p(c|y)p(y)$.
+On peut bien entendu aussi s'intéresser aux probabilités des couleurs de cheveux, de manière générale. Elle s'écrit $p(c)$.
 
 ## Probabilité conditionnelle
 
@@ -938,7 +938,7 @@ cont3["Blue", "Blond"] / cont3["Blue", "marginal_eye"]
 
 ## Probabilité conditionnelle
 
-On remarque dans le cas précédent que $p(\text{cheveux = blonds} \ |\ \text{yeux = bleus})$ **n'est pas nécessairement égal** à $p(\text{yeux = bleus} \ |\ \text{cheveux = blonds})$.
+On remarque dans le cas précédent que $\Pr(\text{cheveux = blonds} | \text{yeux = bleus})$ **n'est pas nécessairement égal** à $\Pr(\text{yeux = bleus} | \text{cheveux = blonds})$.
 
 . . .
 
@@ -954,13 +954,15 @@ Autre exemple : la probabilité de mourir sachant qu'on a été attaqué par un 
 
 À partir des axiomes de Kolmogorov (cf. début du cours), et des définitions précédentes des probabilités conjointes, marginales, et conditionnelles, découle la **règle du produit** :
 
-$$p(x,y) = p(x|y)p(y) = p(y|x)p(x)$$
+$$p(x,y) = p(x|y) p(y) = p(y|x) p(x)$$
 
 . . .
 
 $$p(y|x) p(x) = p(x|y) p(y)$$
 
 . . .
+
+Puis en divisant chaque côté par $p(x)$ :
 
 $$p(y|x) = \dfrac{p(x|y) p(y)}{p(x)}$$
 
@@ -970,8 +972,10 @@ $$p(x|y) = \dfrac{p(y|x) p(x)}{p(y)}$$
 
 . . .
 
+Si on remplace $x$ par $\text{hypothèse}$ et $y$ par $\text{données}$ :
+
 $$
-\Pr(\text{hypothèse}\ |\ \text{données}) = \frac{\Pr(\text{données}\ |\ \text{hypothèse}) \times \Pr(\text{hypothèse})}{\text{somme des produits}}
+\Pr(\text{hypothèse} | \text{données}) = \frac{\Pr(\text{données} | \text{hypothèse}) \times \Pr(\text{hypothèse})}{\text{somme des produits}}
 $$
 
 # Exemple d'application
@@ -998,7 +1002,7 @@ $$
     -   Le résultat de la mammographie (i.e., les données) dépend de la présence / absence d'un cancer du sein (i.e., le paramètre).
 -   L'approche par **maximum de vraisemblance** pose la question : "Quelles sont les valeurs du paramètre qui rendent les données observées les plus probables ?"
 -   Spécifier la probabilité conditionnelle des données $p(x|\theta)$.
--   Quand on le considère comme fonction de $\theta$, on parle de **likelihood** : $L(\theta|x) = p(X = x|\theta)$.
+-   Quand on le considère comme fonction de $\theta$, on parle de **vraisemblance** (likelihood) : $L(\theta|x) = p(X = x|\theta)$.
 -   L'approche par maximum de vraisemblance consiste donc à maximiser cette fonction, en utilisant les valeurs (connues) de $x$.
 :::
 
@@ -1019,10 +1023,14 @@ $$
 -   Une femme passe une mammographie, le résultat est positif...
     -   $\Pr(\text{Mam=+} | \text{Cancer=+}) = 0.90$
     -   $\Pr(\text{Mam=+} | \text{Cancer=-}) = 0.07$
--   Maximum de vraisemblance : quelle est la valeur de *Cancer* qui **maximise** $Mam=+$ ?
+-   Maximum de vraisemblance : quelle est la valeur de $\text{Cancer}$ qui **maximise** $\text{Mam=+}$ ?
     -   $\Pr(\text{Mam=+} | \text{Cancer=+}) = 0.90$
     -   $\Pr(\text{Mam=+} | \text{Cancer=-}) = 0.07$
 :::
+
+. . .
+
+En suivant cette approche, on conclut donc à la présence d'un cancer (car cela maximise la probabilité d'apparition d'un mammogramme positif)...
 
 ## Wait a minute...
 
@@ -1052,7 +1060,7 @@ $$
 \color{purple}{p(\theta \vert x)} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{p(x)}}
 $$
 
-$\color{steelblue}{p(\theta)}$ [représente la probabilité *a priori* de $\theta$ : tout ce qu'on sait de $\theta$ avant d'observer les données. En l'occurrence : $\Pr(\text{Cancer=+}) = 0.008$ et $\Pr(\text{Cancer=-}) = 0.992$.]{style="color:steelblue"}
+$\color{steelblue}{p(\theta)}$ [représente la probabilité a priori de $\theta$ : tout ce qu'on sait de $\theta$ avant d'observer les données. En l'occurrence : $\Pr(\text{Cancer=+}) = 0.008$ et $\Pr(\text{Cancer=-}) = 0.992$.]{style="color:steelblue"}
 
 ```{r, echo = TRUE}
 prior <- c(0.008, 0.992)
@@ -1064,7 +1072,7 @@ $$
 \color{purple}{p(\theta \vert x)} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{p(x)}}
 $$
 
-$\color{orangered}{p(x\vert \theta)}$ [représente la probabilité conditionnelle des données $x$ sachant le paramètre $\theta$, qu'on appelle aussi la *likelihood* (*ou fonction de vraisemblance*) du paramètre $\theta$.]{style="color:orangered"}
+$\color{orangered}{p(x\vert \theta)}$ [représente la probabilité conditionnelle des données $x$ sachant le paramètre $\theta$, qu'on appelle aussi la fonction de vraisemblance (likelihood function) du paramètre $\theta$.]{style="color:orangered"}
 
 . . .
 
@@ -1079,7 +1087,7 @@ like
 
 $$\color{purple}{p(\theta \vert x)} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{p(x)}}$$
 
-[$p(x)$ la probabilité marginale de $x$ (sur $\theta$). Sert à normaliser la distribution.]{style="color:green"}
+[$p(x)$ la probabilité marginale de $x$ (sur $\theta$). Constante, sert à normaliser la distribution.]{style="color:green"}
 
 $$\color{green}{p(x)=\sum\limits_{\theta}p(x|\theta)p(\theta)}$$
 

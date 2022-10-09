@@ -59,14 +59,14 @@ $presentation-h3-font-size: 1.5em !default;
 
 // https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/revealjs/plugins/support/footer.css
 .reveal .slide-number {
-  font-family:  Montserrat, sans-serif;
-  font-size: 0.8em !important;
+  font-family: Montserrat, sans-serif;
+  font-size: 0.9em !important;
   color: #1c5253 !important;
 }
 
 .reveal .footer {
-  font-family:  Montserrat, sans-serif;
-  font-size: 0.8em !important;
+  font-family: Montserrat, sans-serif;
+  font-size: 0.9em !important;
   color: #1c5253;
 }
 
@@ -75,11 +75,11 @@ $presentation-h3-font-size: 1.5em !default;
 //}
 
 .math.inline .MathJax  {
-  font-size: 110% !important;
+  font-size: 100% !important;
 }
 
 .math.display .MathJax  {
-  font-size: 120% !important;
+  font-size: 110% !important;
 }
 
 .reveal .slide a {
