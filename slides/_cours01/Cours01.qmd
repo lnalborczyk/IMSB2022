@@ -940,19 +940,16 @@ Par exemple, quelle est la probabilité d'avoir des yeux bleus lorsqu'on a les c
 cont3["Blue", "Blond"] / cont3["Blue", "marginal_eye"]  
 ```
 
-## Probabilité conditionnelle
-
-On remarque dans le cas précédent que $\Pr(\text{cheveux = blonds} \given \text{yeux = bleus})$ **n'est pas nécessairement égal** (et n'est généralement pas égal) à $\Pr(\text{yeux = bleus} \given \text{cheveux = blonds})$.
-
 . . .
 
-<iframe align="left" border="0" frameborder="0" height="500" width="600" src="https://twitframe.com/show?url=https://twitter.com/BillGates/status/1118196606975787008">
+On remarque que $\Pr(\text{cheveux = blonds} \given \text{yeux = bleus})$ **n'est pas nécessairement égal** (et n'est généralement pas égal) à $\Pr(\text{yeux = bleus} \given \text{cheveux = blonds})$.
 
-</iframe>
-
-<br>
+## Probabilité conditionnelle
 
 Autre exemple : la probabilité de mourir sachant qu'on a été attaqué par un requin n'est pas la même que la probabilité d'avoir été attaqué par un requin, sachant qu'on est mort ([confusion of the inverse](https://en.wikipedia.org/wiki/Confusion_of_the_inverse)). De la même manière, $p(\text{data} \given \mathcal{H}_{0}) \neq p(\mathcal{H}_{0} \given \text{data})$.
+
+<center><iframe border="0" frameborder="0" height="500" width="500" src="https://twitframe.com/show?url=https://twitter.com/BillGates/status/1118196606975787008">
+</iframe></center>
 
 ## Dérivation du théorème de Bayes
 
