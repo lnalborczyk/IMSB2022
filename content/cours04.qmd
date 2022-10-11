@@ -25,4 +25,4 @@ Voir toutes les commandes de `revealjs` en appuyant sur <kbd>m</kbd> puis <kbd>h
 
 ## Pour aller plus loin
 
-...
+- McElreath, R. (2021). Science Before Statistics: Causal Inference. Conference recording available at <https://www.youtube.com/watch?v=KNPYUVmY3NM>.

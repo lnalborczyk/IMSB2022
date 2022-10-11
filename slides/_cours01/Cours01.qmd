@@ -56,17 +56,19 @@ theme_set(theme_bw(base_size = 16, base_family = "Open Sans") )
 
 Ce cours est grandement inspiré des livres suivants :
 
--   McElreath, R. (2016, 2020). *Statistical Rethinking: A Bayesian Course with Examples in R and Stan*. CRC Press.
+- McElreath, R. (2016, 2020). *Statistical Rethinking: A Bayesian Course with Examples in R and Stan*. CRC Press.
 
--   Kurz, S. (2019). *Statistical Rethinking with brms, ggplot2, and the tidyverse*. Available [online](https://bookdown.org/ajkurz/Statistical_Rethinking_recoded/).
+- Kurz, S. (2019). *Statistical Rethinking with brms, ggplot2, and the tidyverse*. Available [online](https://bookdown.org/ajkurz/Statistical_Rethinking_recoded/).
 
--   Kruschke, J. K. (2015). *Doing Bayesian Data Analysis, Second Edition: A Tutorial with R, JAGS, and Stan*. Academic Press / Elsevier.
+- Kruschke, J. K. (2015). *Doing Bayesian Data Analysis, Second Edition: A Tutorial with R, JAGS, and Stan*. Academic Press / Elsevier.
 
--   Gelman, A., Carlin, J. B., Stern, H. S., Dunson, D. B., Vehtari, A., & Rubin, D. B. (2013). *Bayesian Data Analysis, third edition*. London: CRC Press.
+- Gelman, A., Carlin, J. B., Stern, H. S., Dunson, D. B., Vehtari, A., & Rubin, D. B. (2013). *Bayesian Data Analysis, third edition*. London: CRC Press.
 
--   Lambert, B. (2018). *A Student's Guide to Bayesian Statistics*. SAGE Publications Ltd.
+- Lambert, B. (2018). *A Student's Guide to Bayesian Statistics*. SAGE Publications Ltd.
 
--   Nicenboim, B., Schad, D., & Vasishth, S. (2021). An Introduction to Bayesian Data Analysis for Cognitive Science. Available [online](https://vasishth.github.io/bayescogsci/book/).
+- Noël, Y. (2015). *Psychologie Statistique*. EDP Sciences.
+
+- Nicenboim, B., Schad, D., & Vasishth, S. (2021). *An Introduction to Bayesian Data Analysis for Cognitive Science*. Available [online](https://vasishth.github.io/bayescogsci/book/).
 
 Les slides seront disponibles juste avant chaque séance sur le site de la formation : <https://www.barelysignificant.com/IMSB2022/>.
 
@@ -94,6 +96,8 @@ Speaker notes go here...
 
 **Cours n°01 : Introduction à l'inférence bayésienne** <br> Cours n°02 : Modèle Beta-Binomial <br> Cours n°03 : Introduction à brms, modèle de régression linéaire <br> Cours n°04 : Modèle de régression linéaire (suite) <br> Cours n°05 : Markov Chain Monte Carlo <br> Cours n°06 : Modèle linéaire généralisé <br> Cours n°07 : Comparaison de modèles <br> Cours n°08 : Modèles multi-niveaux <br> Cours n°09 : Modèles multi-niveaux généralisés <br> Cours n°10 : Data Hackathon <br>
 
+$$\newcommand\given[1][]{\:#1\vert\:}$$
+
 ## Axiomes des probabilités [@kolmogorov1933]
 
 Une probabilité est une valeur numérique assignée à un événement $A$, compris comme une possibilité appartenant à l'univers $\Omega$ (l'ensemble de toutes les issues possibles).
@@ -116,9 +120,9 @@ Quelle est la probabilité...
 
 -   D'obtenir un chiffre pair sur un lancer de dé ?
 
-. . .
-
 -   Que j'apprenne quelque chose pendant cette formation ?
+
+. . .
 
 Est-ce qu'il s'agit, pour chaque exemple, de la même **sorte** de probabilité ?
 
@@ -220,7 +224,7 @@ Conséquence : ces propriétés sont les propriétés d'événements individuels
 
 ## Interprétation logique
 
-L'interprétation logique du concept de probabilité essaye de généraliser la logique (vrai / faux) au monde probabiliste. La probabilité représente donc le *degré de support logique* qu'une conclusion peut avoir, relativement à un ensemble de prémisses [@keynes1921; @carnap1971].
+L'interprétation logique du concept de probabilité essaye de généraliser la logique (vrai / faux) au monde probabiliste. La probabilité représente donc le **degré de support logique** qu'une conclusion peut avoir, relativement à un ensemble de prémisses [@keynes1921; @carnap1971].
 
 . . .
 
@@ -228,7 +232,7 @@ Conséquence : toute probabilité est **conditionnelle**.
 
 ## Interprétation bayésienne
 
-**La probabilité est une mesure du degré d'incertitude**. Un événement *certain* aura donc une probabilité de 1 et un événement *impossible* aura une probabilité de 0.
+La probabilité est **une mesure du degré d'incertitude**. Un événement *certain* aura donc une probabilité de 1 et un événement *impossible* une probabilité de 0.
 
 . . .
 
@@ -236,7 +240,7 @@ Conséquence : toute probabilité est **conditionnelle**.
 
 . . .
 
-Pour parler de probabilités, dans ce cadre, nous n'avons donc plus besoin de nous référer à la limite d'occurrence d'un événement (fréquence).
+Pour parler de probabilités, dans ce cadre, nous n'avons plus besoin de nous référer à la limite d'occurrence d'un événement (fréquence).
 
 ## Interprétations probabilistes
 
@@ -278,7 +282,7 @@ Les probabilités dépendent d'un état du monde, de caractéristiques physiques
 
 ## Un peu de logique
 
-![](figures/penguin.jpg){fig-align="center" width="50%"}
+![](figures/penguins.png){fig-align="center" width="50%"}
 
 ## Un peu de logique, quelques syllogismes
 
@@ -351,7 +355,7 @@ Or cet argument est invalide, le modus tollens ne s'applique pas au monde probab
 
 . . .
 
-Par exemple : *si un individu est un homme, alors il est peu probable qu'il soit pape. François est pape. François n'est donc certainement pas un homme...*
+Par exemple : *Si un individu est un homme (man), alors il est peu probable qu'il soit pape. François est pape. François n'est donc certainement pas un homme...*
 
 ## L'échec de la falsification
 
@@ -361,7 +365,7 @@ Par exemple : *si un individu est un homme, alors il est peu probable qu'il soit
 
 . . .
 
-> "Models are devices that connect theories to data. A model is an instanciation of a theory as a set of probabilistic statements" .[@rouder2016a].
+> Models are devices that connect theories to data. A model is an instanciation of a theory as a set of probabilistic statements [@rouder2016a].
 
 . . .
 
@@ -466,13 +470,13 @@ Besoin d'un cadre pour développer des modèles cohérents. Nos outils :
 
 -   Approche par **comparaison de modèles** : au lieu d'essayer de falsifier un "null model", on va comparer des modèles intéressants (AIC, WAIC).
 
-## Exercice - Problème du sac de billes
+## Exercice - Problème du sac de billes [@mcelreath2020b]
 
 Imaginons que nous disposions d'un sac contenant 4 billes. Ces billes peuvent être soit blanches, soit bleues. Nous savons qu'il y a précisément 4 billes, mais nous ne connaissons pas le nombre de billes de chaque couleur.
 
 . . .
 
-Nous savons cependant qu'il existe cinq possibilités (que nous considérons comme nos *hypothèses*) :
+Nous savons cependant qu'il existe cinq possibilités (que nous considérons comme nos **hypothèses**) :
 
 <br>
 
@@ -490,7 +494,7 @@ Nous savons cependant qu'il existe cinq possibilités (que nous considérons com
 
 </center>
 
-## Exercice - Problème du sac de billes
+## Exercice - Problème du sac de billes [@mcelreath2020b]
 
 Le but est de déterminer quelle combinaison serait la plus probable, **sachant certaines observations**. Imaginons que l'on tire trois billes à la suite, avec remise, et que l'on obtienne la séquence suivante : :large_blue_circle: :white_circle: :large_blue_circle:.
 
@@ -736,7 +740,7 @@ Supposons maintenant qu'un employé de l'usine de fabrication des billes nous di
 La probabilité d'une hypothèse après avoir observé certaines données est proportionnelle au nombre de façons qu'a cette hypothèse de produire les données observées, multiplié par sa probabilité a priori.
 
 $$
-\Pr(\text{hypothèse}\ |\ \text{données}) \propto \Pr(\text{données}\ |\ \text{hypothèse}) \times \Pr(\text{hypothèse})
+\Pr(\text{hypothèse} \given \text{données}) \propto \Pr(\text{données} \given \text{hypothèse}) \times \Pr(\text{hypothèse})
 $$
 
 . . .
@@ -744,12 +748,12 @@ $$
 Pour passer des *plausibilités* aux *probabilités*, il suffit de standardiser ces plausibilités pour que la somme des plausibilités de toutes les hypothèses possibles soit égale à $1$.
 
 $$
-\Pr(\text{hypothèse}\ |\ \text{données}) = \frac{\Pr(\text{données}\ |\ \text{hypothèse})\times \Pr(\text{hypothèse})}{\text{somme des produits}}
+\Pr(\text{hypothèse} \given \text{données}) = \frac{\Pr(\text{données} \given \text{hypothèse})\times \Pr(\text{hypothèse})}{\text{somme des produits}}
 $$
 
 ## Des énumérations aux probabilités
 
-Définissons $p$ comme la proportion de billes bleues.
+On définit $p$ comme la proportion de billes bleues dans le sac.
 
 <br>
 
@@ -774,10 +778,10 @@ ways / sum(ways)
 
 ::: incremental
 -   $\theta$ est un paramètre ou vecteur de paramètres (e.g., la proportion de billes bleues).
--   $\color{orangered}{p(x\vert \theta)}$ [la probabilité conditionnelle des données $x$ sachant le paramètre $\theta$ $\color{orangered}{[p(x | \theta = \theta)]}$.]{style="color:orangered"}
--   $\color{orangered}{p(x\vert \theta)}$ [une fois que la valeur de $x$ est connue, est vue comme la fonction de vraisemblance (*likelihood*) du paramètre $\theta$. Attention, il ne s'agit pas d'une distribution de probabilité valide $\color{orangered}{[p(x = x | \theta)]}$.]{style="color:orangered"}
+-   $\color{orangered}{p(x \given \theta)}$ [la probabilité conditionnelle des données $x$ sachant le paramètre $\theta$ $\color{orangered}{[p(x \given \theta = \theta)]}$.]{style="color:orangered"}
+-   $\color{orangered}{p(x \given \theta)}$ [une fois que la valeur de $x$ est connue, est vue comme la fonction de vraisemblance (likelihood) du paramètre $\theta$. Attention, il ne s'agit pas d'une distribution de probabilité valide $\color{orangered}{[p(x = x \given \theta)]}$.]{style="color:orangered"}
 -   $\color{steelblue}{p(\theta)}$ [la probabilité a priori de $\theta$.]{style="color:steelblue"}
--   $\color{purple}{p(\theta \vert x)}$ [la probabilité a posteriori de $\theta$ (sachant $x$).]{style="color:purple"}
+-   $\color{purple}{p(\theta \given x)}$ [la probabilité a posteriori de $\theta$ (sachant $x$).]{style="color:purple"}
 -   $\color{green}{p(x)}$ [la probabilité marginale de $x$ (sur $\theta$) ou "vraisemblance marginale", "vraisemblance intégrée".]{style="color:green"}
 :::
 
@@ -786,7 +790,7 @@ ways / sum(ways)
 <br>
 
 $$
-\color{purple}{p(\theta \vert x)} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{p(x)}} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{\sum\limits_{\theta}p(x|\theta)p(\theta)}} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{\int\limits_{\theta}p(x|\theta)p(\theta)\mathrm{d}x}} \propto \color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}
+\color{purple}{p(\theta \given x)} = \dfrac{\color{orangered}{p(x \given \theta)} \color{steelblue}{p(\theta)}}{\color{green}{p(x)}} = \dfrac{\color{orangered}{p(x \given \theta)} \color{steelblue}{p(\theta)}}{\color{green}{\sum\limits_{\theta}p(x \given \theta)p(\theta)}} = \dfrac{\color{orangered}{p(x \given \theta)} \color{steelblue}{p(\theta)}}{\color{green}{\int\limits_{\theta}p(x \given \theta)p(\theta)\mathrm{d}x}} \propto \color{orangered}{p(x \given \theta)} \color{steelblue}{p(\theta)}
 $$
 
 ## Inférence bayésienne
@@ -794,9 +798,9 @@ $$
 Dans ce cadre, pour chaque problème, nous allons suivre 3 étapes :
 
 ::: incremental
--   Construire le modèle (l'histoire des données): *likelihood* + *prior*
--   Mettre à jour grâce aux données (*updating*), calculer la probabilité *a posteriori*
--   Evaluer le modèle, *fit*, sensibilité, résumer les résultats, ré-ajuster
+-   Construire le modèle (l'histoire des données): likelihood + prior.
+-   Mettre à jour grâce aux données, calculer la probabilité a posteriori.
+-   Évaluer le modèle, qualité du "fit", sensibilité, résumer les résultats, ré-ajuster.
 :::
 
 . . .
@@ -922,7 +926,7 @@ On peut bien entendu aussi s'intéresser aux probabilités des couleurs de cheve
 
 ## Probabilité conditionnelle
 
-On pourrait aussi s'intéresser à la probabilité qu'une personne ait les cheveux blonds, **sachant** qu'elle a les yeux bleus. Il s'agit d'une probabilité **conditionnelle**, et s'écrit $p(c|y)$. Cette probabilité conditionnelle peut se ré-écrire : $p(c | y) = \frac{p(c, y)}{p(y)}$.
+On pourrait aussi s'intéresser à la probabilité qu'une personne ait les cheveux blonds, **sachant** qu'elle a les yeux bleus. Il s'agit d'une probabilité **conditionnelle**, et s'écrit $p(c \given y)$. Cette probabilité conditionnelle peut se ré-écrire : $p(c \given y) = \frac{p(c, y)}{p(y)}$.
 
 ```{r, echo = FALSE, eval = TRUE}
 cont3["Blue", ]
@@ -938,7 +942,7 @@ cont3["Blue", "Blond"] / cont3["Blue", "marginal_eye"]
 
 ## Probabilité conditionnelle
 
-On remarque dans le cas précédent que $\Pr(\text{cheveux = blonds} | \text{yeux = bleus})$ **n'est pas nécessairement égal** à $\Pr(\text{yeux = bleus} | \text{cheveux = blonds})$.
+On remarque dans le cas précédent que $\Pr(\text{cheveux = blonds} \given \text{yeux = bleus})$ **n'est pas nécessairement égal** (et n'est généralement pas égal) à $\Pr(\text{yeux = bleus} \given \text{cheveux = blonds})$.
 
 . . .
 
@@ -948,34 +952,34 @@ On remarque dans le cas précédent que $\Pr(\text{cheveux = blonds} | \text{yeu
 
 <br>
 
-Autre exemple : la probabilité de mourir sachant qu'on a été attaqué par un requin n'est pas la même que la probabilité d'avoir été attaqué par un requin, sachant qu'on est mort ([confusion of the inverse](https://en.wikipedia.org/wiki/Confusion_of_the_inverse)). De la même manière, $p(\text{data} | \mathcal{H}_{0}) \neq p(\mathcal{H}_{0} | \text{data})$.
+Autre exemple : la probabilité de mourir sachant qu'on a été attaqué par un requin n'est pas la même que la probabilité d'avoir été attaqué par un requin, sachant qu'on est mort ([confusion of the inverse](https://en.wikipedia.org/wiki/Confusion_of_the_inverse)). De la même manière, $p(\text{data} \given \mathcal{H}_{0}) \neq p(\mathcal{H}_{0} \given \text{data})$.
 
 ## Dérivation du théorème de Bayes
 
 À partir des axiomes de Kolmogorov (cf. début du cours), et des définitions précédentes des probabilités conjointes, marginales, et conditionnelles, découle la **règle du produit** :
 
-$$p(x,y) = p(x|y) p(y) = p(y|x) p(x)$$
+$$p(x,y) = p(x \given y) p(y) = p(y \given x) p(x)$$
 
 . . .
 
-$$p(y|x) p(x) = p(x|y) p(y)$$
+$$p(y \given x) p(x) = p(x \given y) p(y)$$
 
 . . .
 
 Puis en divisant chaque côté par $p(x)$ :
 
-$$p(y|x) = \dfrac{p(x|y) p(y)}{p(x)}$$
+$$p(y \given x) = \dfrac{p(x \given y) p(y)}{p(x)}$$
 
 . . .
 
-$$p(x|y) = \dfrac{p(y|x) p(x)}{p(y)}$$
+$$p(x \given y) = \dfrac{p(y \given x) p(x)}{p(y)}$$
 
 . . .
 
 Si on remplace $x$ par $\text{hypothèse}$ et $y$ par $\text{données}$ :
 
 $$
-\Pr(\text{hypothèse} | \text{données}) = \frac{\Pr(\text{données} | \text{hypothèse}) \times \Pr(\text{hypothèse})}{\text{somme des produits}}
+\Pr(\text{hypothèse} \given \text{données}) = \frac{\Pr(\text{données} \given \text{hypothèse}) \times \Pr(\text{hypothèse})}{\text{somme des produits}}
 $$
 
 # Exemple d'application
@@ -1001,8 +1005,8 @@ $$
     -   Sachant certaines valeurs des paramètres, nous pouvons calculer la **probabilité conditionnelle** des données observées.
     -   Le résultat de la mammographie (i.e., les données) dépend de la présence / absence d'un cancer du sein (i.e., le paramètre).
 -   L'approche par **maximum de vraisemblance** pose la question : "Quelles sont les valeurs du paramètre qui rendent les données observées les plus probables ?"
--   Spécifier la probabilité conditionnelle des données $p(x|\theta)$.
--   Quand on le considère comme fonction de $\theta$, on parle de **vraisemblance** (likelihood) : $L(\theta|x) = p(X = x|\theta)$.
+-   Spécifier la probabilité conditionnelle des données $p(x \given \theta)$.
+-   Quand on le considère comme fonction de $\theta$, on parle de **vraisemblance** (likelihood) : $\mathcal{L}(\theta \given x) = p(X = x \given \theta)$.
 -   L'approche par maximum de vraisemblance consiste donc à maximiser cette fonction, en utilisant les valeurs (connues) de $x$.
 :::
 
@@ -1010,22 +1014,22 @@ $$
 
 ::: incremental
 -   Si une femme a un cancer du sein, la probabilité d'obtenir un résultat positif est de .90.
-    -   $\Pr(\text{Mam=+} | \text{Cancer=+}) = 0.90$
-    -   $\Pr(\text{Mam=-} | \text{Cancer=+}) = 0.10$
+    -   $\Pr(\text{Mam=+} \given \text{Cancer=+}) = 0.90$
+    -   $\Pr(\text{Mam=-} \given \text{Cancer=+}) = 0.10$
 -   Si une femme n'a pas de cancer du sein, la probabilité d'obtenir un résultat positif est de .07.
-    -   $\Pr(\text{Mam=+} | \text{Cancer=-}) = 0.07$
-    -   $\Pr(\text{Mam=-} | \text{Cancer=-}) = 0.93$
+    -   $\Pr(\text{Mam=+} \given \text{Cancer=-}) = 0.07$
+    -   $\Pr(\text{Mam=-} \given \text{Cancer=-}) = 0.93$
 :::
 
 ## Diagnostique médical, maximum likelihood
 
 ::: incremental
 -   Une femme passe une mammographie, le résultat est positif...
-    -   $\Pr(\text{Mam=+} | \text{Cancer=+}) = 0.90$
-    -   $\Pr(\text{Mam=+} | \text{Cancer=-}) = 0.07$
+    -   $\Pr(\text{Mam=+} \given \text{Cancer=+}) = 0.90$
+    -   $\Pr(\text{Mam=+} \given \text{Cancer=-}) = 0.07$
 -   Maximum de vraisemblance : quelle est la valeur de $\text{Cancer}$ qui **maximise** $\text{Mam=+}$ ?
-    -   $\Pr(\text{Mam=+} | \text{Cancer=+}) = 0.90$
-    -   $\Pr(\text{Mam=+} | \text{Cancer=-}) = 0.07$
+    -   $\Pr(\text{Mam=+} \given \text{Cancer=+}) = 0.90$
+    -   $\Pr(\text{Mam=+} \given \text{Cancer=-}) = 0.07$
 :::
 
 . . .
@@ -1052,12 +1056,12 @@ En suivant cette approche, on conclut donc à la présence d'un cancer (car cela
 
 ![](figures/diagram.png){fig-align="center" width="50%"}
 
-$$\Pr(\text{Cancer=+} | \text{Mam=+}) = \frac{7}{7 + 69} = \frac{7}{76} \approx 0.09$$
+$$\Pr(\text{Cancer=+} \given \text{Mam=+}) = \frac{7}{7 + 69} = \frac{7}{76} \approx 0.09$$
 
 ## Diagnostique médical, théorème de Bayes
 
 $$
-\color{purple}{p(\theta \vert x)} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{p(x)}}
+\color{purple}{p(\theta \given x)} = \dfrac{\color{orangered}{p(x \given \theta)} \color{steelblue}{p(\theta)}}{\color{green}{p(x)}}
 $$
 
 $\color{steelblue}{p(\theta)}$ [représente la probabilité a priori de $\theta$ : tout ce qu'on sait de $\theta$ avant d'observer les données. En l'occurrence : $\Pr(\text{Cancer=+}) = 0.008$ et $\Pr(\text{Cancer=-}) = 0.992$.]{style="color:steelblue"}
@@ -1069,10 +1073,10 @@ prior <- c(0.008, 0.992)
 ## Diagnostique médical, théorème de Bayes
 
 $$
-\color{purple}{p(\theta \vert x)} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{p(x)}}
+\color{purple}{p(\theta \given x)} = \dfrac{\color{orangered}{p(x \given \theta)} \color{steelblue}{p(\theta)}}{\color{green}{p(x)}}
 $$
 
-$\color{orangered}{p(x\vert \theta)}$ [représente la probabilité conditionnelle des données $x$ sachant le paramètre $\theta$, qu'on appelle aussi la fonction de vraisemblance (likelihood function) du paramètre $\theta$.]{style="color:orangered"}
+$\color{orangered}{p(x \given \theta)}$ [représente la probabilité conditionnelle des données $x$ sachant le paramètre $\theta$, qu'on appelle aussi la fonction de vraisemblance (likelihood function) du paramètre $\theta$.]{style="color:orangered"}
 
 . . .
 
@@ -1085,11 +1089,11 @@ like
 
 ## Diagnostique médical, théorème de Bayes
 
-$$\color{purple}{p(\theta \vert x)} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{p(x)}}$$
+$$\color{purple}{p(\theta \given x)} = \dfrac{\color{orangered}{p(x \given \theta)} \color{steelblue}{p(\theta)}}{\color{green}{p(x)}}$$
 
 [$p(x)$ la probabilité marginale de $x$ (sur $\theta$). Constante, sert à normaliser la distribution.]{style="color:green"}
 
-$$\color{green}{p(x)=\sum\limits_{\theta}p(x|\theta)p(\theta)}$$
+$$\color{green}{p(x) = \sum\limits_{\theta}p(x \given \theta)p(\theta)}$$
 
 . . .
 
@@ -1099,9 +1103,9 @@ $$\color{green}{p(x)=\sum\limits_{\theta}p(x|\theta)p(\theta)}$$
 
 ## Diagnostique médical, théorème de Bayes
 
-$$\color{purple}{p(\theta \vert x)} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{p(x)}}$$
+$$\color{purple}{p(\theta \given x)} = \dfrac{\color{orangered}{p(x \given \theta)} \color{steelblue}{p(\theta)}}{\color{green}{p(x)}}$$
 
-$\color{purple}{p(\theta \vert x)}$ [la probabilité a posteriori de $\theta$ sachant $x$, c'est à dire ce qu'on sait de $\theta$ après avoir pris connaissance de $x$.]{style="color:purple"}
+$\color{purple}{p(\theta \given x)}$ [la probabilité a posteriori de $\theta$ sachant $x$, c'est à dire ce qu'on sait de $\theta$ après avoir pris connaissance de $x$.]{style="color:purple"}
 
 . . .
 
@@ -1111,7 +1115,7 @@ $\color{purple}{p(\theta \vert x)}$ [la probabilité a posteriori de $\theta$ sa
 
 ## L'inférence bayésienne comme mise à jour probabiliste des connaissances
 
-Avant de passer le mammogramme, la probabilité qu'une femme tirée au sort ait un cancer du sein était de $\Pr(\text{Cancer=+}) = 0.008$ (prior). Après un résultat positif, cette probabilité est devenue $\Pr(\text{Cancer=+} | \text{Mam=+}) = 0.09$ (posterior). Ces probabilités sont des expressions de nos *connaissances*. Après un mammogramme positif, on pense toujours que c'est "très improbable" d'avoir un cancer, mais cette probabilité a considérablement évolué relativement à "avant le test".
+Avant de passer le mammogramme, la probabilité qu'une femme tirée au sort ait un cancer du sein était de $\Pr(\text{Cancer=+}) = 0.008$ (prior). Après un résultat positif, cette probabilité est devenue $\Pr(\text{Cancer=+} \given \text{Mam=+}) = 0.09$ (posterior). Ces probabilités sont des expressions de nos *connaissances*. Après un mammogramme positif, on pense toujours que c'est "très improbable" d'avoir un cancer, mais cette probabilité a considérablement évolué relativement à "avant le test".
 
 . . .
 
@@ -1149,17 +1153,17 @@ V1 : la voiture se trouve derrière la porte 1 <br> V2 : la voiture se trouve de
 
 Si on a choisi la porte n°1 et que l'animateur a choisi la porte n°3 (**et qu'il sait où se trouve la voiture**), il s'ensuit que :
 
-$\Pr(\text{P3} | \text{V1}) = \dfrac{1}{2}, \quad \Pr(\text{P3} | \text{V2}) = 1, \quad \Pr(\text{P3} | \text{V3}) = 0.$
+$\Pr(\text{P3} \given \text{V1}) = \dfrac{1}{2}, \quad \Pr(\text{P3} \given \text{V2}) = 1, \quad \Pr(\text{P3} \given \text{V3}) = 0.$
 
 ## Monty Hall
 
-On sait que $\Pr(\text{V3} | \text{P3}) = 0$, on veut connaître $\Pr(\text{V1} | \text{P3})$ et $\Pr(\text{V2} | \text{P3})$ afin de pouvoir choisir. Résolution par le théorème de Bayes.
+On sait que $\Pr(\text{V3} | \text{P3}) = 0$, on veut connaître $\Pr(\text{V1} \given \text{P3})$ et $\Pr(\text{V2} \given \text{P3})$ afin de pouvoir choisir. Résolution par le théorème de Bayes.
 
-$\Pr(\text{V1} | \text{P3}) = \dfrac{\Pr(\text{P3} | \text{V1}) \times \Pr(\text{V1})}{\Pr(\text{P3})} = \dfrac{\dfrac{1}{2} \times \dfrac{1}{3}}{\dfrac{1}{2}} = \dfrac{1}{3}$
+$\Pr(\text{V1} \given \text{P3}) = \dfrac{\Pr(\text{P3} \given \text{V1}) \times \Pr(\text{V1})}{\Pr(\text{P3})} = \dfrac{\dfrac{1}{2} \times \dfrac{1}{3}}{\dfrac{1}{2}} = \dfrac{1}{3}$
 
 . . .
 
-$\Pr(\text{V2} | \text{P3}) = \dfrac{\Pr(\text{P3} | \text{V2}) \times \Pr(\text{V2})}{\Pr(\text{P3})} = \dfrac{1 \times \dfrac{1}{3}}{\dfrac{1}{2}} = \dfrac{2}{3}$
+$\Pr(\text{V2} \given \text{P3}) = \dfrac{\Pr(\text{P3} \given \text{V2}) \times \Pr(\text{V2})}{\Pr(\text{P3})} = \dfrac{1 \times \dfrac{1}{3}}{\dfrac{1}{2}} = \dfrac{2}{3}$
 
 ## Monty Hall
 

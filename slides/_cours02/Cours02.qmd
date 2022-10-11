@@ -65,6 +65,8 @@ Modèle linéaire généralisé <br> Cours n°07 : Comparaison de modèles <br>
 Cours n°08 : Modèles multi-niveaux <br> Cours n°09 : Modèles
 multi-niveaux généralisés <br> Cours n°10 : Data Hackathon <br>
 
+$$\newcommand\given[1][]{\:#1\vert\:}$$
+
 ## Rappels
 
 Principes de l'analyse bayésienne :
@@ -89,16 +91,16 @@ que le paramètre ait telle ou telle valeur sachant les données (et le
 prior) via le théorème de Bayes.
 
 $$
-\color{purple}{p(\theta | y)} = \frac{\color{orangered}{p(y | \theta)}\ \color{steelblue}{p(\theta)}}{\color{green}{p(y)}} \propto \color{orangered}{p(y | \theta)}\ \color{steelblue}{p(\theta)}
+\color{purple}{p(\theta \given y)} = \frac{\color{orangered}{p(y \given \theta)}\ \color{steelblue}{p(\theta)}}{\color{green}{p(y)}} \propto \color{orangered}{p(y \given \theta)}\ \color{steelblue}{p(\theta)}
 $$
 
 . . .
 
 Objectif de l'analyse de données bayésienne : Faire évoluer une
 connaissance a priori sur les paramètres $\color{steelblue}{p(\theta)}$
-en une connaissance a posteriori $\color{purple}{p(\theta | y)}$,
+en une connaissance a posteriori $\color{purple}{p(\theta \given y)}$,
 intégrant l'information contenue dans les nouvelles données via
-$\color{orangered}{p(y | \theta)}$.
+$\color{orangered}{p(y \given \theta)}$.
 
 ## Rappels
 
@@ -154,18 +156,18 @@ $\theta$. Admettons que $Y = 0$ lorsqu'on obtient pile, et que $Y = 1$
 lorsqu'on obtient face. Alors $Y$ est distribuée selon une loi de
 Bernoulli :
 
-$$p(y \ | \ \theta) = \Pr(Y = y \ | \ \theta) = \theta^{y} (1 - \theta)^{(1 - y)}$$
+$$p(y \given \theta) = \Pr(Y = y \given \theta) = \theta^{y} (1 - \theta)^{(1 - y)}$$
 
 . . .
 
 En remplaçant $y$ par $0$ ou $1$, on retombe bien sur nos observations
 précédentes :
 
-$$\Pr(Y = 1 \ | \ \theta) = \theta^{1} (1 - \theta)^{(1 - 1)} = \theta \times 1 = \theta$$
+$$\Pr(Y = 1 \given \theta) = \theta^{1} (1 - \theta)^{(1 - 1)} = \theta \times 1 = \theta$$
 
 . . .
 
-$$\Pr(Y = 0 \ | \ \theta) = \theta^{0} (1 - \theta)^{(1 - 0)} = 1 \times (1 - \theta) = 1 - \theta$$
+$$\Pr(Y = 0 \given \theta) = \theta^{0} (1 - \theta)^{(1 - 0)} = 1 \times (1 - \theta) = 1 - \theta$$
 
 ## Schéma de Bernoulli
 
@@ -241,7 +243,7 @@ choose(n = 3, k = 1)
 
 ## Loi binomiale
 
-$$p(y \ | \ \theta) = \Pr(Y = y \ | \ \theta) = \left(\begin{array}{l} n \\ y \end{array}\right) \theta^{y}(1 - \theta)^{n - y}$$
+$$p(y \given \theta) = \Pr(Y = y \given \theta) = \left(\begin{array}{l} n \\ y \end{array}\right) \theta^{y}(1 - \theta)^{n - y}$$
 
 La loi binomiale nous permet de calculer la probabilité d'obtenir $y$
 succès sur $n$ essais, pour un $\theta$ donné. Exemple de la
@@ -289,7 +291,7 @@ Fonction de vraisemblance (likelihood)
 La fonction de vraisemblance s'écrit de la manière suivante :
 
 $$
-\color{orangered}{\mathcal{L}(\theta\ |\ y, n) = p(y \ |\ \theta, n) = \left(\begin{array}{l} n \\ y \end{array}\right) \theta^{y}(1 - \theta)^{n - y} \propto \theta^{y}(1 - \theta)^{n - y}}
+\color{orangered}{\mathcal{L}(\theta \given y, n) = p(y \given \theta, n) = \left(\begin{array}{l} n \\ y \end{array}\right) \theta^{y}(1 - \theta)^{n - y} \propto \theta^{y}(1 - \theta)^{n - y}}
 $$
 
 ## Vraisemblance versus probabilité
@@ -305,7 +307,7 @@ de*) différentes valeurs de $\theta$ de la manière suivante :
 
 $$
 \begin{aligned}
-\Pr(F, P \ | \ \theta) + \Pr(P, F \ | \ \theta) &= 2 \times \Pr(P \ | \ \theta) \times \Pr(F \ | \ \theta) \\
+\Pr(F, P \given \theta) + \Pr(P, F \given \theta) &= 2 \times \Pr(P \given \theta) \times \Pr(F \given \theta) \\
 &= \theta(1 - \theta) + \theta(1 - \theta) \\
 &= 2 \theta(1 - \theta)
 \end{aligned}
@@ -353,7 +355,7 @@ de fonction des fonctions de densité de probabilité. On utilise la
 notation suivante pour mettre l'accent sur le fait que la fonction de
 vraisemblance est une fonction de $\theta$, et que les données sont
 fixes :
-$\mathcal{L}(\theta \ | \ \text{data}) = p(\text{data} \ | \ \theta)$.
+$\mathcal{L}(\theta \given \text{data}) = p(\text{data} \given \theta)$.
 
 ## Vraisemblance versus probabilité
 
@@ -417,7 +419,7 @@ analytique* :
 
 $$
 \begin{align}
-\color{steelblue}{p(\theta\ | \ a, b)} \ &\color{steelblue}{= \mathrm{Beta}(\theta\ |\ a, b)} \\
+\color{steelblue}{p(\theta \given a, b)} \ &\color{steelblue}{= \mathrm{Beta}(\theta \given a, b)} \\
 & \color{steelblue}{= \theta^{a - 1}(1 - \theta)^{b - 1} / B(a, b)} \\
 & \color{steelblue}{\propto \theta^{a - 1}(1 - \theta)^{b - 1}}
 \end{align}
@@ -541,9 +543,9 @@ $$
 . . .
 
 Si $\omega = 0.65$ et $\kappa = 25$ alors
-$p(\theta) = \mathrm{Beta}(\theta \ | \ 15.95, 9.05)$. <br> Si
+$p(\theta) = \mathrm{Beta}(\theta \given 15.95, 9.05)$. <br> Si
 $\omega = 0.65$ et $\kappa = 10$ alors
-$p(\theta) = \mathrm{Beta}(\theta \ | \ 6.2, 3.8)$.
+$p(\theta) = \mathrm{Beta}(\theta \given 6.2, 3.8)$.
 
 ```{r beta4, echo = FALSE, fig.width = 12, fig.height = 5}
 p <- seq(0, 1, length = 100)
@@ -579,7 +581,7 @@ distributions a priori pour $\theta$, alors $\mathcal{P}$ est
 **conjuguée** à $\mathcal{F}$ si et seulement si :
 
 $$
-p(\theta|y) \in \mathcal{P} \text{ for all } p(\cdot | \theta) \in \mathcal{F} \text{ and } p(\cdot) \in \mathcal{P}
+p(\theta \given y) \in \mathcal{P} \text{ for all } p(\cdot \given \theta) \in \mathcal{F} \text{ and } p(\cdot) \in \mathcal{P}
 $$
 
 [p.35, @gelman2013]. En d'autres termes, un prior est appelé
@@ -599,26 +601,31 @@ Beta.
 ## Dérivation analytique de la distribution a posteriori
 
 Soit un prior défini par :
-$\ \color{steelblue}{p(\theta \ | \ a, b) = \mathrm{Beta}(a, b) \propto \theta^{a - 1}(1 - \theta)^{b - 1}}$
+$\ \color{steelblue}{p(\theta \given a, b) = \mathrm{Beta}(a, b) = \frac{\theta^{a - 1}(1 - \theta)^{b - 1}}{B(a, b)} \propto \theta^{a - 1}(1 - \theta)^{b - 1}}$
 
 . . .
 
 Soit une fonction de vraisemblance associée à $y$ "Face" pour $n$
 lancers :
-$\ \color{orangered}{p(y \ | \ n, \theta) = \mathrm{Bin}(y \ | \ n, \theta) = \left(\begin{array}{l} n \\ y \end{array}\right) \theta^{y}(1 - \theta)^{n - y} \propto \theta^{y}(1 - \theta)^{n - y}}$
+$\ \color{orangered}{p(y \given n, \theta) = \mathrm{Bin}(y \given n, \theta) = \left(\begin{array}{l} n \\ y \end{array}\right) \theta^{y}(1 - \theta)^{n - y} \propto \theta^{y}(1 - \theta)^{n - y}}$
 
 . . .
 
+Alors (en omettant les constantes de normalisation) :
+
 $$
 \begin{align}
-\color{purple}{p(\theta \ | \ y, n)} &\propto \color{orangered}{p(y \ | \ n, \theta)} \ \color{steelblue}{p(\theta)} &&\mbox{Théorème de Bayes} \\
-&\propto \color{orangered}{\mathrm{Bin}(y \ | \ n, \theta)} \ \color{steelblue}{\mathrm{Beta}(\theta \ | \ a, b)} \\
+\color{purple}{p(\theta \given y, n)} &\propto \color{orangered}{p(y \given n, \theta)} \ \color{steelblue}{p(\theta)} &&\mbox{Théorème de Bayes} \\
+&\propto \color{orangered}{\mathrm{Bin}(y \given n, \theta)} \ \color{steelblue}{\mathrm{Beta}(\theta \given a, b)} \\
 &\propto \color{orangered}{\theta^{y}(1 - \theta)^{n - y}} \ \color{steelblue}{\theta^{a - 1}(1 - \theta)^{b - 1}} &&\mbox{Application des formules précédentes} \\
 &\propto \color{purple}{\theta}^{\color{orangered}{y} + \color{steelblue}{a - 1}}\color{purple}{(1 - \theta)}^{\color{orangered}{n - y} + \color{steelblue}{b - 1}} &&\mbox{En regroupant les puissances des termes identiques} \\
-&\propto \color{purple}{\theta^{a' - 1}(1 - \theta)^{b' - 1}} &&\mbox{Avec } a' = y + a \mbox{ et } b' = n - y + b \\
-\color{purple}{p(\theta \ | \ y, n)} \ &= \color{purple}{\mathrm{Beta}(y + a, n - y + b)}
 \end{align}
 $$
+. . .
+
+Ici, on a ignoré les constantes qui ne dépendent pas de $\theta$ (i.e., le nombre de combinaisons dans la fonction de vraisemblance binomiale et la fonction Beta $B(a, b)$ dans le prior Beta).^[Pour la dérivation complète, voir par exemple [ce chapitre](https://www.bayesrulesbook.com/chapter-3.html).] En les prenant en compte, on obtient en effet une distribution a posteriori Beta de la forme suivante :
+
+$$\color{purple}{p(\theta \given y, n) = \mathrm{Beta}(y + a, n - y + b)}$$
 
 ## Un exemple pour digérer
 
@@ -633,8 +640,8 @@ La distribution postérieure est donnée par :
 
 $$
 \begin{align}
-\color{purple}{p(\theta \ | \ y, n)} &\propto \color{orangered}{p(y \ | \ n, \theta)} \ \color{steelblue}{p(\theta)} \\
-&\propto \color{orangered}{\mathrm{Bin}(7 \ | \ 10, \theta)} \ \color{steelblue}{\mathrm{Beta}(\theta \ | \ 1, 1)} \\
+\color{purple}{p(\theta \given y, n)} &\propto \color{orangered}{p(y \given n, \theta)} \ \color{steelblue}{p(\theta)} \\
+&\propto \color{orangered}{\mathrm{Bin}(7 \given 10, \theta)} \ \color{steelblue}{\mathrm{Beta}(\theta \given 1, 1)} \\
 &= \color{purple}{\mathrm{Beta}(y + a, n - y + b)} \\
 &= \color{purple}{\mathrm{Beta}(8, 4)}
 \end{align}
@@ -859,7 +866,7 @@ $$
 $$
 
 $$
-p(\theta | \text{data}) = \frac{p(\text{data} | \theta) \times \ p(\theta)}{p(\text{data})} \propto p(\text{data} | \theta) \times p(\theta)
+p(\theta \given \text{data}) = \frac{p(\text{data} \given \theta) \times \ p(\theta)}{p(\text{data})} \propto p(\text{data} \given \theta) \times p(\theta)
 $$
 
 . . .
@@ -870,7 +877,7 @@ Si on zoom sur la vraisemblance marginale (aussi connue comme
 $$
 \begin{align}
 \color{green}{p(\text{data})} &= \int p(\text{data}, \theta) \, \mathrm d\theta &&\mbox{Marginalisation sur le paramètre } \theta \\
-\color{green}{p(\text{data})} &= \color{green}{\int p(\text{data} | \theta) \times p(\theta) \, \mathrm{d} \theta} && \mbox{Application de la règle du produit}
+\color{green}{p(\text{data})} &= \int p(\text{data} \given \theta) \times p(\theta) \, \mathrm{d} \theta && \mbox{Application de la règle du produit}
 \end{align}
 $$
 
@@ -1468,20 +1475,20 @@ lequel rend le mieux compte des données.
 Le facteur de Bayes (Bayes factor) fait le rapport des vraisemblances
 (marginales) des deux modèles.
 
-$$\frac{p(\mathcal{M}_{0} | \text{data})}{p(\mathcal{M}_{1} | \text{data})} = \color{green}{\frac{p(\text{data} | \mathcal{M}_{0})}{p(\text{data} | \mathcal{M}_{1})}} \ \frac{p(\mathcal{M}_{0})}{p(\mathcal{M}_{1})}$$
+$$\frac{p(\mathcal{M}_{0} \given \text{data})}{p(\mathcal{M}_{1} \given \text{data})} = \color{green}{\frac{p(\text{data} \given \mathcal{M}_{0})}{p(\text{data} \given \mathcal{M}_{1})}} \ \frac{p(\mathcal{M}_{0})}{p(\mathcal{M}_{1})}$$
 
 ## Comparaison de modèles
 
 Le facteur de Bayes (Bayes factor) fait le rapport des vraisemblances
 (marginales) des deux modèles.
 
-$$\frac{p(\mathcal{M}_{0} | \text{data})}{p(\mathcal{M}_{1} | \text{data})} = \color{green}{\frac{p(\text{data} | \mathcal{M}_{0})}{p(\text{data} | \mathcal{M}_{1})}} \times \frac{p(\mathcal{M}_{0})}{p(\mathcal{M}_{1})}$$
+$$\frac{p(\mathcal{M}_{0} \given \text{data})}{p(\mathcal{M}_{1} \given \text{data})} = \color{green}{\frac{p(\text{data} \given \mathcal{M}_{0})}{p(\text{data} \given \mathcal{M}_{1})}} \times \frac{p(\mathcal{M}_{0})}{p(\mathcal{M}_{1})}$$
 
 . . .
 
 Soit dans notre exemple :
 
-$$\text{BF}_{01} = \color{green}{\frac{p(\text{data} | \mathcal{M}_{0})}{p(\text{data} | \mathcal{M}_{1})}} = \frac{0.005955}{0.005} = 1.1971.$$
+$$\text{BF}_{01} = \color{green}{\frac{p(\text{data} \given \mathcal{M}_{0})}{p(\text{data} \given \mathcal{M}_{1})}} = \frac{0.005955}{0.005} = 1.1971.$$
 
 Le rapport de probabilités a augmenté de 20% en faveur de
 $\mathcal{M}_{0}$ après avoir pris connaissance des données. Le facteur
@@ -1494,9 +1501,9 @@ que sous le modèle $\mathcal{M}_{1}$.
 Les deux rôles de la fonction de vraisemblance :
 
 -   C'est une fonction de $\theta$ pour le calcul de la distribution
-    postérieure : $\mathcal{L}(\theta \ | \ y, n)$
+    postérieure : $\mathcal{L}(\theta \given y, n)$
 -   Lorsque $\theta$ est connu / fixé, c'est une distribution de
-    probabilité : $p(y \ |\ \theta, n) = \theta^y(1 - \theta)^{(n - y)}$
+    probabilité : $p(y \given \theta, n) = \theta^y(1 - \theta)^{(n - y)}$
 
 . . .
 

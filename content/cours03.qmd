@@ -25,4 +25,5 @@ Voir toutes les commandes de `revealjs` en appuyant sur <kbd>m</kbd> puis <kbd>h
 
 ## Pour aller plus loin
 
-- Heiss, A. (2022). Visualizing the differences between Bayesian posterior predictions, linear predictions, and the expectation of posterior predictions. <https://www.andrewheiss.com/blog/2022/09/26/guide-visualizing-types-posteriors/#tldr-diagrams-and-cheat-sheets>.
+- Heiss, A. (2022). Visualizing the differences between Bayesian posterior predictions, linear predictions, and the expectation of posterior predictions. Blogpost available at <https://www.andrewheiss.com/blog/2022/09/26/guide-visualizing-types-posteriors/>.
+- Nalborczyk, L. (2018). Using R to make sense of the generalised linear model. Blogpost available at <https://www.barelysignificant.com/post/glm/>.

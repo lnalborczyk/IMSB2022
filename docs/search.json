@@ -95,7 +95,7 @@
     "href": "content/cours03.html#pour-aller-plus-loin",
     "title": "Cours n°03",
     "section": "Pour aller plus loin",
-    "text": "Pour aller plus loin\n\nHeiss, A. (2022). Visualizing the differences between Bayesian posterior predictions, linear predictions, and the expectation of posterior predictions. https://www.andrewheiss.com/blog/2022/09/26/guide-visualizing-types-posteriors/#tldr-diagrams-and-cheat-sheets."
+    "text": "Pour aller plus loin\n\nHeiss, A. (2022). Visualizing the differences between Bayesian posterior predictions, linear predictions, and the expectation of posterior predictions. Blogpost available at https://www.andrewheiss.com/blog/2022/09/26/guide-visualizing-types-posteriors/.\nNalborczyk, L. (2018). Using R to make sense of the generalised linear model. Blogpost available at https://www.barelysignificant.com/post/glm/."
   },
   {
     "objectID": "content/cours01.html",
@@ -158,7 +158,7 @@
     "href": "content/cours04.html#pour-aller-plus-loin",
     "title": "Cours n°04",
     "section": "Pour aller plus loin",
-    "text": "Pour aller plus loin\n…"
+    "text": "Pour aller plus loin\n\nMcElreath, R. (2021). Science Before Statistics: Causal Inference. Conference recording available at https://www.youtube.com/watch?v=KNPYUVmY3NM."
   },
   {
     "objectID": "content/cours05.html",
@@ -305,13 +305,13 @@
     "href": "resources.html#livre-conseillé-statistical-rethinking",
     "title": "Ressources",
     "section": "Livre conseillé : Statistical Rethinking",
-    "text": "Livre conseillé : Statistical Rethinking\n\nMcElreath, R. (2020), Statistical Rethinking: A Bayesian Course with Examples in R and Stan. Second Edition. CRC Press.\n\nLiens officiels :\n\n Book page\n R package\n 2022 lecture videos\n 2022 lecture slides and homework and answers\n\nTraduction avec tidyverse et brms (en ligne) :\n\n Kurz, A. S. (2021), Statistical Rethinking with brms, ggplot2, and the tidyverse: Second edition.\n Arel-Bundock, V. (2020), Statistical Rethinking 2 with Stan and R."
+    "text": "Livre conseillé : Statistical Rethinking\n\nMcElreath, R. (2020), Statistical Rethinking: A Bayesian Course with Examples in R and Stan. Second Edition. CRC Press.\n\nLiens officiels :\n\n Book page\n R package\n 2022 lecture videos\n 2022 lecture slides and homework and answers\n\nTraduction avec tidyverse et brms (en ligne) :\n\n Kurz, A. S. (2022), Statistical Rethinking with brms, ggplot2, and the tidyverse: Second edition."
   },
   {
     "objectID": "resources.html#autres-livres",
     "href": "resources.html#autres-livres",
     "title": "Ressources",
     "section": "Autres livres",
-    "text": "Autres livres\nQuelques autres livres sur lesquels je me suis appuyé pour préparer ce cours.\n\n Kruschke, J. K. (2015), Doing Bayesian Data Analysis: A Tutorial with R, JAGS, and Stan.\n Lambert, B. (2018), A Student’s Guide to Bayesian Statistics.\n Gelman, A., Carlin, J., Stern, H., Dunson, D., Vehtari, A., & Rubin, D. (2013), Bayesian Data Analysis.\n Nicenboim, B., Schad, D., & Vasishth, S. (2021). An Introduction to Bayesian Data Analysis for Cognitive Science. Available online."
+    "text": "Autres livres\nQuelques autres livres sur lesquels je me suis appuyé pour préparer ce cours.\n\n Kruschke, J. K. (2015), Doing Bayesian Data Analysis: A Tutorial with R, JAGS, and Stan.\n Lambert, B. (2018), A Student’s Guide to Bayesian Statistics.\n Gelman, A., Carlin, J., Stern, H., Dunson, D., Vehtari, A., & Rubin, D. (2013), Bayesian Data Analysis.\n Noël, Y. (2015). Psychologie statistique avec R.\n Nicenboim, B., Schad, D., & Vasishth, S. (2021). An Introduction to Bayesian Data Analysis for Cognitive Science. Available online."
   }
 ]
