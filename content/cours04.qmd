@@ -9,11 +9,11 @@ lang: fr
 ## En préparation du cours
 
 - Relire les cours précédents.
-- (*optionnel*) Lecture des chapitres 5 et 6 de {{< fa book >}} *Statistical Rethinking*.
+- (*optionnel*) Lire les chapitres 5 et 6 de {{< fa book >}} *Statistical Rethinking*.
 
 ## Slides
 
-Les slides de ce cours sont disponibles en ligne. Vous pouvez naviguer dans ces slides avec <kbd>←</kbd> et <kbd>→</kbd>. Si vous tapez <kbd>h</kbd> vous verrez apparaitre un ensemble de commandes spécifiques à la lecture des ces slides (e.g., <kbd>f</kbd> pour passer en plein écran). Vous pouvez aussi télécharger une version PDF des slides via la bouton ci-dessous.
+Les slides de ce cours sont disponibles en ligne. Vous pouvez naviguer dans ces slides avec <kbd>←</kbd> et <kbd>→</kbd>. Si vous tapez <kbd>h</kbd> vous verrez apparaitre un ensemble de commandes spécifiques à la lecture des ces slides (e.g., <kbd>f</kbd> pour passer en plein écran). Vous pouvez aussi télécharger une version PDF en cliquant sur le bouton ci-dessous.
 
 <p class="buttons" style="text-align:center;"><a class="btn btn-danger" target="_blank" href="../slides/html/cours04.html"><i class="fa-solid fa-arrow-up-right-from-square"></i> Voir les slides en ligne </a> <a class="btn btn-danger" target="_blank" href="../slides/pdf/cours04.pdf" role="button"><i class="fa-solid fa-file-pdf"></i> Télécharger la version PDF </a></p>
 

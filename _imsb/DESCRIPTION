@@ -30,6 +30,5 @@ Imports:
     tidyr,
     rlang,
     modelr
-Depends: 
-    R (>= 4.1.0),
+Depends: R (>= 4.0)
 LazyData: true

@@ -537,7 +537,7 @@ countdown(
 
 ::: columns
 ::: {.column width="50%"}
-<center>Hypothèse : :large_blue_circle: :large_blue_circle: :white_circle: :white_circle:</center>
+<center>Hypothèse : :large_blue_circle: :white_circle: :white_circle: :white_circle:</center>
 :::
 
 ::: {.column width="50%"}
@@ -566,7 +566,7 @@ garden(
 
 ::: columns
 ::: {.column width="50%"}
-<center>Hypothèse : :large_blue_circle: :large_blue_circle: :white_circle: :white_circle:</center>
+<center>Hypothèse : :large_blue_circle: :white_circle: :white_circle: :white_circle:</center>
 :::
 
 ::: {.column width="50%"}
@@ -592,7 +592,7 @@ garden(
 
 ::: columns
 ::: {.column width="50%"}
-<center>Hypothèse : :large_blue_circle: :large_blue_circle: :white_circle: :white_circle:</center>
+<center>Hypothèse : :large_blue_circle: :white_circle: :white_circle: :white_circle:</center>
 :::
 
 ::: {.column width="50%"}
@@ -618,7 +618,7 @@ garden(
 
 ::: columns
 ::: {.column width="50%"}
-<center>Hypothèse : :large_blue_circle: :large_blue_circle: :white_circle: :white_circle:</center>
+<center>Hypothèse : :large_blue_circle: :white_circle: :white_circle: :white_circle:</center>
 :::
 
 ::: {.column width="50%"}
