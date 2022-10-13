@@ -7,7 +7,7 @@
 
 ## Objectifs de la formation
 
-L’objectif de cette formation est de vous faire découvrir la modélisation statistique bayésienne. Les concepts et outils qui seront introduits tout au long de la formation seront illustrés par des cas concrets d’analyse de données. Ce cours est construit autour du langage `R` et de l’utilisation du package `brms`, une interface au langage probabiliste `Stan`. Par conséquent, il est **indispensable** d'avoir quelques connaissances élémentaires du langage `R`. Cette formation est proposée sous une double étiquette Collège doctoral / MaiMoSiNE (Maison de la Modélisation et de la Simulation) avec une priorité d’accès aux étudiant.e.s du collège doctoral de Grenoble.
+L'objectif de cette formation est de vous faire découvrir la modélisation statistique bayésienne. Les concepts et outils qui seront introduits tout au long de la formation seront illustrés par des cas concrets d'analyse de données. Ce cours est construit autour du langage `R` et de l'utilisation du paquet `brms`, une interface au langage probabiliste `Stan`. Par conséquent, il est **indispensable** d'avoir quelques connaissances élémentaires du langage `R`. Cette formation est proposée sous une double étiquette Collège doctoral / MaiMoSiNE (Maison de la Modélisation et de la Simulation) avec une priorité d'accès aux étudiant.e.s du collège doctoral de Grenoble.
 
 ## Planning
 

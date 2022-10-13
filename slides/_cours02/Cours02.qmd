@@ -1590,7 +1590,7 @@ str(data)
 -   Peut-on rejeter l'hypothèse nulle selon laquelle $\theta = 0.5$ ?
     Répondez à cette question en utilisant la procédure HDI+ROPE.
 
--   Importer les donnes `tartine2` du paquet `imsb`. Mettre à jour le
+-   Importer les données `tartine2` du paquet `imsb`. Mettre à jour le
     modèle en utilisant le mode de la distribution postérieure calculée
     précédemment.
 :::
