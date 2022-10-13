@@ -304,8 +304,7 @@ obtient une Face et un Pile.
 
 . . .
 
-On peut calculer la probabilité de ces données selon (i.e., en fonction
-de) différentes valeurs de $\theta$ de la manière suivante :
+On peut calculer la probabilité d'observer une Face sur deux lancers de pièce **en fonction de** différentes valeurs de $\theta$ de la manière suivante :
 
 $$
 \begin{aligned}
@@ -1141,14 +1140,14 @@ Pour échantillonner (de manière intelligente) une distribution postérieure, o
 
 . . .
 
-```{r sampling1, eval = TRUE, echo = TRUE, fig.width = 8, fig.height = 4, `code-line-numbers` = "|5"}
+```{r sampling1, eval = TRUE, echo = TRUE, fig.width = 6, fig.height = 3, `code-line-numbers` = "|5"}
 #| output-location: fragment
 p_grid <- seq(from = 0, to = 1, length.out = 1000) # creates a grid
 prior <- rep(1, 1000) # uniform prior
 likelihood <- dbinom(x = 12, size = 20, prob = p_grid) # computes likelihood
 posterior <- (likelihood * prior) / sum(likelihood * prior) # computes posterior
 samples <- sample(x = p_grid, size = 1e3, prob = posterior, replace = TRUE) # sampling
-hist(samples, main = "", xlab = expression(theta), cex.axis = 1, cex.lab = 1.5) # histogram
+hist(samples, main = "", xlab = expression(theta) ) # histogram
 ```
 
 ## La distribution postérieure, résumé
