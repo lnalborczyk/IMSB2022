@@ -76,7 +76,7 @@ posterior_plot <- function (
 
     }
 
-    # issuig a warning when the number of samples is low
+    # issuing a warning when the number of samples is low
     if (length(samples) < 1e2) {
 
         warning ("

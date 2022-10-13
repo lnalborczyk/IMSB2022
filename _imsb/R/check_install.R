@@ -1,4 +1,4 @@
-#' Check the correct installation of the packages needed for the course
+#' Checking the correct installation of the packages needed for the course
 #'
 #' This function can be used without argument to check the installation of the
 #' correct `R` version, the installation of `brms`, and to check that `brms`
@@ -17,28 +17,17 @@
 
 check_install <- function (...) {
 
-    # checking the R version
+    # checking R version
     r_version <- paste0(version$major, ".", version$minor)
-    if (r_version != "4.2.1") warning ("Please install R version 4.2.1 (for Mac and Linux) or R version 4.1.3 (for Windows).")
+    if (r_version != "4.2.1") warning ("Please install R version 4.2.1 (for macOS and Linux) or R version 4.1.3 (for Windows).")
 
-    # checking the brms install
-    if (!requireNamespace("brms", quietly = TRUE) ) stop ("Please install the brms package.")
-
-    # checking the rstan install
-    # if (!requireNamespace("rstan", quietly = TRUE) ) stop ("Please install the rstan package.")
-
-    # testing the rstan installation
-    # utils::capture.output({
-    #     utils::example(
-    #         stan_model, package = "rstan",
-    #         run.dontrun = TRUE, verbose = FALSE, echo = FALSE
-    #         )
-    #     })
+    # checking brms install
+    if (!requireNamespace(package = "brms", quietly = TRUE) ) stop ("Please install the brms package: install.packages('brms').")
 
     # loading the "howell" dataset
     df <- imsb::howell
 
-    # testing the brms install
+    # fitting a simple brms regression model
     fit <- utils::capture.output({
         brms::brm(formula = height ~ 1 + weight, data = df)
         })

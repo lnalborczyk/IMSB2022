@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_install.R
 \name{check_install}
 \alias{check_install}
-\title{Check the correct installation of the packages needed for the course}
+\title{Checking the correct installation of the packages needed for the course}
 \usage{
 check_install(...)
 }

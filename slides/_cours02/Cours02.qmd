@@ -1137,12 +1137,9 @@ knitr::include_graphics("figures/not_gonna_work.gif")
 
 ## Échantillonner la distribution postérieure
 
-Échantillonner pour approcher une distribution. Pour échantillonner une distribution postérieure, on peut utiliser
-différentes implémentations des méthodes MCMC (e.g., Metropolis-Hastings, Gibbs, Hamilton, cf. Cours n°05).
+Pour échantillonner (de manière intelligente) une distribution postérieure, on peut utiliser différentes implémentations des méthodes MCMC (e.g., Metropolis-Hastings, Hamiltonian Monte Carlo) que l'on discutera au Cours n°05. En attendant, on va travailler avec des échantillons de la distribution postérieure i) pour s'habituer en préparation aux méthodes MCMC et ii) car c'est plus simple de calculer une moyenne ou un intervalle de crédibilité sur des échantillons plutôt qu'en calculant des intégrales.
 
 . . .
-
-En pratique :
 
 ```{r sampling1, eval = TRUE, echo = TRUE, fig.width = 8, fig.height = 4, `code-line-numbers` = "|5"}
 #| output-location: fragment
@@ -1355,8 +1352,8 @@ posterior_plot(samples = samples, credmass = 0.89)
 ## Region of practical equivalence (ROPE)
 
 Cette procédure permet d'accepter ou de rejeter une valeur nulle (null
-value). La région d'équivalence pratique ou *region of practical
-equivalence* (ROPE) définit un intervalle de valeurs qu'on considère
+value). La région d'équivalence pratique ou **region of practical
+equivalence** (ROPE) définit un intervalle de valeurs qu'on considère
 comment étant "équivalentes" à la valeur nulle. La figure ci-dessous
 résume les décisions possibles issues de cette procédure
 [@kruschke2018].
@@ -1370,7 +1367,7 @@ knitr::include_graphics("figures/hdi_rope.png")
 La valeur du paramètre (e.g., $\theta = 0.5$) est rejetée si le HDI est
 entièrement hors de la ROPE. La valeur du paramètre (e.g.,
 $\theta = 0.5$) est acceptée si le HDI est entièrement dans la ROPE. Si
-le HDI et la ROPE se chevauchent on ne peut pas conclure...
+le HDI et la ROPE se chevauchent, on ne peut pas conclure...
 
 ```{r eval = TRUE, echo = FALSE}
 set.seed(666)
@@ -1405,7 +1402,7 @@ lequel rend le mieux compte des données.
 Le facteur de Bayes (Bayes factor) fait le rapport des vraisemblances
 (marginales) des deux modèles.
 
-$$\frac{p(\mathcal{M}_{0} \given \text{data})}{p(\mathcal{M}_{1} \given \text{data})} = \color{green}{\frac{p(\text{data} \given \mathcal{M}_{0})}{p(\text{data} \given \mathcal{M}_{1})}} \ \frac{p(\mathcal{M}_{0})}{p(\mathcal{M}_{1})}$$
+$$\frac{p(\mathcal{M}_{0} \given \text{data})}{p(\mathcal{M}_{1} \given \text{data})} = \color{green}{\frac{p(\text{data} \given \mathcal{M}_{0})}{p(\text{data} \given \mathcal{M}_{1})}} \times \frac{p(\mathcal{M}_{0})}{p(\mathcal{M}_{1})}$$
 
 ## Comparaison de modèles
 
@@ -1418,12 +1415,12 @@ $$\frac{p(\mathcal{M}_{0} \given \text{data})}{p(\mathcal{M}_{1} \given \text{da
 
 Soit dans notre exemple :
 
-$$\text{BF}_{01} = \color{green}{\frac{p(\text{data} \given \mathcal{M}_{0})}{p(\text{data} \given \mathcal{M}_{1})}} = \frac{0.005955}{0.005} = 1.1971.$$
+$$\text{BF}_{01} = \color{green}{\frac{p(\text{data} \given \mathcal{M}_{0})}{p(\text{data} \given \mathcal{M}_{1})}} = \frac{0.005955}{0.004975} \approx 1.1971.$$
 
 Le rapport de probabilités a augmenté de 20% en faveur de
 $\mathcal{M}_{0}$ après avoir pris connaissance des données. Le facteur
 de Bayes peut également s'interpréter de la manière suivante : Les
-données sont 1.2 fois plus probables sous le modèle $\mathcal{M}_{0}$
+données sont environ 1.2 fois plus probables sous le modèle $\mathcal{M}_{0}$
 que sous le modèle $\mathcal{M}_{1}$.
 
 ## Model checking
