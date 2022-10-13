@@ -129,7 +129,7 @@ Beta-Binomial.
 
 Pourquoi ce modèle ?
 
--   Le modèle Beta-Binomial couvre un grand nombre de problèmes de la
+-   Le modèle Beta-Binomial couvre de nombreux problèmes de la
     vie courante :
 
     -   Réussite / échec à un test
@@ -203,7 +203,7 @@ $$\theta^{y} (1 - \theta)^{n - y}$$
 
 . . .
 
-Mais, jusque là on a considéré seulement une seule séquence résultant en
+On a jusqu'ici considéré seulement une seule séquence résultant en
 2 succès pour 5 lancers, mais il existe de nombreuses séquences pouvant
 résulter en 2 succès pour 5 lancers (e.g., $\{0, 0, 1, 0, 1\}$,
 $\{0, 1, 1, 0, 0\}$)...
@@ -243,7 +243,9 @@ choose(n = 3, k = 1)
 
 ## Loi binomiale
 
-$$p(y \given \theta) = \Pr(Y = y \given \theta) = \left(\begin{array}{l} n \\ y \end{array}\right) \theta^{y}(1 - \theta)^{n - y}$$
+$$
+p(y \given \theta) = \Pr(Y = y \given \theta) = \left(\begin{array}{l} n \\ y \end{array}\right) \theta^{y}(1 - \theta)^{n - y}
+$$
 
 La loi binomiale nous permet de calculer la probabilité d'obtenir $y$
 succès sur $n$ essais, pour un $\theta$ donné. Exemple de la
@@ -302,8 +304,8 @@ obtient une Face et un Pile.
 
 . . .
 
-On peut calculer la probabilité de ces données selon (i.e., *en fonction
-de*) différentes valeurs de $\theta$ de la manière suivante :
+On peut calculer la probabilité de ces données selon (i.e., en fonction
+de) différentes valeurs de $\theta$ de la manière suivante :
 
 $$
 \begin{aligned}
@@ -330,7 +332,7 @@ data.frame(theta = seq(from = 0, to = 1, length.out = 1e3) ) %>%
   mutate(likelihood = dbinom(x = y, size = n, prob = theta) ) %>%
   ggplot(aes(x = theta, y = likelihood) ) +
   geom_area(color = "orangered", fill = "orangered", alpha = 0.5) +
-  xlab(expression(paste(theta, " - Pr(face)") ) ) + ylab("Likelihod")
+  labs(x = expression(paste(theta, " - Pr(face)") ), y = "Vraisemblance (likelihood)")
 ```
 
 ## Vraisemblance versus probabilité
@@ -378,8 +380,8 @@ data.frame(
     col.names = c("theta", "0", "1", "2", "Total"),
     format = "html",
     align = c("c", "c", "c", "c", "c"),
-    caption = "Probabilité vs. vraisemblance pour deux lancers de pièce",
-    escape = F
+    caption = "Vraisemblance versus probabilité pour deux lancers de pièce",
+    escape = FALSE
     ) %>%
   kable_styling(full_width = TRUE, position = "center") %>%
   add_header_above(c(" " = 1, "Nombre de Faces (y)" = 3, " " = 1) )
@@ -1136,85 +1138,20 @@ knitr::include_graphics("figures/not_gonna_work.gif")
 ## Échantillonner la distribution postérieure
 
 Échantillonner pour approcher une distribution. Pour échantillonner une distribution postérieure, on peut utiliser
-différentes implémentations des méthodes MCMC (e.g.,
-Metropolis-Hastings, Gibbs, Hamilton, cf. Cours n°05).
+différentes implémentations des méthodes MCMC (e.g., Metropolis-Hastings, Gibbs, Hamilton, cf. Cours n°05).
 
 . . .
 
 En pratique :
 
-```{r sampling1, eval = TRUE, echo = TRUE, fig.width = 8, fig.height = 4,  `code-line-numbers` = "|5"}
+```{r sampling1, eval = TRUE, echo = TRUE, fig.width = 8, fig.height = 4, `code-line-numbers` = "|5"}
 #| output-location: fragment
 p_grid <- seq(from = 0, to = 1, length.out = 1000) # creates a grid
 prior <- rep(1, 1000) # uniform prior
-likelihood <- dbinom(y, size = n, prob = p_grid) # computes likelihood
+likelihood <- dbinom(x = 12, size = 20, prob = p_grid) # computes likelihood
 posterior <- (likelihood * prior) / sum(likelihood * prior) # computes posterior
-samples <- sample(posterior, size = 1e3, prob = posterior, replace = TRUE) # sampling
+samples <- sample(x = p_grid, size = 1e3, prob = posterior, replace = TRUE) # sampling
 hist(samples, main = "", xlab = expression(theta), cex.axis = 1, cex.lab = 1.5) # histogram
-```
-
-## Échantillonner la distribution postérieure
-
-La précision de l'approximation dépend de la taille de l'échantillon...
-
-```{r, eval = TRUE, echo = FALSE, fig.width = 20, fig.height = 5}
-set.seed(666)
-
-trajLength <- 100
-theta <- 1:7
-ptheta <- theta
-
-trajectory <- sample(
-  theta, prob = ptheta, size = trajLength, replace = TRUE
-  )
-
-layout(matrix(1:2, ncol = 2), widths = c(0.75, 0.25) )
-
-plot(
-  trajectory,
-  main = "Distribution postérieure basée sur 100 tirages",
-  ylab = expression(theta),
-  xlim = c(0, trajLength),
-  xlab = "Nombre d'itérations",
-  type = "o", pch = 20, col = "purple",
-  cex.lab = 2, cex.main = 2, cex.axis = 1.5
-  )
-
-barplot(
-  table(trajectory), col = "purple",
-  horiz = TRUE, axes = FALSE, axisnames = FALSE
-  )
-```
-
-. . .
-
-```{r, eval = TRUE, echo = FALSE, fig.width = 20, fig.height = 5}
-set.seed(666)
-
-trajLength <- 1000
-theta <- 1:7
-ptheta <- theta
-
-trajectory <- sample(
-  theta, prob = ptheta, size = trajLength, replace = TRUE
-  )
-
-layout(matrix(1:2, ncol = 2), widths = c(0.75, 0.25) )
-
-plot(
-  trajectory,
-  main = "Distribution postérieure basée sur 1000 tirages",
-  ylab = expression(theta),
-  xlim = c(0, trajLength),
-  xlab = "Nombre d'itérations",
-  type = "o", pch = 20, col = "purple",
-  cex.lab = 2, cex.main = 2, cex.axis = 2
-  )
-
-barplot(
-  table(trajectory), col = "purple",
-  horiz = TRUE, axes = FALSE, axisnames = FALSE
-  )
 ```
 
 ## La distribution postérieure, résumé
@@ -1222,10 +1159,10 @@ barplot(
 Cas analytique :
 
 ```{r eval = FALSE, echo = TRUE}
-p_grid <- seq(from = 0, to = 1, length.out = 1000)
 a <- b <- 1 # paramètres du prior Beta
 n <- 9 # nombre d'observations
 y <- 6 # nombre de succès
+p_grid <- seq(from = 0, to = 1, length.out = 1000)
 posterior <- dbeta(p_grid, y + a, n - y + b) # plot(posterior)
 ```
 
@@ -1279,20 +1216,13 @@ median_posterior <- median(samples) # en vert
 ```
 
 ```{r tendance-centrale2, echo = FALSE}
+library(imsb)
 set.seed(666)
 p_grid <- seq(from = 0, to = 1, length.out = 1000)
 prior <- rep(1, 1000)
 likelihood <- dbinom(x = 3, size = 10, prob = p_grid)
 posterior <- (likelihood * prior) / sum(likelihood * prior)
 samples <- sample(p_grid, size = 1e4, replace = TRUE, prob = posterior)
-
-find_mode <- function(samples, ...) {
-  
-    dd <- density(samples, ...)
-    dd$x[which.max(dd$y)]
-    
-}
-
 mode_posterior <- find_mode(samples)
 mean_posterior <- mean(samples)
 median_posterior <- median(samples)
@@ -1419,7 +1349,7 @@ pTheta <- dbeta(p_grid, 3, 10)
 massVec <- pTheta / sum(pTheta)
 samples <- sample(x = p_grid, size = 1e4, replace = TRUE, prob = pTheta)
 
-posterior_plot(samples = samples)
+posterior_plot(samples = samples, credmass = 0.89)
 ```
 
 ## Region of practical equivalence (ROPE)
@@ -1428,7 +1358,7 @@ Cette procédure permet d'accepter ou de rejeter une valeur nulle (null
 value). La région d'équivalence pratique ou *region of practical
 equivalence* (ROPE) définit un intervalle de valeurs qu'on considère
 comment étant "équivalentes" à la valeur nulle. La figure ci-dessous
-résume les issues décisions possibles issues de cette procédure
+résume les décisions possibles issues de cette procédure
 [@kruschke2018].
 
 ```{r, eval = TRUE, echo = FALSE, fig.align = "center", out.width = "50%"}
@@ -1503,7 +1433,7 @@ Les deux rôles de la fonction de vraisemblance :
 -   C'est une fonction de $\theta$ pour le calcul de la distribution
     postérieure : $\mathcal{L}(\theta \given y, n)$
 -   Lorsque $\theta$ est connu / fixé, c'est une distribution de
-    probabilité : $p(y \given \theta, n) = \theta^y(1 - \theta)^{(n - y)}$
+    probabilité : $p(y \given \theta, n) \propto \theta^y(1 - \theta)^{(n - y)}$
 
 . . .
 
@@ -1512,8 +1442,8 @@ données... !
 
 . . .
 
-Par exemple : Générer 10000 valeurs à partir d'une loi binomiale basée
-sur 9 lancers et une probabilité de Face de 0.6 :
+Par exemple : Générer 10.000 valeurs à partir d'une loi binomiale basée
+sur 10 lancers et une probabilité de Face de 0.6 :
 
 ```{r eval = TRUE, echo = TRUE}
 samples <- rbinom(n = 1e4, size = 10, prob = 0.6)
@@ -1532,10 +1462,10 @@ Dans un modèle bayésien, il existe **deux sources d'incertitude** lorsqu'on g�
 . . .
 
 Par exemple : Générer 10000 valeurs à partir d'une loi binomiale basé
-sur 9 lancers et une probabilité de Face décrite par la distribution
+sur 10 lancers et une probabilité de Face décrite par la distribution
 postérieure de $\theta$ :
 
-```{r eval = TRUE, echo = TRUE}
+```{r eval = TRUE, echo = TRUE, `code-line-numbers` = "|2"}
 posterior <- rbeta(n = 1e4, shape1 = 16, shape2 = 10)
 samples <- rbinom(n = 1e4, size = 10, prob = posterior)
 ```
@@ -1653,7 +1583,7 @@ str(data)
 ::: nonincremental
 -   La tartine n'ayant que deux faces, le résultat s'apparente à un
     tirage sur une loi binomiale de paramètre $\theta$ inconnu. Quelle
-    est la distribution postérieure du paramètre $\theta$ au vue de ces
+    est la distribution postérieure du paramètre $\theta$ au vu de ces
     données, sachant que l'analyste n'avait aucun a priori (vous pouvez
     également utiliser vos propres connaissances a priori).
 
@@ -1710,7 +1640,7 @@ posterior_plot(samples = samples, credmass = 0.95) + labs(x = expression(theta) 
 
 ## Proposition de solution - Question 3
 
-Peut-on rejeter l'hypothèse nulle selon laquelle $\theta = 0.5$ ?
+Peut-on rejeter l'hypothèse nulle selon laquelle $\theta = 0.5$ ? Non, car le HDI recouvre partiellement la ROPE...
 
 ```{r eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 6, dev = "png", dpi = 200}
 posterior_plot(

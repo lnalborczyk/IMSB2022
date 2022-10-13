@@ -11,12 +11,11 @@
 
 // importing fonts
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-@import url(https://fonts.googleapis.com/css?family=Josefin+Sans);
-@import url(https://fonts.googleapis.com/css?family=Droid+Mono);
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
 
 // fonts
 $font-family-sans-serif: Montserrat, sans-serif !default;
-$font-family-monospace: Droid Mono, Lucida Console, Monaco, monospace;
+$font-family-monospace: Lucida Console, Monaco, monospace;
 $presentation-font-size-root: 20px;
 $presentation-font-smaller:	0.9em;
 $presentation-line-height: 1.5;
