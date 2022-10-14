@@ -62,6 +62,8 @@ Modèle linéaire généralisé <br> Cours n°07 : Comparaison de modèles <br>
 Cours n°08 : Modèles multi-niveaux <br> Cours n°09 : Modèles
 multi-niveaux généralisés <br> Cours n°10 : Data Hackathon <br>
 
+$$\newcommand\given[1][]{\:#1\vert\:}$$
+
 ## Langage de la modélisation
 
 $$
@@ -81,8 +83,8 @@ $$
 Les constituants de nos modèles seront toujours les mêmes et nous
 suivrons les trois mêmes étapes :
 
--   Construire le modèle (*likelihood* + *priors*).
--   Mettre à jour grâce aux données (*updating*), afin de calculer la
+-   Construire le modèle (likelihood + priors).
+-   Mettre à jour grâce aux données, afin de calculer la
     distribution postérieure.
 -   Interpréter les estimations du modèle, évaluer ses prédictions,
     éventuellement modifier le modèle.
@@ -117,7 +119,7 @@ d2 %>%
 ## Loi normale
 
 $$
-p(x \ | \ \mu, \sigma) = \frac{1}{\sqrt{2 \pi \sigma^{2}}} \exp \bigg[-\frac{1}{2 \sigma^{2}} (\mu - x)^{2} \bigg]
+p(x \given \mu, \sigma) = \frac{1}{\sqrt{2 \pi \sigma^{2}}} \exp \bigg[-\frac{1}{2 \sigma^{2}} (\mu - x)^{2} \bigg]
 $$
 
 ```{r eval = TRUE, echo = TRUE, fig.width = 6, fig.height = 6}
@@ -402,12 +404,12 @@ On veut calculer la probabilité d'observer une certaine valeur de
 taille, sachant certaines valeurs de $\mu$ et $\sigma$, c'est à dire :
 
 $$
-p(x \ | \ \mu, \sigma) = \frac{1}{\sqrt{2 \pi \sigma^{2}}} \exp \bigg[-\frac{1}{2 \sigma^{2}} (\mu - x)^{2} \bigg]
+p(x \given \mu, \sigma) = \frac{1}{\sqrt{2 \pi \sigma^{2}}} \exp \bigg[-\frac{1}{2 \sigma^{2}} (\mu - x)^{2} \bigg]
 $$
 
 . . .
 
-On peut calculer cette *densité de probabilité* à l'aide des fonctions
+On peut calculer cette **densité de probabilité** à l'aide des fonctions
 `dnorm`, `dbeta`, `dt`, `dexp`, `dgamma`, etc.
 
 ```{r eval = TRUE, echo = TRUE, fig.align = "center"}
@@ -417,7 +419,7 @@ dnorm(d2$height[34], mu_exemple, sigma_exemple)
 ## Fonction de vraisemblance
 
 $$
-p(x \ | \ \mu, \sigma) = \frac{1}{\sqrt{2 \pi \sigma^{2}}} \exp \bigg[-\frac{1}{2 \sigma^{2}} (\mu - x)^{2} \bigg]
+p(x \given \mu, \sigma) = \frac{1}{\sqrt{2 \pi \sigma^{2}}} \exp \bigg[-\frac{1}{2 \sigma^{2}} (\mu - x)^{2} \bigg]
 $$
 
 Ou avec une fonction maison...
@@ -442,12 +444,12 @@ normal_likelihood(d2$height[34], mu_exemple, sigma_exemple)
 ## Distribution postérieure
 
 $$
-\color{purple}{p(\mu, \sigma \ | \ h)} = \frac{\prod_{i} \color{orangered}{\mathrm{Normal}(h_{i} \ | \ \mu, \sigma)}\color{steelblue}{\mathrm{Normal}(\mu \ | \ 178, 20)\mathrm{Uniform}(\sigma \ | \ 0, 50)}}
-{\color{green}{\int \int \prod_{i} \mathrm{Normal}(h_{i} \ | \ \mu, \sigma)\mathrm{Normal}(\mu \ | \ 178, 20)\mathrm{Uniform}(\sigma \ | \ 0, 50) \mathrm{d} \mu \mathrm{d} \sigma}}
+\color{purple}{p(\mu, \sigma \given h)} = \frac{\prod_{i} \color{orangered}{\mathrm{Normal}(h_{i} \given \mu, \sigma)}\color{steelblue}{\mathrm{Normal}(\mu \given 178, 20)\mathrm{Uniform}(\sigma \given 0, 50)}}
+{\color{green}{\int \int \prod_{i} \mathrm{Normal}(h_{i} \given \mu, \sigma)\mathrm{Normal}(\mu \given 178, 20)\mathrm{Uniform}(\sigma \given 0, 50) \mathrm{d} \mu \mathrm{d} \sigma}}
 $$
 
 $$
-\color{purple}{p(\mu, \sigma \ | \ h)} \propto \prod_{i} \color{orangered}{\mathrm{Normal}(h_{i} \ | \ \mu, \sigma)}\color{steelblue}{\mathrm{Normal}(\mu \ | \ 178, 20)\mathrm{Uniform}(\sigma \ | \ 0, 50)}
+\color{purple}{p(\mu, \sigma \given h)} \propto \prod_{i} \color{orangered}{\mathrm{Normal}(h_{i} \given \mu, \sigma)}\color{steelblue}{\mathrm{Normal}(\mu \given 178, 20)\mathrm{Uniform}(\sigma \given 0, 50)}
 $$
 
 . . .
@@ -613,7 +615,7 @@ Reaction ~ Days + (1 + Days | Subject)
 
 . . .
 
-La partie gauche représente notre variable dépendante (ou *outcome*,
+La partie gauche représente notre variable dépendante (ou outcome,
 i.e., ce qu'on essaye de prédire). Le package `brms` permet également de
 fitter des modèles multivariés (plusieurs outcomes) en les combinant
 avec `mvbind()`.
@@ -702,7 +704,7 @@ Ces données représentent les distributions marginales de chaque
 paramètre. En d'autres termes, la *probabilité* de chaque valeur de
 $\mu$, après avoir *moyenné* sur toutes les valeurs possible de
 $\sigma$, est décrite par une distribution gaussienne avec une moyenne
-de $154.6$ et un écart type de $0.43$. L'intervalle de crédibilité
+de $154.6$ et un écart type de $0.42$. L'intervalle de crédibilité
 ($\neq$ intervalle de confiance) nous indique les 95% valeurs de $\mu$
 ou $\sigma$ les plus probables (sachant les données et les priors).
 
@@ -1139,7 +1141,7 @@ Le paquet `brms` propose aussi les fonctions `posterior_epred()`, `posterior_lin
 
 ![](figures/normal.png){fig-align="center"}
 
-## Deux types d'incertitude
+## Rappel : Deux types d'incertitude
 
 Deux sources d'incertitude dans le modèle : incertitude concernant
 l'estimation de la valeur des paramètres mais également concernant le
@@ -1272,7 +1274,7 @@ basé sur l'échantillon.
 @marsman2017 et @marsman2019 généralisent des méthodes existantes pour
 calculer un $\rho^{2}$ pour les designs de type ANOVA (i.e., avec
 prédicteurs catégoriels), qui représente une estimation de la taille
-d'effet **dans la population** (et non basée sur l'échantillon).
+d'effet dans la population (et non basée sur l'échantillon).
 
 . . .
 
@@ -1297,9 +1299,6 @@ $$
 post <- as_draws_df(x = mod4)
 beta <- post$b_weight
 sigma <- post$sigma
-
-# f1 <- beta^2 * var(d2$weight)
-# rho <- f1 / (f1 + sigma^2)
 rho <- beta^2 * var(d2$weight) / (sigma^2 + beta^2 * var(d2$weight) )
 ```
 
@@ -1354,7 +1353,7 @@ syntaxe similaire à celle utilisée par `lm()`.
 . . .
 
 La fonction `fitted()` permet de récupérer les prédictions d'un modèle
-fitté avec `brms` (i.e., un modèle de classe `brmsfit`).
+fitté avec `brms`.
 
 . . .
 

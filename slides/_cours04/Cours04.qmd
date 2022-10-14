@@ -65,7 +65,7 @@ multi-niveaux généralisés <br> Cours n°10 : Data Hackathon <br>
 
 ## Rappels 
 
-On considère un modèle de régression linéaire gaussien avec un prédicteur continu. Ce modèle a trois paramètres à estimer : l'intercept $\alpha$, la pente $\beta$, et l'écart-type des "résidus" $\sigma$.
+On considère un modèle de régression linéaire gaussien avec un prédicteur continu. Ce modèle contient trois paramètres à estimer : l'intercept $\alpha$, la pente $\beta$, et l'écart-type des "résidus" $\sigma$.
 
 $$
 \begin{aligned}
@@ -480,7 +480,7 @@ summary(mod4) # look at the SE...
 
 ## Multicolinéarité
 
-Comment traquer la colinéarité de deux prédicteurs ? En représentant la distribution postérieure de ces deux paramètres.
+Comment traquer la colinéarité de deux prédicteurs ? En examinant la distribution postérieure de ces deux paramètres.
 
 ```{r pairs-mod4, eval = TRUE, echo = TRUE, fig.width = 9, fig.height = 6}
 pairs(mod4, pars = parnames(mod4)[1:3])
@@ -488,7 +488,7 @@ pairs(mod4, pars = parnames(mod4)[1:3])
 
 ## Multicolinéarité
 
-Comment traquer la colinéarité de deux prédicteurs ? En représentant la distribution postérieure de ces deux paramètres.
+Comment traquer la colinéarité de deux prédicteurs ? En examinant la distribution postérieure de ces deux paramètres.
 
 ```{r post-plot-mod4, eval = TRUE, echo = TRUE, fig.width = 7.5, fig.height = 5}
 post <- as_draws_df(x = mod4)
@@ -509,6 +509,7 @@ y_{i} &\sim \mathrm{Normal}(\mu_{i}, \sigma) \\
 \mu_{i} &= \alpha + (\beta_{1} + \beta_{2}) x_{i}
 \end{aligned}
 $$
+. . .
 
 ```{r plotpost-legs, eval = TRUE, echo = TRUE, fig.width = 7.5, fig.height = 5, dev = "png", dpi = 200}
 sum_legs <- post$b_leg_left + post$b_leg_right
@@ -541,6 +542,8 @@ En utilisant comme prédicteur une seule jambe, on retrouve l'estimation qui cor
 ```{r summary-mod5, eval = TRUE, echo = TRUE}
 posterior_summary(mod5)
 ```
+
+. . .
 
 Conclusion : Lorsque deux variables sont fortement corrêlées (conditionnellement aux autres variables du modèle), les inclure toutes les deux dans un même modèle de régression peut produire des estimations aberrantes.
 
@@ -766,7 +769,7 @@ posterior_plot(samples = r2$Marriage.s)
 ## Prédicteurs catégoriels
 
 $$
-\text{Cohen's d} = \frac{\text{différence des moyennes}}{\text{écart-type}}
+\text{Cohen's d} = \frac{\text{différence de moyennes}}{\text{écart-type}}
 $$
 
 ```{r cohen, eval = TRUE, echo = TRUE, fig.width = 7.5, fig.height = 5, dev = "png", dpi = 200}
@@ -1222,7 +1225,7 @@ On s'intéresse à la concentration d'Ozone en fonction de la force du vent et d
 
 - Écrire le modèle mathématique.
 - Fitter ce modèle aver `brms::brm()`, interpréter les estimations du modèle, et conclure sur l'effet de la force du vent et de la température.
-- Évaluer le modèle en faisant du *posterior predictive checking*.
+- Évaluer le modèle en faisant du **posterior predictive checking**.
 
 . . .
 

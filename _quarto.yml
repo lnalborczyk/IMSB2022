@@ -27,6 +27,8 @@ website:
       - content/index.qmd
       - resources.qmd
       - install.qmd
+      - text: "Notes"
+        file: "_notes/docs/index.html"
         
   sidebar:
     - title: "Planning"

@@ -361,8 +361,8 @@ $\mathcal{L}(\theta \given \text{data}) = p(\text{data} \given \theta)$.
 ## Vraisemblance versus probabilité
 
 ```{r echo = FALSE, results = "asis"}
-library(knitr)
 library(kableExtra)
+library(knitr)
 
 data.frame(
   theta = as.character(c(0.0, 0.2, 0.4, 0.6, 0.8, 1.0) ),
