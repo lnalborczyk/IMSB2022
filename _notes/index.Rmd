@@ -9,8 +9,8 @@ classoption: a4paper,11pt,twoside,onecolumn,openright,final,oldfontcommands
 lot: false
 lof: false
 bibliography:
-- bib/IMSB.bib
-- bib/packages.bib
+  - bib/IMSB.bib
+  - bib/packages.bib
 colorlinks: true
 link-citations: yes
 nocite: |
