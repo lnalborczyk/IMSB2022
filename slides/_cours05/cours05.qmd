@@ -67,11 +67,13 @@ Modèle linéaire généralisé <br> Cours n°07 : Comparaison de modèles <br>
 Cours n°08 : Modèles multi-niveaux <br> Cours n°09 : Modèles
 multi-niveaux généralisés <br> Cours n°10 : Data Hackathon <br>
 
+$$\newcommand\given[1][]{\:#1\vert\:}$$
+
 ## Le problème avec la distribution postérieure
 
 $$
-\color{purple}{p(\mu, \sigma | h)} = \frac{\prod_{i} \color{orangered}{\mathrm{Normal}(h_{i} | \mu, \sigma)}\color{steelblue}{\mathrm{Normal}(\mu | 178, 20)\mathrm{Uniform}(\sigma | 0, 50)}}
-{\color{green}{\int \int \prod_{i} \mathrm{Normal}(h_{i} | \mu, \sigma)\mathrm{Normal}(\mu | 178, 20)\mathrm{Uniform}(\sigma | 0, 50) \mathrm{d} \mu \mathrm{d} \sigma}}
+\color{purple}{p(\mu, \sigma \given h)} = \frac{\prod_{i} \color{orangered}{\mathrm{Normal}(h_{i} \given \mu, \sigma)}\color{steelblue}{\mathrm{Normal}(\mu \given 178, 20)\mathrm{Uniform}(\sigma \given 0, 50)}}
+{\color{green}{\int \int \prod_{i} \mathrm{Normal}(h_{i} \given \mu, \sigma)\mathrm{Normal}(\mu \given 178, 20)\mathrm{Uniform}(\sigma \given 0, 50) \mathrm{d} \mu \mathrm{d} \sigma}}
 $$
 
 Petit problème : $p(\text{data})$ s'obtient en calculant la somme (pour
@@ -123,13 +125,13 @@ htmlwidgets::saveWidget(fig, file = "plotly1.html")
 knitr::include_url(url = "plotly1.html")
 ```
 
-## Rappels cours n°02
+## Rappels Cours n°02
 
 Trois méthodes pour résoudre (contourner) ce problème :
 
--   La distribution a priori est un *prior conjugué* de la fonction de
+-   La distribution a priori est un **prior conjugué** de la fonction de
     vraisemblance (e.g., modèle Beta-Binomial). Dans ce cas, il existe
-    une solution analytique (qu'on peut calculer de manière exacte) pour
+    une solution analytique (i.e., qu'on peut calculer de manière exacte) pour
     la distribution postérieure.
 
 -   Autrement, pour des modèles simples, on peut utiliser la méthode par
@@ -146,7 +148,7 @@ Trois méthodes pour résoudre (contourner) ce problème :
 $\longrightarrow~$ Présenter le principe de base de l'échantillonnage :
 Markov Chain Monte Carlo
 
-$\longrightarrow~$ Présenter les algorithmes classiques
+$\longrightarrow~$ Présenter deux algorithmes (Metropolis-Hastings et HMC)
 
 $\longrightarrow~$ Montrer les forces mais aussi les faiblesses de ces
 méthodes
@@ -169,7 +171,7 @@ $\longrightarrow~$ Appliquer ces méthodes à un cas simple
 
 -   **Markov** chain Monte Carlo <br> $\longrightarrow~$ La valeur de
     paramètre générée ne dépend que de la valeur du paramètre précédent
-    $\longrightarrow~P(\theta^{t+1}~|~\theta^{t},\theta^{t-1}, \dots,\theta^{1})~=~P(\theta^{t+1}~|~\theta^{t})$
+    $\Pr(\theta^{t+1} \given \theta^{t}, \theta^{t-1}, \ldots, \theta^{1}) = \Pr(\theta^{t + 1} \given \theta^{t})$
 
 ## Méthodes Monte Carlo
 
@@ -243,20 +245,20 @@ distribution postérieure ?
 . . .
 
 On connaît les priors $p(\theta_{1})$ et $p(\theta_{2})$ <br> On connaît
-la fonction de vraisemblance $p(\text{data} | \theta_{1}, \theta_{2})$
+la fonction de vraisemblance $p(\text{data} \given \theta_{1}, \theta_{2})$
 <br>
 
 . . .
 
 Mais on ne sait pas calculer la distribution postérieure...
-$p(\theta_{1}, \theta_{2} | \text{data}) = \dfrac{p(\text{data} | \theta_{1}, \theta_{2}) p(\theta_{1}) p(\theta_{1})}{p(\text{data})}$
+$p(\theta_{1}, \theta_{2} \given \text{data}) = \dfrac{p(\text{data} \given \theta_{1}, \theta_{2}) p(\theta_{1}) p(\theta_{1})}{p(\text{data})}$
 <br>
 
 . . .
 
 Ou plutôt, on ne sait pas calculer $p(\text{data})$... ! Mais on sait
 calculer la distribution postérieure à une constante près. Or, comme
-$p(\text{data})$ est une constante, elle ne change pas la *forme* de la
+$p(\text{data})$ est une constante, elle ne change pas la forme de la
 distribution postérieure... ! On va donc explorer l'espace des
 paramètres et produire des échantillons proportionnellement à leur
 (densité de) probablité relative.
@@ -331,6 +333,13 @@ knitr::include_graphics("figures/DistribCarré1-7.png")
 
 ## Méthodes Monte Carlo : Exemple
 
+```{r, eval = FALSE, echo = TRUE, fig.width = 25}
+trajLength <- 100
+theta <- 1:7
+ptheta <- theta
+trajectory <- sample(theta, prob = ptheta, size = trajLength, replace = TRUE)
+```
+
 ```{r, eval = TRUE, echo = FALSE, fig.width = 25}
 set.seed(667)
 
@@ -356,12 +365,10 @@ barplot(
     )
 ```
 
-$~\bullet~$ La distribution des échantillons obtenus converge vers la
-"vraie" distribution <br> $~\bullet~$ Mais, nécessite généralement
-beaucoup d'échantillons (ici pour 7 valeurs de paramètres et 100
-tirages) <br> $~\bullet~$ Aucun contrôle sur la vitesse de
-convergence... <br> $~\bullet~$ Et si on abandonnait l'échantillonnage
-indépendant ? <br>
+- La distribution des échantillons obtenus converge vers la "vraie" distribution
+- Mais, nécessite généralement beaucoup d'échantillons...
+- Aucun contrôle sur la vitesse de convergence...
+- Et si on abandonnait l'échantillonnage indépendant ?
 
 ## Algorithme Metropolis
 
@@ -374,17 +381,18 @@ valeurs de paramètres les plus représentées**.
 
 . . .
 
-### Principe
+Principe :
 
-$\bullet~$ On fait une proposition de déplacement sur la base de la
-valeur courante du paramètre <br> $\bullet~$ On réalise un tirage
-aléatoire pour accepter ou rejeter la nouvelle position <br>
+- On fait une proposition de déplacement sur la base de la
+valeur courante du paramètre.
+- On réalise un tirage aléatoire pour accepter ou rejeter la
+nouvelle position.
 
 . . .
 
-### Deux idées centrales
+Deux idées centrales :
 
-$\bullet~$ La proposition doit favoriser les valeurs de paramètre les
+- La proposition doit favoriser les valeurs de paramètre les
 plus probables <br> $~~\longrightarrow~$ On parcourt plus souvent ces
 valeurs de paramètres <br>
 
@@ -393,8 +401,8 @@ valeurs de paramètres <br>
 $\bullet~$ La proposition doit se limiter aux valeurs adjacentes au
 paramètre courant <br> $~~\longrightarrow~$ On augmente la vitesse de
 convergence en restant là où se trouve l'information (i.e., en
-parcourant l'espace des paramètres de manière *locale* plutôt que
-*globale*)
+parcourant l'espace des paramètres de manière **locale** plutôt que
+**globale**)
 
 ## Algorithme Metropolis
 
@@ -424,6 +432,8 @@ $$\Pr_{\text{move}} = \text{min} \left(\frac{\Pr(\theta_{\text{proposed}})}{\Pr(
 knitr::include_graphics("figures/DiscretMCMC_3.png")
 ```
 
+<!--
+
 ## Algorithme Metropolis
 
 Puis, accepter ou rejeter la proposition de déplacement. On compare le
@@ -433,13 +443,15 @@ génère une valeur $u$ suivant $u \sim \mathrm{Uniform(0, 1)}$. Ensuite :
 $$
 \begin{aligned}
 \text{Si }& u \leq \Pr_{\text{move}} \text{, Alors on accepte le déplacement}\\
-\text{Si }& u > \Pr_{\text{move}} \text{, Alors on rejete le déplacement}\\
+\text{Si }& u > \Pr_{\text{move}} \text{, Alors on rejette le déplacement}\\
 \end{aligned}
 $$
 
 ```{r, echo = FALSE, out.width = "75%"}
 knitr::include_graphics("figures/DiscretMCMC_3.png")
 ```
+
+-->
 
 ## Algorithme Metropolis
 
@@ -448,6 +460,32 @@ l'algorithme.
 
 ```{r, echo = FALSE, out.width = "75%"}
 knitr::include_graphics("figures/DiscretMCMC_4.png")
+```
+
+## Algorithme Metropolis
+
+```{r metropolis, eval = TRUE, echo = TRUE}
+metropolis <- function (niter = 1e2, startval = 3) {
+    
+    x <- rep(0, niter) # initialises the chain vector
+    x[1] <- startval # defines the starting value
+    
+    for (i in 2:niter) {
+        
+        current <- x[i - 1] # current value of the parameter
+        proposal <- current + sample(c(-1, 1), size = 1)
+        # make sure he loops around the archipelago
+        if (proposal < 1) proposal <- 1
+        if (proposal > 7) proposal <- 7
+        prob_move <- min(1, proposal / current)
+        # x[i] <- ifelse(runif(1) < prob_move, proposal, currentPosition)
+        x[i] <- sample(c(current, proposal), size = 1, prob = c(1 - prob_move, prob_move) )
+        
+    }
+    
+    return (x)
+    
+}
 ```
 
 ## Méthodes Monte Carlo vs. Algorithme Metropolis
@@ -530,11 +568,11 @@ barplot(
 **Application au lancer de pièce (cas continu)**
 
 $~\bullet~$ La fonction de vraisemblance est donnée par :
-$\color{orangered}{P(z~|~\theta,N)=\theta^z~(1-\theta)^{(N-z)}}$ <br>
+$\color{orangered}{p(y \given \theta, n) = \theta^y(1 - \theta)^{(n - y)}}$ <br>
 $~\bullet~$ Le prior est donné par :
-$\color{steelblue}{P(\theta~|~a,b) \propto \theta^{(a-1)}(1-\theta)^{(b-1)}}$
+$\color{steelblue}{p(\theta \given a, b) \propto \theta^{(a - 1)}(1 - \theta)^{(b - 1)}}$
 <br> $~\bullet~$ Le paramètre que l'on cherche à estimer prend ses
-valeurs dans l'intervalle $\left[0,1\right]$
+valeurs dans l'intervalle $\left[0, 1 \right]$
 
 . . .
 
@@ -551,7 +589,7 @@ déterminer, elle contrôle l'éloignement de la nouvelle valeur
 **Problème n°2 :** Quelle probabilité utiliser pour accepter ou refuser
 le déplacement ? Nous utilisons le produit de la vraisemblance et du
 prior :
-$\color{orangered}{\theta^z~(1-\theta)^{(N-z)}}\color{steelblue}{\theta^{(a-1)}(1-\theta)^{(b-1)}}$<br>
+$\color{orangered}{\theta^y(1 - \theta)^{(n - y)}}\color{steelblue}{\theta^{(a - 1)}(1 - \theta)^{(b - 1)}}$<br>
 
 . . .
 
@@ -570,13 +608,13 @@ prior par vraisemblance (car la constante de normalisation s'annule) !
 ## Algorithme Metropolis
 
 $\longrightarrow~$ Sélectionner un point de départ <br> $~\bullet~$ Il
-faut choisir $~\theta \in \left[0,1\right]$ <br> $~\bullet~$ Seule
-contrainte $~\Pr(\theta_{initial}) \ne 0$
+faut choisir $\theta \in \left[0,1\right]$ <br> $~\bullet~$ Seule
+contrainte $\Pr(\theta_{initial}) \ne 0$
 
 . . .
 
 $\longrightarrow~$ Choisir une direction de déplacement <br> $~\bullet~$
-Faire un tirage suivant $~\mathrm{Normal}(0, \sigma)$
+Faire un tirage suivant $\mathrm{Normal}(0, \sigma)$
 
 . . .
 
@@ -1143,42 +1181,32 @@ Il faut beaucoup d'itérations pour obtenir un résultat satisfaisant...
 ## Algorithme Metropolis-Hastings
 
 ```{r metropolis-hastings1, eval = TRUE, echo = TRUE}
-target <- function(x) {
-  # target distribution is Exponential(1)
-  # implementation from https://stephens999.github.io/fiveMinuteStats/MH-examples1.html
-  
-  if (x < 0) {
-    return(0)
+metropolis_hastings <- function (niter = 1e2, startval = 0.5) {
+    
+    x <- rep(0, niter) # initialises the chain vector
+    x[1] <- startval # defines the starting value
+    
+    for (i in 2:niter) {
+        
+        current <- x[i - 1] # current value of the parameter
+        current_plaus <- dbeta(current, 2, 3) * dbinom(1, 2, current)
+        proposal <- runif(n = 1, min = 0, max = 1) # proposed value of the parameter
+        proposal_plaus <- dbeta(proposal, 2, 3) * dbinom(1, 2, proposal)
+        alpha <- min(1, proposal_plaus / current_plaus) # moving probability ratio
+        x[i] <- sample(c(current, proposal), size = 1, prob = c(1 - alpha, alpha) )
+        
     }
-  else {
-    return(exp(-x) )
-    }
-}
-
-metropolis_hastings <- function(niter, startval, proposalsd) {
-  
-  x <- rep(0, niter) # initialises the chain vector
-  x[1] <- startval # defines the starting value
-  
-  for(i in 2:niter) {
-    currentx <- x[i - 1] # retrieves current value of the parameter
-    proposedx <- rnorm(1, mean = currentx, sd = proposalsd) # proposed move
-    A <- target(proposedx) / target(currentx) # probability ratio
-    if (runif(1) < A) {
-      x[i] = proposedx # accept move with probability min(1, A)
-      } else {
-        x[i] = currentx # otherwise "reject" move, and stay where we are
-        }
-  }
-  return(x)
+    
+    return (x)
+    
 }
 ```
 
 ## Algorithme Metropolis-Hastings
 
 ```{r metropolis-hastings2, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5}
-z1 <- metropolis_hastings(niter = 1000, startval = 3, proposalsd = 1)
-z2 <- metropolis_hastings(niter = 1000, startval = 3, proposalsd = 1)
+z1 <- metropolis_hastings(niter = 1000, startval = 0.5)
+z2 <- metropolis_hastings(niter = 1000, startval = 0.5)
 
 data.frame(z1 = z1, z2 = z2) %>%
   mutate(sample = 1:1000) %>%
@@ -1202,6 +1230,8 @@ data.frame(z1 = z1, z2 = z2) %>%
 ```
 
 ## Algorithme Metropolis-Hastings {background-iframe="https://chi-feng.github.io/mcmc-demo/app.html?algorithm=RandomWalkMH&target=standard"}
+
+<!--
 
 ## Algorithme Gibbs - Modèle bivarié
 
@@ -1467,9 +1497,11 @@ mais ce n'est pas le cas en général !
 knitr::include_graphics("figures/Gibbs Error.png")
 ```
 
+-->
+
 ## Algorithme Hamiltonian Monte Carlo
 
-Les algorithmes Metropolis-Hastings et Gibbs ont de mauvaises
+Les algorithmes Metropolis et Metropolis-Hastings (ou Gibbs) ont de mauvaises
 performances lorsque les paramètres du modèle sont fortement corrêlés.
 L'algorithme **Hamiltonian Monte Carlo** repose sur l'algorithme
 Metropolis mais résout ces problème en utilisant la géométrie de
@@ -1488,7 +1520,7 @@ $$
 L'énergie potentielle est donnée par le négatif du log de la densité
 postérieure (non-normalisée) ;
 
-$$U(\theta) = -\log[p(data | \theta) \times p(\theta)]$$
+$$U(\theta) = -\log[p(data \given \theta) \times p(\theta)]$$
 
 Quand la densité postérieure augmente, l'énergie potentielle diminue
 (i.e., devient plus négative).
@@ -1548,7 +1580,7 @@ $\longrightarrow~$ Accepter ou rejeter la proposition de déplacement
 suivant la probabilité (où $\phi$ est le moment associé à la bille) :
 
 $$
-\Pr_{déplacement} = \min \left(\frac{\Pr(\theta_{proposé}~|~D)~\Pr(\phi_{final})}{\Pr(\theta_{courant}~|~D)~\Pr(\phi_{initial})}, 1 \right)
+\Pr_{déplacement} = \min \left(\frac{\Pr(\theta_{proposé} \given D)~\Pr(\phi_{final})}{\Pr(\theta_{courant} \given D)~\Pr(\phi_{initial})}, 1 \right)
 $$
 
 $\longrightarrow~$ On enregistre la nouvelle position et on
@@ -1585,7 +1617,7 @@ knitr::include_graphics("figures/HMC alorithme ERREUR2.png")
 Ces méthodes peuvent ne pas converger vers la "vraie" distribution
 postérieure, en raison du temps de calcul limité, du paramétrage de
 certains hyper-paramètres (e.g., variance de la distribution normale de
-la proposition pour Gibbs, ou variance du moment initial pour HMC).
+la proposition, ou variance du moment initial pour HMC).
 
 Ces méthodes produisent des chaînes de valeurs de paramètres
 (échantillons). L'utilisation de tel ou tel algorithme MCMC pour
@@ -1786,9 +1818,7 @@ postérieure (e.g., moyenne, médiane, HDI).
 L'algorithme Metropolis-Hastings peut être utilisé pour n'importe quel
 problème pour lequel une vraisemblance peut être calculée. Cependant,
 bien que cet algorithme soit simple à coder, sa convergence peut être
-très lente... L'algorithme Gibbs accélère la convergence mais nécessite
-qu'on l'on puisse calculer la distribution conditionnelle des
-paramètres. De plus, cet algorithme ne fonctionne pas bien lorsqu'il
+très lente... De plus, cet algorithme ne fonctionne pas bien lorsqu'il
 existe de fortes corrélations entre les différents paramètres...
 
 . . .
@@ -1818,7 +1848,7 @@ vallonné) `rugged` et son appartenance au continent africain
 library(tidyverse)
 library(imsb)
 
-d <- open_data(rugged) |> mutate(log_gdp = log(rgdppc_2000) )
+d <- open_data(rugged) %>% mutate(log_gdp = log(rgdppc_2000) )
 df1 <- d[complete.cases(d$rgdppc_2000), ]
 str(df1)
 ```

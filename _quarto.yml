@@ -2,7 +2,8 @@ project:
   type: website
   output-dir: docs
   resources:
-    - "./files/"
+    - "files/"
+    - "_notes/"
 
 execute:
   freeze: auto
@@ -27,8 +28,8 @@ website:
       - content/index.qmd
       - resources.qmd
       - install.qmd
-      #- text: "Notes"
-      #  file: "_notes/docs/index.html"
+      - text: "Notes"
+        file: "_notes/docs/index.html"
         
   sidebar:
     - title: "Planning"

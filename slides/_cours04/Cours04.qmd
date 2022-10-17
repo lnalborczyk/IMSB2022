@@ -63,6 +63,8 @@ Modèle linéaire généralisé <br> Cours n°07 : Comparaison de modèles <br>
 Cours n°08 : Modèles multi-niveaux <br> Cours n°09 : Modèles
 multi-niveaux généralisés <br> Cours n°10 : Data Hackathon <br>
 
+$$\newcommand\given[1][]{\:#1\vert\:}$$
+
 ## Rappels 
 
 On considère un modèle de régression linéaire gaussien avec un prédicteur continu. Ce modèle contient trois paramètres à estimer : l'intercept $\alpha$, la pente $\beta$, et l'écart-type des "résidus" $\sigma$.

@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapitre 4 Modèle de régression linéaire, suite | Notes de cours - Introduction à la modélisation statistique bayésienne</title>
+  <meta name="description" content="<p>Ce document regroupe les notes de l’édition 2022 de la formation doctorale
+‘Introduction à la modélisation statistique bayésienne’, co-organisée par le collège
+des écoles doctorales de l’Université Grenoble Alpes et la Maison de la Modélisation
+et de la Simulation, Nanoscience et Environnement (MaiMoSiNE).</p>" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapitre 4 Modèle de régression linéaire, suite | Notes de cours - Introduction à la modélisation statistique bayésienne" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://www.barelysignificant.com/IMSB2022/_notes/./figures/cover_distributions.png" />
+  <meta property="og:description" content="<p>Ce document regroupe les notes de l’édition 2022 de la formation doctorale
+‘Introduction à la modélisation statistique bayésienne’, co-organisée par le collège
+des écoles doctorales de l’Université Grenoble Alpes et la Maison de la Modélisation
+et de la Simulation, Nanoscience et Environnement (MaiMoSiNE).</p>" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapitre 4 Modèle de régression linéaire, suite | Notes de cours - Introduction à la modélisation statistique bayésienne" />
+  
+  <meta name="twitter:description" content="<p>Ce document regroupe les notes de l’édition 2022 de la formation doctorale
+‘Introduction à la modélisation statistique bayésienne’, co-organisée par le collège
+des écoles doctorales de l’Université Grenoble Alpes et la Maison de la Modélisation
+et de la Simulation, Nanoscience et Environnement (MaiMoSiNE).</p>" />
+  <meta name="twitter:image" content="https://www.barelysignificant.com/IMSB2022/_notes/./figures/cover_distributions.png" />
+
+<meta name="author" content="Ladislas Nalborczyk" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="./figures/cover_distributions.png" type="image/x-icon" />
+<link rel="prev" href="3-linear-regression1.html"/>
+<link rel="next" href="A-glossaire.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<!-- font families -->
+
+<link href="https://fonts.googleapis.com/css?family=PT+Sans|Pacifico|Source+Sans+Pro" rel="stylesheet">
+
+<script src="js/hideOutput.js"></script>
+
+<!-- Mathjax -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/default.js"></script>
+
+ <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js", "TeX/AMSmath.js"],
+        tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+        jax: ["input/TeX","output/CommonHTML"]
+      });
+      MathJax.Hub.processSectionDelay = 0;
+  </script>
+
+<!-- Global site tag (gtag.js) - Google Analytics
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110299877-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-110299877-1');
+</script>
+-->
+
+<!-- open review block -->
+
+<script async defer src="https://hypothes.is/embed.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/toc.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introduction à la modélisation statistique bayésienne</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Préface</a></li>
+<li class="chapter" data-level="1" data-path="1-introduction.html"><a href="1-introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction à l’inférence bayésienne</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="1-introduction.html"><a href="1-introduction.html#quest-ce-quune-probabilité"><i class="fa fa-check"></i><b>1.1</b> Qu’est-ce qu’une probabilité ?</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="1-introduction.html"><a href="1-introduction.html#axiomes-des-probabilités"><i class="fa fa-check"></i><b>1.1.1</b> Axiomes des probabilités</a></li>
+<li class="chapter" data-level="1.1.2" data-path="1-introduction.html"><a href="1-introduction.html#interprétations-probabilistes"><i class="fa fa-check"></i><b>1.1.2</b> Interprétations probabilistes</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="1-introduction.html"><a href="1-introduction.html#logique-et-raisonnement-scientifique"><i class="fa fa-check"></i><b>1.2</b> Logique et raisonnement scientifique</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="1-introduction.html"><a href="1-introduction.html#introduction-à-la-logique"><i class="fa fa-check"></i><b>1.2.1</b> Introduction à la logique</a></li>
+<li class="chapter" data-level="1.2.2" data-path="1-introduction.html"><a href="1-introduction.html#quelques-syllogismes-connus"><i class="fa fa-check"></i><b>1.2.2</b> Quelques syllogismes connus</a></li>
+<li class="chapter" data-level="1.2.3" data-path="1-introduction.html"><a href="1-introduction.html#quest-ce-quune-théorie-scientifique"><i class="fa fa-check"></i><b>1.2.3</b> Qu’est-ce qu’une théorie scientifique ?</a></li>
+<li class="chapter" data-level="1.2.4" data-path="1-introduction.html"><a href="1-introduction.html#test-dhypothèse-nulle-et-raisonnement-scientifique"><i class="fa fa-check"></i><b>1.2.4</b> Test d’hypothèse nulle et raisonnement scientifique</a></li>
+<li class="chapter" data-level="1.2.5" data-path="1-introduction.html"><a href="1-introduction.html#lapproche-par-comparaison-de-modèles"><i class="fa fa-check"></i><b>1.2.5</b> L’approche par comparaison de modèles</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="1-introduction.html"><a href="1-introduction.html#problème-du-sac-de-billes-mcelreath_statistical_2016"><i class="fa fa-check"></i><b>1.3</b> Problème du sac de billes <span class="citation">(<span>McElreath, 2016b</span>)</span></a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="1-introduction.html"><a href="1-introduction.html#énumérer-les-possibilités"><i class="fa fa-check"></i><b>1.3.1</b> Énumérer les possibilités</a></li>
+<li class="chapter" data-level="1.3.2" data-path="1-introduction.html"><a href="1-introduction.html#accumulation-dévidence"><i class="fa fa-check"></i><b>1.3.2</b> Accumulation d’évidence</a></li>
+<li class="chapter" data-level="1.3.3" data-path="1-introduction.html"><a href="1-introduction.html#incorporer-un-prior"><i class="fa fa-check"></i><b>1.3.3</b> Incorporer un prior</a></li>
+<li class="chapter" data-level="1.3.4" data-path="1-introduction.html"><a href="1-introduction.html#des-énumérations-aux-probabilités"><i class="fa fa-check"></i><b>1.3.4</b> Des énumérations aux probabilités</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="1-introduction.html"><a href="1-introduction.html#rappels-de-théorie-des-probabilités"><i class="fa fa-check"></i><b>1.4</b> Rappels de théorie des probabilités</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="1-introduction.html"><a href="1-introduction.html#probabilité-conjointe"><i class="fa fa-check"></i><b>1.4.1</b> Probabilité conjointe</a></li>
+<li class="chapter" data-level="1.4.2" data-path="1-introduction.html"><a href="1-introduction.html#probabilité-marginale"><i class="fa fa-check"></i><b>1.4.2</b> Probabilité marginale</a></li>
+<li class="chapter" data-level="1.4.3" data-path="1-introduction.html"><a href="1-introduction.html#probabilité-conditionnelle"><i class="fa fa-check"></i><b>1.4.3</b> Probabilité conditionnelle</a></li>
+<li class="chapter" data-level="1.4.4" data-path="1-introduction.html"><a href="1-introduction.html#dérivation-du-théorème-de-bayes"><i class="fa fa-check"></i><b>1.4.4</b> Dérivation du théorème de Bayes</a></li>
+<li class="chapter" data-level="1.4.5" data-path="1-introduction.html"><a href="1-introduction.html#loi-de-probabilité-cas-discret"><i class="fa fa-check"></i><b>1.4.5</b> Loi de probabilité, cas discret</a></li>
+<li class="chapter" data-level="1.4.6" data-path="1-introduction.html"><a href="1-introduction.html#loi-de-probabilité-cas-continu"><i class="fa fa-check"></i><b>1.4.6</b> Loi de probabilité, cas continu</a></li>
+<li class="chapter" data-level="1.4.7" data-path="1-introduction.html"><a href="1-introduction.html#aparté-quest-ce-quune-intégrale"><i class="fa fa-check"></i><b>1.4.7</b> Aparté, qu’est-ce qu’une intégrale ?</a></li>
+<li class="chapter" data-level="1.4.8" data-path="1-introduction.html"><a href="1-introduction.html#notations-terminologie"><i class="fa fa-check"></i><b>1.4.8</b> Notations, terminologie</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="1-introduction.html"><a href="1-introduction.html#quelques-exemples-dapplication"><i class="fa fa-check"></i><b>1.5</b> Quelques exemples d’application</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="1-introduction.html"><a href="1-introduction.html#diagnostique-médical-gigerenzer-2002"><i class="fa fa-check"></i><b>1.5.1</b> Diagnostique médical (Gigerenzer, 2002)</a></li>
+<li class="chapter" data-level="1.5.2" data-path="1-introduction.html"><a href="1-introduction.html#problème-de-monty-hall"><i class="fa fa-check"></i><b>1.5.2</b> Problème de Monty Hall</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html"><i class="fa fa-check"></i><b>2</b> Modèle beta-binomial</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#coefficient-binomial"><i class="fa fa-check"></i><b>2.1</b> Coefficient binomial</a></li>
+<li class="chapter" data-level="2.2" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#le-modèle-beta-binomial"><i class="fa fa-check"></i><b>2.2</b> Le modèle Beta-Binomial</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#loi-de-bernoulli"><i class="fa fa-check"></i><b>2.2.1</b> Loi de Bernoulli</a></li>
+<li class="chapter" data-level="2.2.2" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#processus-de-bernoulli"><i class="fa fa-check"></i><b>2.2.2</b> Processus de Bernoulli</a></li>
+<li class="chapter" data-level="2.2.3" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#processus-de-bernoulli-1"><i class="fa fa-check"></i><b>2.2.3</b> Processus de Bernoulli</a></li>
+<li class="chapter" data-level="2.2.4" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#coefficient-binomial-1"><i class="fa fa-check"></i><b>2.2.4</b> Coefficient binomial</a></li>
+<li class="chapter" data-level="2.2.5" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#loi-binomiale"><i class="fa fa-check"></i><b>2.2.5</b> Loi binomiale</a></li>
+<li class="chapter" data-level="2.2.6" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#générer-des-données-à-partir-dune-distribution-binomiale"><i class="fa fa-check"></i><b>2.2.6</b> Générer des données à partir d’une distribution binomiale</a></li>
+<li class="chapter" data-level="2.2.7" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#définition-du-modèle-likelihood"><i class="fa fa-check"></i><b>2.2.7</b> Définition du modèle (likelihood)</a></li>
+<li class="chapter" data-level="2.2.8" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#vraisemblance-versus-probabilité"><i class="fa fa-check"></i><b>2.2.8</b> Vraisemblance versus probabilité</a></li>
+<li class="chapter" data-level="2.2.9" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#définition-du-prior"><i class="fa fa-check"></i><b>2.2.9</b> Définition du prior</a></li>
+<li class="chapter" data-level="2.2.10" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#la-distribution-beta"><i class="fa fa-check"></i><b>2.2.10</b> La distribution Beta</a></li>
+<li class="chapter" data-level="2.2.11" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#interprétation-des-paramètres-du-prior-beta"><i class="fa fa-check"></i><b>2.2.11</b> Interprétation des paramètres du prior Beta</a></li>
+<li class="chapter" data-level="2.2.12" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#prior-conjugué"><i class="fa fa-check"></i><b>2.2.12</b> Prior conjugué</a></li>
+<li class="chapter" data-level="2.2.13" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#dérivation-analytique-de-la-distribution-a-posteriori"><i class="fa fa-check"></i><b>2.2.13</b> Dérivation analytique de la distribution a posteriori</a></li>
+<li class="chapter" data-level="2.2.14" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#un-exemple-pour-digérer"><i class="fa fa-check"></i><b>2.2.14</b> Un exemple pour digérer</a></li>
+<li class="chapter" data-level="2.2.15" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#influence-du-prior-sur-la-distribution-postérieure"><i class="fa fa-check"></i><b>2.2.15</b> Influence du prior sur la distribution postérieure</a></li>
+<li class="chapter" data-level="2.2.16" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#ce-quil-faut-retenir"><i class="fa fa-check"></i><b>2.2.16</b> Ce qu’il faut retenir</a></li>
+<li class="chapter" data-level="2.2.17" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#la-vraisemblance-marginale-the-devil-is-in-the-denominator"><i class="fa fa-check"></i><b>2.2.17</b> La vraisemblance marginale (the devil is in the denominator)</a></li>
+<li class="chapter" data-level="2.2.18" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#la-distribution-postérieure-solution-analytique"><i class="fa fa-check"></i><b>2.2.18</b> La distribution postérieure, solution analytique</a></li>
+<li class="chapter" data-level="2.2.19" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#la-distribution-postérieure-grid-method"><i class="fa fa-check"></i><b>2.2.19</b> La distribution postérieure, grid method</a></li>
+<li class="chapter" data-level="2.2.20" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#échantillonner-la-distribution-postérieure"><i class="fa fa-check"></i><b>2.2.20</b> Échantillonner la distribution postérieure</a></li>
+<li class="chapter" data-level="2.2.21" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#la-distribution-postérieure-résumé"><i class="fa fa-check"></i><b>2.2.21</b> La distribution postérieure, résumé</a></li>
+<li class="chapter" data-level="2.2.22" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#utiliser-les-échantillons-pour-résumer-la-distribution-postérieure"><i class="fa fa-check"></i><b>2.2.22</b> Utiliser les échantillons pour résumer la distribution postérieure</a></li>
+<li class="chapter" data-level="2.2.23" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#highest-density-interval-hdi"><i class="fa fa-check"></i><b>2.2.23</b> Highest density interval (HDI)</a></li>
+<li class="chapter" data-level="2.2.24" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#region-of-practical-equivalence-rope"><i class="fa fa-check"></i><b>2.2.24</b> Region of practical equivalence (ROPE)</a></li>
+<li class="chapter" data-level="2.2.25" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#model-checking"><i class="fa fa-check"></i><b>2.2.25</b> Model checking</a></li>
+<li class="chapter" data-level="2.2.26" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#posterior-predictive-checking"><i class="fa fa-check"></i><b>2.2.26</b> Posterior predictive checking</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#conclusions"><i class="fa fa-check"></i><b>2.3</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html"><i class="fa fa-check"></i><b>3</b> Modèle de régression linéaire</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#langage-de-la-modélisation"><i class="fa fa-check"></i><b>3.1</b> Langage de la modélisation</a></li>
+<li class="chapter" data-level="3.2" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#un-premier-modèle"><i class="fa fa-check"></i><b>3.2</b> Un premier modèle</a></li>
+<li class="chapter" data-level="3.3" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#loi-normale"><i class="fa fa-check"></i><b>3.3</b> Loi normale</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#doù-vient-la-loi-normale"><i class="fa fa-check"></i><b>3.3.1</b> D’où vient la loi normale ?</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#modèle-gaussien"><i class="fa fa-check"></i><b>3.4</b> Modèle gaussien</a></li>
+<li class="chapter" data-level="3.5" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#visualiser-le-prior"><i class="fa fa-check"></i><b>3.5</b> Visualiser le prior</a></li>
+<li class="chapter" data-level="3.6" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#échantillonner-à-partir-du-prior"><i class="fa fa-check"></i><b>3.6</b> Échantillonner à partir du prior</a></li>
+<li class="chapter" data-level="3.7" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#fonction-de-vraisemblance"><i class="fa fa-check"></i><b>3.7</b> Fonction de vraisemblance</a></li>
+<li class="chapter" data-level="3.8" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#distribution-postérieure"><i class="fa fa-check"></i><b>3.8</b> Distribution postérieure</a>
+<ul>
+<li class="chapter" data-level="3.8.1" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#distribution-postérieure---grid-approximation"><i class="fa fa-check"></i><b>3.8.1</b> Distribution postérieure - grid approximation</a></li>
+<li class="chapter" data-level="3.8.2" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#distribution-postérieure---distributions-marginales"><i class="fa fa-check"></i><b>3.8.2</b> Distribution postérieure - distributions marginales</a></li>
+</ul></li>
+<li class="chapter" data-level="3.9" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#introduction-à-brms"><i class="fa fa-check"></i><b>3.9</b> Introduction à brms</a>
+<ul>
+<li class="chapter" data-level="3.9.1" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#rappels-de-syntaxe"><i class="fa fa-check"></i><b>3.9.1</b> Rappels de syntaxe</a></li>
+<li class="chapter" data-level="3.9.2" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#quelques-fonctions-utiles"><i class="fa fa-check"></i><b>3.9.2</b> Quelques fonctions utiles</a></li>
+<li class="chapter" data-level="3.9.3" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#un-premier-exemple"><i class="fa fa-check"></i><b>3.9.3</b> Un premier exemple</a></li>
+<li class="chapter" data-level="3.9.4" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#en-utilisant-notre-prior"><i class="fa fa-check"></i><b>3.9.4</b> En utilisant notre prior</a></li>
+<li class="chapter" data-level="3.9.5" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#en-utilisant-un-prior-plus-informatif"><i class="fa fa-check"></i><b>3.9.5</b> En utilisant un prior plus informatif</a></li>
+<li class="chapter" data-level="3.9.6" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#précision-du-prior-heuristique"><i class="fa fa-check"></i><b>3.9.6</b> Précision du prior (heuristique)</a></li>
+<li class="chapter" data-level="3.9.7" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#récupérer-et-visualiser-les-échantillons-de-la-distribution-postérieure"><i class="fa fa-check"></i><b>3.9.7</b> Récupérer et visualiser les échantillons de la distribution postérieure</a></li>
+<li class="chapter" data-level="3.9.8" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#récupérer-les-échantillons-de-la-distribution-postérieure"><i class="fa fa-check"></i><b>3.9.8</b> Récupérer les échantillons de la distribution postérieure</a></li>
+<li class="chapter" data-level="3.9.9" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#visualiser-la-distribution-postérieure"><i class="fa fa-check"></i><b>3.9.9</b> Visualiser la distribution postérieure</a></li>
+<li class="chapter" data-level="3.9.10" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#visualiser-la-distribution-postérieure-1"><i class="fa fa-check"></i><b>3.9.10</b> Visualiser la distribution postérieure</a></li>
+<li class="chapter" data-level="3.9.11" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#ajouter-un-prédicteur"><i class="fa fa-check"></i><b>3.9.11</b> Ajouter un prédicteur</a></li>
+</ul></li>
+<li class="chapter" data-level="3.10" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#régression-linéaire-à-un-prédicteur-continu"><i class="fa fa-check"></i><b>3.10</b> Régression linéaire à un prédicteur continu</a>
+<ul>
+<li class="chapter" data-level="3.10.1" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#différentes-notations-équivalentes"><i class="fa fa-check"></i><b>3.10.1</b> Différentes notations équivalentes</a></li>
+<li class="chapter" data-level="3.10.2" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#représenter-les-prédictions-du-modèle"><i class="fa fa-check"></i><b>3.10.2</b> Représenter les prédictions du modèle</a></li>
+<li class="chapter" data-level="3.10.3" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#représenter-lincertitude-sur-mu-via-fitted"><i class="fa fa-check"></i><b>3.10.3</b> Représenter l’incertitude sur <span class="math inline">\(\mu\)</span> via fitted()</a></li>
+<li class="chapter" data-level="3.10.4" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#intervalles-de-prédiction-incorporer-sigma"><i class="fa fa-check"></i><b>3.10.4</b> Intervalles de prédiction (incorporer <span class="math inline">\(\sigma\)</span>)</a></li>
+<li class="chapter" data-level="3.10.5" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#deux-types-dincertitude"><i class="fa fa-check"></i><b>3.10.5</b> Deux types d’incertitude</a></li>
+</ul></li>
+<li class="chapter" data-level="3.11" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#régression-polynomiale"><i class="fa fa-check"></i><b>3.11</b> Régression polynomiale</a>
+<ul>
+<li class="chapter" data-level="3.11.1" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#modèle-de-régression-polynomiale"><i class="fa fa-check"></i><b>3.11.1</b> Modèle de régression polynomiale</a></li>
+<li class="chapter" data-level="3.11.2" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#représenter-les-prédictions-du-modèle-1"><i class="fa fa-check"></i><b>3.11.2</b> Représenter les prédictions du modèle</a></li>
+</ul></li>
+<li class="chapter" data-level="3.12" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#modèle-de-régression-taille-deffet"><i class="fa fa-check"></i><b>3.12</b> Modèle de régression, taille d’effet</a></li>
+<li class="chapter" data-level="3.13" data-path="3-linear-regression1.html"><a href="3-linear-regression1.html#conclusions-1"><i class="fa fa-check"></i><b>3.13</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="4-linear-regression2.html"><a href="4-linear-regression2.html"><i class="fa fa-check"></i><b>4</b> Modèle de régression linéaire, suite</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="4-linear-regression2.html"><a href="4-linear-regression2.html#régression-multiple"><i class="fa fa-check"></i><b>4.1</b> Régression multiple</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="4-linear-regression2.html"><a href="4-linear-regression2.html#associations-fortuites"><i class="fa fa-check"></i><b>4.1.1</b> Associations fortuites</a></li>
+<li class="chapter" data-level="4.1.2" data-path="4-linear-regression2.html"><a href="4-linear-regression2.html#régression-multiple-1"><i class="fa fa-check"></i><b>4.1.2</b> Régression multiple</a></li>
+<li class="chapter" data-level="4.1.3" data-path="4-linear-regression2.html"><a href="4-linear-regression2.html#toujours-plus-de-prédicteurs"><i class="fa fa-check"></i><b>4.1.3</b> Toujours plus de prédicteurs</a></li>
+<li class="chapter" data-level="4.1.4" data-path="4-linear-regression2.html"><a href="4-linear-regression2.html#prédicteurs-catégoriels"><i class="fa fa-check"></i><b>4.1.4</b> Prédicteurs catégoriels</a></li>
+<li class="chapter" data-level="4.1.5" data-path="4-linear-regression2.html"><a href="4-linear-regression2.html#prédicteurs-catégoriels-nombre-de-catégories-3"><i class="fa fa-check"></i><b>4.1.5</b> Prédicteurs catégoriels, nombre de catégories &gt; 3</a></li>
+<li class="chapter" data-level="4.1.6" data-path="4-linear-regression2.html"><a href="4-linear-regression2.html#interaction"><i class="fa fa-check"></i><b>4.1.6</b> Interaction</a></li>
+</ul></li>
+</ul></li>
+<li class="appendix"><span><b>Annexes</b></span></li>
+<li class="chapter" data-level="A" data-path="A-glossaire.html"><a href="A-glossaire.html"><i class="fa fa-check"></i><b>A</b> Glossaire</a></li>
+<li class="chapter" data-level="B" data-path="B-notations.html"><a href="B-notations.html"><i class="fa fa-check"></i><b>B</b> Notations</a></li>
+<li class="chapter" data-level="" data-path="bibliographie.html"><a href="bibliographie.html"><i class="fa fa-check"></i>Bibliographie</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank"> Powered by bookdown </a></li>
+<li><a href="http://www.barelysignificant.com" target="blank"> Ladislas Nalborczyk </a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notes de cours - Introduction à la modélisation statistique bayésienne</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div class = rmdreview>
+Ce livret est en "<b>Open Review</b>". Votre retour est essentiel afin de l'améliorer, pour vous-même ainsi que pour les futurs étudiant•e•s. Vous pouvez annoter le texte en <span style="background-color: #3297FD; color: white">le sélectionnant avec le curseur</span> et en cliquant sur l'icône <i class="h-icon-annotate"></i> dans le menu qui s'affiche en pop-up. Vous pouvez également lire les annotations des autres utilisateurs du livret en cliquant sur <i class="h-icon-chevron-left"></i> dans le coin supérieur droit de cette page.
+</div>
+ 
+<div id="linear-regression2" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapitre 4</span> Modèle de régression linéaire, suite<a href="4-linear-regression2.html#linear-regression2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Introduction au chapitre blah blah…</p>
+<div id="régression-multiple" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Régression multiple<a href="4-linear-regression2.html#régression-multiple" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>On va étendre le modèle précédent en ajoutant plusieurs prédicteurs, continus et/ou catégoriels. Pourquoi faire ?</p>
+<ul>
+<li><p><em>Contrôle</em> des facteurs de confusion (e.g., <a href="http://www.tylervigen.com/spurious-correlations">spurious correlations</a>, <a href="https://en.wikipedia.org/wiki/Simpson%27s_paradox">simpson’s paradox</a>). Un facteur de confusion est une variable aléatoire qui influence à la fois la variable dépendante et les variables explicatives. Une approche multivariée peut nous aider à démêler les influences causales de différents prédicteurs.</p></li>
+<li><p>Multiples causes : un phénomène peut émerger sous l’influence de multiples causes.</p></li>
+<li><p>Interactions : l’influence d’un prédicteur sur la variable observée peut dépendre de la valeur d’un autre prédicteur.</p></li>
+</ul>
+<div id="associations-fortuites" class="section level3 hasAnchor" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Associations fortuites<a href="4-linear-regression2.html#associations-fortuites" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="4-linear-regression2.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rethinking)</span>
+<span id="cb122-2"><a href="4-linear-regression2.html#cb122-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb122-3"><a href="4-linear-regression2.html#cb122-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-4"><a href="4-linear-regression2.html#cb122-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(WaffleDivorce) <span class="co"># import des données</span></span>
+<span id="cb122-5"><a href="4-linear-regression2.html#cb122-5" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> WaffleDivorce <span class="co"># import dans une dataframe nommée df1</span></span>
+<span id="cb122-6"><a href="4-linear-regression2.html#cb122-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-7"><a href="4-linear-regression2.html#cb122-7" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df1) <span class="co"># structure des données</span></span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    50 obs. of  13 variables:
+##  $ Location         : Factor w/ 50 levels &quot;Alabama&quot;,&quot;Alaska&quot;,..: 1 2 3 4 5 6 7 8 9 10 ...
+##  $ Loc              : Factor w/ 50 levels &quot;AK&quot;,&quot;AL&quot;,&quot;AR&quot;,..: 2 1 4 3 5 6 7 9 8 10 ...
+##  $ Population       : num  4.78 0.71 6.33 2.92 37.25 ...
+##  $ MedianAgeMarriage: num  25.3 25.2 25.8 24.3 26.8 25.7 27.6 26.6 29.7 26.4 ...
+##  $ Marriage         : num  20.2 26 20.3 26.4 19.1 23.5 17.1 23.1 17.7 17 ...
+##  $ Marriage.SE      : num  1.27 2.93 0.98 1.7 0.39 1.24 1.06 2.89 2.53 0.58 ...
+##  $ Divorce          : num  12.7 12.5 10.8 13.5 8 11.6 6.7 8.9 6.3 8.5 ...
+##  $ Divorce.SE       : num  0.79 2.05 0.74 1.22 0.24 0.94 0.77 1.39 1.89 0.32 ...
+##  $ WaffleHouses     : int  128 0 18 41 0 11 0 3 0 133 ...
+##  $ South            : int  1 0 0 1 0 0 0 0 0 1 ...
+##  $ Slaves1860       : int  435080 0 0 111115 0 0 0 1798 0 61745 ...
+##  $ Population1860   : int  964201 0 0 435450 379994 34277 460147 112216 75080 140424 ...
+##  $ PropSlaves1860   : num  0.45 0 0 0.26 0 0 0 0.016 0 0.44 ...</code></pre>
+<p>On observe un lien positif entre le nombre de “waffle houses” et le taux de divorce…</p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="4-linear-regression2.html#cb124-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="sc">%&gt;%</span></span>
+<span id="cb124-2"><a href="4-linear-regression2.html#cb124-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> WaffleHouses, <span class="at">y =</span> Divorce) ) <span class="sc">+</span></span>
+<span id="cb124-3"><a href="4-linear-regression2.html#cb124-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> Loc) ) <span class="sc">+</span></span>
+<span id="cb124-4"><a href="4-linear-regression2.html#cb124-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">se =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb124-5"><a href="4-linear-regression2.html#cb124-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">20</span>) <span class="sc">+</span></span>
+<span id="cb124-6"><a href="4-linear-regression2.html#cb124-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Waffle Houses per million&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Divorce rate&quot;</span>)</span></code></pre></div>
+<p><img src="IMSB_files/figure-html/waffle-divorce-1.svg" width="75%" style="display: block; margin: auto;" /></p>
+<p>On observe un lien positif entre le taux de mariage et le taux de divorce, mais est-ce qu’on peut vraiment dire que le mariage “cause” le divorce ?</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="4-linear-regression2.html#cb125-1" aria-hidden="true" tabindex="-1"></a>df1<span class="sc">$</span>Marriage.s <span class="ot">&lt;-</span> (df1<span class="sc">$</span>Marriage <span class="sc">-</span> <span class="fu">mean</span>(df1<span class="sc">$</span>Marriage) ) <span class="sc">/</span> <span class="fu">sd</span>(df1<span class="sc">$</span>Marriage)</span>
+<span id="cb125-2"><a href="4-linear-regression2.html#cb125-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-3"><a href="4-linear-regression2.html#cb125-3" aria-hidden="true" tabindex="-1"></a>df1 <span class="sc">%&gt;%</span></span>
+<span id="cb125-4"><a href="4-linear-regression2.html#cb125-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Marriage.s, <span class="at">y =</span> Divorce) ) <span class="sc">+</span></span>
+<span id="cb125-5"><a href="4-linear-regression2.html#cb125-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">pch =</span> <span class="dv">21</span>, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb125-6"><a href="4-linear-regression2.html#cb125-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">se =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb125-7"><a href="4-linear-regression2.html#cb125-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">20</span>)</span></code></pre></div>
+<p><img src="IMSB_files/figure-html/waffle-divorce-mariage-1.svg" width="75%" style="display: block; margin: auto;" /></p>
+<p>On observe l’association inverse entre le taux de divorce et l’âge médian de mariage.</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="4-linear-regression2.html#cb126-1" aria-hidden="true" tabindex="-1"></a>df1<span class="sc">$</span>MedianAgeMarriage.s <span class="ot">&lt;-</span> (df1<span class="sc">$</span>MedianAgeMarriage <span class="sc">-</span> <span class="fu">mean</span>(df1<span class="sc">$</span>MedianAgeMarriage) ) <span class="sc">/</span></span>
+<span id="cb126-2"><a href="4-linear-regression2.html#cb126-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sd</span>(df1<span class="sc">$</span>MedianAgeMarriage)</span>
+<span id="cb126-3"><a href="4-linear-regression2.html#cb126-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb126-4"><a href="4-linear-regression2.html#cb126-4" aria-hidden="true" tabindex="-1"></a>df1 <span class="sc">%&gt;%</span></span>
+<span id="cb126-5"><a href="4-linear-regression2.html#cb126-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> MedianAgeMarriage.s, <span class="at">y =</span> Divorce) ) <span class="sc">+</span></span>
+<span id="cb126-6"><a href="4-linear-regression2.html#cb126-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">pch =</span> <span class="dv">21</span>, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb126-7"><a href="4-linear-regression2.html#cb126-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">se =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb126-8"><a href="4-linear-regression2.html#cb126-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">20</span>)</span></code></pre></div>
+<p><img src="IMSB_files/figure-html/waffle-divorce-median-1.svg" width="75%" style="display: block; margin: auto;" /></p>
+<p>On peut représenter nos trois variables principales sur une carte des 50 états.</p>
+<p><img src="IMSB_files/figure-html/waffle-divorce-map-1.svg" width="75%" style="display: block; margin: auto;" /></p>
+<div id="influence-du-taux-de-mariage" class="section level4 hasAnchor" number="4.1.1.1">
+<h4><span class="header-section-number">4.1.1.1</span> Influence du taux de mariage<a href="4-linear-regression2.html#influence-du-taux-de-mariage" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><span class="math display">\[
+\begin{aligned}
+\color{orangered}{D_{i}} \ &amp;\color{orangered}{\sim \mathrm{Normal}(\mu_{i}, \sigma)} \\
+\color{black}{\mu_{i}} \ &amp;\color{black}{= \alpha + \beta_{R} R_{i}} \\
+\color{steelblue}{\alpha} \ &amp;\color{steelblue}{\sim \mathrm{Normal}(10, 10)} \\
+\color{steelblue}{\beta_{R}} \ &amp;\color{steelblue}{\sim \mathrm{Normal}(0, 1)} \\
+\color{steelblue}{\sigma} \ &amp;\color{steelblue}{\sim \mathrm{Exponential}(0.01)} \\
+\end{aligned}
+\]</span></p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="4-linear-regression2.html#cb127-1" aria-hidden="true" tabindex="-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb127-2"><a href="4-linear-regression2.html#cb127-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">10</span>, <span class="dv">10</span>), <span class="at">class =</span> Intercept),</span>
+<span id="cb127-3"><a href="4-linear-regression2.html#cb127-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">class =</span> b),</span>
+<span id="cb127-4"><a href="4-linear-regression2.html#cb127-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">exponential</span>(<span class="fl">0.01</span>), <span class="at">class =</span> sigma)</span>
+<span id="cb127-5"><a href="4-linear-regression2.html#cb127-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb127-6"><a href="4-linear-regression2.html#cb127-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-7"><a href="4-linear-regression2.html#cb127-7" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
+<span id="cb127-8"><a href="4-linear-regression2.html#cb127-8" aria-hidden="true" tabindex="-1"></a>  Divorce <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> Marriage.s,</span>
+<span id="cb127-9"><a href="4-linear-regression2.html#cb127-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">gaussian</span>(),</span>
+<span id="cb127-10"><a href="4-linear-regression2.html#cb127-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> priors,</span>
+<span id="cb127-11"><a href="4-linear-regression2.html#cb127-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df1</span>
+<span id="cb127-12"><a href="4-linear-regression2.html#cb127-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p>…</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="4-linear-regression2.html#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span></code></pre></div>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: Divorce ~ 1 + Marriage.s 
+##    Data: df1 (Number of observations: 50) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
+## Population-Level Effects: 
+##            Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept      9.69      0.25     9.18    10.18 1.00     3591     2543
+## Marriage.s     0.64      0.24     0.18     1.12 1.00     3611     2899
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     1.75      0.18     1.44     2.15 1.00     3423     2187
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+</div>
+<div id="influence-de-lâge-médian-de-mariage" class="section level4 hasAnchor" number="4.1.1.2">
+<h4><span class="header-section-number">4.1.1.2</span> Influence de l’âge médian de mariage<a href="4-linear-regression2.html#influence-de-lâge-médian-de-mariage" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><span class="math display">\[
+\begin{aligned}
+\color{orangered}{D_{i}} \ &amp;\color{orangered}{\sim \mathrm{Normal}(\mu_{i}, \sigma)} \\
+\color{black}{\mu_{i}} \ &amp;\color{black}{= \alpha + \beta_{A} A_{i}} \\
+\color{steelblue}{\alpha} \ &amp;\color{steelblue}{\sim \mathrm{Normal}(10, 10)} \\
+\color{steelblue}{\beta_{A}} \ &amp;\color{steelblue}{\sim \mathrm{Normal}(0, 1)} \\
+\color{steelblue}{\sigma} \ &amp;\color{steelblue}{\sim \mathrm{Exponential}(0.01)} \\
+\end{aligned}
+\]</span></p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="4-linear-regression2.html#cb130-1" aria-hidden="true" tabindex="-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb130-2"><a href="4-linear-regression2.html#cb130-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">10</span>, <span class="dv">10</span>), <span class="at">class =</span> Intercept),</span>
+<span id="cb130-3"><a href="4-linear-regression2.html#cb130-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">class =</span> b),</span>
+<span id="cb130-4"><a href="4-linear-regression2.html#cb130-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">exponential</span>(<span class="fl">0.01</span>), <span class="at">class =</span> sigma)</span>
+<span id="cb130-5"><a href="4-linear-regression2.html#cb130-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb130-6"><a href="4-linear-regression2.html#cb130-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb130-7"><a href="4-linear-regression2.html#cb130-7" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
+<span id="cb130-8"><a href="4-linear-regression2.html#cb130-8" aria-hidden="true" tabindex="-1"></a>  Divorce <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> MedianAgeMarriage.s,</span>
+<span id="cb130-9"><a href="4-linear-regression2.html#cb130-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">gaussian</span>(),</span>
+<span id="cb130-10"><a href="4-linear-regression2.html#cb130-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> priors,</span>
+<span id="cb130-11"><a href="4-linear-regression2.html#cb130-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df1</span>
+<span id="cb130-12"><a href="4-linear-regression2.html#cb130-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p>…</p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="4-linear-regression2.html#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod2)</span></code></pre></div>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: Divorce ~ 1 + MedianAgeMarriage.s 
+##    Data: df1 (Number of observations: 50) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
+## Population-Level Effects: 
+##                     Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept               9.69      0.21     9.28    10.10 1.00     4349     2851
+## MedianAgeMarriage.s    -1.04      0.21    -1.46    -0.62 1.00     3592     2806
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     1.52      0.16     1.24     1.88 1.00     3454     2857
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+</div>
+</div>
+<div id="régression-multiple-1" class="section level3 hasAnchor" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> Régression multiple<a href="4-linear-regression2.html#régression-multiple-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Quelle est la valeur prédictive d’une variable, une fois que je connais tous les autres prédicteurs ?</p>
+<p><span class="math display">\[
+\begin{aligned}
+\color{orangered}{D_{i}} \ &amp;\color{orangered}{\sim \mathrm{Normal}(\mu_{i}, \sigma)} \\
+\color{black}{\mu_{i}} \ &amp;\color{black}{= \alpha + \beta_{R}R_{i} + \beta_{A} A_{i}} \\
+\color{steelblue}{\alpha} \ &amp;\color{steelblue}{\sim \mathrm{Normal}(10, 10)} \\
+\color{steelblue}{\beta_{R}, \beta_{A}} \ &amp;\color{steelblue}{\sim \mathrm{Normal}(0, 1)} \\
+\color{steelblue}{\sigma} \ &amp;\color{steelblue}{\sim \mathrm{Exponential}(0.01)} \\
+\end{aligned}
+\]</span></p>
+<p>Ce modèle répond à deux questions :</p>
+<ul>
+<li>Une fois connue le taux de mariage, quelle valeur ajoutée apporte la connaissance de l’âge médian du mariage ?</li>
+<li>Une fois connu l’âge médian du mariage, quelle valeur ajoutée apporte la connaissance de le taux de mariage ?</li>
+</ul>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="4-linear-regression2.html#cb133-1" aria-hidden="true" tabindex="-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb133-2"><a href="4-linear-regression2.html#cb133-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">10</span>, <span class="dv">10</span>), <span class="at">class =</span> Intercept),</span>
+<span id="cb133-3"><a href="4-linear-regression2.html#cb133-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">class =</span> b),</span>
+<span id="cb133-4"><a href="4-linear-regression2.html#cb133-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">exponential</span>(<span class="fl">0.01</span>), <span class="at">class =</span> sigma)</span>
+<span id="cb133-5"><a href="4-linear-regression2.html#cb133-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb133-6"><a href="4-linear-regression2.html#cb133-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb133-7"><a href="4-linear-regression2.html#cb133-7" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
+<span id="cb133-8"><a href="4-linear-regression2.html#cb133-8" aria-hidden="true" tabindex="-1"></a>  Divorce <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> Marriage.s <span class="sc">+</span> MedianAgeMarriage.s,</span>
+<span id="cb133-9"><a href="4-linear-regression2.html#cb133-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">gaussian</span>(),</span>
+<span id="cb133-10"><a href="4-linear-regression2.html#cb133-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> priors,</span>
+<span id="cb133-11"><a href="4-linear-regression2.html#cb133-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df1</span>
+<span id="cb133-12"><a href="4-linear-regression2.html#cb133-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p>Interprétation : Une fois qu’on connait l’âge median de mariage dans un état, connaître le taux de mariage de cet état n’apporte pas vraiment d’information supplémentaire…</p>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="4-linear-regression2.html#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod3)</span></code></pre></div>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: Divorce ~ 1 + Marriage.s + MedianAgeMarriage.s 
+##    Data: df1 (Number of observations: 50) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
+## Population-Level Effects: 
+##                     Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept               9.69      0.22     9.27    10.13 1.00     3503     2328
+## Marriage.s             -0.12      0.30    -0.69     0.49 1.00     2995     2827
+## MedianAgeMarriage.s    -1.12      0.30    -1.73    -0.50 1.00     2955     2447
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     1.52      0.16     1.25     1.87 1.00     3295     3036
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<div id="visualiser-les-prédictions-du-modèle" class="section level4 hasAnchor" number="4.1.2.1">
+<h4><span class="header-section-number">4.1.2.1</span> Visualiser les prédictions du modèle<a href="4-linear-regression2.html#visualiser-les-prédictions-du-modèle" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>On peut comparer le taux de divorce observé dans chaque état au taux de divorce prédit par notre modèle (la ligne diagonale représente une prédiction parfaite).</p>
+<p><img src="IMSB_files/figure-html/predictions-mod3-ch4-1.svg" width="75%" style="display: block; margin: auto;" /></p>
+<p>En plus de l’interprétation des paramètres, il est important d’évaluer les prédictions du modèle en les comparant aux données observées. Cela nous permet de savoir si le modèle rend bien compte des données et (surtout) où est-ce que le modèle échoue.</p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="4-linear-regression2.html#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pp_check</span>(mod3, <span class="at">type =</span> <span class="st">&quot;intervals&quot;</span>, <span class="at">nsamples =</span> <span class="fl">1e2</span>, <span class="at">prob =</span> <span class="fl">0.5</span>, <span class="at">prob_outer =</span> <span class="fl">0.95</span>) <span class="sc">+</span></span>
+<span id="cb136-2"><a href="4-linear-regression2.html#cb136-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">20</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;État&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Taux de divorce&quot;</span>)</span></code></pre></div>
+<p><img src="IMSB_files/figure-html/ppc-mod3-ch4-1-1.svg" width="75%" style="display: block; margin: auto;" /></p>
+<p>…</p>
+<p><img src="IMSB_files/figure-html/ppc-mod3-ch4-2-1.svg" width="75%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="toujours-plus-de-prédicteurs" class="section level3 hasAnchor" number="4.1.3">
+<h3><span class="header-section-number">4.1.3</span> Toujours plus de prédicteurs<a href="4-linear-regression2.html#toujours-plus-de-prédicteurs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Pourquoi ne pas simplement construire un modèle incluant tous les prédicteurs et regarder ce qu’il se passe ?</p>
+<ul>
+<li>Raison n°1 : Multicolinéarité</li>
+<li>Raison n°2 : Post-treatment bias</li>
+<li>Raison n°3 : Overfitting (cf. Cours n°07)</li>
+</ul>
+<div id="multicolinéarité" class="section level4 hasAnchor" number="4.1.3.1">
+<h4><span class="header-section-number">4.1.3.1</span> Multicolinéarité<a href="4-linear-regression2.html#multicolinéarité" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Situation dans laquelle certains prédicteurs sont très fortement corrêlés. Par exemple, essayons de prédire la taille d’un individu par la taille de ses jambes.</p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="4-linear-regression2.html#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">666</span>) <span class="co"># afin de pouvoir reproduire les résultats</span></span>
+<span id="cb137-2"><a href="4-linear-regression2.html#cb137-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb137-3"><a href="4-linear-regression2.html#cb137-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="co"># nombre d&#39;individus</span></span>
+<span id="cb137-4"><a href="4-linear-regression2.html#cb137-4" aria-hidden="true" tabindex="-1"></a>height <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N, <span class="dv">179</span>, <span class="dv">5</span>) <span class="co"># génère N observations</span></span>
+<span id="cb137-5"><a href="4-linear-regression2.html#cb137-5" aria-hidden="true" tabindex="-1"></a>leg_prop <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, <span class="fl">0.4</span>, <span class="fl">0.5</span>) <span class="co"># taille des jambes (proportion taille totale)</span></span>
+<span id="cb137-6"><a href="4-linear-regression2.html#cb137-6" aria-hidden="true" tabindex="-1"></a>leg_left <span class="ot">&lt;-</span> leg_prop <span class="sc">*</span> height <span class="sc">+</span> <span class="fu">rnorm</span>(N, <span class="dv">0</span>, <span class="fl">0.5</span>) <span class="co"># taille jambe gauche (+ erreur)</span></span>
+<span id="cb137-7"><a href="4-linear-regression2.html#cb137-7" aria-hidden="true" tabindex="-1"></a>leg_right <span class="ot">&lt;-</span> leg_prop <span class="sc">*</span> height <span class="sc">+</span> <span class="fu">rnorm</span>(N, <span class="dv">0</span>, <span class="fl">0.5</span>) <span class="co"># taille jambe droite (+ erreur)</span></span>
+<span id="cb137-8"><a href="4-linear-regression2.html#cb137-8" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(height, leg_left, leg_right) <span class="co"># création d&#39;une dataframe</span></span>
+<span id="cb137-9"><a href="4-linear-regression2.html#cb137-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb137-10"><a href="4-linear-regression2.html#cb137-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df2) <span class="co"># affiche les six première lignes</span></span></code></pre></div>
+<pre><code>##     height leg_left leg_right
+## 1 182.7666 75.50967  76.00645
+## 2 189.0718 81.10741  82.18046
+## 3 177.2243 71.43856  71.49741
+## 4 189.1408 82.81510  82.54405
+## 5 167.9156 82.70860  84.00048
+## 6 182.7920 84.86230  84.19933</code></pre>
+<p>On fit un modèle avec deux prédicteurs : un pour la taille de chaque jambe.</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="4-linear-regression2.html#cb139-1" aria-hidden="true" tabindex="-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb139-2"><a href="4-linear-regression2.html#cb139-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">174</span>, <span class="dv">10</span>), <span class="at">class =</span> Intercept),</span>
+<span id="cb139-3"><a href="4-linear-regression2.html#cb139-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">class =</span> b),</span>
+<span id="cb139-4"><a href="4-linear-regression2.html#cb139-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">exponential</span>(<span class="fl">0.01</span>), <span class="at">class =</span> sigma)</span>
+<span id="cb139-5"><a href="4-linear-regression2.html#cb139-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb139-6"><a href="4-linear-regression2.html#cb139-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb139-7"><a href="4-linear-regression2.html#cb139-7" aria-hidden="true" tabindex="-1"></a>mod4 <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
+<span id="cb139-8"><a href="4-linear-regression2.html#cb139-8" aria-hidden="true" tabindex="-1"></a>  height <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> leg_left <span class="sc">+</span> leg_right,</span>
+<span id="cb139-9"><a href="4-linear-regression2.html#cb139-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> priors,</span>
+<span id="cb139-10"><a href="4-linear-regression2.html#cb139-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> gaussian,</span>
+<span id="cb139-11"><a href="4-linear-regression2.html#cb139-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df2</span>
+<span id="cb139-12"><a href="4-linear-regression2.html#cb139-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p>Les estimations semblent étranges… mais le modèle ne fait que répondre à la question qu’on lui pose : Une fois que je connais la taille de la jambe gauche, quelle est la valeur prédictive de la taille de la jambe droite (et vice versa) ?</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="4-linear-regression2.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod4) <span class="co"># look at the SE...</span></span></code></pre></div>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: height ~ 1 + leg_left + leg_right 
+##    Data: df2 (Number of observations: 100) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept   152.82      7.44   138.29   167.72 1.00     3828     2264
+## leg_left      0.52      0.75    -0.93     2.02 1.00     1543     1591
+## leg_right    -0.20      0.75    -1.71     1.24 1.00     1558     1604
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     4.94      0.35     4.30     5.67 1.00     2462     2260
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<p>Comment traquer la colinéarité de deux prédicteurs ? En représentant la distribution postérieure de ces deux paramètres.</p>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="4-linear-regression2.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(mod4, <span class="at">pars =</span> <span class="fu">parnames</span>(mod4)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span></code></pre></div>
+<p><img src="IMSB_files/figure-html/pairs-mod4-ch4-1.svg" width="75%" style="display: block; margin: auto;" /></p>
+<p>Comment traquer la colinéarité de deux prédicteurs ? En représentant la distribution postérieure de ces deux paramètres.</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="4-linear-regression2.html#cb143-1" aria-hidden="true" tabindex="-1"></a>post <span class="ot">&lt;-</span> <span class="fu">posterior_samples</span>(mod4)</span>
+<span id="cb143-2"><a href="4-linear-regression2.html#cb143-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb143-3"><a href="4-linear-regression2.html#cb143-3" aria-hidden="true" tabindex="-1"></a>post <span class="sc">%&gt;%</span></span>
+<span id="cb143-4"><a href="4-linear-regression2.html#cb143-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> b_leg_left, <span class="at">y =</span> b_leg_right) ) <span class="sc">+</span></span>
+<span id="cb143-5"><a href="4-linear-regression2.html#cb143-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">pch =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;black&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb143-6"><a href="4-linear-regression2.html#cb143-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">20</span>) <span class="sc">+</span></span>
+<span id="cb143-7"><a href="4-linear-regression2.html#cb143-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(beta[gauche]), <span class="at">y =</span> <span class="fu">expression</span>(beta[droite]) )</span></code></pre></div>
+<p><img src="IMSB_files/figure-html/post-plot-mod4-ch4-1.svg" width="75%" style="display: block; margin: auto;" /></p>
+<p>Le modèle précédent peut se réécrire en faisant apparaitre la somme des deux prédicteurs <span class="math inline">\(\beta_{1}\)</span> et <span class="math inline">\(\beta_{2}\)</span>.</p>
+<p><span class="math display">\[
+\begin{aligned}
+y_{i} &amp;\sim \mathrm{Normal}(\mu_{i}, \sigma) \\
+\mu_{i} &amp;= \alpha + (\beta_{1} + \beta_{2}) x_{i}
+\end{aligned}
+\]</span></p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="4-linear-regression2.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BEST)</span>
+<span id="cb144-2"><a href="4-linear-regression2.html#cb144-2" aria-hidden="true" tabindex="-1"></a>sum_legs <span class="ot">&lt;-</span> post<span class="sc">$</span>b_leg_left <span class="sc">+</span> post<span class="sc">$</span>b_leg_right</span>
+<span id="cb144-3"><a href="4-linear-regression2.html#cb144-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plotPost</span>(sum_legs, <span class="at">xlab =</span> <span class="fu">expression</span>(beta[<span class="dv">1</span>] <span class="sc">+</span> beta[<span class="dv">2</span>]), <span class="at">compVal =</span> <span class="dv">0</span>)</span></code></pre></div>
+<p><img src="IMSB_files/figure-html/plotpost-legs-1.svg" width="75%" style="display: block; margin: auto;" /></p>
+<p>On crée un nouveau modèle avec seulement une jambe.</p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="4-linear-regression2.html#cb145-1" aria-hidden="true" tabindex="-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb145-2"><a href="4-linear-regression2.html#cb145-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">174</span>, <span class="dv">10</span>), <span class="at">class =</span> Intercept),</span>
+<span id="cb145-3"><a href="4-linear-regression2.html#cb145-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">class =</span> b),</span>
+<span id="cb145-4"><a href="4-linear-regression2.html#cb145-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">exponential</span>(<span class="fl">0.01</span>), <span class="at">class =</span> sigma)</span>
+<span id="cb145-5"><a href="4-linear-regression2.html#cb145-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb145-6"><a href="4-linear-regression2.html#cb145-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb145-7"><a href="4-linear-regression2.html#cb145-7" aria-hidden="true" tabindex="-1"></a>mod5 <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
+<span id="cb145-8"><a href="4-linear-regression2.html#cb145-8" aria-hidden="true" tabindex="-1"></a>  height <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> leg_left,</span>
+<span id="cb145-9"><a href="4-linear-regression2.html#cb145-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> priors,</span>
+<span id="cb145-10"><a href="4-linear-regression2.html#cb145-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> gaussian,</span>
+<span id="cb145-11"><a href="4-linear-regression2.html#cb145-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df2</span>
+<span id="cb145-12"><a href="4-linear-regression2.html#cb145-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p>En utilisant comme prédicteur une seule jambe, on retrouve l’estimation qui correspondait à la somme des deux pentes dans le modèle précédent.</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="4-linear-regression2.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod5)</span></code></pre></div>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: height ~ 1 + leg_left 
+##    Data: df2 (Number of observations: 100) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept   152.70      7.34   138.01   166.67 1.00     4158     2882
+## leg_left      0.32      0.09     0.15     0.50 1.00     4144     3016
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     4.93      0.37     4.29     5.76 1.00     3810     2551
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+</div>
+<div id="post-treatment-bias" class="section level4 hasAnchor" number="4.1.3.2">
+<h4><span class="header-section-number">4.1.3.2</span> Post-treatment bias<a href="4-linear-regression2.html#post-treatment-bias" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Problèmes qui arrivent lorsqu’on inclut des prédicteurs qui sont eux-mêmes définis directement ou indirectement par d’autres prédicteurs inclus dans le modèle.</p>
+<p>Supposons par exemple qu’on s’intéresse à la pousse des plantes en serre. On voudrait savoir quel traitement permettant de réduire la présence de champignons améliore la pousse des plantes.</p>
+<p>On commence donc par planter et laisser germer des graines, mesurer la taille initiale des pousses, puis appliquer différents traitements.</p>
+<p>Enfin, on mesure à la fin de l’expérience la taille finale de chaque plante et la présence de champignons.</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="4-linear-regression2.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="co"># nombre de plantes</span></span>
+<span id="cb148-2"><a href="4-linear-regression2.html#cb148-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb148-3"><a href="4-linear-regression2.html#cb148-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-4"><a href="4-linear-regression2.html#cb148-4" aria-hidden="true" tabindex="-1"></a><span class="co"># on simule différentes tailles à l&#39;origine</span></span>
+<span id="cb148-5"><a href="4-linear-regression2.html#cb148-5" aria-hidden="true" tabindex="-1"></a>h0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb148-6"><a href="4-linear-regression2.html#cb148-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-7"><a href="4-linear-regression2.html#cb148-7" aria-hidden="true" tabindex="-1"></a><span class="co"># on assigne différents traitements et on</span></span>
+<span id="cb148-8"><a href="4-linear-regression2.html#cb148-8" aria-hidden="true" tabindex="-1"></a><span class="co"># simule la présence de funguns et la pousse des plantes</span></span>
+<span id="cb148-9"><a href="4-linear-regression2.html#cb148-9" aria-hidden="true" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">each =</span> N <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb148-10"><a href="4-linear-regression2.html#cb148-10" aria-hidden="true" tabindex="-1"></a>fungus <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(N, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.5</span> <span class="sc">-</span> treatment <span class="sc">*</span> <span class="fl">0.4</span>)</span>
+<span id="cb148-11"><a href="4-linear-regression2.html#cb148-11" aria-hidden="true" tabindex="-1"></a>h1 <span class="ot">&lt;-</span> h0 <span class="sc">+</span> <span class="fu">rnorm</span>(N, <span class="at">mean =</span> <span class="dv">5</span> <span class="sc">-</span> <span class="dv">3</span> <span class="sc">*</span> fungus)</span>
+<span id="cb148-12"><a href="4-linear-regression2.html#cb148-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-13"><a href="4-linear-regression2.html#cb148-13" aria-hidden="true" tabindex="-1"></a><span class="co"># on rassemble les données dans une dataframe</span></span>
+<span id="cb148-14"><a href="4-linear-regression2.html#cb148-14" aria-hidden="true" tabindex="-1"></a>df3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(h0, h1, treatment, fungus)</span>
+<span id="cb148-15"><a href="4-linear-regression2.html#cb148-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-16"><a href="4-linear-regression2.html#cb148-16" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df3)</span></code></pre></div>
+<pre><code>##          h0        h1 treatment fungus
+## 1  8.842591 13.820383         0      0
+## 2  5.094913  7.844256         0      1
+## 3  9.423155 10.763637         0      1
+## 4 13.008697 17.141846         0      0
+## 5 11.566223 17.161368         0      0
+## 6  9.520248 16.648277         0      0</code></pre>
+<p>…</p>
+<p><span class="math display">\[
+\begin{aligned}
+\color{orangered}{h_{i}} \ &amp;\color{orangered}{\sim \mathrm{Normal}(\mu_{i}, \sigma)} \\
+\color{black}{\mu_{i}} \ &amp;\color{black}{= \alpha + \beta_{1} h0_{i} + \beta_{2} T_{i} + \beta_{3} F_{i}} \\
+\color{steelblue}{\alpha} \ &amp;\color{steelblue}{\sim \mathrm{Normal}(0, 10)} \\
+\color{steelblue}{\beta_{1}, \beta_{2}, \beta_{3}} \ &amp;\color{steelblue}{\sim \mathrm{Normal}(0, 10)} \\
+\color{steelblue}{\sigma} \ &amp;\color{steelblue}{\sim \mathrm{Exponential}(0.01)}
+\end{aligned}
+\]</span></p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="4-linear-regression2.html#cb150-1" aria-hidden="true" tabindex="-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb150-2"><a href="4-linear-regression2.html#cb150-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">class =</span> Intercept),</span>
+<span id="cb150-3"><a href="4-linear-regression2.html#cb150-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">class =</span> b),</span>
+<span id="cb150-4"><a href="4-linear-regression2.html#cb150-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">exponential</span>(<span class="fl">0.01</span>), <span class="at">class =</span> sigma)</span>
+<span id="cb150-5"><a href="4-linear-regression2.html#cb150-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb150-6"><a href="4-linear-regression2.html#cb150-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb150-7"><a href="4-linear-regression2.html#cb150-7" aria-hidden="true" tabindex="-1"></a>mod6 <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
+<span id="cb150-8"><a href="4-linear-regression2.html#cb150-8" aria-hidden="true" tabindex="-1"></a>  h1 <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> h0 <span class="sc">+</span> treatment <span class="sc">+</span> fungus,</span>
+<span id="cb150-9"><a href="4-linear-regression2.html#cb150-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> priors,</span>
+<span id="cb150-10"><a href="4-linear-regression2.html#cb150-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> gaussian,</span>
+<span id="cb150-11"><a href="4-linear-regression2.html#cb150-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df3</span>
+<span id="cb150-12"><a href="4-linear-regression2.html#cb150-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p>On remarque que l’effet du traitement est négligeable. La présence des champignons (<code>fungus</code>) est une conséquence de l’application du <code>treatment</code>. On demande au modèle si le traitement a une influence sachant que la plante a (ou n’a pas) développé de champignons…</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="4-linear-regression2.html#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod6)</span></code></pre></div>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: h1 ~ 1 + h0 + treatment + fungus 
+##    Data: df3 (Number of observations: 100) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept     4.32      0.49     3.37     5.28 1.00     4412     2880
+## h0            1.07      0.04     0.99     1.16 1.00     4667     2955
+## treatment    -0.09      0.20    -0.49     0.31 1.00     4529     2326
+## fungus       -2.65      0.23    -3.09    -2.18 1.00     4241     2800
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     0.91      0.07     0.79     1.05 1.00     4198     3139
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<p>Nous nous intéressons plutôt à l’influence du traitement sur la pousse. Il suffit de fitter un modèle sans la variable <code>fungus</code>. Remarque : il fait sens de prendre en compte <span class="math inline">\(h0\)</span>, la taille initiale, car les différences observées pourraient masquer l’effet du traitement.</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="4-linear-regression2.html#cb153-1" aria-hidden="true" tabindex="-1"></a>mod7 <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
+<span id="cb153-2"><a href="4-linear-regression2.html#cb153-2" aria-hidden="true" tabindex="-1"></a>  h1 <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> h0 <span class="sc">+</span> treatment,</span>
+<span id="cb153-3"><a href="4-linear-regression2.html#cb153-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> priors,</span>
+<span id="cb153-4"><a href="4-linear-regression2.html#cb153-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> gaussian,</span>
+<span id="cb153-5"><a href="4-linear-regression2.html#cb153-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df3</span>
+<span id="cb153-6"><a href="4-linear-regression2.html#cb153-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p>Note : on pourrait également utiliser la méthode <code>update()</code>…</p>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="4-linear-regression2.html#cb154-1" aria-hidden="true" tabindex="-1"></a>mod7 <span class="ot">&lt;-</span> <span class="fu">update</span>(mod6, <span class="at">formula =</span> h1 <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> h0 <span class="sc">+</span> treatment)</span></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="4-linear-regression2.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod7)</span></code></pre></div>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: h1 ~ 1 + h0 + treatment 
+##    Data: df3 (Number of observations: 100) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept     2.24      0.70     0.80     3.59 1.00     4401     3233
+## h0            1.17      0.07     1.04     1.31 1.00     4277     3165
+## treatment     0.74      0.28     0.19     1.29 1.00     4764     3296
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     1.42      0.10     1.24     1.63 1.00     4106     2988
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<p>L’influence du traitement est maintenant forte et positive…</p>
+</div>
+</div>
+<div id="prédicteurs-catégoriels" class="section level3 hasAnchor" number="4.1.4">
+<h3><span class="header-section-number">4.1.4</span> Prédicteurs catégoriels<a href="4-linear-regression2.html#prédicteurs-catégoriels" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="4-linear-regression2.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Howell1)</span>
+<span id="cb157-2"><a href="4-linear-regression2.html#cb157-2" aria-hidden="true" tabindex="-1"></a>df4 <span class="ot">&lt;-</span> Howell1</span>
+<span id="cb157-3"><a href="4-linear-regression2.html#cb157-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb157-4"><a href="4-linear-regression2.html#cb157-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df4)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    544 obs. of  4 variables:
+##  $ height: num  152 140 137 157 145 ...
+##  $ weight: num  47.8 36.5 31.9 53 41.3 ...
+##  $ age   : num  63 63 65 41 51 35 32 27 19 54 ...
+##  $ male  : int  1 0 0 1 0 1 0 1 0 1 ...</code></pre>
+<p>Le <strong>genre</strong> est codé comme une <strong>dummy variable</strong>, c’est à dire une variable où chaque modalité est représentée soit par <span class="math inline">\(0\)</span> soit par <span class="math inline">\(1\)</span>. On peut imaginer que cette nouvelle variable <em>active</em> le paramètre uniquement pour la catégorie codée <span class="math inline">\(1\)</span>, et le <em>désactive</em> pour la catégorie codée <span class="math inline">\(0\)</span>.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\color{orangered}{h_{i}} \ &amp;\color{orangered}{\sim \mathrm{Normal}(\mu_{i}, \sigma)} \\
+\color{black}{\mu_{i}} \ &amp;\color{black}{= \alpha + \beta_{m}m_{i}} \\
+\color{steelblue}{\alpha} \ &amp;\color{steelblue}{\sim \mathrm{Normal}(178, 100)} \\
+\color{steelblue}{\beta_{m}} \ &amp;\color{steelblue}{\sim \mathrm{Normal}(0, 10)} \\
+\color{steelblue}{\sigma} \ &amp;\color{steelblue}{\sim \mathrm{Uniform}(0, 50)}
+\end{aligned}
+\]</span></p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="4-linear-regression2.html#cb159-1" aria-hidden="true" tabindex="-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb159-2"><a href="4-linear-regression2.html#cb159-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">178</span>, <span class="dv">100</span>), <span class="at">class =</span> Intercept),</span>
+<span id="cb159-3"><a href="4-linear-regression2.html#cb159-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">class =</span> b),</span>
+<span id="cb159-4"><a href="4-linear-regression2.html#cb159-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">exponential</span>(<span class="fl">0.01</span>), <span class="at">class =</span> sigma)</span>
+<span id="cb159-5"><a href="4-linear-regression2.html#cb159-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb159-6"><a href="4-linear-regression2.html#cb159-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb159-7"><a href="4-linear-regression2.html#cb159-7" aria-hidden="true" tabindex="-1"></a>mod8 <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
+<span id="cb159-8"><a href="4-linear-regression2.html#cb159-8" aria-hidden="true" tabindex="-1"></a>  height <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> male,</span>
+<span id="cb159-9"><a href="4-linear-regression2.html#cb159-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> priors,</span>
+<span id="cb159-10"><a href="4-linear-regression2.html#cb159-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> gaussian,</span>
+<span id="cb159-11"><a href="4-linear-regression2.html#cb159-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df4</span>
+<span id="cb159-12"><a href="4-linear-regression2.html#cb159-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p>L’intercept <span class="math inline">\(\alpha\)</span> représente la taille moyenne des femmes (car <span class="math inline">\(\mu_{i} = \beta_{m}(0) = \alpha\)</span>).</p>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="4-linear-regression2.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(mod8) <span class="co"># retrieves fixed effects</span></span></code></pre></div>
+<pre><code>##             Estimate Est.Error       Q2.5     Q97.5
+## Intercept 134.828068  1.633549 131.704599 138.07054
+## male        7.284156  2.301133   2.746952  11.67705</code></pre>
+<p>La pente <span class="math inline">\(\beta\)</span> nous indique la différence de taille moyenne entre les hommes et les femmes. Pour obtenir la taille moyenne des hommes, il suffit donc d’ajouter <span class="math inline">\(\alpha\)</span> et <span class="math inline">\(\beta\)</span>.</p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="4-linear-regression2.html#cb162-1" aria-hidden="true" tabindex="-1"></a>post <span class="ot">&lt;-</span> <span class="fu">posterior_samples</span>(mod8)</span>
+<span id="cb162-2"><a href="4-linear-regression2.html#cb162-2" aria-hidden="true" tabindex="-1"></a>mu.male <span class="ot">&lt;-</span> post<span class="sc">$</span>b_Intercept <span class="sc">+</span> post<span class="sc">$</span>b_male</span>
+<span id="cb162-3"><a href="4-linear-regression2.html#cb162-3" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(<span class="at">x =</span> mu.male, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>) )</span></code></pre></div>
+<pre><code>##     2.5%      50%    97.5% 
+## 138.7874 142.1054 145.4737</code></pre>
+<p>Au lieu d’utiliser un paramètre pour la différence entre les deux catégories, on pourrait estimer un paramètre par catégorie…</p>
+<p><span class="math display">\[
+\begin{aligned}
+h_{i} &amp;\sim \mathrm{Normal}(\mu_{i}, \sigma) \\
+\mu_{i} &amp;= \alpha_{f}(1 - m_{i}) + \alpha_{h} m_{i} \\
+\end{aligned}
+\]</span></p>
+<p>Cette formulation est strictement équivalente à la précedente car :</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mu_{i} &amp;= \alpha_{f}(1 - m_{i}) + \alpha_{h} m_{i} \\
+&amp;= \alpha_{f} + (\alpha_{m} - \alpha_{f}) m_{i} \\
+\end{aligned}
+\]</span></p>
+<p>où <span class="math inline">\((\alpha_{m} - \alpha_{f})\)</span> est égal à la différence entre la moyenne des hommes et la moyenne des femmes (i.e., <span class="math inline">\(\beta_{m}\)</span>).</p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="4-linear-regression2.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="co"># on crée une nouvelle colonne pour les femmes</span></span>
+<span id="cb164-2"><a href="4-linear-regression2.html#cb164-2" aria-hidden="true" tabindex="-1"></a>df4 <span class="ot">&lt;-</span> df4 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">female =</span> <span class="dv">1</span> <span class="sc">-</span> male)</span>
+<span id="cb164-3"><a href="4-linear-regression2.html#cb164-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb164-4"><a href="4-linear-regression2.html#cb164-4" aria-hidden="true" tabindex="-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb164-5"><a href="4-linear-regression2.html#cb164-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># il n&#39;y a plus d&#39;intercept dans ce modèle</span></span>
+<span id="cb164-6"><a href="4-linear-regression2.html#cb164-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># prior(normal(178, 100), class = Intercept),</span></span>
+<span id="cb164-7"><a href="4-linear-regression2.html#cb164-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">class =</span> b),</span>
+<span id="cb164-8"><a href="4-linear-regression2.html#cb164-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">exponential</span>(<span class="fl">0.01</span>), <span class="at">class =</span> sigma)</span>
+<span id="cb164-9"><a href="4-linear-regression2.html#cb164-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb164-10"><a href="4-linear-regression2.html#cb164-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb164-11"><a href="4-linear-regression2.html#cb164-11" aria-hidden="true" tabindex="-1"></a>mod9 <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
+<span id="cb164-12"><a href="4-linear-regression2.html#cb164-12" aria-hidden="true" tabindex="-1"></a>  height <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> female <span class="sc">+</span> male,</span>
+<span id="cb164-13"><a href="4-linear-regression2.html#cb164-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> priors,</span>
+<span id="cb164-14"><a href="4-linear-regression2.html#cb164-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> gaussian,</span>
+<span id="cb164-15"><a href="4-linear-regression2.html#cb164-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df4</span>
+<span id="cb164-16"><a href="4-linear-regression2.html#cb164-16" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="4-linear-regression2.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod9)</span></code></pre></div>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: height ~ 0 + female + male 
+##    Data: df4 (Number of observations: 544) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
+## Population-Level Effects: 
+##        Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## female   131.17      1.63   127.96   134.31 1.00     4102     2760
+## male     138.20      1.73   134.73   141.60 1.00     4251     3212
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma    27.67      0.86    26.05    29.35 1.00     3521     3110
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<div id="prédicteurs-catégoriels-taille-deffet" class="section level4 hasAnchor" number="4.1.4.1">
+<h4><span class="header-section-number">4.1.4.1</span> Prédicteurs catégoriels, taille d’effet<a href="4-linear-regression2.html#prédicteurs-catégoriels-taille-deffet" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><span class="math display">\[
+\rho^{2} = \dfrac{\sum_{i=1}^{n} \pi_{i}(\beta_{i} - \beta)^{2}}{\sigma^{2} + \sum_{i = 1}^{n} \pi_{i}(\beta_{i} - \beta)^{2}}
+\]</span></p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="4-linear-regression2.html#cb167-1" aria-hidden="true" tabindex="-1"></a>post <span class="ot">&lt;-</span> <span class="fu">posterior_samples</span>(mod9)</span>
+<span id="cb167-2"><a href="4-linear-regression2.html#cb167-2" aria-hidden="true" tabindex="-1"></a>pi <span class="ot">&lt;-</span> <span class="fu">sum</span>(df4<span class="sc">$</span>male) <span class="sc">/</span> <span class="fu">length</span>(df4<span class="sc">$</span>male) <span class="co"># proportion of males</span></span>
+<span id="cb167-3"><a href="4-linear-regression2.html#cb167-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb167-4"><a href="4-linear-regression2.html#cb167-4" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> post<span class="sc">$</span>b_male <span class="co"># posterior samples for beta</span></span>
+<span id="cb167-5"><a href="4-linear-regression2.html#cb167-5" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> post<span class="sc">$</span>sigma <span class="co"># posterior samples for sigma</span></span>
+<span id="cb167-6"><a href="4-linear-regression2.html#cb167-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb167-7"><a href="4-linear-regression2.html#cb167-7" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> pi <span class="sc">*</span> (beta <span class="sc">-</span> beta <span class="sc">*</span> pi)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb167-8"><a href="4-linear-regression2.html#cb167-8" aria-hidden="true" tabindex="-1"></a>rho <span class="ot">&lt;-</span> f1 <span class="sc">/</span> (f1 <span class="sc">+</span> sigma<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
+<p><span class="math display">\[
+\rho^{2} = \dfrac{\sum_{i=1}^{n} \pi_{i}(\beta_{i} - \beta)^{2}}{\sigma^{2} + \sum_{i=1}^{n} \pi_{i}(\beta_{i} - \beta)^{2}}
+\]</span></p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="4-linear-regression2.html#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotPost</span>(rho, <span class="at">showMode =</span> <span class="cn">TRUE</span>, <span class="at">cex =</span> <span class="dv">2</span>, <span class="at">xlab =</span> <span class="fu">expression</span>(rho) )</span></code></pre></div>
+<p><img src="IMSB_files/figure-html/plotpost-rho-1.svg" width="75%" style="display: block; margin: auto;" /></p>
+<p>…</p>
+<p><span class="math display">\[
+\text{Cohen&#39;s d} = \frac{\text{différence des moyennes}}{\text{écart-type}}
+\]</span></p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="4-linear-regression2.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotPost</span>((post<span class="sc">$</span>b_male <span class="sc">-</span> post<span class="sc">$</span>b_female) <span class="sc">/</span> post<span class="sc">$</span>sigma, <span class="at">cex =</span> <span class="dv">2</span>, <span class="at">xlab =</span> <span class="fu">expression</span>(delta) )</span></code></pre></div>
+<p><img src="IMSB_files/figure-html/cohen-1.svg" width="75%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="prédicteurs-catégoriels-nombre-de-catégories-3" class="section level3 hasAnchor" number="4.1.5">
+<h3><span class="header-section-number">4.1.5</span> Prédicteurs catégoriels, nombre de catégories &gt; 3<a href="4-linear-regression2.html#prédicteurs-catégoriels-nombre-de-catégories-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="4-linear-regression2.html#cb170-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(milk)</span>
+<span id="cb170-2"><a href="4-linear-regression2.html#cb170-2" aria-hidden="true" tabindex="-1"></a>df5 <span class="ot">&lt;-</span> milk</span>
+<span id="cb170-3"><a href="4-linear-regression2.html#cb170-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df5)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    29 obs. of  8 variables:
+##  $ clade         : Factor w/ 4 levels &quot;Ape&quot;,&quot;New World Monkey&quot;,..: 4 4 4 4 4 2 2 2 2 2 ...
+##  $ species       : Factor w/ 29 levels &quot;A palliata&quot;,&quot;Alouatta seniculus&quot;,..: 11 8 9 10 16 2 1 6 28 27 ...
+##  $ kcal.per.g    : num  0.49 0.51 0.46 0.48 0.6 0.47 0.56 0.89 0.91 0.92 ...
+##  $ perc.fat      : num  16.6 19.3 14.1 14.9 27.3 ...
+##  $ perc.protein  : num  15.4 16.9 16.9 13.2 19.5 ...
+##  $ perc.lactose  : num  68 63.8 69 71.9 53.2 ...
+##  $ mass          : num  1.95 2.09 2.51 1.62 2.19 5.25 5.37 2.51 0.71 0.68 ...
+##  $ neocortex.perc: num  55.2 NA NA NA NA ...</code></pre>
+<p>Règle : pour <span class="math inline">\(k\)</span> catégories, nous aurons besoin de <span class="math inline">\(k - 1\)</span> <em>dummy variables</em>. Pas la peine de créer une variable pour <code>ape</code>, qui sera notre <em>intercept</em>.</p>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="4-linear-regression2.html#cb172-1" aria-hidden="true" tabindex="-1"></a>df5<span class="sc">$</span>clade.NWM <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df5<span class="sc">$</span>clade <span class="sc">==</span> <span class="st">&quot;New World Monkey&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb172-2"><a href="4-linear-regression2.html#cb172-2" aria-hidden="true" tabindex="-1"></a>df5<span class="sc">$</span>clade.OWM <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df5<span class="sc">$</span>clade <span class="sc">==</span> <span class="st">&quot;Old World Monkey&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb172-3"><a href="4-linear-regression2.html#cb172-3" aria-hidden="true" tabindex="-1"></a>df5<span class="sc">$</span>clade.S <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df5<span class="sc">$</span>clade <span class="sc">==</span> <span class="st">&quot;Strepsirrhine&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code></pre></div>
+<p>…</p>
+<p><span class="math display">\[
+\begin{aligned}
+\color{orangered}{k_{i}} \ &amp;\color{orangered}{\sim \mathrm{Normal}(\mu_{i}, \sigma)} \\
+\color{black}{\mu_{i}} \ &amp;\color{black}{= \alpha + \beta_{NWM}NWM_{i} + \beta_{OWM}OWM_{i} + \beta_{S}S_{i}} \\
+\color{steelblue}{\alpha} \ &amp;\color{steelblue}{\sim \mathrm{Normal}(0.6, 10)} \\
+\color{steelblue}{\beta_{NWM}, \beta_{OWM}, \beta_{S}} \ &amp;\color{steelblue}{\sim \mathrm{Normal}(0, 1)} \\
+\color{steelblue}{\sigma} \ &amp;\color{steelblue}{\sim \mathrm{Exponential}(0.01)}
+\end{aligned}
+\]</span></p>
+<p>…</p>
+<p><img src="figures/table.png" width="66%" style="display: block; margin: auto;" /></p>
+<p>…</p>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="4-linear-regression2.html#cb173-1" aria-hidden="true" tabindex="-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb173-2"><a href="4-linear-regression2.html#cb173-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="fl">0.6</span>, <span class="dv">10</span>), <span class="at">class =</span> Intercept),</span>
+<span id="cb173-3"><a href="4-linear-regression2.html#cb173-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">class =</span> b),</span>
+<span id="cb173-4"><a href="4-linear-regression2.html#cb173-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">exponential</span>(<span class="fl">0.01</span>), <span class="at">class =</span> sigma)</span>
+<span id="cb173-5"><a href="4-linear-regression2.html#cb173-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb173-6"><a href="4-linear-regression2.html#cb173-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb173-7"><a href="4-linear-regression2.html#cb173-7" aria-hidden="true" tabindex="-1"></a>mod10 <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
+<span id="cb173-8"><a href="4-linear-regression2.html#cb173-8" aria-hidden="true" tabindex="-1"></a>  kcal.per.g <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> clade.NWM <span class="sc">+</span> clade.OWM <span class="sc">+</span> clade.S,</span>
+<span id="cb173-9"><a href="4-linear-regression2.html#cb173-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> priors,</span>
+<span id="cb173-10"><a href="4-linear-regression2.html#cb173-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> gaussian,</span>
+<span id="cb173-11"><a href="4-linear-regression2.html#cb173-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df5</span>
+<span id="cb173-12"><a href="4-linear-regression2.html#cb173-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="4-linear-regression2.html#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod10)</span></code></pre></div>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: kcal.per.g ~ 1 + clade.NWM + clade.OWM + clade.S 
+##    Data: df5 (Number of observations: 29) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept     0.55      0.04     0.46     0.63 1.00     3283     2606
+## clade.NWM     0.17      0.06     0.04     0.29 1.00     3340     2561
+## clade.OWM     0.24      0.07     0.10     0.37 1.00     3397     2943
+## clade.S      -0.04      0.07    -0.18     0.11 1.00     3400     2890
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     0.13      0.02     0.10     0.18 1.00     3226     2843
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<p>…</p>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="4-linear-regression2.html#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="co"># retrieves posterior samples</span></span>
+<span id="cb176-2"><a href="4-linear-regression2.html#cb176-2" aria-hidden="true" tabindex="-1"></a>post <span class="ot">&lt;-</span> <span class="fu">posterior_samples</span>(mod10)</span>
+<span id="cb176-3"><a href="4-linear-regression2.html#cb176-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb176-4"><a href="4-linear-regression2.html#cb176-4" aria-hidden="true" tabindex="-1"></a><span class="co"># retrieves posterior samples for each category</span></span>
+<span id="cb176-5"><a href="4-linear-regression2.html#cb176-5" aria-hidden="true" tabindex="-1"></a>mu.ape <span class="ot">&lt;-</span> post<span class="sc">$</span>b_Intercept</span>
+<span id="cb176-6"><a href="4-linear-regression2.html#cb176-6" aria-hidden="true" tabindex="-1"></a>mu.NWM <span class="ot">&lt;-</span> post<span class="sc">$</span>b_Intercept <span class="sc">+</span> post<span class="sc">$</span>b_clade.NWM</span>
+<span id="cb176-7"><a href="4-linear-regression2.html#cb176-7" aria-hidden="true" tabindex="-1"></a>mu.OWM <span class="ot">&lt;-</span> post<span class="sc">$</span>b_Intercept <span class="sc">+</span> post<span class="sc">$</span>b_clade.OWM</span>
+<span id="cb176-8"><a href="4-linear-regression2.html#cb176-8" aria-hidden="true" tabindex="-1"></a>mu.S <span class="ot">&lt;-</span> post<span class="sc">$</span>b_Intercept <span class="sc">+</span> post<span class="sc">$</span>b_clade.S</span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="4-linear-regression2.html#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">precis</span>(<span class="fu">data.frame</span>(mu.ape, mu.NWM, mu.OWM, mu.S), <span class="at">prob =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<pre><code>##             mean         sd      2.5%     97.5%   histogram
+## mu.ape 0.5472530 0.04416200 0.4632161 0.6345129    ▁▁▂▇▇▂▁▁
+## mu.NWM 0.7145580 0.04381130 0.6283760 0.8001637     ▁▁▅▇▃▁▁
+## mu.OWM 0.7866443 0.05449798 0.6804187 0.8938789  ▁▁▁▃▇▇▂▁▁▁
+## mu.S   0.5092347 0.05951719 0.3911451 0.6296908 ▁▁▁▂▇▇▃▁▁▁▁</code></pre>
+<p>Si on s’intéresse à la différence entre deux groupes, on peut calculer la distribution postérieure de cette différence.</p>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="4-linear-regression2.html#cb179-1" aria-hidden="true" tabindex="-1"></a>diff.NWM.OWM <span class="ot">&lt;-</span> mu.NWM <span class="sc">-</span> mu.OWM</span>
+<span id="cb179-2"><a href="4-linear-regression2.html#cb179-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(diff.NWM.OWM, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>) )</span></code></pre></div>
+<pre><code>##        2.5%         50%       97.5% 
+## -0.20781665 -0.07280640  0.05937144</code></pre>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="4-linear-regression2.html#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotPost</span>(diff.NWM.OWM, <span class="at">compVal =</span> <span class="dv">0</span>, <span class="at">ROPE =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.1</span>, <span class="fl">0.1</span>) )</span></code></pre></div>
+<p><img src="IMSB_files/figure-html/plotpost-mod10-ch4-1.svg" width="75%" style="display: block; margin: auto;" /></p>
+<p>Une autre manière de considérer les variables catégorielles consiste à construire un vecteur d’intercepts, avec un intercept par catégorie.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\color{orangered}{k_{i}} \ &amp;\color{orangered}{\sim \mathrm{Normal}(\mu_{i}, \sigma)} \\
+\color{black}{\mu_{i}} \ &amp;\color{black}{= \alpha_{\text{clade}[i]}} \\
+\color{steelblue}{\alpha_{\text{clade}[i]}} \ &amp;\color{steelblue}{\sim \mathrm{Normal}(0.6, 10)} \\
+\color{steelblue}{\sigma} \ &amp;\color{steelblue}{\sim \mathrm{Exponential}(0.01)}
+\end{aligned}
+\]</span></p>
+<p>Comme on a vu avec l’exemple du genre, <code>brms</code> “comprend” automatiquement que c’est ce qu’on veut faire lorsqu’on fit un modèle sans intercept et avec un prédicteur catégoriel (codé en facteur).</p>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="4-linear-regression2.html#cb182-1" aria-hidden="true" tabindex="-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb182-2"><a href="4-linear-regression2.html#cb182-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="fl">0.6</span>, <span class="dv">10</span>), <span class="at">class =</span> b),</span>
+<span id="cb182-3"><a href="4-linear-regression2.html#cb182-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">exponential</span>(<span class="fl">0.01</span>), <span class="at">class =</span> sigma)</span>
+<span id="cb182-4"><a href="4-linear-regression2.html#cb182-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb182-5"><a href="4-linear-regression2.html#cb182-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb182-6"><a href="4-linear-regression2.html#cb182-6" aria-hidden="true" tabindex="-1"></a>mod11 <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
+<span id="cb182-7"><a href="4-linear-regression2.html#cb182-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># modèle sans intercept avec seulement un prédicteur catégoriel (facteur)</span></span>
+<span id="cb182-8"><a href="4-linear-regression2.html#cb182-8" aria-hidden="true" tabindex="-1"></a>  kcal.per.g <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> clade,</span>
+<span id="cb182-9"><a href="4-linear-regression2.html#cb182-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> priors,</span>
+<span id="cb182-10"><a href="4-linear-regression2.html#cb182-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> gaussian,</span>
+<span id="cb182-11"><a href="4-linear-regression2.html#cb182-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df5</span>
+<span id="cb182-12"><a href="4-linear-regression2.html#cb182-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="4-linear-regression2.html#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod11)</span></code></pre></div>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: kcal.per.g ~ 0 + clade 
+##    Data: df5 (Number of observations: 29) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
+## Population-Level Effects: 
+##                     Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## cladeApe                0.54      0.04     0.46     0.63 1.00     4789     2503
+## cladeNewWorldMonkey     0.72      0.04     0.63     0.81 1.00     5125     2714
+## cladeOldWorldMonkey     0.79      0.05     0.69     0.89 1.00     4834     2979
+## cladeStrepsirrhine      0.51      0.06     0.40     0.63 1.00     4667     2685
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     0.13      0.02     0.10     0.17 1.00     3367     3005
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+</div>
+<div id="interaction" class="section level3 hasAnchor" number="4.1.6">
+<h3><span class="header-section-number">4.1.6</span> Interaction<a href="4-linear-regression2.html#interaction" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Jusque là, les prédicteurs du modèle entretenaientt des relations mutuellement indépendantes. Et si nous souhaitions que ces relations soient <strong>conditionnelles</strong>, ou <strong>dépendantes</strong> les unes des autres ?</p>
+<p>Par exempl e: on s’intéresse à la pousse des tulipes selon la quantité de lumière reçue et l’humidité du sol. Il se pourrait que la relation entre quantité de lumière reçue et pousse des tulipes soit différente selon l’humidité du sol. En d’autres termes, il se pourrait que la relation entre quantité de lumière reçue et pousse des tulipe soit <strong>conditionnelle</strong> à l’humidité du sol…</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="4-linear-regression2.html#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(tulips)</span>
+<span id="cb185-2"><a href="4-linear-regression2.html#cb185-2" aria-hidden="true" tabindex="-1"></a>df6 <span class="ot">&lt;-</span> tulips</span>
+<span id="cb185-3"><a href="4-linear-regression2.html#cb185-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb185-4"><a href="4-linear-regression2.html#cb185-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df6, <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##    bed water shade blooms
+## 1    a     1     1   0.00
+## 2    a     1     2   0.00
+## 3    a     1     3 111.04
+## 4    a     2     1 183.47
+## 5    a     2     2  59.16
+## 6    a     2     3  76.75
+## 7    a     3     1 224.97
+## 8    a     3     2  83.77
+## 9    a     3     3 134.95
+## 10   b     1     1  80.10</code></pre>
+<p>Modèle sans interaction :</p>
+<p><span class="math display">\[
+\begin{aligned}
+B_{i} &amp;\sim \mathrm{Normal}(\mu, \sigma) \\
+\mu_{i} &amp;= \alpha + \beta_{W} W_{i} + \beta_{S} S_{i} \\
+\end{aligned}
+\]</span></p>
+<p>Modèle avec interaction :</p>
+<p><span class="math display">\[
+\begin{aligned}
+B_{i} &amp;\sim \mathrm{Normal}(\mu, \sigma) \\
+\mu_{i} &amp;= \alpha + \beta_{W} W_{i} + \beta_{S} S_{i} + \beta_{WS} W_{i} S_{i}\\
+\end{aligned}
+\]</span></p>
+<p>On centre les prédicteurs (pour faciliter l’interprétation des paramètres).</p>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="4-linear-regression2.html#cb187-1" aria-hidden="true" tabindex="-1"></a>df6<span class="sc">$</span>shade.c <span class="ot">&lt;-</span> df6<span class="sc">$</span>shade <span class="sc">-</span> <span class="fu">mean</span>(df6<span class="sc">$</span>shade)</span>
+<span id="cb187-2"><a href="4-linear-regression2.html#cb187-2" aria-hidden="true" tabindex="-1"></a>df6<span class="sc">$</span>water.c <span class="ot">&lt;-</span> df6<span class="sc">$</span>water <span class="sc">-</span> <span class="fu">mean</span>(df6<span class="sc">$</span>water)</span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="4-linear-regression2.html#cb188-1" aria-hidden="true" tabindex="-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb188-2"><a href="4-linear-regression2.html#cb188-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">130</span>, <span class="dv">100</span>), <span class="at">class =</span> Intercept),</span>
+<span id="cb188-3"><a href="4-linear-regression2.html#cb188-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">class =</span> b),</span>
+<span id="cb188-4"><a href="4-linear-regression2.html#cb188-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">exponential</span>(<span class="fl">0.01</span>), <span class="at">class =</span> sigma)</span>
+<span id="cb188-5"><a href="4-linear-regression2.html#cb188-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb188-6"><a href="4-linear-regression2.html#cb188-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb188-7"><a href="4-linear-regression2.html#cb188-7" aria-hidden="true" tabindex="-1"></a>mod12 <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
+<span id="cb188-8"><a href="4-linear-regression2.html#cb188-8" aria-hidden="true" tabindex="-1"></a>  blooms <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> water.c <span class="sc">+</span> shade.c,</span>
+<span id="cb188-9"><a href="4-linear-regression2.html#cb188-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> priors,</span>
+<span id="cb188-10"><a href="4-linear-regression2.html#cb188-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> gaussian,</span>
+<span id="cb188-11"><a href="4-linear-regression2.html#cb188-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df6</span>
+<span id="cb188-12"><a href="4-linear-regression2.html#cb188-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="4-linear-regression2.html#cb189-1" aria-hidden="true" tabindex="-1"></a>mod13 <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
+<span id="cb189-2"><a href="4-linear-regression2.html#cb189-2" aria-hidden="true" tabindex="-1"></a>  blooms <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> water.c <span class="sc">*</span> shade.c,</span>
+<span id="cb189-3"><a href="4-linear-regression2.html#cb189-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># equivalent to blooms ~ 1 + water.c + shade.c + water.c:shade.c</span></span>
+<span id="cb189-4"><a href="4-linear-regression2.html#cb189-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> priors,</span>
+<span id="cb189-5"><a href="4-linear-regression2.html#cb189-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> gaussian,</span>
+<span id="cb189-6"><a href="4-linear-regression2.html#cb189-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df6</span>
+<span id="cb189-7"><a href="4-linear-regression2.html#cb189-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p>…</p>
+<pre><code>##                term     mod12     mod13
+## 1       b_Intercept 129.12581 129.24273
+## 2         b_water.c  74.47215  74.84815
+## 3         b_shade.c -41.06619 -40.72284
+## 4             sigma  63.28024  51.15140
+## 5            lprior -22.20149 -27.73942
+## 6 b_water.c:shade.c        NA -51.55219</code></pre>
+<ul>
+<li><p>L’intercept <span class="math inline">\(\alpha\)</span> représente la valeur attendue de <code>blooms</code> quand <code>water</code> et <code>shade</code> sont à 0 (i.e., la moyenne générale de la variable dépendante).</p></li>
+<li><p>La pente <span class="math inline">\(\beta_{W}\)</span> nous donne la valeur attendue de changement de <code>blooms</code> quand <code>water</code> augmente d’une unité et <code>shade</code> est à sa valeur moyenne. On voit qu’augmenter la quantité d’eau est très bénéfique.</p></li>
+<li><p>La pente <span class="math inline">\(\beta_{S}\)</span> nous donne la valeur attendue de changement de <code>blooms</code> quand <code>shade</code> augmente d’une unité et <code>water</code> est à sa valeur moyenne. On voit qu’augmenter la “quantité d’ombre” (diminuer l’exposition à la lumière) est plutôt délétère.</p></li>
+<li><p>La pente <span class="math inline">\(\beta_{WS}\)</span> nous renseigne sur l’effet attendu de <code>water</code> sur <code>blooms</code> quand <code>shade</code> augment d’une unité (et réciproquement).</p></li>
+</ul>
+<p>Dans un modèle qui inclut un effet d’interaction, l’effet d’un prédicteur sur la mesure va dépendre de la valeur de l’autre prédicteur. La meilleure manière de représenter cette dépendance est de plotter la relation entre un prédicteur et la mesure, à différentes valeurs de l’autre prédicteur.</p>
+<p><img src="IMSB_files/figure-html/plot-models-ch4-1.svg" width="75%" style="display: block; margin: auto;" /></p>
+<p>L’effet d’interaction nous indique que les tulipes ont besoin à la fois d’eau et de lumière pour pousser, mais aussi qu’à de faibles niveaux d’humidité, la luminosité a peu d’effet, tandis que cet effet est plus important à haut niveau d’humidité.</p>
+<p>Cette explication vaut de manière <strong>symétrique</strong> pour l’effet de l’humidité sur la relation entre la luminosité et la pousse des plantes.</p>
+
+</div>
+</div>
+</div>
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="3-linear-regression1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="A-glossaire.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "serif",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/lnalborczyk/IMSB2022/_notes/doc/tree/master/04-linear-regression-part2.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["IMSB.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
