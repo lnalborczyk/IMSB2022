@@ -12,6 +12,9 @@ slides <- list.files(
     recursive = TRUE, full.names = TRUE
     )
 
+# some example
+input <- slides[3]
+
 for (input in slides) { # for each course
 
     # printing progress

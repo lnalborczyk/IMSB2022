@@ -29,7 +29,9 @@ website:
       - resources.qmd
       - install.qmd
       - text: "Notes"
-        file: "./_notes/docs/index.html"
+        # file: "./_notes/docs/index.html"
+        href: "./_notes/docs/index.html"
+        # href: "https://www.barelysignificant.com/IMSB2022_notes/"
         
   sidebar:
     - title: "Planning"

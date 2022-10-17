@@ -474,11 +474,10 @@ metropolis <- function (niter = 1e2, startval = 3) {
         
         current <- x[i - 1] # current value of the parameter
         proposal <- current + sample(c(-1, 1), size = 1)
-        # make sure he loops around the archipelago
+        # making sure proposals are within the possible range
         if (proposal < 1) proposal <- 1
         if (proposal > 7) proposal <- 7
         prob_move <- min(1, proposal / current)
-        # x[i] <- ifelse(runif(1) < prob_move, proposal, currentPosition)
         x[i] <- sample(c(current, proposal), size = 1, prob = c(1 - prob_move, prob_move) )
         
     }
@@ -1190,7 +1189,11 @@ metropolis_hastings <- function (niter = 1e2, startval = 0.5) {
         
         current <- x[i - 1] # current value of the parameter
         current_plaus <- dbeta(current, 2, 3) * dbinom(1, 2, current)
-        proposal <- runif(n = 1, min = 0, max = 1) # proposed value of the parameter
+        # proposal <- runif(n = 1, min = 0, max = 1) # proposed value of the parameter
+        proposal <- rnorm(n = 1, mean = current, sd = 0.1) # proposed value of the parameter
+        # making sure proposals are within the possible range
+        if (proposal < 0) proposal <- 0
+        if (proposal > 1) proposal <- 1
         proposal_plaus <- dbeta(proposal, 2, 3) * dbinom(1, 2, proposal)
         alpha <- min(1, proposal_plaus / current_plaus) # moving probability ratio
         x[i] <- sample(c(current, proposal), size = 1, prob = c(1 - alpha, alpha) )
@@ -1205,11 +1208,11 @@ metropolis_hastings <- function (niter = 1e2, startval = 0.5) {
 ## Algorithme Metropolis-Hastings
 
 ```{r metropolis-hastings2, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5}
-z1 <- metropolis_hastings(niter = 1000, startval = 0.5)
-z2 <- metropolis_hastings(niter = 1000, startval = 0.5)
+z1 <- metropolis_hastings(niter = 1e4, startval = 0.5)
+z2 <- metropolis_hastings(niter = 1e4, startval = 0.5)
 
 data.frame(z1 = z1, z2 = z2) %>%
-  mutate(sample = 1:1000) %>%
+  mutate(sample = 1:1e4) %>%
   pivot_longer(cols = z1:z2) %>%
   ggplot(aes(x = sample, y = value, colour = name) ) +
   geom_line(show.legend = FALSE) +
@@ -1224,7 +1227,8 @@ data.frame(z1 = z1, z2 = z2) %>%
   rownames_to_column() %>%
   mutate(rowname = as.numeric(rowname) ) %>%
   ggplot(aes(x = value) ) +
-  geom_histogram() +
+  geom_histogram(aes(y = ..density..), color = "white", alpha = 0.8) +
+  stat_function(fun = dbeta, args = list(3, 4), color = posterior_color, size = 1) +
   facet_wrap(~name) +
   labs(x = expression(theta), y = "Nombre d'échantillons")
 ```
@@ -1505,11 +1509,11 @@ Les algorithmes Metropolis et Metropolis-Hastings (ou Gibbs) ont de mauvaises
 performances lorsque les paramètres du modèle sont fortement corrêlés.
 L'algorithme **Hamiltonian Monte Carlo** repose sur l'algorithme
 Metropolis mais résout ces problème en utilisant la géométrie de
-l'espace postérieur. On utilise l'opérateur hamiltonien (*hamiltonians*)
+l'espace postérieur. On utilise l'opérateur hamiltonien (hamiltonians)
 qui représente l'énergie totale d'un système. Cette énergie se décompose
 en l'énergie potentielle (qui dépend de la position dans l'espace des
 paramètres $\theta$) et son énergie cinétique, qui dépend de son
-*momentum* ($m$) :
+**momentum** ($m$) :
 
 $$
 H(\theta, m) = \underbrace{U(\theta)}_{\text{énergie potentielle}} + \underbrace{KE(m)}_{\text{énergie cinétique}}
@@ -1520,7 +1524,7 @@ $$
 L'énergie potentielle est donnée par le négatif du log de la densité
 postérieure (non-normalisée) ;
 
-$$U(\theta) = -\log[p(data \given \theta) \times p(\theta)]$$
+$$U(\theta) = -\log[p(\text{data} \given \theta) \times p(\theta)]$$
 
 Quand la densité postérieure augmente, l'énergie potentielle diminue
 (i.e., devient plus négative).
