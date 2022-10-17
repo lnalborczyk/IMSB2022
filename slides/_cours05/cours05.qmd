@@ -333,11 +333,11 @@ knitr::include_graphics("figures/DistribCarré1-7.png")
 
 ## Méthodes Monte Carlo : Exemple
 
-```{r, eval = FALSE, echo = TRUE, fig.width = 25}
-trajLength <- 100
+```{r, eval = FALSE, echo = TRUE}
+niter <- 100
 theta <- 1:7
 ptheta <- theta
-trajectory <- sample(theta, prob = ptheta, size = trajLength, replace = TRUE)
+samples <- sample(x = theta, prob = ptheta, size = niter, replace = TRUE)
 ```
 
 ```{r, eval = TRUE, echo = FALSE, fig.width = 25}
