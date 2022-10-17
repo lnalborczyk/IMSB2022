@@ -1,6 +1,6 @@
 --- 
 title: "Notes de cours - Introduction à la modélisation statistique bayésienne"
-subtitle: "Un cours en R avec brms"
+subtitle: "Un cours avec R, Stan, et brms"
 author: "Ladislas Nalborczyk"
 date: "Dernière mise à jour : `r format(Sys.Date(), '%d-%m-%Y')`"
 site: bookdown::bookdown_site
