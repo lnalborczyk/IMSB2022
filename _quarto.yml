@@ -3,7 +3,7 @@ project:
   output-dir: docs
   resources:
     - "files/"
-    - "_notes/docs/"
+    # - "_notes/docs/"
 
 execute:
   freeze: auto
@@ -30,8 +30,8 @@ website:
       - install.qmd
       - text: "Notes"
         # file: "./_notes/docs/index.html"
-        href: "./_notes/docs/index.html"
-        # href: "https://www.barelysignificant.com/IMSB2022_notes/"
+        # href: "./_notes/docs/index.html"
+        href: "https://www.barelysignificant.com/IMSB2022_notes/"
         
   sidebar:
     - title: "Planning"
