@@ -13,6 +13,7 @@ slides <- list.files(
     )
 
 # some example
+# slides <- slides[-1]
 input <- slides[3]
 
 for (input in slides) { # for each course

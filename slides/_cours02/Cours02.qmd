@@ -220,7 +220,7 @@ parmi $n$")[^1] :
     $N! = N \times (N - 1) \times (N - 2) \times \ldots \times 3 \times 2 \times 1$
 
 $$
-\left(\begin{array}{l} n \\ y \end{array}\right) = C_{n}^{y} = \frac{n !}{y !(n - y) !}
+\left(\begin{array}{l} n \\ y \end{array}\right) = C_{y}^{n} = \frac{n !}{y !(n - y) !}
 $$
 
 . . .

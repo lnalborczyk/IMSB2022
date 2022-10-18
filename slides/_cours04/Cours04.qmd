@@ -102,13 +102,13 @@ model <- brm(
 
 ## Régression multiple
 
-On va étendre le modèle précédent en ajoutant plusieurs prédicteurs, continus et/ou catégoriels. Pourquoi faire ?
+On va étendre le modèle précédent en ajoutant plusieurs prédicteurs, continus et/ou catégoriels. Pourquoi ?
 
-+ "Contrôle" des facteurs de confusion (e.g., [spurious correlations](http://www.tylervigen.com/spurious-correlations), [simpson's paradox](https://en.wikipedia.org/wiki/Simpson%27s_paradox)). Un facteur de confusion est une variable aléatoire qui influence à la fois la variable dépendante et les variables explicatives.
++ "Contrôle" des facteurs de confusion (e.g., [spurious correlations](http://www.tylervigen.com/spurious-correlations), [simpson's paradox](https://en.wikipedia.org/wiki/Simpson%27s_paradox)). Un facteur de confusion est une variable qui influence à la fois la variable dépendante et les variables explicatives.
 
 + Multiples causes : un phénomène peut émerger sous l'influence de multiples causes.
 
-+ Interactions : l'influence d'un prédicteur  sur la variable observée peut dépendre de la valeur d'un autre prédicteur.
++ Interactions : l'influence d'un prédicteur sur la variable observée peut dépendre de la valeur d'un autre prédicteur.
 
 ## Associations fortuites
 

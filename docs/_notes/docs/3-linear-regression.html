@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapitre 3 Modèle de régression linéaire | Notes de cours - Introduction à la modélisation statistique bayésienne</title>
+  <meta name="description" content="Blah blah" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapitre 3 Modèle de régression linéaire | Notes de cours - Introduction à la modélisation statistique bayésienne" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://www.barelysignificant.com/IMSB2020/notes" />
+  <meta property="og:image" content="https://www.barelysignificant.com/IMSB2020/notesfigures/cover_distributions.png" />
+  <meta property="og:description" content="Blah blah" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapitre 3 Modèle de régression linéaire | Notes de cours - Introduction à la modélisation statistique bayésienne" />
+  
+  <meta name="twitter:description" content="Blah blah" />
+  <meta name="twitter:image" content="https://www.barelysignificant.com/IMSB2020/notesfigures/cover_distributions.png" />
+
+<meta name="author" content="Ladislas Nalborczyk" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="figures/cover_distributions.png" type="image/x-icon" />
+<link rel="prev" href="2-beta-binomial.html"/>
+<link rel="next" href="références.html"/>
+<script src="libs/header-attrs-2.1/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<!-- font families -->
+
+<link href="https://fonts.googleapis.com/css?family=PT+Sans|Pacifico|Source+Sans+Pro" rel="stylesheet">
+
+<script src="js/hideOutput.js"></script>
+
+<!-- Mathjax -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/default.js"></script>
+
+ <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js", "TeX/AMSmath.js"],
+        tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+        jax: ["input/TeX","output/CommonHTML"]
+      });
+      MathJax.Hub.processSectionDelay = 0;
+  </script>
+
+<!-- Global site tag (gtag.js) - Google Analytics
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110299877-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-110299877-1');
+</script>
+-->
+
+<!-- open review block -->
+
+<script async defer src="https://hypothes.is/embed.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/toc.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introduction à la modélisation statistique bayésienne</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Préface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#disclaimer"><i class="fa fa-check"></i>Disclaimer</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#licence"><i class="fa fa-check"></i>Licence</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="1-introduction.html"><a href="1-introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction à l’inférence bayésienne</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="1-introduction.html"><a href="1-introduction.html#partie-théorique"><i class="fa fa-check"></i><b>1.1</b> Partie théorique</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="1-introduction.html"><a href="1-introduction.html#axiomes-des-probabilités"><i class="fa fa-check"></i><b>1.1.1</b> Axiomes des probabilités</a></li>
+<li class="chapter" data-level="1.1.2" data-path="1-introduction.html"><a href="1-introduction.html#interprétations-probabilistes"><i class="fa fa-check"></i><b>1.1.2</b> Interprétations probabilistes</a></li>
+<li class="chapter" data-level="1.1.3" data-path="1-introduction.html"><a href="1-introduction.html#aparté---vous-avez-dit-hasard"><i class="fa fa-check"></i><b>1.1.3</b> Aparté - Vous avez dit “hasard” ?</a></li>
+<li class="chapter" data-level="1.1.4" data-path="1-introduction.html"><a href="1-introduction.html#un-peu-de-logique"><i class="fa fa-check"></i><b>1.1.4</b> Un peu de logique</a></li>
+<li class="chapter" data-level="1.1.5" data-path="1-introduction.html"><a href="1-introduction.html#quelques-syllogismes-connus"><i class="fa fa-check"></i><b>1.1.5</b> Quelques syllogismes connus</a></li>
+<li class="chapter" data-level="1.1.6" data-path="1-introduction.html"><a href="1-introduction.html#logique-fréquentisme-et-raisonnement-probabiliste"><i class="fa fa-check"></i><b>1.1.6</b> Logique, fréquentisme et raisonnement probabiliste</a></li>
+<li class="chapter" data-level="1.1.7" data-path="1-introduction.html"><a href="1-introduction.html#léchec-de-la-falsification"><i class="fa fa-check"></i><b>1.1.7</b> L’échec de la falsification</a></li>
+<li class="chapter" data-level="1.1.8" data-path="1-introduction.html"><a href="1-introduction.html#comparaison-de-modèles"><i class="fa fa-check"></i><b>1.1.8</b> Comparaison de modèles</a></li>
+<li class="chapter" data-level="1.1.9" data-path="1-introduction.html"><a href="1-introduction.html#notre-stratégie"><i class="fa fa-check"></i><b>1.1.9</b> Notre stratégie</a></li>
+<li class="chapter" data-level="1.1.10" data-path="1-introduction.html"><a href="1-introduction.html#exercice---problème-du-sac-de-billes-mcelreath-2015"><i class="fa fa-check"></i><b>1.1.10</b> Exercice - Problème du sac de billes (McElreath, 2015)</a></li>
+<li class="chapter" data-level="1.1.11" data-path="1-introduction.html"><a href="1-introduction.html#notations-terminologie"><i class="fa fa-check"></i><b>1.1.11</b> Notations, terminologie</a></li>
+<li class="chapter" data-level="1.1.12" data-path="1-introduction.html"><a href="1-introduction.html#inférence-bayésienne"><i class="fa fa-check"></i><b>1.1.12</b> Inférence bayésienne</a></li>
+<li class="chapter" data-level="1.1.13" data-path="1-introduction.html"><a href="1-introduction.html#rappels-de-probabilité"><i class="fa fa-check"></i><b>1.1.13</b> Rappels de probabilité</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="1-introduction.html"><a href="1-introduction.html#partie-pratique-exeemples-dapplication"><i class="fa fa-check"></i><b>1.2</b> Partie pratique, exeemples d’application</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="1-introduction.html"><a href="1-introduction.html#diagnostique-médical-gigerenzer-2002"><i class="fa fa-check"></i><b>1.2.1</b> Diagnostique médical (Gigerenzer, 2002)</a></li>
+<li class="chapter" data-level="1.2.2" data-path="1-introduction.html"><a href="1-introduction.html#monty-hall"><i class="fa fa-check"></i><b>1.2.2</b> Monty Hall</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="1-introduction.html"><a href="1-introduction.html#conclusions"><i class="fa fa-check"></i><b>1.3</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html"><i class="fa fa-check"></i><b>2</b> Modèle beta-binomial</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#coefficient-binomial"><i class="fa fa-check"></i><b>2.1</b> Coefficient binomial</a></li>
+<li class="chapter" data-level="2.2" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#le-modèle-beta-binomial"><i class="fa fa-check"></i><b>2.2</b> Le modèle Beta-Binomial</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#loi-de-bernoulli"><i class="fa fa-check"></i><b>2.2.1</b> Loi de Bernoulli</a></li>
+<li class="chapter" data-level="2.2.2" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#processus-de-bernoulli"><i class="fa fa-check"></i><b>2.2.2</b> Processus de Bernoulli</a></li>
+<li class="chapter" data-level="2.2.3" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#processus-de-bernoulli-1"><i class="fa fa-check"></i><b>2.2.3</b> Processus de Bernoulli</a></li>
+<li class="chapter" data-level="2.2.4" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#coefficient-binomial-1"><i class="fa fa-check"></i><b>2.2.4</b> Coefficient binomial</a></li>
+<li class="chapter" data-level="2.2.5" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#loi-binomiale"><i class="fa fa-check"></i><b>2.2.5</b> Loi binomiale</a></li>
+<li class="chapter" data-level="2.2.6" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#générer-des-données-à-partir-dune-distribution-binomiale"><i class="fa fa-check"></i><b>2.2.6</b> Générer des données à partir d’une distribution binomiale</a></li>
+<li class="chapter" data-level="2.2.7" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#définition-du-modèle-likelihood"><i class="fa fa-check"></i><b>2.2.7</b> Définition du modèle (likelihood)</a></li>
+<li class="chapter" data-level="2.2.8" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#vraisemblance-versus-probabilité"><i class="fa fa-check"></i><b>2.2.8</b> Vraisemblance versus probabilité</a></li>
+<li class="chapter" data-level="2.2.9" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#définition-du-prior"><i class="fa fa-check"></i><b>2.2.9</b> Définition du prior</a></li>
+<li class="chapter" data-level="2.2.10" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#la-distribution-beta"><i class="fa fa-check"></i><b>2.2.10</b> La distribution Beta</a></li>
+<li class="chapter" data-level="2.2.11" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#interprétation-des-paramètres-du-prior-beta"><i class="fa fa-check"></i><b>2.2.11</b> Interprétation des paramètres du prior Beta</a></li>
+<li class="chapter" data-level="2.2.12" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#prior-conjugué"><i class="fa fa-check"></i><b>2.2.12</b> Prior conjugué</a></li>
+<li class="chapter" data-level="2.2.13" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#dérivation-analytique-de-la-distribution-a-posteriori"><i class="fa fa-check"></i><b>2.2.13</b> Dérivation analytique de la distribution a posteriori</a></li>
+<li class="chapter" data-level="2.2.14" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#un-exemple-pour-digérer"><i class="fa fa-check"></i><b>2.2.14</b> Un exemple pour digérer</a></li>
+<li class="chapter" data-level="2.2.15" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#influence-du-prior-sur-la-distribution-postérieure"><i class="fa fa-check"></i><b>2.2.15</b> Influence du prior sur la distribution postérieure</a></li>
+<li class="chapter" data-level="2.2.16" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#ce-quil-faut-retenir"><i class="fa fa-check"></i><b>2.2.16</b> Ce qu’il faut retenir</a></li>
+<li class="chapter" data-level="2.2.17" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#la-vraisemblance-marginale-the-devil-is-in-the-denominator"><i class="fa fa-check"></i><b>2.2.17</b> La vraisemblance marginale (the devil is in the denominator)</a></li>
+<li class="chapter" data-level="2.2.18" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#la-distribution-postérieure-solution-analytique"><i class="fa fa-check"></i><b>2.2.18</b> La distribution postérieure, solution analytique</a></li>
+<li class="chapter" data-level="2.2.19" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#la-distribution-postérieure-grid-method"><i class="fa fa-check"></i><b>2.2.19</b> La distribution postérieure, grid method</a></li>
+<li class="chapter" data-level="2.2.20" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#échantillonner-la-distribution-postérieure"><i class="fa fa-check"></i><b>2.2.20</b> Échantillonner la distribution postérieure</a></li>
+<li class="chapter" data-level="2.2.21" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#la-distribution-postérieure-résumé"><i class="fa fa-check"></i><b>2.2.21</b> La distribution postérieure, résumé</a></li>
+<li class="chapter" data-level="2.2.22" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#utiliser-les-échantillons-pour-résumer-la-distribution-postérieure"><i class="fa fa-check"></i><b>2.2.22</b> Utiliser les échantillons pour résumer la distribution postérieure</a></li>
+<li class="chapter" data-level="2.2.23" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#highest-density-interval-hdi"><i class="fa fa-check"></i><b>2.2.23</b> Highest density interval (HDI)</a></li>
+<li class="chapter" data-level="2.2.24" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#region-of-practical-equivalence-rope"><i class="fa fa-check"></i><b>2.2.24</b> Region of practical equivalence (ROPE)</a></li>
+<li class="chapter" data-level="2.2.25" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#comparaison-de-modèles-1"><i class="fa fa-check"></i><b>2.2.25</b> Comparaison de modèles</a></li>
+<li class="chapter" data-level="2.2.26" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#model-checking"><i class="fa fa-check"></i><b>2.2.26</b> Model checking</a></li>
+<li class="chapter" data-level="2.2.27" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#posterior-predictive-checking"><i class="fa fa-check"></i><b>2.2.27</b> Posterior predictive checking</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="2-beta-binomial.html"><a href="2-beta-binomial.html#conclusions-1"><i class="fa fa-check"></i><b>2.3</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="3-linear-regression.html"><a href="3-linear-regression.html"><i class="fa fa-check"></i><b>3</b> Modèle de régression linéaire</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="3-linear-regression.html"><a href="3-linear-regression.html#langage-de-la-modélisation"><i class="fa fa-check"></i><b>3.1</b> Langage de la modélisation</a></li>
+<li class="chapter" data-level="3.2" data-path="3-linear-regression.html"><a href="3-linear-regression.html#un-premier-modèle"><i class="fa fa-check"></i><b>3.2</b> Un premier modèle</a></li>
+<li class="chapter" data-level="3.3" data-path="3-linear-regression.html"><a href="3-linear-regression.html#loi-normale"><i class="fa fa-check"></i><b>3.3</b> Loi normale</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="3-linear-regression.html"><a href="3-linear-regression.html#doù-vient-la-loi-normale"><i class="fa fa-check"></i><b>3.3.1</b> D’où vient la loi normale ?</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="3-linear-regression.html"><a href="3-linear-regression.html#modèle-gaussien"><i class="fa fa-check"></i><b>3.4</b> Modèle gaussien</a></li>
+<li class="chapter" data-level="3.5" data-path="3-linear-regression.html"><a href="3-linear-regression.html#visualiser-le-prior"><i class="fa fa-check"></i><b>3.5</b> Visualiser le prior</a></li>
+<li class="chapter" data-level="3.6" data-path="3-linear-regression.html"><a href="3-linear-regression.html#échantillonner-à-partir-du-prior"><i class="fa fa-check"></i><b>3.6</b> Échantillonner à partir du prior</a></li>
+<li class="chapter" data-level="3.7" data-path="3-linear-regression.html"><a href="3-linear-regression.html#fonction-de-vraisemblance"><i class="fa fa-check"></i><b>3.7</b> Fonction de vraisemblance</a></li>
+<li class="chapter" data-level="3.8" data-path="3-linear-regression.html"><a href="3-linear-regression.html#distribution-postérieure"><i class="fa fa-check"></i><b>3.8</b> Distribution postérieure</a>
+<ul>
+<li class="chapter" data-level="3.8.1" data-path="3-linear-regression.html"><a href="3-linear-regression.html#distribution-postérieure---grid-approximation"><i class="fa fa-check"></i><b>3.8.1</b> Distribution postérieure - grid approximation</a></li>
+<li class="chapter" data-level="3.8.2" data-path="3-linear-regression.html"><a href="3-linear-regression.html#distribution-postérieure---distributions-marginales"><i class="fa fa-check"></i><b>3.8.2</b> Distribution postérieure - distributions marginales</a></li>
+</ul></li>
+<li class="chapter" data-level="3.9" data-path="3-linear-regression.html"><a href="3-linear-regression.html#introduction-à-brms"><i class="fa fa-check"></i><b>3.9</b> Introduction à brms</a>
+<ul>
+<li class="chapter" data-level="3.9.1" data-path="3-linear-regression.html"><a href="3-linear-regression.html#rappels-de-syntaxe"><i class="fa fa-check"></i><b>3.9.1</b> Rappels de syntaxe</a></li>
+<li class="chapter" data-level="3.9.2" data-path="3-linear-regression.html"><a href="3-linear-regression.html#quelques-fonctions-utiles"><i class="fa fa-check"></i><b>3.9.2</b> Quelques fonctions utiles</a></li>
+<li class="chapter" data-level="3.9.3" data-path="3-linear-regression.html"><a href="3-linear-regression.html#un-premier-exemple"><i class="fa fa-check"></i><b>3.9.3</b> Un premier exemple</a></li>
+<li class="chapter" data-level="3.9.4" data-path="3-linear-regression.html"><a href="3-linear-regression.html#en-utilisant-notre-prior"><i class="fa fa-check"></i><b>3.9.4</b> En utilisant notre prior</a></li>
+<li class="chapter" data-level="3.9.5" data-path="3-linear-regression.html"><a href="3-linear-regression.html#en-utilisant-un-prior-plus-informatif"><i class="fa fa-check"></i><b>3.9.5</b> En utilisant un prior plus informatif</a></li>
+<li class="chapter" data-level="3.9.6" data-path="3-linear-regression.html"><a href="3-linear-regression.html#précision-du-prior-heuristique"><i class="fa fa-check"></i><b>3.9.6</b> Précision du prior (heuristique)</a></li>
+<li class="chapter" data-level="3.9.7" data-path="3-linear-regression.html"><a href="3-linear-regression.html#récupérer-et-visualiser-les-échantillons-de-la-distribution-postérieure"><i class="fa fa-check"></i><b>3.9.7</b> Récupérer et visualiser les échantillons de la distribution postérieure</a></li>
+<li class="chapter" data-level="3.9.8" data-path="3-linear-regression.html"><a href="3-linear-regression.html#récupérer-les-échantillons-de-la-distribution-postérieure"><i class="fa fa-check"></i><b>3.9.8</b> Récupérer les échantillons de la distribution postérieure</a></li>
+<li class="chapter" data-level="3.9.9" data-path="3-linear-regression.html"><a href="3-linear-regression.html#visualiser-la-distribution-postérieure"><i class="fa fa-check"></i><b>3.9.9</b> Visualiser la distribution postérieure</a></li>
+<li class="chapter" data-level="3.9.10" data-path="3-linear-regression.html"><a href="3-linear-regression.html#visualiser-la-distribution-postérieure-1"><i class="fa fa-check"></i><b>3.9.10</b> Visualiser la distribution postérieure</a></li>
+<li class="chapter" data-level="3.9.11" data-path="3-linear-regression.html"><a href="3-linear-regression.html#ajouter-un-prédicteur"><i class="fa fa-check"></i><b>3.9.11</b> Ajouter un prédicteur</a></li>
+</ul></li>
+<li class="chapter" data-level="3.10" data-path="3-linear-regression.html"><a href="3-linear-regression.html#régression-linéaire-à-un-prédicteur-continu"><i class="fa fa-check"></i><b>3.10</b> Régression linéaire à un prédicteur continu</a>
+<ul>
+<li class="chapter" data-level="3.10.1" data-path="3-linear-regression.html"><a href="3-linear-regression.html#différentes-notations-équivalentes"><i class="fa fa-check"></i><b>3.10.1</b> Différentes notations équivalentes</a></li>
+<li class="chapter" data-level="3.10.2" data-path="3-linear-regression.html"><a href="3-linear-regression.html#représenter-les-prédictions-du-modèle"><i class="fa fa-check"></i><b>3.10.2</b> Représenter les prédictions du modèle</a></li>
+<li class="chapter" data-level="3.10.3" data-path="3-linear-regression.html"><a href="3-linear-regression.html#représenter-lincertitude-sur-mu-via-fitted"><i class="fa fa-check"></i><b>3.10.3</b> Représenter l’incertitude sur <span class="math inline">\(\mu\)</span> via fitted()</a></li>
+<li class="chapter" data-level="3.10.4" data-path="3-linear-regression.html"><a href="3-linear-regression.html#intervalles-de-prédiction-incorporer-sigma"><i class="fa fa-check"></i><b>3.10.4</b> Intervalles de prédiction (incorporer <span class="math inline">\(\sigma\)</span>)</a></li>
+<li class="chapter" data-level="3.10.5" data-path="3-linear-regression.html"><a href="3-linear-regression.html#deux-types-dincertitude"><i class="fa fa-check"></i><b>3.10.5</b> Deux types d’incertitude</a></li>
+</ul></li>
+<li class="chapter" data-level="3.11" data-path="3-linear-regression.html"><a href="3-linear-regression.html#régression-polynomiale"><i class="fa fa-check"></i><b>3.11</b> Régression polynomiale</a>
+<ul>
+<li class="chapter" data-level="3.11.1" data-path="3-linear-regression.html"><a href="3-linear-regression.html#modèle-de-régression-polynomiale"><i class="fa fa-check"></i><b>3.11.1</b> Modèle de régression polynomiale</a></li>
+<li class="chapter" data-level="3.11.2" data-path="3-linear-regression.html"><a href="3-linear-regression.html#représenter-les-prédictions-du-modèle-1"><i class="fa fa-check"></i><b>3.11.2</b> Représenter les prédictions du modèle</a></li>
+</ul></li>
+<li class="chapter" data-level="3.12" data-path="3-linear-regression.html"><a href="3-linear-regression.html#modèle-de-régression-taille-deffet"><i class="fa fa-check"></i><b>3.12</b> Modèle de régression, taille d’effet</a></li>
+<li class="chapter" data-level="3.13" data-path="3-linear-regression.html"><a href="3-linear-regression.html#conclusions-2"><i class="fa fa-check"></i><b>3.13</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="références.html"><a href="références.html"><i class="fa fa-check"></i>Références</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank"> Powered by bookdown </a></li>
+<li><a href="http://www.barelysignificant.com" target="blank"> Ladislas Nalborczyk </a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notes de cours - Introduction à la modélisation statistique bayésienne</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div class = rmdreview>
+Ce livret est en "<b>Open Review</b>". Votre retour est essentiel afin de l'améliorer, pour vous-même ainsi que pour les futurs étudiant•e•s. Vous pouvez annoter le texte en <span style="background-color: #3297FD; color: white">le sélectionnant avec le curseur</span> et en cliquant sur l'icône <i class="h-icon-annotate"></i> dans le menu qui s'affiche en pop-up. Vous pouvez également lire les annotations des autres utilisateurs du livret en cliquant sur <i class="h-icon-chevron-left"></i> dans le coin supérieur droit de cette page.
+</div>
+ 
+<div id="linear-regression" class="section level1" number="3">
+<h1><span class="header-section-number">Chapitre 3</span> Modèle de régression linéaire</h1>
+<p>Introduction au chapitre blah blah…</p>
+<div id="langage-de-la-modélisation" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Langage de la modélisation</h2>
+<p><span class="math display">\[
+\begin{aligned}
+y_{i} &amp;\sim \mathrm{Normal}(\mu_{i}, \sigma) \\
+\mu_{i}&amp;= \alpha + \beta x_{i} \\
+\alpha &amp;\sim \mathrm{Normal}(60, 10) \\
+\beta &amp;\sim \mathrm{Normal}(0, 10) \\
+\sigma &amp;\sim \mathrm{HalfCauchy}(0, 1)
+\end{aligned}
+\]</span></p>
+<p><strong>Objectif de la séance</strong> : comprendre ce type de modèle.</p>
+<p>Les constituants de nos modèles seront toujours les mêmes et nous suivrons les deux mêmes étapes :</p>
+<ul>
+<li>Construire le modèle (<em>likelihood</em> + <em>priors</em>).</li>
+<li>Mettre à jour grâce aux données (<em>updating</em>), afin de calculer la distribution postérieure.</li>
+</ul>
+</div>
+<div id="un-premier-modèle" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Un premier modèle</h2>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="3-linear-regression.html#cb53-1"></a><span class="kw">library</span>(rethinking)</span>
+<span id="cb53-2"><a href="3-linear-regression.html#cb53-2"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb53-3"><a href="3-linear-regression.html#cb53-3"></a></span>
+<span id="cb53-4"><a href="3-linear-regression.html#cb53-4"></a><span class="kw">data</span>(Howell1)</span>
+<span id="cb53-5"><a href="3-linear-regression.html#cb53-5"></a>d &lt;-<span class="st"> </span>Howell1</span>
+<span id="cb53-6"><a href="3-linear-regression.html#cb53-6"></a><span class="kw">str</span>(d)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    544 obs. of  4 variables:
+##  $ height: num  152 140 137 157 145 ...
+##  $ weight: num  47.8 36.5 31.9 53 41.3 ...
+##  $ age   : num  63 63 65 41 51 35 32 27 19 54 ...
+##  $ male  : int  1 0 0 1 0 1 0 1 0 1 ...</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="3-linear-regression.html#cb55-1"></a>d2 &lt;-<span class="st"> </span>d <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(age <span class="op">&gt;=</span><span class="st"> </span><span class="dv">18</span>)</span>
+<span id="cb55-2"><a href="3-linear-regression.html#cb55-2"></a><span class="kw">head</span>(d2)</span></code></pre></div>
+<pre><code>##    height   weight age male
+## 1 151.765 47.82561  63    1
+## 2 139.700 36.48581  63    0
+## 3 136.525 31.86484  65    0
+## 4 156.845 53.04191  41    1
+## 5 145.415 41.27687  51    0
+## 6 163.830 62.99259  35    1</code></pre>
+<p>…</p>
+<p><span class="math display">\[h_{i} \sim \mathrm{Normal}(\mu, \sigma)\]</span></p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="3-linear-regression.html#cb57-1"></a>d2 <span class="op">%&gt;%</span></span>
+<span id="cb57-2"><a href="3-linear-regression.html#cb57-2"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> height) ) <span class="op">+</span></span>
+<span id="cb57-3"><a href="3-linear-regression.html#cb57-3"></a><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">10</span>, <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span></span>
+<span id="cb57-4"><a href="3-linear-regression.html#cb57-4"></a><span class="st">    </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">18</span>)</span></code></pre></div>
+<p><img src="IMSB_files/figure-html/unnamed-chunk-17-1.svg" width="75%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="loi-normale" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Loi normale</h2>
+<p><span class="math display">\[
+p(x \ | \ \mu, \sigma) = \frac{1}{\sqrt{2 \pi \sigma^{2}}} \exp \bigg[-\frac{1}{2 \sigma^{2}} (\mu - x)^{2} \bigg]
+\]</span></p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="3-linear-regression.html#cb58-1"></a><span class="kw">data.frame</span>(<span class="dt">value =</span> <span class="kw">rnorm</span>(<span class="fl">1e4</span>, <span class="dv">10</span>, <span class="dv">1</span>) ) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># 10000 samples from Normal(10, 1)</span></span>
+<span id="cb58-2"><a href="3-linear-regression.html#cb58-2"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> value) ) <span class="op">+</span></span>
+<span id="cb58-3"><a href="3-linear-regression.html#cb58-3"></a><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">col =</span> <span class="st">&quot;white&quot;</span>) <span class="op">+</span></span>
+<span id="cb58-4"><a href="3-linear-regression.html#cb58-4"></a><span class="st">    </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">20</span>)</span></code></pre></div>
+<p><img src="IMSB_files/figure-html/unnamed-chunk-18-1.svg" width="75%" style="display: block; margin: auto;" /></p>
+<div id="doù-vient-la-loi-normale" class="section level3" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> D’où vient la loi normale ?</h3>
+<p>Certaines valeurs sont fortement probables (autour de la moyenne <span class="math inline">\(\mu\)</span>). Plus on s’éloigne, moins les valeurs sont probables (en suivant une décroissance exponentielle).</p>
+<div class="figure" style="text-align: center"><span id="fig:normal-explain1"></span>
+<img src="IMSB_files/figure-html/normal-explain1-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.1: blah blah…
+</p>
+</div>
+<p><span class="math display">\[
+y = \exp \big[-x^{2} \big]
+\]</span></p>
+<p>On étend notre fonction aux valeurs négatives.</p>
+<div class="figure" style="text-align: center"><span id="fig:normal-explain2"></span>
+<img src="IMSB_files/figure-html/normal-explain2-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.2: blah blah…
+</p>
+</div>
+<p><span class="math display">\[
+y = \exp \big[-x^{2} \big]
+\]</span></p>
+<p>Les points d’inflection nous donnent une bonne indication de là où la plupart des valeurs se trouvent (i.e., entre les points d’inflection). Les pics de la dérivée nous montrent les points d’inflection.</p>
+<div class="figure" style="text-align: center"><span id="fig:normal-explain3"></span>
+<img src="IMSB_files/figure-html/normal-explain3-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.3: blah blah…
+</p>
+</div>
+<p><span class="math display">\[
+y = \exp \bigg [- \frac{1}{2} x^{2} \bigg]
+\]</span></p>
+<p>Ensuite on standardise la distribution de manière à ce que les deux points d’inflection se trouvent à <span class="math inline">\(x = -1\)</span> et <span class="math inline">\(x = 1\)</span>.</p>
+<div class="figure" style="text-align: center"><span id="fig:normal-explain4"></span>
+<img src="IMSB_files/figure-html/normal-explain4-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.4: blah blah…
+</p>
+</div>
+<p><span class="math display">\[
+y = \exp \bigg [- \frac{1}{2 \color{steelblue}{\sigma^{2}}} x^{2} \bigg]
+\]</span></p>
+<p>On insère un paramètre <span class="math inline">\(\sigma^{2}\)</span> pour contrôler la distance entre les points d’inflection.</p>
+<div class="figure" style="text-align: center"><span id="fig:normal-explain5"></span>
+<img src="IMSB_files/figure-html/normal-explain5-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.5: blah blah…
+</p>
+</div>
+<p><span class="math display">\[
+y = \exp \bigg [- \frac{1}{2 \color{steelblue}{\sigma^{2}}} (x - \color{orangered}{\mu})^{2} \bigg]
+\]</span></p>
+<p>On insère ensuite un paramètre <span class="math inline">\(\mu\)</span> afin de pouvoir contrôler la position (la tendance centrale) de la distribution.</p>
+<div class="figure" style="text-align: center"><span id="fig:normal-explain6"></span>
+<img src="IMSB_files/figure-html/normal-explain6-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.6: blah blah…
+</p>
+</div>
+<p><span class="math display">\[
+y = \frac{1}{\sqrt{2 \pi \color{steelblue}{\sigma^{2}}}} \exp \bigg[-\frac{1}{2 \color{steelblue}{\sigma^{2}}} (\color{orangered}{\mu} - x)^{2} \bigg]
+\]</span></p>
+<p>Mais… cette distribution n’intègre pas à 1. On divise donc par une constante de normalisation (la partie gauche), afin d’obtenir une distribution de probabilité.</p>
+<div class="figure" style="text-align: center"><span id="fig:normal-explain7"></span>
+<img src="IMSB_files/figure-html/normal-explain7-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.7: blah blah…
+</p>
+</div>
+</div>
+</div>
+<div id="modèle-gaussien" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Modèle gaussien</h2>
+<p>Nous allons construire un modèle de régression, mais avant d’ajouter un prédicteur, essayons de modéliser la distribution des tailles.</p>
+<p>On cherche à savoir quel est le modèle (la distribution) qui décrit le mieux la répartition des tailles. On va donc explorer toutes les combinaisons possibles de <span class="math inline">\(\mu\)</span> et <span class="math inline">\(\sigma\)</span> et les classer par leurs probabilités respectives.</p>
+<p>Notre but, une fois encore, est de décrire <strong>la distribution postérieure</strong>, qui sera donc d’une certaine manière <strong>une distribution de distributions</strong>.</p>
+<p>On définit ensuite <span class="math inline">\(p(\mu,\sigma)\)</span>, la distribution a priori conjointe de tous les paramètres du modèle. On peut spécifier ces priors indépendamment pour chaque paramètre, sachant que <span class="math inline">\(p(\mu, \sigma) = p(\mu) p(\sigma)\)</span>.</p>
+<p><span class="math display">\[\color{steelblue}{\mu \sim \mathrm{Normal}(178,20)}\]</span></p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-19"></span>
+<img src="IMSB_files/figure-html/unnamed-chunk-19-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.8: blah blah…
+</p>
+</div>
+<p>On définit ensuite <span class="math inline">\(p(\mu,\sigma)\)</span>, la distribution a priori conjointe de tous les paramètres du modèle. On peut spécifier ces priors indépendamment pour chaque paramètre, sachant que <span class="math inline">\(p(\mu, \sigma) = p(\mu) p(\sigma)\)</span>.</p>
+<p><span class="math display">\[\color{steelblue}{\sigma \sim \mathrm{Uniform}(0,50)}\]</span></p>
+<div class="figure" style="text-align: center"><span id="fig:plot-prior1"></span>
+<img src="IMSB_files/figure-html/plot-prior1-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.9: blah blah…
+</p>
+</div>
+</div>
+<div id="visualiser-le-prior" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Visualiser le prior</h2>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="3-linear-regression.html#cb59-1"></a><span class="kw">library</span>(ks)</span>
+<span id="cb59-2"><a href="3-linear-regression.html#cb59-2"></a>sample_mu &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="fl">1e4</span>, <span class="dv">178</span>, <span class="dv">20</span>) <span class="co"># prior on mu</span></span>
+<span id="cb59-3"><a href="3-linear-regression.html#cb59-3"></a>sample_sigma &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="fl">1e4</span>, <span class="dv">0</span>, <span class="dv">50</span>) <span class="co"># prior on sigma</span></span>
+<span id="cb59-4"><a href="3-linear-regression.html#cb59-4"></a>prior &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">cbind</span>(sample_mu, sample_sigma) ) <span class="co"># multivariate prior</span></span>
+<span id="cb59-5"><a href="3-linear-regression.html#cb59-5"></a>H.scv &lt;-<span class="st"> </span><span class="kw">Hscv</span>(<span class="dt">x =</span> prior, <span class="dt">verbose =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb59-6"><a href="3-linear-regression.html#cb59-6"></a>fhat_prior &lt;-<span class="st"> </span><span class="kw">kde</span>(<span class="dt">x =</span> prior, <span class="dt">H =</span> H.scv, <span class="dt">compute.cont =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb59-7"><a href="3-linear-regression.html#cb59-7"></a><span class="kw">plot</span>(</span>
+<span id="cb59-8"><a href="3-linear-regression.html#cb59-8"></a>    fhat_prior, <span class="dt">display =</span> <span class="st">&quot;persp&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>,</span>
+<span id="cb59-9"><a href="3-linear-regression.html#cb59-9"></a>    <span class="dt">xlab =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">mu&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">sigma&quot;</span>, <span class="dt">zlab =</span> <span class="st">&quot;</span><span class="ch">\n\n</span><span class="st">p(mu, sigma)&quot;</span>,</span>
+<span id="cb59-10"><a href="3-linear-regression.html#cb59-10"></a>    <span class="dt">shade =</span> <span class="fl">0.8</span>, <span class="dt">phi =</span> <span class="dv">30</span>, <span class="dt">ticktype =</span> <span class="st">&quot;detailed&quot;</span>,</span>
+<span id="cb59-11"><a href="3-linear-regression.html#cb59-11"></a>    <span class="dt">cex.lab =</span> <span class="fl">1.2</span>, <span class="dt">family =</span> <span class="st">&quot;Helvetica&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="3-linear-regression.html#cb60-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;figures/prior.png&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:plot-prior-2d-knitr"></span>
+<img src="figures/prior.png" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.10: blah blah…
+</p>
+</div>
+</div>
+<div id="échantillonner-à-partir-du-prior" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Échantillonner à partir du prior</h2>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="3-linear-regression.html#cb61-1"></a>sample_mu &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1000</span>, <span class="dv">178</span>, <span class="dv">20</span>)</span>
+<span id="cb61-2"><a href="3-linear-regression.html#cb61-2"></a>sample_sigma &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1000</span>, <span class="dv">0</span>, <span class="dv">50</span>)</span>
+<span id="cb61-3"><a href="3-linear-regression.html#cb61-3"></a></span>
+<span id="cb61-4"><a href="3-linear-regression.html#cb61-4"></a><span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="kw">rnorm</span>(<span class="dv">1000</span>, sample_mu, sample_sigma) ) <span class="op">%&gt;%</span></span>
+<span id="cb61-5"><a href="3-linear-regression.html#cb61-5"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(x) ) <span class="op">+</span></span>
+<span id="cb61-6"><a href="3-linear-regression.html#cb61-6"></a><span class="st">    </span><span class="kw">geom_histogram</span>() <span class="op">+</span></span>
+<span id="cb61-7"><a href="3-linear-regression.html#cb61-7"></a><span class="st">    </span><span class="kw">xlab</span>(<span class="kw">expression</span>(y[i]) ) <span class="op">+</span></span>
+<span id="cb61-8"><a href="3-linear-regression.html#cb61-8"></a><span class="st">    </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">20</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:plot-prior-sigma"></span>
+<img src="IMSB_files/figure-html/plot-prior-sigma-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.11: blah blah…
+</p>
+</div>
+</div>
+<div id="fonction-de-vraisemblance" class="section level2" number="3.7">
+<h2><span class="header-section-number">3.7</span> Fonction de vraisemblance</h2>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="3-linear-regression.html#cb62-1"></a>mu_exemple &lt;-<span class="st"> </span><span class="fl">151.23</span></span>
+<span id="cb62-2"><a href="3-linear-regression.html#cb62-2"></a>sigma_exemple &lt;-<span class="st"> </span><span class="fl">23.42</span></span>
+<span id="cb62-3"><a href="3-linear-regression.html#cb62-3"></a></span>
+<span id="cb62-4"><a href="3-linear-regression.html#cb62-4"></a>d2<span class="op">$</span>height[<span class="dv">34</span>] <span class="co"># one observation</span></span></code></pre></div>
+<pre><code>## [1] 162.8648</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:likelihood-plot"></span>
+<img src="IMSB_files/figure-html/likelihood-plot-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.12: blah blah…
+</p>
+</div>
+<p>On veut calculer la probabilité d’observer une certaine valeur de taille, sachant certaines valeurs de <span class="math inline">\(\mu\)</span> et <span class="math inline">\(\sigma\)</span>, c’est à dire :</p>
+<p><span class="math display">\[
+p(x \ | \ \mu, \sigma) = \frac{1}{\sqrt{2 \pi \sigma^{2}}} \exp \bigg[-\frac{1}{2 \sigma^{2}} (\mu - x)^{2} \bigg]
+\]</span></p>
+<p>On peut calculer cette <em>densité de probabilité</em> à l’aide des fonctions <code>dnorm</code>, <code>dbeta</code>, <code>dt</code>, <code>dexp</code>, <code>dgamma</code>, etc.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="3-linear-regression.html#cb64-1"></a><span class="kw">dnorm</span>(d2<span class="op">$</span>height[<span class="dv">34</span>], mu_exemple, sigma_exemple)</span></code></pre></div>
+<pre><code>## [1] 0.01505675</code></pre>
+<p><span class="math display">\[
+p(x \ | \ \mu, \sigma) = \frac{1}{\sqrt{2 \pi \sigma^{2}}} \exp \bigg[-\frac{1}{2 \sigma^{2}} (\mu - x)^{2} \bigg]
+\]</span></p>
+<p>Ou à la main…</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="3-linear-regression.html#cb66-1"></a>normal_likelihood &lt;-<span class="st"> </span><span class="cf">function</span> (x, mu, sigma) {</span>
+<span id="cb66-2"><a href="3-linear-regression.html#cb66-2"></a>  </span>
+<span id="cb66-3"><a href="3-linear-regression.html#cb66-3"></a>  bell &lt;-<span class="st"> </span><span class="kw">exp</span>( (<span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>sigma<span class="op">^</span><span class="dv">2</span>) ) <span class="op">*</span><span class="st"> </span>(mu <span class="op">-</span><span class="st"> </span>x)<span class="op">^</span><span class="dv">2</span> )</span>
+<span id="cb66-4"><a href="3-linear-regression.html#cb66-4"></a>  norm &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>pi <span class="op">*</span><span class="st"> </span>sigma<span class="op">^</span><span class="dv">2</span>)</span>
+<span id="cb66-5"><a href="3-linear-regression.html#cb66-5"></a>  </span>
+<span id="cb66-6"><a href="3-linear-regression.html#cb66-6"></a>  <span class="kw">return</span>(bell <span class="op">/</span><span class="st"> </span>norm)</span>
+<span id="cb66-7"><a href="3-linear-regression.html#cb66-7"></a>  </span>
+<span id="cb66-8"><a href="3-linear-regression.html#cb66-8"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="3-linear-regression.html#cb67-1"></a><span class="kw">normal_likelihood</span>(d2<span class="op">$</span>height[<span class="dv">34</span>], mu_exemple, sigma_exemple)</span></code></pre></div>
+<pre><code>## [1] 0.01505675</code></pre>
+</div>
+<div id="distribution-postérieure" class="section level2" number="3.8">
+<h2><span class="header-section-number">3.8</span> Distribution postérieure</h2>
+<p><span class="math display">\[
+\color{purple}{p(\mu, \sigma \ | \ h)} = \frac{\prod_{i} \color{orangered}{\mathrm{Normal}(h_{i} \ | \ \mu, \sigma)}\color{steelblue}{\mathrm{Normal}(\mu \ | \ 178, 20)\mathrm{Uniform}(\sigma \ | \ 0, 50)}}
+{\color{green}{\int \int \prod_{i} \mathrm{Normal}(h_{i} \ | \ \mu, \sigma)\mathrm{Normal}(\mu \ | \ 178, 20)\mathrm{Uniform}(\sigma \ | \ 0, 50) \mathrm{d} \mu \mathrm{d} \sigma}}
+\]</span></p>
+<p><span class="math display">\[
+\color{purple}{p(\mu, \sigma \ | \ h)} \propto \prod_{i} \color{orangered}{\mathrm{Normal}(h_{i} \ | \ \mu, \sigma)}\color{steelblue}{\mathrm{Normal}(\mu \ | \ 178, 20)\mathrm{Uniform}(\sigma \ | \ 0, 50)}
+\]</span></p>
+<p>Il s’agit de la même formule vue lors des cours 1 et 2, mais cette fois en considérant qu’il existe plusieurs observations de taille (<span class="math inline">\(h_{i}\)</span>), et deux paramètres à estimer <span class="math inline">\(\mu\)</span> et <span class="math inline">\(\sigma\)</span>.</p>
+<p>Pour calculer la <strong>vraisemblance marginale</strong> (en vert), il faut donc intégrer sur deux paramètres : <span class="math inline">\(\mu\)</span> et <span class="math inline">\(\sigma\)</span>.</p>
+<p>On réalise ici encore que la probabilité a posteriori est proportionnelle au produit de la vraisemblance et du prior.</p>
+<div id="distribution-postérieure---grid-approximation" class="section level3" number="3.8.1">
+<h3><span class="header-section-number">3.8.1</span> Distribution postérieure - grid approximation</h3>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="3-linear-regression.html#cb69-1"></a><span class="co"># définit une grille de valeurs possibles pour mu et sigma</span></span>
+<span id="cb69-2"><a href="3-linear-regression.html#cb69-2"></a>mu.list &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">140</span>, <span class="dt">to =</span> <span class="dv">160</span>, <span class="dt">length.out =</span> <span class="dv">200</span>)</span>
+<span id="cb69-3"><a href="3-linear-regression.html#cb69-3"></a>sigma.list &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">4</span>, <span class="dt">to =</span> <span class="dv">9</span>, <span class="dt">length.out =</span> <span class="dv">200</span>)</span>
+<span id="cb69-4"><a href="3-linear-regression.html#cb69-4"></a></span>
+<span id="cb69-5"><a href="3-linear-regression.html#cb69-5"></a><span class="co"># étend la grille en deux dimensions (chaque combinaison de mu et sigma)</span></span>
+<span id="cb69-6"><a href="3-linear-regression.html#cb69-6"></a>post &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">mu =</span> mu.list, <span class="dt">sigma =</span> sigma.list)</span>
+<span id="cb69-7"><a href="3-linear-regression.html#cb69-7"></a></span>
+<span id="cb69-8"><a href="3-linear-regression.html#cb69-8"></a><span class="co"># calcul de la log-vraisemblance (pour chaque couple de mu et sigma)</span></span>
+<span id="cb69-9"><a href="3-linear-regression.html#cb69-9"></a>post<span class="op">$</span>LL &lt;-</span>
+<span id="cb69-10"><a href="3-linear-regression.html#cb69-10"></a><span class="st">  </span><span class="kw">sapply</span>(</span>
+<span id="cb69-11"><a href="3-linear-regression.html#cb69-11"></a>    <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(post),</span>
+<span id="cb69-12"><a href="3-linear-regression.html#cb69-12"></a>    <span class="cf">function</span>(i) <span class="kw">sum</span>(<span class="kw">dnorm</span>(</span>
+<span id="cb69-13"><a href="3-linear-regression.html#cb69-13"></a>      d2<span class="op">$</span>height,</span>
+<span id="cb69-14"><a href="3-linear-regression.html#cb69-14"></a>      <span class="dt">mean =</span> post<span class="op">$</span>mu[i],</span>
+<span id="cb69-15"><a href="3-linear-regression.html#cb69-15"></a>      <span class="dt">sd =</span> post<span class="op">$</span>sigma[i],</span>
+<span id="cb69-16"><a href="3-linear-regression.html#cb69-16"></a>      <span class="dt">log =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb69-17"><a href="3-linear-regression.html#cb69-17"></a>      )</span>
+<span id="cb69-18"><a href="3-linear-regression.html#cb69-18"></a>    )</span>
+<span id="cb69-19"><a href="3-linear-regression.html#cb69-19"></a></span>
+<span id="cb69-20"><a href="3-linear-regression.html#cb69-20"></a><span class="co"># calcul de la probabilité a posteriori (non normalisée)</span></span>
+<span id="cb69-21"><a href="3-linear-regression.html#cb69-21"></a>post<span class="op">$</span>prod &lt;-</span>
+<span id="cb69-22"><a href="3-linear-regression.html#cb69-22"></a><span class="st">  </span>post<span class="op">$</span>LL <span class="op">+</span></span>
+<span id="cb69-23"><a href="3-linear-regression.html#cb69-23"></a><span class="st">  </span><span class="kw">dnorm</span>(post<span class="op">$</span>mu, <span class="dv">178</span>, <span class="dv">20</span>, <span class="dt">log =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb69-24"><a href="3-linear-regression.html#cb69-24"></a><span class="st">  </span><span class="kw">dunif</span>(post<span class="op">$</span>sigma, <span class="dv">0</span>, <span class="dv">50</span>, <span class="dt">log =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb69-25"><a href="3-linear-regression.html#cb69-25"></a></span>
+<span id="cb69-26"><a href="3-linear-regression.html#cb69-26"></a><span class="co"># on &quot;annule&quot; le log en avec exp() et on standardise par la valeur maximale</span></span>
+<span id="cb69-27"><a href="3-linear-regression.html#cb69-27"></a>post<span class="op">$</span>prob &lt;-<span class="st"> </span><span class="kw">exp</span>(post<span class="op">$</span>prod <span class="op">-</span><span class="st"> </span><span class="kw">max</span>(post<span class="op">$</span>prod) )</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="3-linear-regression.html#cb70-1"></a>sample.rows &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(post), <span class="dt">size =</span> <span class="fl">1e4</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">prob =</span> post<span class="op">$</span>prob)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:plotting-samples"></span>
+<img src="IMSB_files/figure-html/plotting-samples-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.13: blah blah…
+</p>
+</div>
+</div>
+<div id="distribution-postérieure---distributions-marginales" class="section level3" number="3.8.2">
+<h3><span class="header-section-number">3.8.2</span> Distribution postérieure - distributions marginales</h3>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="3-linear-regression.html#cb71-1"></a>BEST<span class="op">::</span><span class="kw">plotPost</span>(</span>
+<span id="cb71-2"><a href="3-linear-regression.html#cb71-2"></a>  sample.mu, <span class="dt">breaks =</span> <span class="dv">40</span>, <span class="dt">xlab =</span> <span class="kw">expression</span>(mu)</span>
+<span id="cb71-3"><a href="3-linear-regression.html#cb71-3"></a>  )</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-24"></span>
+<img src="IMSB_files/figure-html/unnamed-chunk-24-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.14: blah blah…
+</p>
+</div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="3-linear-regression.html#cb72-1"></a>BEST<span class="op">::</span><span class="kw">plotPost</span>(</span>
+<span id="cb72-2"><a href="3-linear-regression.html#cb72-2"></a>  sample.sigma, <span class="dt">breaks =</span> <span class="dv">40</span>, <span class="dt">xlab =</span> <span class="kw">expression</span>(sigma)</span>
+<span id="cb72-3"><a href="3-linear-regression.html#cb72-3"></a>  )</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-25"></span>
+<img src="IMSB_files/figure-html/unnamed-chunk-25-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.15: blah blah…
+</p>
+</div>
+</div>
+</div>
+<div id="introduction-à-brms" class="section level2" number="3.9">
+<h2><span class="header-section-number">3.9</span> Introduction à brms</h2>
+<p>Under the hood : <code>Stan</code> est un langage de programmation probabiliste écrit en <code>C++</code>, et qui implémente plusieurs algorithmes de MCMC: HMC, NUTS, L-BFGS…</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="3-linear-regression.html#cb73-1"></a>data {</span>
+<span id="cb73-2"><a href="3-linear-regression.html#cb73-2"></a>  int<span class="op">&lt;</span>lower=<span class="dv">0</span><span class="op">&gt;</span><span class="st"> </span>J; <span class="op">/</span><span class="er">/</span><span class="st"> </span>number of schools </span>
+<span id="cb73-3"><a href="3-linear-regression.html#cb73-3"></a>  real y[J]; <span class="op">/</span><span class="er">/</span><span class="st"> </span>estimated treatment effects</span>
+<span id="cb73-4"><a href="3-linear-regression.html#cb73-4"></a>  real<span class="op">&lt;</span>lower=<span class="dv">0</span><span class="op">&gt;</span><span class="st"> </span>sigma[J]; <span class="op">/</span><span class="er">/</span><span class="st"> </span>s.e. of effect estimates </span>
+<span id="cb73-5"><a href="3-linear-regression.html#cb73-5"></a>}</span>
+<span id="cb73-6"><a href="3-linear-regression.html#cb73-6"></a></span>
+<span id="cb73-7"><a href="3-linear-regression.html#cb73-7"></a>parameters {</span>
+<span id="cb73-8"><a href="3-linear-regression.html#cb73-8"></a>  real mu; </span>
+<span id="cb73-9"><a href="3-linear-regression.html#cb73-9"></a>  real<span class="op">&lt;</span>lower=<span class="dv">0</span><span class="op">&gt;</span><span class="st"> </span>tau;</span>
+<span id="cb73-10"><a href="3-linear-regression.html#cb73-10"></a>  real eta[J];</span>
+<span id="cb73-11"><a href="3-linear-regression.html#cb73-11"></a>}</span>
+<span id="cb73-12"><a href="3-linear-regression.html#cb73-12"></a></span>
+<span id="cb73-13"><a href="3-linear-regression.html#cb73-13"></a>transformed parameters {</span>
+<span id="cb73-14"><a href="3-linear-regression.html#cb73-14"></a>  real theta[J];</span>
+<span id="cb73-15"><a href="3-linear-regression.html#cb73-15"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>J)</span>
+<span id="cb73-16"><a href="3-linear-regression.html#cb73-16"></a>    theta[j] =<span class="st"> </span>mu <span class="op">+</span><span class="st"> </span>tau <span class="op">*</span><span class="st"> </span>eta[j];</span>
+<span id="cb73-17"><a href="3-linear-regression.html#cb73-17"></a>}</span>
+<span id="cb73-18"><a href="3-linear-regression.html#cb73-18"></a></span>
+<span id="cb73-19"><a href="3-linear-regression.html#cb73-19"></a>model {</span>
+<span id="cb73-20"><a href="3-linear-regression.html#cb73-20"></a>  target <span class="op">+</span><span class="er">=</span><span class="st"> </span><span class="kw">normal_lpdf</span>(eta <span class="op">|</span><span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>);</span>
+<span id="cb73-21"><a href="3-linear-regression.html#cb73-21"></a>  target <span class="op">+</span><span class="er">=</span><span class="st"> </span><span class="kw">normal_lpdf</span>(y <span class="op">|</span><span class="st"> </span>theta, sigma);</span>
+<span id="cb73-22"><a href="3-linear-regression.html#cb73-22"></a>}</span></code></pre></div>
+<p>Le package <code>brms</code> (<a href="https://www.jstatsoft.org/article/view/v080i01">Bürkner, 2017</a>) permet de fitter des modèles multi-niveaux (ou pas) linéaires (ou pas) bayésiens en <code>Stan</code> mais en utilisant la syntaxe de <code>lme4</code>.</p>
+<p>Par exemple, le modèle suivant :</p>
+<p><span class="math display">\[
+\begin{aligned}
+y_{i} &amp;\sim \mathrm{Normal}(\mu_{i}, \sigma) \\
+\mu_{i} &amp;= \alpha + \alpha_{subject[i]} + \alpha_{item[i]} + \beta x_{i} \\
+\end{aligned}
+\]</span></p>
+<p>se spécifie avec <code>brms</code> (comme avec <code>lme4</code>) de la manière suivante :</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="3-linear-regression.html#cb74-1"></a><span class="kw">brm</span>(y <span class="op">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>subject) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>item), <span class="dt">data =</span> d, <span class="dt">family =</span> <span class="kw">gaussian</span>() )</span></code></pre></div>
+<div id="rappels-de-syntaxe" class="section level3" number="3.9.1">
+<h3><span class="header-section-number">3.9.1</span> Rappels de syntaxe</h3>
+<p>Le package <code>brms</code> utilise la même syntaxe que les fonctions de base R (comme <code>lm</code>) ou que le package <code>lme4</code>.</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="3-linear-regression.html#cb75-1"></a>Reaction <span class="op">~</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Days <span class="op">|</span><span class="st"> </span>Subject)</span></code></pre></div>
+<p>La partie gauche représente notre variable dépendante (ou <em>outcome</em>, i.e., ce qu’on essaye de prédire). Le package <code>brms</code> permet également de fitter des modèles multivariés (plusieurs outcomes) en les combinant avec <code>mvbind()</code>:</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="3-linear-regression.html#cb76-1"></a><span class="kw">mvbind</span>(Reaction, Memory) <span class="op">~</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Days <span class="op">|</span><span class="st"> </span>Subject)</span></code></pre></div>
+<p>La partie droite permet de définir les prédicteurs. L’intercept est généralement implicite, de sorte que les deux écritures ci-dessous sont équivalentes.</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="3-linear-regression.html#cb77-1"></a><span class="kw">mvbind</span>(Reaction, Memory) <span class="op">~</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Days <span class="op">|</span><span class="st"> </span>Subject)</span>
+<span id="cb77-2"><a href="3-linear-regression.html#cb77-2"></a><span class="kw">mvbind</span>(Reaction, Memory) <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Days <span class="op">|</span><span class="st"> </span>Subject)</span></code></pre></div>
+<p>Si l’on veut fitter un modèle sans intercept (why not), il faut le spécifier explicitement comme ci-dessous.</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="3-linear-regression.html#cb78-1"></a><span class="kw">mvbind</span>(Reaction, Memory) <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Days <span class="op">|</span><span class="st"> </span>Subject)</span></code></pre></div>
+<p>Par défaut <code>brms</code> postule une vraisemblance gaussienne. Ce postulat peut être changé facilement en spécifiant la vraisemblance souhaitée via l’argument <code>family</code>.</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="3-linear-regression.html#cb79-1"></a><span class="kw">brm</span>(Reaction <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Days <span class="op">|</span><span class="st"> </span>Subject), <span class="dt">family =</span> <span class="kw">lognormal</span>() )</span></code></pre></div>
+<p>Lisez la documentation (c’est très enthousiasmant à lire) accessible via <code>?brm</code>.</p>
+</div>
+<div id="quelques-fonctions-utiles" class="section level3" number="3.9.2">
+<h3><span class="header-section-number">3.9.2</span> Quelques fonctions utiles</h3>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="3-linear-regression.html#cb80-1"></a><span class="co"># Generate the Stan code:</span></span>
+<span id="cb80-2"><a href="3-linear-regression.html#cb80-2"></a><span class="kw">make_stancode</span>(formula, ...)</span>
+<span id="cb80-3"><a href="3-linear-regression.html#cb80-3"></a><span class="kw">stancode</span>(fit)</span>
+<span id="cb80-4"><a href="3-linear-regression.html#cb80-4"></a></span>
+<span id="cb80-5"><a href="3-linear-regression.html#cb80-5"></a><span class="co"># Generate the data passed to Stan:</span></span>
+<span id="cb80-6"><a href="3-linear-regression.html#cb80-6"></a><span class="kw">make_standata</span>(formula, ...)</span>
+<span id="cb80-7"><a href="3-linear-regression.html#cb80-7"></a><span class="kw">standata</span>(fit)</span>
+<span id="cb80-8"><a href="3-linear-regression.html#cb80-8"></a></span>
+<span id="cb80-9"><a href="3-linear-regression.html#cb80-9"></a><span class="co"># Handle priors:</span></span>
+<span id="cb80-10"><a href="3-linear-regression.html#cb80-10"></a><span class="kw">get_prior</span>(formula, ...)</span>
+<span id="cb80-11"><a href="3-linear-regression.html#cb80-11"></a><span class="kw">set_prior</span>(prior, ...)</span>
+<span id="cb80-12"><a href="3-linear-regression.html#cb80-12"></a></span>
+<span id="cb80-13"><a href="3-linear-regression.html#cb80-13"></a><span class="co"># Generate expected values and predictions:</span></span>
+<span id="cb80-14"><a href="3-linear-regression.html#cb80-14"></a><span class="kw">fitted</span>(fit, ...)</span>
+<span id="cb80-15"><a href="3-linear-regression.html#cb80-15"></a><span class="kw">predict</span>(fit, ...)</span>
+<span id="cb80-16"><a href="3-linear-regression.html#cb80-16"></a><span class="kw">marginal_effects</span>(fit, ...)</span>
+<span id="cb80-17"><a href="3-linear-regression.html#cb80-17"></a></span>
+<span id="cb80-18"><a href="3-linear-regression.html#cb80-18"></a><span class="co"># Model comparison:</span></span>
+<span id="cb80-19"><a href="3-linear-regression.html#cb80-19"></a><span class="kw">loo</span>(fit1, fit2, ...)</span>
+<span id="cb80-20"><a href="3-linear-regression.html#cb80-20"></a><span class="kw">bayes_factor</span>(fit1, fit2, ...)</span>
+<span id="cb80-21"><a href="3-linear-regression.html#cb80-21"></a><span class="kw">model_weights</span>(fit1, fit2, ...)</span>
+<span id="cb80-22"><a href="3-linear-regression.html#cb80-22"></a></span>
+<span id="cb80-23"><a href="3-linear-regression.html#cb80-23"></a><span class="co"># Hypothesis testing:</span></span>
+<span id="cb80-24"><a href="3-linear-regression.html#cb80-24"></a><span class="kw">hypothesis</span>(fit, hypothesis, ...)</span></code></pre></div>
+</div>
+<div id="un-premier-exemple" class="section level3" number="3.9.3">
+<h3><span class="header-section-number">3.9.3</span> Un premier exemple</h3>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="3-linear-regression.html#cb81-1"></a><span class="kw">library</span>(brms)</span>
+<span id="cb81-2"><a href="3-linear-regression.html#cb81-2"></a>mod1 &lt;-<span class="st"> </span><span class="kw">brm</span>(height <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> d2)</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="3-linear-regression.html#cb82-1"></a><span class="kw">rbind</span>(<span class="kw">summary</span>(mod1)<span class="op">$</span>fixed, <span class="kw">summary</span>(mod1)<span class="op">$</span>spec_pars )</span></code></pre></div>
+<pre><code>##             Estimate Est.Error   l-95% CI   u-95% CI      Rhat Bulk_ESS
+## Intercept 154.596269 0.4055957 153.789295 155.397191 1.0011827     3502
+## sigma       7.755379 0.2909502   7.206345   8.338561 0.9999125     3240
+##           Tail_ESS
+## Intercept     2553
+## sigma         2825</code></pre>
+<p>Ces données représentent les distributions marginales de chaque paramètre. En d’autres termes, la <em>probabilité</em> de chaque valeur de <span class="math inline">\(\mu\)</span>, après avoir <em>moyenné</em> sur toutes les valeurs possible de <span class="math inline">\(\sigma\)</span>, est décrite par une distribution gaussienne avec une moyenne de <span class="math inline">\(154.61\)</span> et un écart type de <span class="math inline">\(0.41\)</span>. L’intervalle de crédibilité (<span class="math inline">\(\neq\)</span> intervalle de confiance) nous indique les 95% valeurs de <span class="math inline">\(\mu\)</span> ou <span class="math inline">\(\sigma\)</span> les plus probables (sachant les données et les priors).</p>
+</div>
+<div id="en-utilisant-notre-prior" class="section level3" number="3.9.4">
+<h3><span class="header-section-number">3.9.4</span> En utilisant notre prior</h3>
+<p>Par défaut <code>brms</code> utilise un prior très peu informatif centré sur la valeur moyenne de la variable mesurée. On peut donc affiner l’estimation réalisée par ce modèle en utilisant nos connaissances sur la distribution habituelle des tailles chez les humains.</p>
+<p>La fonction <code>get_prior()</code> permet de visualiser une liste des priors par défaut ainsi que de tous les prios qu’on peut spécifier, sachant une certaine formule (i.e., une manière d’écrire notre modèle) et un jeu de données.</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="3-linear-regression.html#cb84-1"></a><span class="kw">get_prior</span>(height <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> d2)</span></code></pre></div>
+<pre><code>##                   prior     class coef group resp dpar nlpar bound
+## 1 student_t(3, 154, 10) Intercept                                 
+## 2   student_t(3, 0, 10)     sigma</code></pre>
+<p>…</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="3-linear-regression.html#cb86-1"></a>priors &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
+<span id="cb86-2"><a href="3-linear-regression.html#cb86-2"></a>  <span class="kw">prior</span>(<span class="kw">normal</span>(<span class="dv">178</span>, <span class="dv">20</span>), <span class="dt">class =</span> Intercept),</span>
+<span id="cb86-3"><a href="3-linear-regression.html#cb86-3"></a>  <span class="kw">prior</span>(<span class="kw">exponential</span>(<span class="fl">0.01</span>), <span class="dt">class =</span> sigma)</span>
+<span id="cb86-4"><a href="3-linear-regression.html#cb86-4"></a>  )</span>
+<span id="cb86-5"><a href="3-linear-regression.html#cb86-5"></a></span>
+<span id="cb86-6"><a href="3-linear-regression.html#cb86-6"></a>mod2 &lt;-<span class="st"> </span><span class="kw">brm</span>(</span>
+<span id="cb86-7"><a href="3-linear-regression.html#cb86-7"></a>  height <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</span>
+<span id="cb86-8"><a href="3-linear-regression.html#cb86-8"></a>  <span class="dt">prior =</span> priors,</span>
+<span id="cb86-9"><a href="3-linear-regression.html#cb86-9"></a>  <span class="dt">family =</span> <span class="kw">gaussian</span>(),</span>
+<span id="cb86-10"><a href="3-linear-regression.html#cb86-10"></a>  <span class="dt">data =</span> d2</span>
+<span id="cb86-11"><a href="3-linear-regression.html#cb86-11"></a>  )</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:prior-mod2"></span>
+<img src="IMSB_files/figure-html/prior-mod2-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.16: blah blah…
+</p>
+</div>
+<p>…</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="3-linear-regression.html#cb87-1"></a><span class="kw">summary</span>(mod2)</span></code></pre></div>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: height ~ 1 
+##    Data: d2 (Number of observations: 352) 
+## Samples: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup samples = 4000
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept   154.60      0.42   153.79   155.45 1.00     4273     2942
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     7.77      0.29     7.21     8.37 1.00     3592     2572
+## 
+## Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+</div>
+<div id="en-utilisant-un-prior-plus-informatif" class="section level3" number="3.9.5">
+<h3><span class="header-section-number">3.9.5</span> En utilisant un prior plus informatif</h3>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="3-linear-regression.html#cb89-1"></a>priors &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
+<span id="cb89-2"><a href="3-linear-regression.html#cb89-2"></a>  <span class="kw">prior</span>(<span class="kw">normal</span>(<span class="dv">178</span>, <span class="fl">0.1</span>), <span class="dt">class =</span> Intercept),</span>
+<span id="cb89-3"><a href="3-linear-regression.html#cb89-3"></a>  <span class="kw">prior</span>(<span class="kw">exponential</span>(<span class="fl">0.01</span>), <span class="dt">class =</span> sigma)</span>
+<span id="cb89-4"><a href="3-linear-regression.html#cb89-4"></a>  )</span>
+<span id="cb89-5"><a href="3-linear-regression.html#cb89-5"></a></span>
+<span id="cb89-6"><a href="3-linear-regression.html#cb89-6"></a>mod3 &lt;-<span class="st"> </span><span class="kw">brm</span>(</span>
+<span id="cb89-7"><a href="3-linear-regression.html#cb89-7"></a>  height <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</span>
+<span id="cb89-8"><a href="3-linear-regression.html#cb89-8"></a>  <span class="dt">prior =</span> priors,</span>
+<span id="cb89-9"><a href="3-linear-regression.html#cb89-9"></a>  <span class="dt">family =</span> <span class="kw">gaussian</span>(),</span>
+<span id="cb89-10"><a href="3-linear-regression.html#cb89-10"></a>  <span class="dt">data =</span> d2</span>
+<span id="cb89-11"><a href="3-linear-regression.html#cb89-11"></a>  )</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:prior-mod3"></span>
+<img src="IMSB_files/figure-html/prior-mod3-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.17: blah blah…
+</p>
+</div>
+<p>…</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="3-linear-regression.html#cb90-1"></a><span class="kw">summary</span>(mod3)</span></code></pre></div>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: height ~ 1 
+##    Data: d2 (Number of observations: 352) 
+## Samples: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup samples = 4000
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept   177.86      0.10   177.67   178.07 1.00     2995     2704
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma    24.59      0.98    22.73    26.60 1.00     3310     2464
+## 
+## Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<p>On remarque que la valeur estimée pour <span class="math inline">\(\mu\)</span> n’a presque pas “bougée” du prior…mais on remarque également que la valeur estimée pour <span class="math inline">\(\sigma\)</span> a largement augmentée. Nous avons dit au modèle que nous étions assez certain de notre valeur de <span class="math inline">\(\mu\)</span>, le modèle s’est ensuite “adapté”, ce qui explique la valeur de <span class="math inline">\(\sigma\)</span>…</p>
+</div>
+<div id="précision-du-prior-heuristique" class="section level3" number="3.9.6">
+<h3><span class="header-section-number">3.9.6</span> Précision du prior (heuristique)</h3>
+<p>Le prior peut généralement être considéré comme un posterior obtenu sur des données antérieures.</p>
+<p>On sait que le <span class="math inline">\(\sigma\)</span> d’un posterior gaussien nous est donné par la formule:</p>
+<p><span class="math display">\[\sigma_{post} = 1 / \sqrt{n}\]</span></p>
+<p>Qui implique une <em>quantité de données</em> <span class="math inline">\(n = 1 / \sigma^2_{post}\)</span>. Notre prior avait un <span class="math inline">\(\sigma = 0.1\)</span>, ce qui donne <span class="math inline">\(n = 1 / 0.1^2 = 100\)</span>.</p>
+<p>Donc, on peut considérer que le prior <span class="math inline">\(\mu \sim \mathrm{Normal}(178, 0.1)\)</span> est équivalent au cas dans lequel nous aurions observé <span class="math inline">\(100\)</span> tailles de moyenne <span class="math inline">\(178\)</span>.</p>
+</div>
+<div id="récupérer-et-visualiser-les-échantillons-de-la-distribution-postérieure" class="section level3" number="3.9.7">
+<h3><span class="header-section-number">3.9.7</span> Récupérer et visualiser les échantillons de la distribution postérieure</h3>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="3-linear-regression.html#cb92-1"></a>post &lt;-<span class="st"> </span><span class="kw">posterior_samples</span>(mod2) <span class="op">%&gt;%</span></span>
+<span id="cb92-2"><a href="3-linear-regression.html#cb92-2"></a><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">density =</span> <span class="kw">get_density</span>(b_Intercept, sigma, <span class="dt">n =</span> <span class="fl">1e2</span>) )</span>
+<span id="cb92-3"><a href="3-linear-regression.html#cb92-3"></a></span>
+<span id="cb92-4"><a href="3-linear-regression.html#cb92-4"></a><span class="kw">ggplot</span>(post, <span class="kw">aes</span>(<span class="dt">x =</span> b_Intercept, <span class="dt">y =</span> sigma, <span class="dt">color =</span> density) ) <span class="op">+</span></span>
+<span id="cb92-5"><a href="3-linear-regression.html#cb92-5"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb92-6"><a href="3-linear-regression.html#cb92-6"></a><span class="st">    </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">20</span>) <span class="op">+</span></span>
+<span id="cb92-7"><a href="3-linear-regression.html#cb92-7"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(mu), <span class="dt">y =</span> <span class="kw">expression</span>(sigma) ) <span class="op">+</span></span>
+<span id="cb92-8"><a href="3-linear-regression.html#cb92-8"></a><span class="st">    </span>viridis<span class="op">::</span><span class="kw">scale_color_viridis</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:samples-plot"></span>
+<img src="IMSB_files/figure-html/samples-plot-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.18: blah blah…
+</p>
+</div>
+</div>
+<div id="récupérer-les-échantillons-de-la-distribution-postérieure" class="section level3" number="3.9.8">
+<h3><span class="header-section-number">3.9.8</span> Récupérer les échantillons de la distribution postérieure</h3>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="3-linear-regression.html#cb93-1"></a><span class="co"># gets the first 6 samples</span></span>
+<span id="cb93-2"><a href="3-linear-regression.html#cb93-2"></a><span class="kw">head</span>(post)</span></code></pre></div>
+<pre><code>##   b_Intercept    sigma      lp__    density
+## 1    154.1675 7.440771 -1227.819 0.38280356
+## 2    154.6056 8.647619 -1230.642 0.04477185
+## 3    154.4860 7.574599 -1226.855 1.05581289
+## 4    154.7881 7.735000 -1226.737 1.19183990
+## 5    154.9079 7.723339 -1226.910 0.91770555
+## 6    155.5468 7.778743 -1229.218 0.12697447</code></pre>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="3-linear-regression.html#cb95-1"></a><span class="co"># gets the median and the 95% credible interval</span></span>
+<span id="cb95-2"><a href="3-linear-regression.html#cb95-2"></a><span class="kw">t</span>(<span class="kw">sapply</span>(post[, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], quantile, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>) ) )</span></code></pre></div>
+<pre><code>##                   2.5%        50%      97.5%
+## b_Intercept 153.792974 154.587085 155.445788
+## sigma         7.209974   7.761675   8.372386</code></pre>
+</div>
+<div id="visualiser-la-distribution-postérieure" class="section level3" number="3.9.9">
+<h3><span class="header-section-number">3.9.9</span> Visualiser la distribution postérieure</h3>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="3-linear-regression.html#cb97-1"></a>H.scv &lt;-<span class="st"> </span><span class="kw">Hscv</span>(post[, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>])</span>
+<span id="cb97-2"><a href="3-linear-regression.html#cb97-2"></a>fhat_post &lt;-<span class="st"> </span><span class="kw">kde</span>(<span class="dt">x =</span> post[, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="dt">H =</span> H.scv, <span class="dt">compute.cont =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb97-3"><a href="3-linear-regression.html#cb97-3"></a></span>
+<span id="cb97-4"><a href="3-linear-regression.html#cb97-4"></a><span class="kw">plot</span>(fhat_post, <span class="dt">display =</span> <span class="st">&quot;persp&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;purple&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>,</span>
+<span id="cb97-5"><a href="3-linear-regression.html#cb97-5"></a>  <span class="dt">xlab =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">mu&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">sigma&quot;</span>, <span class="dt">zlab =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">p(mu, sigma)&quot;</span>,</span>
+<span id="cb97-6"><a href="3-linear-regression.html#cb97-6"></a>  <span class="dt">shade =</span> <span class="fl">0.8</span>, <span class="dt">phi =</span> <span class="dv">30</span>, <span class="dt">ticktype =</span> <span class="st">&quot;detailed&quot;</span>,</span>
+<span id="cb97-7"><a href="3-linear-regression.html#cb97-7"></a>  <span class="dt">cex.lab =</span> <span class="fl">1.2</span>, <span class="dt">family =</span> <span class="st">&quot;Helvetica&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="3-linear-regression.html#cb98-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;figures/posterior.png&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-35"></span>
+<img src="figures/posterior.png" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.19: blah blah…
+</p>
+</div>
+</div>
+<div id="visualiser-la-distribution-postérieure-1" class="section level3" number="3.9.10">
+<h3><span class="header-section-number">3.9.10</span> Visualiser la distribution postérieure</h3>
+<div class="figure" style="text-align: center"><span id="fig:plot-samples"></span>
+<img src="IMSB_files/figure-html/plot-samples-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.20: blah blah…
+</p>
+</div>
+</div>
+<div id="ajouter-un-prédicteur" class="section level3" number="3.9.11">
+<h3><span class="header-section-number">3.9.11</span> Ajouter un prédicteur</h3>
+<p>Comment est-ce que la taille co-varie avec le poids ?</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="3-linear-regression.html#cb99-1"></a>d2 <span class="op">%&gt;%</span></span>
+<span id="cb99-2"><a href="3-linear-regression.html#cb99-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> weight, <span class="dt">y =</span> height) ) <span class="op">+</span></span>
+<span id="cb99-3"><a href="3-linear-regression.html#cb99-3"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">colour =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">alpha =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
+<span id="cb99-4"><a href="3-linear-regression.html#cb99-4"></a><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">20</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:height-weight-plot"></span>
+<img src="IMSB_files/figure-html/height-weight-plot-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.21: blah blah…
+</p>
+</div>
+</div>
+</div>
+<div id="régression-linéaire-à-un-prédicteur-continu" class="section level2" number="3.10">
+<h2><span class="header-section-number">3.10</span> Régression linéaire à un prédicteur continu</h2>
+<p><span class="math display">\[
+\begin{aligned}
+h_{i} &amp;\sim \mathrm{Normal}(\mu_{i}, \sigma) \\
+\mu_{i} &amp;= \alpha + \beta x_{i} \\
+\end{aligned}
+\]</span></p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="3-linear-regression.html#cb100-1"></a>linear_model &lt;-<span class="st"> </span><span class="kw">lm</span>(height <span class="op">~</span><span class="st"> </span>weight, <span class="dt">data =</span> d2)</span>
+<span id="cb100-2"><a href="3-linear-regression.html#cb100-2"></a><span class="kw">precis</span>(linear_model, <span class="dt">prob =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<pre><code>##               Mean StdDev   2.5%  97.5%
+## (Intercept) 113.88   1.91 110.13 117.63
+## weight        0.91   0.04   0.82   0.99</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:lm-regression-plot"></span>
+<img src="IMSB_files/figure-html/lm-regression-plot-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.22: blah blah…
+</p>
+</div>
+<div id="différentes-notations-équivalentes" class="section level3" number="3.10.1">
+<h3><span class="header-section-number">3.10.1</span> Différentes notations équivalentes</h3>
+<p>On considère un modèle de régression linéaire avec un seul prédicteur, une pente, un intercept, et des résidus distribués selon une loi normale. La notation :</p>
+<p><span class="math display">\[
+h_{i} = \alpha + \beta x_{i} + \epsilon_{i} \quad \text{avec} \quad \epsilon_{i} \sim \mathrm{Normal}(0, \sigma)
+\]</span></p>
+<p>est équivalente à :</p>
+<p><span class="math display">\[
+h_{i} - (\alpha + \beta x_{i}) \sim \mathrm{Normal}(0, \sigma)
+\]</span></p>
+<p>et si on réduit encore un peu :</p>
+<p><span class="math display">\[
+h_{i} \sim \mathrm{Normal}(\alpha + \beta x_{i}, \sigma).
+\]</span></p>
+<p>Les notations ci-dessus sont équivalentes, mais la dernière est plus flexible, et nous permettra par la suite de l’étendre plus simplement aux modèles multi-niveaux.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\color{orangered}{h_{i}} \ &amp;\color{orangered}{\sim \mathrm{Normal}(\mu_{i},\sigma)} \\
+\mu_{i} &amp;= \alpha + \beta x_{i} \\
+\color{steelblue}{\alpha} \ &amp;\color{steelblue}{\sim \mathrm{Normal}(178, 20)} \\
+\color{steelblue}{\beta} \ &amp;\color{steelblue}{\sim \mathrm{Normal}(0, 10)} \\
+\color{steelblue}{\sigma} \ &amp;\color{steelblue}{\sim \mathrm{Exponential}(0.01)} \\
+\end{aligned}
+\]</span></p>
+<p>Dans ce modèle <span class="math inline">\(\mu\)</span> n’est plus un paramètre à estimer (car <span class="math inline">\(\mu\)</span> est <em>déterminé</em> par <span class="math inline">\(\alpha\)</span> et <span class="math inline">\(\beta\)</span>). À la place, nous allons estimer <span class="math inline">\(\alpha\)</span> et <span class="math inline">\(\beta\)</span>.</p>
+<p>Rappels: <span class="math inline">\(\alpha\)</span> est l’<em>intercept</em>, c’est à dire la taille attendue, lorsque le poids est égal à <span class="math inline">\(0\)</span>. <span class="math inline">\(\beta\)</span> est la pente, c’est à dire le changement de taille attendu quand le poids augmente d’une unité.</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="3-linear-regression.html#cb102-1"></a>priors &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
+<span id="cb102-2"><a href="3-linear-regression.html#cb102-2"></a>  <span class="kw">prior</span>(<span class="kw">normal</span>(<span class="dv">178</span>, <span class="dv">20</span>), <span class="dt">class =</span> Intercept),</span>
+<span id="cb102-3"><a href="3-linear-regression.html#cb102-3"></a>  <span class="kw">prior</span>(<span class="kw">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="dt">class =</span> b),</span>
+<span id="cb102-4"><a href="3-linear-regression.html#cb102-4"></a>  <span class="kw">prior</span>(<span class="kw">exponential</span>(<span class="fl">0.01</span>), <span class="dt">class =</span> sigma)</span>
+<span id="cb102-5"><a href="3-linear-regression.html#cb102-5"></a>  )</span>
+<span id="cb102-6"><a href="3-linear-regression.html#cb102-6"></a></span>
+<span id="cb102-7"><a href="3-linear-regression.html#cb102-7"></a>mod4 &lt;-<span class="st"> </span><span class="kw">brm</span>(</span>
+<span id="cb102-8"><a href="3-linear-regression.html#cb102-8"></a>  height <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>weight,</span>
+<span id="cb102-9"><a href="3-linear-regression.html#cb102-9"></a>  <span class="dt">prior =</span> priors,</span>
+<span id="cb102-10"><a href="3-linear-regression.html#cb102-10"></a>  <span class="dt">family =</span> <span class="kw">gaussian</span>(),</span>
+<span id="cb102-11"><a href="3-linear-regression.html#cb102-11"></a>  <span class="dt">data =</span> d2</span>
+<span id="cb102-12"><a href="3-linear-regression.html#cb102-12"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="3-linear-regression.html#cb103-1"></a><span class="kw">summary</span>(mod4)</span></code></pre></div>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: height ~ 1 + weight 
+##    Data: d2 (Number of observations: 352) 
+## Samples: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup samples = 4000
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept   113.85      1.94   109.99   117.57 1.00     4238     2831
+## weight        0.91      0.04     0.82     0.99 1.00     4195     2830
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     5.10      0.20     4.73     5.50 1.00     4320     2915
+## 
+## Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<ul>
+<li><span class="math inline">\(\beta = 0.90, 95\% \ \text{CrI} \ [0.82, 0.99]\)</span> nous indique qu’une augmentation de 1kg entraîne une augmentation de 0.90cm.</li>
+<li><span class="math inline">\(\alpha = 113.91, 95\% \ \text{CrI} \ [110.12, 117.59]\)</span> représente la taille moyenne quand le poids est égal à 0kg…</li>
+</ul>
+<p>…</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="3-linear-regression.html#cb105-1"></a>d2<span class="op">$</span>weight.c &lt;-<span class="st"> </span>d2<span class="op">$</span>weight <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(d2<span class="op">$</span>weight)</span>
+<span id="cb105-2"><a href="3-linear-regression.html#cb105-2"></a></span>
+<span id="cb105-3"><a href="3-linear-regression.html#cb105-3"></a>mod5 &lt;-<span class="st"> </span><span class="kw">brm</span>(</span>
+<span id="cb105-4"><a href="3-linear-regression.html#cb105-4"></a>  height <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>weight.c,</span>
+<span id="cb105-5"><a href="3-linear-regression.html#cb105-5"></a>  <span class="dt">prior =</span> priors,</span>
+<span id="cb105-6"><a href="3-linear-regression.html#cb105-6"></a>  <span class="dt">family =</span> <span class="kw">gaussian</span>(),</span>
+<span id="cb105-7"><a href="3-linear-regression.html#cb105-7"></a>  <span class="dt">data =</span> d2</span>
+<span id="cb105-8"><a href="3-linear-regression.html#cb105-8"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="3-linear-regression.html#cb106-1"></a><span class="kw">fixef</span>(mod5) <span class="co"># retrieves the fixed effects estimates</span></span></code></pre></div>
+<pre><code>##              Estimate  Est.Error        Q2.5      Q97.5
+## Intercept 154.6041274 0.26881156 154.0940923 155.136346
+## weight.c    0.9054817 0.04169769   0.8257568   0.986823</code></pre>
+<ul>
+<li>Après avoir centré la réponse, l’intercept représente la valeur attendue de <em>taille</em> lorsque le poids est à sa valeur moyenne.</li>
+</ul>
+</div>
+<div id="représenter-les-prédictions-du-modèle" class="section level3" number="3.10.2">
+<h3><span class="header-section-number">3.10.2</span> Représenter les prédictions du modèle</h3>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="3-linear-regression.html#cb108-1"></a>d2 <span class="op">%&gt;%</span></span>
+<span id="cb108-2"><a href="3-linear-regression.html#cb108-2"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> weight, <span class="dt">y =</span> height) ) <span class="op">+</span></span>
+<span id="cb108-3"><a href="3-linear-regression.html#cb108-3"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">colour =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">alpha =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
+<span id="cb108-4"><a href="3-linear-regression.html#cb108-4"></a><span class="st">    </span><span class="kw">geom_abline</span>(<span class="dt">intercept =</span> <span class="kw">fixef</span>(mod4)[<span class="dv">1</span>], <span class="dt">slope =</span> <span class="kw">fixef</span>(mod4)[<span class="dv">2</span>], <span class="dt">lwd =</span> <span class="dv">1</span>) <span class="op">+</span></span>
+<span id="cb108-5"><a href="3-linear-regression.html#cb108-5"></a><span class="st">    </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">20</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:mod4-predictions"></span>
+<img src="IMSB_files/figure-html/mod4-predictions-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.23: blah blah…
+</p>
+</div>
+</div>
+<div id="représenter-lincertitude-sur-mu-via-fitted" class="section level3" number="3.10.3">
+<h3><span class="header-section-number">3.10.3</span> Représenter l’incertitude sur <span class="math inline">\(\mu\)</span> via fitted()</h3>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="3-linear-regression.html#cb109-1"></a><span class="co"># on crée un vecteur de valeurs possibles pour &quot;weight&quot;</span></span>
+<span id="cb109-2"><a href="3-linear-regression.html#cb109-2"></a>weight.seq &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">weight =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">25</span>, <span class="dt">to =</span> <span class="dv">70</span>, <span class="dt">by =</span> <span class="dv">1</span>) )</span>
+<span id="cb109-3"><a href="3-linear-regression.html#cb109-3"></a></span>
+<span id="cb109-4"><a href="3-linear-regression.html#cb109-4"></a><span class="co"># on récupère les prédictions du modèle pour ces valeurs de poids</span></span>
+<span id="cb109-5"><a href="3-linear-regression.html#cb109-5"></a>mu &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">fitted</span>(mod4, <span class="dt">newdata =</span> weight.seq) ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_cols</span>(weight.seq)</span>
+<span id="cb109-6"><a href="3-linear-regression.html#cb109-6"></a></span>
+<span id="cb109-7"><a href="3-linear-regression.html#cb109-7"></a><span class="co"># on affiche les 10 premières lignes de mu</span></span>
+<span id="cb109-8"><a href="3-linear-regression.html#cb109-8"></a><span class="kw">head</span>(mu, <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##    Estimate Est.Error     Q2.5    Q97.5 weight
+## 1  136.4940 0.8868959 134.7545 138.2112     25
+## 2  137.3996 0.8459024 135.7326 139.0369     26
+## 3  138.3053 0.8051397 136.7157 139.8647     27
+## 4  139.2109 0.7646447 137.7035 140.6884     28
+## 5  140.1166 0.7244624 138.6860 141.5137     29
+## 6  141.0222 0.6846476 139.6686 142.3364     30
+## 7  141.9279 0.6452686 140.6482 143.1610     31
+## 8  142.8335 0.6064102 141.6302 143.9900     32
+## 9  143.7392 0.5681793 142.6142 144.8173     33
+## 10 144.6448 0.5307113 143.5932 145.6431     34</code></pre>
+<p>…</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="3-linear-regression.html#cb111-1"></a>d2 <span class="op">%&gt;%</span></span>
+<span id="cb111-2"><a href="3-linear-regression.html#cb111-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> weight, <span class="dt">y =</span> height) ) <span class="op">+</span></span>
+<span id="cb111-3"><a href="3-linear-regression.html#cb111-3"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">colour =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">alpha =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
+<span id="cb111-4"><a href="3-linear-regression.html#cb111-4"></a><span class="st">  </span><span class="kw">geom_smooth</span>(</span>
+<span id="cb111-5"><a href="3-linear-regression.html#cb111-5"></a>    <span class="dt">data =</span> mu, <span class="kw">aes</span>(<span class="dt">y =</span> Estimate, <span class="dt">ymin =</span> Q2<span class="fl">.5</span>, <span class="dt">ymax =</span> Q97<span class="fl">.5</span>),</span>
+<span id="cb111-6"><a href="3-linear-regression.html#cb111-6"></a>    <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb111-7"><a href="3-linear-regression.html#cb111-7"></a>    <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.8</span>, <span class="dt">size =</span> <span class="dv">1</span></span>
+<span id="cb111-8"><a href="3-linear-regression.html#cb111-8"></a>    ) <span class="op">+</span></span>
+<span id="cb111-9"><a href="3-linear-regression.html#cb111-9"></a><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">20</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fitted-mod4-plot"></span>
+<img src="IMSB_files/figure-html/fitted-mod4-plot-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.24: blah blah…
+</p>
+</div>
+</div>
+<div id="intervalles-de-prédiction-incorporer-sigma" class="section level3" number="3.10.4">
+<h3><span class="header-section-number">3.10.4</span> Intervalles de prédiction (incorporer <span class="math inline">\(\sigma\)</span>)</h3>
+<p>Pour rappel, voici notre modèle : <span class="math inline">\(h_{i} \sim \mathrm{Normal}(\alpha + \beta x_{i}, \sigma)\)</span>. Pour l’instant, on a seulement représenté les prédictions pour <span class="math inline">\(\mu\)</span>. Comment incorporer <span class="math inline">\(\sigma\)</span> dans nos prédictions ?</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="3-linear-regression.html#cb112-1"></a><span class="co"># on crée un vecteur de valeurs possibles pour &quot;weight&quot;</span></span>
+<span id="cb112-2"><a href="3-linear-regression.html#cb112-2"></a>weight.seq &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">weight =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">25</span>, <span class="dt">to =</span> <span class="dv">70</span>, <span class="dt">by =</span> <span class="dv">1</span>) )</span>
+<span id="cb112-3"><a href="3-linear-regression.html#cb112-3"></a></span>
+<span id="cb112-4"><a href="3-linear-regression.html#cb112-4"></a><span class="co"># on récupère les prédictions du modèle pour ces valeurs de poids</span></span>
+<span id="cb112-5"><a href="3-linear-regression.html#cb112-5"></a>pred_height &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">predict</span>(mod4, <span class="dt">newdata =</span> weight.seq) ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_cols</span>(weight.seq)</span>
+<span id="cb112-6"><a href="3-linear-regression.html#cb112-6"></a></span>
+<span id="cb112-7"><a href="3-linear-regression.html#cb112-7"></a><span class="co"># on affiche les 10 premières lignes de pred_height</span></span>
+<span id="cb112-8"><a href="3-linear-regression.html#cb112-8"></a><span class="kw">head</span>(pred_height, <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##    Estimate Est.Error     Q2.5    Q97.5 weight
+## 1  136.5298  5.226114 126.2533 146.6159     25
+## 2  137.3114  5.251353 126.7437 147.4522     26
+## 3  138.2283  5.190104 127.9380 148.1205     27
+## 4  139.0752  5.131011 128.8969 148.9301     28
+## 5  140.0758  5.167473 129.6902 150.0120     29
+## 6  141.2148  5.145859 131.1712 151.2082     30
+## 7  141.9808  5.173275 131.6302 152.2938     31
+## 8  142.8875  5.102686 132.9276 153.1687     32
+## 9  143.8561  5.148533 133.4497 153.7075     33
+## 10 144.6518  5.115883 134.5489 154.5921     34</code></pre>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="3-linear-regression.html#cb114-1"></a>d2 <span class="op">%&gt;%</span></span>
+<span id="cb114-2"><a href="3-linear-regression.html#cb114-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> weight, <span class="dt">y =</span> height) ) <span class="op">+</span></span>
+<span id="cb114-3"><a href="3-linear-regression.html#cb114-3"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">colour =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">alpha =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
+<span id="cb114-4"><a href="3-linear-regression.html#cb114-4"></a><span class="st">  </span><span class="kw">geom_ribbon</span>(</span>
+<span id="cb114-5"><a href="3-linear-regression.html#cb114-5"></a>    <span class="dt">data =</span> pred_height, <span class="kw">aes</span>(<span class="dt">x =</span> weight, <span class="dt">ymin =</span> Q2<span class="fl">.5</span>, <span class="dt">ymax =</span> Q97<span class="fl">.5</span>),</span>
+<span id="cb114-6"><a href="3-linear-regression.html#cb114-6"></a>    <span class="dt">alpha =</span> <span class="fl">0.2</span>, <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span></span>
+<span id="cb114-7"><a href="3-linear-regression.html#cb114-7"></a>    ) <span class="op">+</span></span>
+<span id="cb114-8"><a href="3-linear-regression.html#cb114-8"></a><span class="st">  </span><span class="kw">geom_smooth</span>(</span>
+<span id="cb114-9"><a href="3-linear-regression.html#cb114-9"></a>    <span class="dt">data =</span> mu, <span class="kw">aes</span>(<span class="dt">y =</span> Estimate, <span class="dt">ymin =</span> Q2<span class="fl">.5</span>, <span class="dt">ymax =</span> Q97<span class="fl">.5</span>),</span>
+<span id="cb114-10"><a href="3-linear-regression.html#cb114-10"></a>    <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.8</span>, <span class="dt">size =</span> <span class="dv">1</span></span>
+<span id="cb114-11"><a href="3-linear-regression.html#cb114-11"></a>    ) <span class="op">+</span></span>
+<span id="cb114-12"><a href="3-linear-regression.html#cb114-12"></a><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">20</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:predict-mod4-plot"></span>
+<img src="IMSB_files/figure-html/predict-mod4-plot-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.25: blah blah…
+</p>
+</div>
+</div>
+<div id="deux-types-dincertitude" class="section level3" number="3.10.5">
+<h3><span class="header-section-number">3.10.5</span> Deux types d’incertitude</h3>
+<p>Deux sources d’incertitude dans le modèle : incertitude concernant l’estimation de la valeur des paramètres mais également concernant le processus d’échantillonnage.</p>
+<p><strong>Incertitude épistémique</strong> : La distribution a posteriori ordonne toutes les combinaisons possibles des valeurs des paramètres selon leurs plausibilités relatives.</p>
+<p><strong>Incertitude aléatoire</strong> : La distribution des données simulées est elle, une distribution qui contient de l’incertitude liée à un processus d’échantillonnage (i.e., générer des données à partir d’une gaussienne).</p>
+<p>Voir aussi ce <a href="http://www.stat.columbia.edu/~gelman/stuff_for_blog/ohagan.pdf">court article</a> par O’Hagan (2012).</p>
+</div>
+</div>
+<div id="régression-polynomiale" class="section level2" number="3.11">
+<h2><span class="header-section-number">3.11</span> Régression polynomiale</h2>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="3-linear-regression.html#cb115-1"></a>d <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># on utilise d au lieu de d2</span></span>
+<span id="cb115-2"><a href="3-linear-regression.html#cb115-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> weight, <span class="dt">y =</span> height) ) <span class="op">+</span></span>
+<span id="cb115-3"><a href="3-linear-regression.html#cb115-3"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">colour =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">alpha =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
+<span id="cb115-4"><a href="3-linear-regression.html#cb115-4"></a><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">20</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:plot-poly"></span>
+<img src="IMSB_files/figure-html/plot-poly-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.26: blah blah…
+</p>
+</div>
+<p>Si on considère tout l’échantillon (pas seulement les adultes), la relation entre taille et poids semble incurvée…</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="3-linear-regression.html#cb116-1"></a>d &lt;-<span class="st"> </span>d <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">weight.s =</span> (weight <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(weight) ) <span class="op">/</span><span class="st"> </span><span class="kw">sd</span>(weight) )</span>
+<span id="cb116-2"><a href="3-linear-regression.html#cb116-2"></a></span>
+<span id="cb116-3"><a href="3-linear-regression.html#cb116-3"></a>d <span class="op">%&gt;%</span></span>
+<span id="cb116-4"><a href="3-linear-regression.html#cb116-4"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> weight.s, <span class="dt">y =</span> height) ) <span class="op">+</span></span>
+<span id="cb116-5"><a href="3-linear-regression.html#cb116-5"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">colour =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">alpha =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
+<span id="cb116-6"><a href="3-linear-regression.html#cb116-6"></a><span class="st">    </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">20</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:poly-plot-std"></span>
+<img src="IMSB_files/figure-html/poly-plot-std-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.27: blah blah…
+</p>
+</div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="3-linear-regression.html#cb117-1"></a><span class="kw">c</span>(<span class="kw">mean</span>(d<span class="op">$</span>weight.s), <span class="kw">sd</span>(d<span class="op">$</span>weight.s) )</span></code></pre></div>
+<pre><code>## [1] -2.712698e-18  1.000000e+00</code></pre>
+<p>Pourquoi standardiser les prédicteurs ?</p>
+<ul>
+<li><strong>Interprétation</strong>. Un changement d’une unité du prédicteur correspond à un changement d’un écart-type sur la réponse. Permet de comparer les coefficients de plusieurs prédicteurs.</li>
+<li><strong>Fitting</strong>. Quand les prédicteurs contiennent de grandes valeurs, cela peut poser des problèmes…</li>
+</ul>
+<div id="modèle-de-régression-polynomiale" class="section level3" number="3.11.1">
+<h3><span class="header-section-number">3.11.1</span> Modèle de régression polynomiale</h3>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\color{orangered}{h_{i} \sim \mathrm{Normal}(\mu_{i}, \sigma)} \\
+&amp;\mu_{i} = \alpha + \beta_{1} x_{i} + \beta_{2} x_{i}^{2} \\
+&amp;\color{steelblue}{\alpha \sim \mathrm{Normal}(156, 100)} \\
+&amp;\color{steelblue}{\beta_{1} \sim \mathrm{Normal}(0, 10)} \\
+&amp;\color{steelblue}{\beta_{2} \sim \mathrm{Normal}(0, 10)} \\
+&amp;\color{steelblue}{\sigma \sim \mathrm{Exponential}(0.01)} \\
+\end{aligned}
+\]</span></p>
+<p>À vous de construire ce modèle en utilisant <code>brms::brm()</code>…</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="3-linear-regression.html#cb119-1"></a>priors &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
+<span id="cb119-2"><a href="3-linear-regression.html#cb119-2"></a>  <span class="kw">prior</span>(<span class="kw">normal</span>(<span class="dv">156</span>, <span class="dv">100</span>), <span class="dt">class =</span> Intercept),</span>
+<span id="cb119-3"><a href="3-linear-regression.html#cb119-3"></a>  <span class="kw">prior</span>(<span class="kw">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="dt">class =</span> b),</span>
+<span id="cb119-4"><a href="3-linear-regression.html#cb119-4"></a>  <span class="kw">prior</span>(<span class="kw">exponential</span>(<span class="fl">0.01</span>), <span class="dt">class =</span> sigma)</span>
+<span id="cb119-5"><a href="3-linear-regression.html#cb119-5"></a>  )</span>
+<span id="cb119-6"><a href="3-linear-regression.html#cb119-6"></a></span>
+<span id="cb119-7"><a href="3-linear-regression.html#cb119-7"></a>mod6 &lt;-<span class="st"> </span><span class="kw">brm</span>(</span>
+<span id="cb119-8"><a href="3-linear-regression.html#cb119-8"></a>  <span class="co"># NB: polynomials should be written with the I() function...</span></span>
+<span id="cb119-9"><a href="3-linear-regression.html#cb119-9"></a>  height <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>weight.s <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(weight.s<span class="op">^</span><span class="dv">2</span>),</span>
+<span id="cb119-10"><a href="3-linear-regression.html#cb119-10"></a>  <span class="dt">prior =</span> priors,</span>
+<span id="cb119-11"><a href="3-linear-regression.html#cb119-11"></a>  <span class="dt">family =</span> <span class="kw">gaussian</span>(),</span>
+<span id="cb119-12"><a href="3-linear-regression.html#cb119-12"></a>  <span class="dt">data =</span> d</span>
+<span id="cb119-13"><a href="3-linear-regression.html#cb119-13"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="3-linear-regression.html#cb120-1"></a><span class="kw">summary</span>(mod6)</span></code></pre></div>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: height ~ 1 + weight.s + I(weight.s^2) 
+##    Data: d (Number of observations: 544) 
+## Samples: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup samples = 4000
+## 
+## Population-Level Effects: 
+##             Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept     146.66      0.37   145.94   147.39 1.00     3449     3106
+## weight.s       21.40      0.29    20.81    21.98 1.00     3809     2664
+## Iweight.sE2    -8.41      0.28    -8.96    -7.87 1.00     3613     3084
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     5.78      0.18     5.45     6.15 1.00     3672     2637
+## 
+## Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<p>…</p>
+</div>
+<div id="représenter-les-prédictions-du-modèle-1" class="section level3" number="3.11.2">
+<h3><span class="header-section-number">3.11.2</span> Représenter les prédictions du modèle</h3>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="3-linear-regression.html#cb122-1"></a><span class="co"># on crée un vecteur de valeurs possibles pour &quot;weight&quot;</span></span>
+<span id="cb122-2"><a href="3-linear-regression.html#cb122-2"></a>weight.seq &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">weight.s =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="fl">-2.5</span>, <span class="dt">to =</span> <span class="fl">2.5</span>, <span class="dt">length.out =</span> <span class="dv">50</span>) )</span>
+<span id="cb122-3"><a href="3-linear-regression.html#cb122-3"></a></span>
+<span id="cb122-4"><a href="3-linear-regression.html#cb122-4"></a><span class="co"># on récupère les prédictions du modèle pour ces valeurs de poids</span></span>
+<span id="cb122-5"><a href="3-linear-regression.html#cb122-5"></a>mu &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">fitted</span>(mod6, <span class="dt">newdata =</span> weight.seq) ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_cols</span>(weight.seq)</span>
+<span id="cb122-6"><a href="3-linear-regression.html#cb122-6"></a>pred_height &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">predict</span>(mod6, <span class="dt">newdata =</span> weight.seq) ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_cols</span>(weight.seq)</span>
+<span id="cb122-7"><a href="3-linear-regression.html#cb122-7"></a></span>
+<span id="cb122-8"><a href="3-linear-regression.html#cb122-8"></a><span class="co"># on affiche les 10 premières lignes de pred_height</span></span>
+<span id="cb122-9"><a href="3-linear-regression.html#cb122-9"></a><span class="kw">head</span>(pred_height, <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##    Estimate Est.Error     Q2.5     Q97.5  weight.s
+## 1  40.55951  5.982982 28.99413  52.13111 -2.500000
+## 2  46.89999  5.969746 34.97976  58.23946 -2.397959
+## 3  53.08936  5.849776 41.30942  64.22898 -2.295918
+## 4  59.12495  5.834515 47.90513  70.45351 -2.193878
+## 5  65.12540  5.934144 53.55400  77.00895 -2.091837
+## 6  70.75275  5.811465 59.46340  82.10160 -1.989796
+## 7  76.27845  5.803020 64.76757  87.74822 -1.887755
+## 8  81.49317  5.958165 69.83562  92.90433 -1.785714
+## 9  86.67128  5.809761 75.20261  97.81837 -1.683673
+## 10 91.69845  5.795457 80.38817 102.62859 -1.581633</code></pre>
+<p>…</p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="3-linear-regression.html#cb124-1"></a>d <span class="op">%&gt;%</span></span>
+<span id="cb124-2"><a href="3-linear-regression.html#cb124-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> weight.s, <span class="dt">y =</span> height) ) <span class="op">+</span></span>
+<span id="cb124-3"><a href="3-linear-regression.html#cb124-3"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">colour =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">alpha =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
+<span id="cb124-4"><a href="3-linear-regression.html#cb124-4"></a><span class="st">  </span><span class="kw">geom_ribbon</span>(</span>
+<span id="cb124-5"><a href="3-linear-regression.html#cb124-5"></a>    <span class="dt">data =</span> pred_height, <span class="kw">aes</span>(<span class="dt">x =</span> weight.s, <span class="dt">ymin =</span> Q2<span class="fl">.5</span>, <span class="dt">ymax =</span> Q97<span class="fl">.5</span>),</span>
+<span id="cb124-6"><a href="3-linear-regression.html#cb124-6"></a>    <span class="dt">alpha =</span> <span class="fl">0.2</span>, <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span></span>
+<span id="cb124-7"><a href="3-linear-regression.html#cb124-7"></a>    ) <span class="op">+</span></span>
+<span id="cb124-8"><a href="3-linear-regression.html#cb124-8"></a><span class="st">  </span><span class="kw">geom_smooth</span>(</span>
+<span id="cb124-9"><a href="3-linear-regression.html#cb124-9"></a>    <span class="dt">data =</span> mu, <span class="kw">aes</span>(<span class="dt">y =</span> Estimate, <span class="dt">ymin =</span> Q2<span class="fl">.5</span>, <span class="dt">ymax =</span> Q97<span class="fl">.5</span>),</span>
+<span id="cb124-10"><a href="3-linear-regression.html#cb124-10"></a>    <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.8</span>, <span class="dt">size =</span> <span class="dv">1</span></span>
+<span id="cb124-11"><a href="3-linear-regression.html#cb124-11"></a>    ) <span class="op">+</span></span>
+<span id="cb124-12"><a href="3-linear-regression.html#cb124-12"></a><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">20</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:predict-mod6-plot"></span>
+<img src="IMSB_files/figure-html/predict-mod6-plot-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.28: blah blah…
+</p>
+</div>
+</div>
+</div>
+<div id="modèle-de-régression-taille-deffet" class="section level2" number="3.12">
+<h2><span class="header-section-number">3.12</span> Modèle de régression, taille d’effet</h2>
+<p>Il existe plusieurs méthodes pour calculer les tailles d’effet dans les modèles bayésiens. <a href="http://www.stat.columbia.edu/~gelman/research/published/rsquared.pdf">Gelman &amp; Pardoe (2006)</a> proposent une méthode pour calculer un <span class="math inline">\(R^{2}\)</span> basé sur l’échantillon.</p>
+<p><a href="http://rsos.royalsocietypublishing.org/content/4/1/160426">Marsman et al. (2017)</a>, <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/stan.12173">Marsman et al. (2019)</a> généralisent des méthodes existantes pour calculer un <span class="math inline">\(\rho^{2}\)</span> pour les designs de type ANOVA (i.e., avec prédicteurs catégoriels), qui représente une estimation de la taille d’effet <em>dans la population</em>, et non basé sur l’échantillon.</p>
+<blockquote>
+<p><em>"Similar to most of the ES measures that have been proposed for the ANOVA model, the squared multiple correlation coefficient <span class="math inline">\(\rho^{2}\)</span> […] is a so-called proportional reduction in error measure (PRE; Reynolds, 1977). In general, a PRE measure expresses the proportion of the variance in an outcome <span class="math inline">\(y\)</span> that is attributed to the independent variables <span class="math inline">\(x\)</span></em>" (<a href="https://onlinelibrary.wiley.com/doi/full/10.1111/stan.12173">Marsman et al., 2019</a>).</p>
+</blockquote>
+<p><span class="math display">\[
+\begin{aligned}
+\rho^{2} &amp;= \dfrac{\sum_{i = 1}^{n} \pi_{i}(\beta_{i} - \beta)^{2}}{\sigma^{2} + \sum_{i=1}^{n} \pi_{i}(\beta_{i} - \beta)^{2}} \\  \rho^{2} &amp;= \dfrac{ \frac{1}{n} \sum_{i=1}^{n} \beta_{i}^{2}}{\sigma^{2} + \frac{1}{n} \sum_{i = 1}^{n} \beta_{i}^{2}} \\ \rho^{2} &amp;= \dfrac{\beta^{2} \tau^{2}}{\sigma^{2} + \beta^{2} \tau^{2}}\\
+\end{aligned}
+\]</span></p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="3-linear-regression.html#cb125-1"></a>post &lt;-<span class="st"> </span><span class="kw">posterior_samples</span>(mod4)</span>
+<span id="cb125-2"><a href="3-linear-regression.html#cb125-2"></a>beta &lt;-<span class="st"> </span>post<span class="op">$</span>b_weight</span>
+<span id="cb125-3"><a href="3-linear-regression.html#cb125-3"></a>sigma &lt;-<span class="st"> </span>post<span class="op">$</span>sigma</span>
+<span id="cb125-4"><a href="3-linear-regression.html#cb125-4"></a></span>
+<span id="cb125-5"><a href="3-linear-regression.html#cb125-5"></a>f1 &lt;-<span class="st"> </span>beta<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">var</span>(d2<span class="op">$</span>weight)</span>
+<span id="cb125-6"><a href="3-linear-regression.html#cb125-6"></a>rho &lt;-<span class="st"> </span>f1 <span class="op">/</span><span class="st"> </span>(f1 <span class="op">+</span><span class="st"> </span>sigma<span class="op">^</span><span class="dv">2</span>)</span></code></pre></div>
+<p>Attention, si plusieurs prédicteurs, dépend de la structure de covariance…</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="3-linear-regression.html#cb126-1"></a>BEST<span class="op">::</span><span class="kw">plotPost</span>(rho, <span class="dt">showMode =</span> <span class="ot">TRUE</span>, <span class="dt">xlab =</span> <span class="kw">expression</span>(rho) )</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:effsize-BEST-plot"></span>
+<img src="IMSB_files/figure-html/effsize-BEST-plot-1.svg" alt="blah blah..." width="75%" />
+<p class="caption">
+Figure 3.29: blah blah…
+</p>
+</div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="3-linear-regression.html#cb127-1"></a><span class="kw">summary</span>(<span class="kw">lm</span>(height <span class="op">~</span><span class="st"> </span>weight, <span class="dt">data =</span> d2) )<span class="op">$</span>r.squared</span></code></pre></div>
+<pre><code>## [1] 0.5696444</code></pre>
+</div>
+<div id="conclusions-2" class="section level2" number="3.13">
+<h2><span class="header-section-number">3.13</span> Conclusions</h2>
+<p>On a présenté un nouveau modèle à deux puis trois paramètres : le modèle gaussien, puis la régression linéaire gaussienne, permettant de mettre en relation deux variables continues.</p>
+<p>Comme précédemment, le théorème de Bayes est utilisé pour mettre à jour nos connaissances a priori quant à la valeur des paramètres en une connaissance a posteriori, synthèse entre nos priors et l’information contenue dans les données.</p>
+<p>La package <code>brms</code> permet de fitter toutes sortes de modèles avec une syntaxe similaire à celle utilisée par <code>lm()</code>.</p>
+<p>La fonction <code>fitted()</code> permet de récupérer les prédictions d’un modèle fitté avec <code>brms</code> (i.e., un modèle de classe <code>brmsfit</code>).</p>
+<p>La fonction <code>predict()</code> permet de simuler des données à partir d’un modèle fitté avec <code>brms</code>.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="2-beta-binomial.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="références.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "serif",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/lnalborczyk/IMSB2020/tree/master/notes/03-linear-regression-part1Rmd.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["IMSB.pdf"],
+"toc": {
+"collapse": "subsubsection",
+"scroll_highlight": true
+},
+"info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

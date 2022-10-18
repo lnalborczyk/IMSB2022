@@ -3,18 +3,18 @@ project:
   output-dir: docs
   resources:
     - "files/"
-    # - "_notes/docs/"
+    - "_notes/docs/"
 
 execute:
   freeze: auto
 
-bibliography: ./files/bib/references.bib
-csl: ./files/bib/apa7.csl
+bibliography: files/bib/references.bib
+csl: files/bib/apa7.csl
 
 website:
   title: "IMSB2022"
   description-meta: "Introduction à la modélisation statistique bayésienne"
-  favicon: "./files/cover.png"
+  favicon: "files/cover.png"
   
   page-navigation: true
   
@@ -30,8 +30,8 @@ website:
       - install.qmd
       - text: "Notes"
         # file: "./_notes/docs/index.html"
-        # href: "./_notes/docs/index.html"
-        href: "https://www.barelysignificant.com/IMSB2022_notes/"
+        href: "_notes/docs/index.html"
+        # href: "https://www.barelysignificant.com/IMSB2022_notes/"
         
   sidebar:
     - title: "Planning"

@@ -485,10 +485,10 @@ vraisemblance et du prior.
 mu.list <- seq(from = 140, to = 160, length.out = 200)
 sigma.list <- seq(from = 4, to = 9, length.out = 200)
 
-# on étend la grille en deux dimensions (chaque combinaison de mu et sigma)
+# on étend la grille à toutes les combinaisons possibles de mu et sigma
 post <- expand.grid(mu = mu.list, sigma = sigma.list)
 
-# calcul de la log-vraisemblance (pour chaque couple de mu et sigma)
+# calcul de la log-vraisemblance (pour chaque combinaison de mu et sigma)
 post$LL <-
   sapply(
     1:nrow(post),
@@ -496,17 +496,16 @@ post$LL <-
       d2$height,
       mean = post$mu[i],
       sd = post$sigma[i],
-      log = TRUE)
-      )
+      log = TRUE) )
     )
 
 # calcul de la probabilité a posteriori (non normalisée)
 post$prod <-
   post$LL +
-  dnorm(post$mu, 178, 20, log = TRUE) +
-  dunif(post$sigma, 0, 50, log = TRUE)
+  dnorm(x = post$mu, mean = 178, sd = 20, log = TRUE) +
+  dunif(x = post$sigma, min = 0, max = 50, log = TRUE)
 
-# on "annule" le log en avec exp() et on standardise par la valeur maximale
+# on "annule" le log et on standardise par la valeur maximale (pour éviter les erreurs d'arrondi)
 post$prob <- exp(post$prod - max(post$prod) )
 ```
 
