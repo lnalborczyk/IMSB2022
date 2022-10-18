@@ -34,6 +34,8 @@ format:
 title-slide-attributes:
     data-background-color: "#1c5253"
 bibliography: ../../files/bib/references.bib
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## Planning
@@ -113,7 +115,8 @@ $$h_{i} \sim \mathrm{Normal}(\mu, \sigma)$$
 ```{r echo = TRUE, fig.width = 6, fig.height = 6}
 d2 %>%
     ggplot(aes(x = height) ) +
-    geom_histogram(bins = 10, col = "white")
+    geom_histogram(aes(y = ..density..), bins = 20, col = "white") +
+    stat_function(fun = dnorm, args = list(mean(d2$height), sd(d2$height) ), size = 1)
 ```
 
 ## Loi normale
@@ -123,7 +126,7 @@ p(x \given \mu, \sigma) = \frac{1}{\sqrt{2 \pi \sigma^{2}}} \exp \bigg[-\frac{1}
 $$
 
 ```{r eval = TRUE, echo = TRUE, fig.width = 6, fig.height = 6}
-data.frame(value = rnorm(1e4, 10, 1) ) %>% # 10.000 samples from Normal(10, 1)
+data.frame(value = rnorm(n = 1e4, mean = 10, sd = 1) ) %>% # 10.000 samples from Normal(10, 1)
     ggplot(aes(x = value) ) +
     geom_histogram(col = "white")
 ```
@@ -183,10 +186,18 @@ f <- expression(exp(-x^2) )
 f_derivative <- D(f, "x")
 
 f3 <- function(x) {-(exp(-x^2) * (2 * x) )}
+f3_min <- optimize(f = f3, interval = c(-10, 10) )$minimum
 
 ggplot(data.frame(x = c(-5, 5) ), aes(x = x) ) + 
   geom_path(aes(colour = "steelblue"), stat = "function", fun = f2, lwd = 1) +
+  geom_area(
+    data = data.frame(x = seq(-5, 5, 0.01) ) %>% filter(-f3_min < x & x < f3_min),
+    aes(y = exp(-x^2) ),
+    position = "identity", fill = "steelblue", alpha = 0.3
+    ) +
   geom_path(aes(colour = "orangered"), stat = "function", fun = f3, lwd = 1) +
+  geom_vline(xintercept = -f3_min, colour = "orangered", lty = 2) +
+  geom_vline(xintercept = f3_min, colour = "orangered", lty = 2) +
   labs(x = "x", y = "f(x)") +
   scale_colour_identity(
     "Function", guide = "legend",
@@ -214,6 +225,8 @@ f5 <- function(x) {exp((-0.5) * x^2) * ((-0.5) * (2 * x) )}
 ggplot(data.frame(x = c(-5, 5) ), aes(x = x) ) + 
   geom_path(aes(colour = "steelblue"), stat = "function", fun = f4, lwd = 1) +
   geom_path(aes(colour = "orangered"), stat = "function", fun = f5, lwd = 1) +
+  geom_vline(xintercept = -1, colour = "orangered", lty = 2) +
+  geom_vline(xintercept = 1, colour = "orangered", lty = 2) +
   labs(x = "x", y = "f(x)") +
   scale_colour_identity(
     "Function", guide = "legend",
@@ -468,11 +481,11 @@ vraisemblance et du prior.
 ## Distribution postérieure - Grid approximation
 
 ```{r grid, eval = TRUE, echo = TRUE}
-# définit une grille de valeurs possibles pour mu et sigma
+# on définit une grille de valeurs possibles pour mu et sigma
 mu.list <- seq(from = 140, to = 160, length.out = 200)
 sigma.list <- seq(from = 4, to = 9, length.out = 200)
 
-# étend la grille en deux dimensions (chaque combinaison de mu et sigma)
+# on étend la grille en deux dimensions (chaque combinaison de mu et sigma)
 post <- expand.grid(mu = mu.list, sigma = sigma.list)
 
 # calcul de la log-vraisemblance (pour chaque couple de mu et sigma)
@@ -508,6 +521,8 @@ post %>% slice_sample(n = 20, replace = FALSE)
 
 ```{r sampling-posterior, eval = TRUE, echo = TRUE}
 sample.rows <- sample(x = 1:nrow(post), size = 1e4, replace = TRUE, prob = post$prob)
+sample.mu <- post$mu[sample.rows]
+sample.sigma <- post$sigma[sample.rows]
 ```
 
 ```{r plotting-samples, eval = TRUE, echo = FALSE, fig.align = "center", fig.width = 12, fig.height = 8}
@@ -539,13 +554,13 @@ ggplot(
 ## Distribution postérieure - Distributions marginales
 
 ```{r eval = TRUE, echo = TRUE, dev = "png", dpi = 200}
-posterior_plot(samples = sample.mu, nbins = 40) + labs(x = expression(mu) )
+posterior_plot(samples = sample.mu, nbins = 30) + labs(x = expression(mu) )
 ```
 
 ## Distribution postérieure - Distributions marginales
 
 ```{r eval = TRUE, echo = TRUE, dev = "png", dpi = 200}
-posterior_plot(samples = sample.sigma, nbins = 40) + labs(x = expression(sigma) )
+posterior_plot(samples = sample.sigma, nbins = 30) + labs(x = expression(sigma) )
 ```
 
 ## Introduction à brms
@@ -592,7 +607,7 @@ Par exemple, le modèle suivant :
 $$
 \begin{align}
 y_{i} &\sim \mathrm{Normal}(\mu_{i}, \sigma) \\
-\mu_{i} &= \alpha + \alpha_{subject[i]} + \alpha_{item[i]} + \beta x_{i} \\
+\mu_{i} &= \alpha + \alpha_{\text{subject}[i]} + \alpha_{\text{item}[i]} + \beta x_{i} \\
 \end{align}
 $$
 
@@ -670,7 +685,7 @@ stancode(fit)
 get_prior(formula, ...)
 set_prior(prior, ...)
 
-# récupérer les prédiction du modèle
+# récupérer les prédictions du modèle
 fitted(fit, ...)
 predict(fit, ...)
 conditional_effects(fit, ...)
@@ -701,8 +716,8 @@ posterior_summary(mod1, pars = c("^b_", "sigma"), probs = c(0.025, 0.975) )
 ```
 
 Ces données représentent les distributions marginales de chaque
-paramètre. En d'autres termes, la *probabilité* de chaque valeur de
-$\mu$, après avoir *moyenné* sur toutes les valeurs possible de
+paramètre. En d'autres termes, la probabilité de chaque valeur de
+$\mu$, moyennée sur toutes les valeurs possible de
 $\sigma$, est décrite par une distribution gaussienne avec une moyenne
 de $154.6$ et un écart type de $0.42$. L'intervalle de crédibilité
 ($\neq$ intervalle de confiance) nous indique les 95% valeurs de $\mu$
@@ -830,10 +845,10 @@ des données antérieures.
 On sait que le $\sigma$ d'un posterior gaussien nous est donné par la
 formule :
 
-$$\sigma_{post} = 1 / \sqrt{n}$$
+$$\sigma_{\text{post}} = 1\ /\ \sqrt{n}$$
 
-Qui implique une *quantité de données* $n = 1 / \sigma^2_{post}$. Notre
-prior avait un $\sigma = 0.1$, ce qui donne $n = 1 / 0.1^2 = 100$.
+Qui implique une **quantité de données** $n = 1\ /\ \sigma^2_{\text{post}}$. Notre
+prior avait un $\sigma = 0.1$, ce qui donne $n = 1\ /\ 0.1^2 = 100$.
 
 . . .
 
@@ -1006,12 +1021,12 @@ $$
 $$
 
 Dans ce modèle $\mu$ n'est plus un paramètre à estimer (car $\mu$ est
-*déterminé* par $\alpha$ et $\beta$). À la place, nous allons estimer
+**déterminé** par $\alpha$ et $\beta$). À la place, nous allons estimer
 $\alpha$ et $\beta$.
 
 . . .
 
-Rappels : $\alpha$ est l'*intercept*, c'est à dire la taille attendue,
+Rappels : $\alpha$ est l'intercept, c'est à dire la taille attendue,
 lorsque le poids est égal à $0$. $\beta$ est la pente, c'est à dire le
 changement de taille attendu quand le poids augmente d'une unité.
 
@@ -1038,10 +1053,10 @@ mod4 <- brm(
 posterior_summary(mod4)
 ```
 
--   $\alpha = 113.86, 95\% \ \text{CrI} \ [110.01, 117.6]$ représente
+-   $\alpha = 113.89, 95\% \ \text{CrI} \ [110.15, 117.58]$ représente
     la taille moyenne quand le poids est égal à 0kg...
 
--   $\beta = 0.91, 95\% \ \text{CrI} \ [0.82, 0.99]$ nous indique qu'une
+-   $\beta = 0.90, 95\% \ \text{CrI} \ [0.82, 0.99]$ nous indique qu'une
     augmentation de 1kg entraîne une augmentation de 0.90cm.
 
 ## Régression linéaire à un prédicteur continu
@@ -1192,10 +1207,11 @@ Pourquoi standardiser les prédicteurs ?
     à un changement d'un écart-type sur la réponse (si la réponse est
     aussi standardisée).
 
--   **Fitting**. Quand les prédicteurs contiennent de grandes valeurs,
-    cela peut poser des problèmes de convergence (cf. Cours n°05)...
+-   **Fitting**. Quand les prédicteurs contiennent de grandes valeurs
+    (ou des valeurs trop différentes les unes des autres),
+    cela peut poser des problèmes de convergence (cf. Cours n°05).
 
-## Modèle de régression polynomiale - exercice
+## Modèle de régression polynomiale - Exercice
 
 $$
 \begin{aligned}
@@ -1309,7 +1325,6 @@ covariance...
 
 ```{r effsize-plot1, eval = TRUE, echo = TRUE, dev = "png", dpi = 200}
 posterior_plot(samples = rho, usemode = TRUE) + labs(x = expression(rho) )
-
 ```
 
 . . .
@@ -1391,8 +1406,8 @@ Imaginons que vous ayez consulté une collègue experte en
 [allométrie](https://fr.wikipedia.org/wiki/Allométrie) (i.e., les
 phénomènes de croissance différentielle d'organes) et que cette dernière
 vous explique que ça ne fait aucun sens de modéliser la relation entre
-le poids et la taille... alors qu'on sait que c'est le *logarithme* du
-poids qui est relié à la taille !
+le poids et la taille... alors qu'on sait que c'est le logarithme du
+poids qui est relié (linéairement) à la taille !
 
 . . .
 
@@ -1412,7 +1427,7 @@ $$
 
 Où $h_{i}$ est la taille de l'individu $i$ et $w_{i}$ le poids de
 l'individu $i$. La fonction pour calculer le log en `R` est simplement
-`log()`. Est-ce que vous savez interpréter les résultats ? Indice: faire
+`log()`. Est-ce que vous savez interpréter les résultats ? Indice : faire
 un plot des données brutes et surimposer les prédictions du modèle...
 
 ## Proposition de solution
