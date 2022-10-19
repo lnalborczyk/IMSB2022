@@ -104,7 +104,7 @@ model <- brm(
 
 On va étendre le modèle précédent en ajoutant plusieurs prédicteurs, continus et/ou catégoriels. Pourquoi ?
 
-+ "Contrôle" des facteurs de confusion (e.g., [spurious correlations](http://www.tylervigen.com/spurious-correlations), [simpson's paradox](https://en.wikipedia.org/wiki/Simpson%27s_paradox)). Un facteur de confusion est une variable qui influence à la fois la variable dépendante et les variables explicatives.
++ "Contrôle" des facteurs de confusion (e.g., [spurious correlations](http://www.tylervigen.com/spurious-correlations), [simpson's paradox](https://en.wikipedia.org/wiki/Simpson%27s_paradox)). Un facteur de confusion est un facteur (une variable aléatoire) qui "perturbe" l'association entre deux variables d'intérêts.
 
 + Multiples causes : un phénomène peut émerger sous l'influence de multiples causes.
 
@@ -129,7 +129,7 @@ df1 %>%
   ggplot(aes(x = WaffleHouses, y = Divorce) ) +
   geom_text(aes(label = Loc) ) +
   geom_smooth(method = "lm", color = "black", se = TRUE) +
-  labs(x = "Number of Waffle Houses per million people", y = "Divorce rate")
+  labs(x = "Nombre de 'Waffle Houses' (par million d'habitants)", y = "Taux de divorce")
 ```
 
 ## Associations fortuites
@@ -137,8 +137,8 @@ df1 %>%
 On laisse de côté les Waffle Houses. On observe un lien positif entre le taux de mariage et le taux de divorce... mais est-ce qu'on peut vraiment dire que le mariage "cause" le divorce ?
 
 ```{r waffle-divorce-mariage, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5}
-df1$Divorce.s <- (df1$Divorce - mean(df1$Divorce) ) / sd(df1$Divorce)
-df1$Marriage.s <- (df1$Marriage - mean(df1$Marriage) ) / sd(df1$Marriage)
+df1$Divorce.s <- scale(x = df1$Divorce, center = TRUE, scale = TRUE)
+df1$Marriage.s <- scale(x = df1$Marriage, center = TRUE, scale = TRUE)
 
 df1 %>%
   ggplot(aes(x = Marriage, y = Divorce) ) +
@@ -152,8 +152,7 @@ df1 %>%
 On observe l'association inverse entre le taux de divorce et l'âge médian de mariage.
 
 ```{r waffle-divorce-median, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5}
-df1$MedianAgeMarriage.s <- (df1$MedianAgeMarriage - mean(df1$MedianAgeMarriage) ) /
-  sd(df1$MedianAgeMarriage)
+df1$MedianAgeMarriage.s <- scale(x = df1$MedianAgeMarriage, center = TRUE, scale = TRUE)
 
 df1 %>%
   ggplot(aes(x = MedianAgeMarriage, y = Divorce) ) +
@@ -390,7 +389,7 @@ data.frame(fitted(mod3) ) %>%
 ## Visualiser les prédictions du modèle
 
 ```{r ppc-mod3-1, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6}
-pp_check(mod3, type = "intervals", nsamples = 1e2, prob = 0.5, prob_outer = 0.95) +
+pp_check(mod3, type = "intervals", ndraws = 1e2, prob = 0.5, prob_outer = 0.95) +
   labs(x = "État", y = "Taux de divorce (standardisé)")
 ```
 
@@ -444,10 +443,10 @@ Situation dans laquelle certains prédicteurs sont très fortement corrêlés. P
 set.seed(666) # afin de pouvoir reproduire les résultats
 
 N <- 100 # nombre d'individus
-height <- rnorm(N, 179, 5) # génère N observations
-leg_prop <- runif(N, 0.4, 0.5) # taille des jambes (proportion taille totale)
-leg_left <- leg_prop * height + rnorm(N, 0, 0.5) # taille jambe gauche (+ erreur)
-leg_right <- leg_prop * height + rnorm(N, 0, 0.5) # taille jambe droite (+ erreur)
+height <- rnorm(n = N, mean = 178, sd = 10) # génère N observations
+leg_prop <- runif(n = N, min = 0.4, max = 0.5) # taille des jambes (proportion taille totale)
+leg_left <- leg_prop * height + rnorm(n = N, mean = 0, sd = 1) # taille jambe gauche (+ erreur)
+leg_right <- leg_prop * height + rnorm(n = N, mean = 0, sd = 1) # taille jambe droite (+ erreur)
 df2 <- data.frame(height, leg_left, leg_right) # création d'une dataframe
 
 head(df2) # affiche les six première lignes
@@ -459,7 +458,7 @@ On fit un modèle avec deux prédicteurs : un pour la taille de chaque jambe.
 
 ```{r mod4, eval = TRUE, echo = TRUE, results = "hide"}
 priors <- c(
-  prior(normal(174, 10), class = Intercept),
+  prior(normal(178, 10), class = Intercept),
   prior(normal(0, 10), class = b),
   prior(exponential(0.01), class = sigma)
   )
@@ -482,7 +481,7 @@ summary(mod4) # look at the SE...
 
 ## Multicolinéarité
 
-Comment traquer la colinéarité de deux prédicteurs ? En examinant la distribution postérieure de ces deux paramètres.
+Comment traquer la colinéarité de deux prédicteurs ? On peut examiner la distribution postérieure de ces deux paramètres.
 
 ```{r pairs-mod4, eval = TRUE, echo = TRUE, fig.width = 9, fig.height = 6}
 pairs(mod4, pars = parnames(mod4)[1:3])
@@ -490,7 +489,7 @@ pairs(mod4, pars = parnames(mod4)[1:3])
 
 ## Multicolinéarité
 
-Comment traquer la colinéarité de deux prédicteurs ? En examinant la distribution postérieure de ces deux paramètres.
+Comment traquer la colinéarité de deux prédicteurs ? On peut examiner la distribution postérieure de ces deux paramètres.
 
 ```{r post-plot-mod4, eval = TRUE, echo = TRUE, fig.width = 7.5, fig.height = 5}
 post <- as_draws_df(x = mod4)
@@ -503,7 +502,7 @@ post %>%
 
 ## Multicolinéarité
 
-Le modèle précédent peut se réécrire en faisant apparaitre la somme des deux prédicteurs $\beta_{1}$ et $\beta_{2}$.
+Lorsqu'on inclut deux prédicteurs qui contiennent presque exactement la même information dans un modèle, c'est comme si on incluait deux fois le même prédicteur $x_{i}$. Du point de vue du modèle, les deux pentes ne sont pas dissociables, ils agissent sur le même prédicteur. C'est comme si on avait fitté le modèle suivant :
 
 $$
 \begin{aligned}
@@ -513,7 +512,10 @@ y_{i} &\sim \mathrm{Normal}(\mu_{i}, \sigma) \\
 $$
 . . .
 
-```{r plotpost-legs, eval = TRUE, echo = TRUE, fig.width = 7.5, fig.height = 5, dev = "png", dpi = 200}
+```{r plotpost-legs, eval = TRUE, echo = TRUE, dev = "png", dpi = 200}
+#| fig.width: 6
+#| fig.height: 4
+#| out.width: "50%"
 sum_legs <- post$b_leg_left + post$b_leg_right
 posterior_plot(samples = sum_legs, compval = 0) + labs(x = expression(beta[1] + beta[2]) )
 ```
@@ -524,7 +526,7 @@ On crée un nouveau modèle avec seulement une jambe.
 
 ```{r mod5, eval = TRUE, echo = TRUE, results = "hide"}
 priors <- c(
-  prior(normal(174, 10), class = Intercept),
+  prior(normal(178, 10), class = Intercept),
   prior(normal(0, 10), class = b),
   prior(exponential(0.01), class = sigma)
   )
@@ -572,17 +574,18 @@ Enfin, on mesure à la fin de l'expérience la taille finale de chaque plante et
 N <- 100
 
 # on simule différentes tailles à l'origine
-h0 <- rnorm(N, mean = 10, sd = 2)
+h0 <- rnorm(n = N, mean = 10, sd = 2)
 
 # on assigne différents traitements et on
 # simule la présence de fungus et la pousse des plantes
-treatment <- rep(0:1, each = N / 2)
-fungus <- rbinom(N, size = 1, prob = 0.5 - treatment * 0.4)
-h1 <- h0 + rnorm(N, mean = 5 - 3 * fungus)
+treatment <- rep(x = 0:1, each = N / 2)
+fungus <- rbinom(n = N, size = 1, prob = 0.5 - treatment * 0.4)
+h1 <- h0 + rnorm(n = N, mean = 5 - 3 * fungus)
 
 # on rassemble les données dans une dataframe
 df3 <- data.frame(h0, h1, treatment, fungus)
 
+# on affiche les six premières lignes
 head(df3)
 ```
 
@@ -623,7 +626,7 @@ posterior_summary(mod6)
 
 ## Post-treatment bias
 
-Nous nous intéressons plutôt à l'influence du traitement sur la pousse. Il suffit de fitter un modèle sans la variable `fungus`. Remarque : il fait sens de prendre en compte $h0$, la taille initiale, car les différences observées pourraient masquer l'effet du traitement.
+Nous nous intéressons plutôt à l'influence du traitement sur la pousse. Il suffit de fitter un modèle sans la variable `fungus`. Remarque : il fait sens de prendre en compte $h0$, la taille initiale, car les différences de taille initiale pourraient masquer l'effet du traitement.
 
 ```{r mod7, eval = TRUE, echo = TRUE, results = "hide"}
 mod7 <- brm(
@@ -652,11 +655,10 @@ L'influence du traitement est maintenant forte et positive.
 
 ```{r data-categ, eval = TRUE, echo = TRUE}
 df4 <- open_data(howell)
-
 str(df4)
 ```
 
-Le **sexe** est codé comme une **dummy variable**, c'est à dire une variable où chaque modalité est représentée soit par $0$ soit par $1$. On peut imaginer que cette nouvelle variable *active* le paramètre uniquement pour la catégorie codée $1$, et le *désactive* pour la catégorie codée $0$.
+Le sexe est codé comme une **dummy variable**, c'est à dire une variable où chaque modalité est représentée soit par $0$ soit par $1$. On peut imaginer que cette nouvelle variable **active** le paramètre uniquement pour la catégorie codée $1$, et le **désactive** pour la catégorie codée $0$.
 
 ## Prédicteurs catégoriels
 
@@ -664,7 +666,7 @@ $$
 \begin{aligned}
 \color{orangered}{h_{i}} \ &\color{orangered}{\sim \mathrm{Normal}(\mu_{i}, \sigma)} \\
 \color{black}{\mu_{i}} \ &\color{black}{= \alpha + \beta_{m}m_{i}} \\
-\color{steelblue}{\alpha} \ &\color{steelblue}{\sim \mathrm{Normal}(178, 100)} \\
+\color{steelblue}{\alpha} \ &\color{steelblue}{\sim \mathrm{Normal}(178, 20)} \\
 \color{steelblue}{\beta_{m}} \ &\color{steelblue}{\sim \mathrm{Normal}(0, 10)} \\
 \color{steelblue}{\sigma} \ &\color{steelblue}{\sim \mathrm{Exponential}(0.01)}
 \end{aligned}
@@ -672,7 +674,7 @@ $$
 
 ```{r mod8, eval = TRUE, echo = TRUE, results = "hide"}
 priors <- c(
-  prior(normal(178, 100), class = Intercept),
+  prior(normal(178, 20), class = Intercept),
   prior(normal(0, 10), class = b),
   prior(exponential(0.01), class = sigma)
   )
@@ -687,7 +689,7 @@ mod8 <- brm(
 
 ## Prédicteurs catégoriels
 
-L'intercept $\alpha$ représente la taille moyenne des femmes, car $\mu_{i} = \alpha \cdot \beta_{m}(m_{i} = 0) = \alpha$.
+L'intercept $\alpha$ représente la taille moyenne des femmes, car $\mu_{i} = \alpha + \beta_{m}(m_{i} = 0) = \alpha$.
 
 ```{r summary-mod8, eval = TRUE, echo = TRUE}
 fixef(mod8) # retrieves fixed effects
@@ -695,7 +697,7 @@ fixef(mod8) # retrieves fixed effects
 
 . . .
 
-La pente $\beta$ nous indique la différence de taille moyenne entre les hommes et les femmes. Pour obtenir la taille moyenne des hommes, il suffit donc d'ajouter $\alpha$ et $\beta$.
+La pente $\beta$ nous indique la différence de taille moyenne entre les hommes et les femmes. Pour obtenir la taille moyenne des hommes, il suffit donc d'ajouter $\alpha$ et $\beta$, car $\mu_{i} = \alpha + \beta_{m}(m_{i} = 1) = \alpha + \beta_{m}$.
 
 ```{r summary-female, eval = TRUE, echo = TRUE}
 post <- as_draws_df(x = mod8)
@@ -736,7 +738,7 @@ df4 <- df4 %>% mutate(female = 1 - male)
 priors <- c(
   # il n'y a plus d'intercept dans ce modèle
   # prior(normal(178, 100), class = Intercept),
-  prior(normal(0, 10), class = b),
+  prior(normal(178, 20), class = b),
   prior(exponential(0.01), class = sigma)
   )
 
@@ -752,20 +754,6 @@ mod9 <- brm(
 
 ```{r summary-mod9, eval = TRUE, echo = TRUE}
 summary(mod9)
-```
-
-```{r r2, eval = FALSE, echo = FALSE, fig.width = 7.5, fig.height = 5, dev = "png", dpi = 200}
-library(effectsize)
-library(bayestestR)
-
-r2 <- eta_squared_posterior(
-  model = mod9, partial = FALSE,
-  type = 3, draws = 1e3, verbose = FALSE
-  )
-
-# bayestestR::describe_posterior(r2, rope_range = c(0, 0.1), test = "rope")
-# BEST::plotPost(r2$Marriage.s)
-posterior_plot(samples = r2$Marriage.s)
 ```
 
 ## Prédicteurs catégoriels
@@ -792,7 +780,7 @@ str(df5)
 
 . . .
 
-Règle : pour $k$ catégories, nous aurons besoin de $k - 1$ *dummy variables*. Pas la peine de créer une variable pour `ape`, qui sera notre *intercept*.
+Règle : pour $k$ catégories, nous aurons besoin de $k - 1$ dummy variables. Pas la peine de créer une variable pour `ape`, qui sera notre intercept.
 
 ```{r categories, eval = TRUE, echo = TRUE}
 df5$clade.NWM <- ifelse(df5$clade == "New World Monkey", 1, 0)
@@ -814,7 +802,9 @@ $$
 
 <br>
 
-```{r figure-table, eval = TRUE, echo = FALSE, out.width = "66%"}
+```{r figure-table, eval = TRUE, echo = FALSE}
+#| fig.align: "center"
+#| out.width: "50%"
 knitr::include_graphics("figures/table.png")
 ```
 
@@ -872,8 +862,11 @@ quantile(diff.NWM.OWM, probs = c(0.025, 0.5, 0.975) )
 
 . . .
 
-```{r plotpost-mod10, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5, dev = "png", dpi = 200}
-posterior_plot(samples = diff.NWM.OWM, compval = 0, rope = c(-0.1, 0.1) )
+```{r plotpost-mod10, eval = TRUE, echo = TRUE, dev = "png", dpi = 200}
+#| fig.width: 8
+#| fig.height: 4
+#| out.width: "66%"
+posterior_plot(samples = diff.NWM.OWM, compval = 0)
 ```
 
 ## Prédicteurs catégoriels
@@ -916,7 +909,7 @@ summary(mod11)
 
 ## Interaction
 
-Jusque là, les prédicteurs du modèle entretenaient des relations mutuellement indépendantes. Et si nous souhaitions que ces relations soient **conditionnelles**, ou **dépendantes** les unes des autres ?
+Jusque maintenant, les prédicteurs du modèle entretenaient des relations mutuellement indépendantes. Et si nous souhaitions que ces relations soient **conditionnelles**, ou **dépendantes** les unes des autres ?
 
 . . .
 
@@ -989,6 +982,8 @@ mod13 <- brm(
 
 ## Interaction
 
+On compare les estimations des deux modèles.
+
 ```{r model-comp, eval = TRUE, echo = FALSE}
 posterior_summary(mod12) %>%
   data.frame %>%
@@ -1057,7 +1052,7 @@ fitted(mod12) %>%
 
 ## Interaction
 
-L'effet d'interaction nous indique que les tulipes ont besoin à la fois d'eau et de lumière pour pousser, mais aussi qu'à de faibles niveaux d'humidité, la luminosité a peu d'effet, tandis que cet effet est plus important à haut niveau d'humidité. Cette explication vaut de manière **symétrique** pour l'effet de l'humidité sur la relation entre la luminosité et la pousse des plantes.
+L'effet d'interaction nous indique que les tulipes ont besoin à la fois d'eau et de lumière pour pousser, mais aussi qu'à de faibles niveaux d'humidité, la luminosité a peu d'effet, tandis que cet effet est plus important à haut niveau d'humidité. Cette explication vaut de manière **symétrique** pour l'effet de l'humidité sur la relation entre luminosité et pousse des plantes.
 
 ```{r plot-models2, eval = TRUE, echo = FALSE, fig.height = 6, fig.width = 12}
 # `fitted()` for model b7.8
@@ -1112,7 +1107,7 @@ Comme précédemment, le théorème de Bayes est utilisé pour mettre à jour no
 
 ## Exercice #1
 
-Cet exemple est basé sur le jeu de données `mtcars`, issu du volume de 1974 de *Motor Trend US*. La mesure qui nous intéresse est la consommation de carburant, en *miles per gallon* (mpg).
+Cet exemple est basé sur le jeu de données `mtcars`, issu du volume de 1974 de "Motor Trend US". La mesure qui nous intéresse est la consommation de carburant, en miles per gallon (mpg).
 
 ```{r mtcars-data, eval = TRUE, echo = TRUE}
 data(mtcars)
@@ -1186,7 +1181,7 @@ plot(
 
 ```{r plot-mod14-2, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6}
 plot(
-  conditional_effects(mod14, effects = "disp.s:cyl.s", spaghetti = TRUE, nsamples = 1e2),
+  conditional_effects(mod14, effects = "disp.s:cyl.s", spaghetti = TRUE, ndraws = 1e2),
   points = TRUE, mean = FALSE,
   point_args = list(
     alpha = 0.8, shape = 21, size = 4,
@@ -1223,7 +1218,7 @@ head(df7, 10)
 
 ## Exercice #2
 
-On s'intéresse à la concentration d'Ozone en fonction de la force du vent et de la température.
+On s'intéresse à la concentration de l'air en Ozone en fonction de la force du vent et de la température.
 
 - Écrire le modèle mathématique.
 - Fitter ce modèle aver `brms::brm()`, interpréter les estimations du modèle, et conclure sur l'effet de la force du vent et de la température.
@@ -1238,6 +1233,8 @@ Utilisez les fonctions suivantes (et lisez la documentation !) :
 + `brms::pp_check()` : posterior predictive checking
 
 ## Proposition de réponse, modèle mathématique
+
+On construit un modèle de régression multiple avec un intercept $\alpha$ et deux prédicteurs : la force du vent $W$ et la température $T$, pour prédire la concentration de l'air en Ozone $O$.
 
 $$
 \begin{aligned}
@@ -1277,8 +1274,8 @@ summary(mod15)
 
 ## Proposition de réponse, posterior predictive checking
 
-```{r ppc-mod15-1, eval = TRUE, echo = TRUE, fig.width = 20, fig.height = 8}
-pp_check(mod15, type = "intervals", nsamples = 1e2, prob = 0.5, prob_outer = 0.95) +
+```{r ppc-mod15-1, eval = TRUE, echo = TRUE, fig.width = 16, fig.height = 8}
+pp_check(mod15, type = "intervals", ndraws = 1e2, prob = 0.5, prob_outer = 0.95) +
   labs(x = "Observations", y = "Ozone")
 ```
 
@@ -1318,5 +1315,5 @@ mod15 %>%
 ## Proposition de réponse, posterior predictive checking
 
 ```{r ppc-mod15-3, eval = TRUE, echo = TRUE, fig.width = 14, fig.height = 7}
-pp_check(mod15, nsamples = 1e2) + labs(x = "Ozone", y = "Density")
+pp_check(object = mod15, ndraws = 1e2) + labs(x = "Ozone", y = "Density")
 ```

@@ -34,6 +34,8 @@ format:
 title-slide-attributes:
     data-background-color: "#1c5253"
 bibliography: ../../files/bib/references.bib
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## Préface :wave: :wave:
@@ -158,17 +160,16 @@ Conséquence : le concept de probabilité s'applique uniquement aux **collectifs
 
 ## Interprétation fréquentiste (ou empirique)
 
-```{r frequency, fig.width = 7.5, fig.height = 5, `code-line-numbers` = "|5"}
+```{r frequency, fig.width = 7.5, fig.height = 5, `code-line-numbers` = "|3"}
 library(tidyverse)
 
-sample(c(0, 1), 500, replace = TRUE) %>%
-        data.frame %>%
-        mutate(x = seq_along(.), y = cumsum(.) / seq_along(.) ) %>%
-        ggplot(aes(x = x, y = y), log = "y") +
+sample(x = c(0, 1), size = 500, prob = c(0.5, 0.5), replace = TRUE) %>%
+        data.frame() %>%
+        mutate(x = seq_along(.), y = cummean(.) ) %>%
+        ggplot(aes(x = x, y = y) ) +
         geom_line(lwd = 1) +
         geom_hline(yintercept = 0.5, lty = 3) +
-        xlab("Nombre de lancers") +
-        ylab("Proportion de faces") +
+        labs(x = "Nombre de lancers", y = "Proportion de faces") +
         ylim(0, 1)
 ```
 

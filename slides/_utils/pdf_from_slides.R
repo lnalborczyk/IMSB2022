@@ -1,6 +1,10 @@
-########################################################
-# Generating pdf from quarto (revealjs) slides
-####################################################
+##############################################################################
+# Generating pdf and extracting R code from quarto (revealjs) slides
+# -----------------------------------------------------------------------
+# Written by Ladislas Nalborczyk
+# E-mail: ladislas.nalborczyk@gmail.com
+# Last updated on October 18, 2022
+#######################################################################
 
 library(renderthis)
 library(pagedown)
@@ -13,7 +17,6 @@ slides <- list.files(
     )
 
 # some example
-# slides <- slides[-1]
 input <- slides[3]
 
 for (input in slides) { # for each course
@@ -45,5 +48,12 @@ for (input in slides) { # for each course
             )
         
     }
+    
+    # extracting the R code from slides
+    knitr::purl(
+        input = paste0("_", course, "/", course, ".qmd"),
+        output = paste0("code/", course, ".R"),
+        documentation = 1
+        )
     
 }
