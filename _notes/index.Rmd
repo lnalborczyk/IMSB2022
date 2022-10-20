@@ -20,7 +20,7 @@ description: |
     'Introduction à la modélisation statistique bayésienne', co-organisée par le collège
     des écoles doctorales de l’Université Grenoble Alpes et la Maison de la Modélisation
     et de la Simulation, Nanoscience et Environnement (MaiMoSiNE).
-url: "https://www.barelysignificant.com/IMSB2022/_notes"
+url: "https://www.barelysignificant.com/IMSB2022/notes/docs"
 cover-image: "./figures/cover_distributions.png"
 favicon: "./figures/cover_distributions.png"
 ---

@@ -1,7 +1,8 @@
 book_filename: "IMSB"
-edit: "https://github.com/lnalborczyk/IMSB2022/_notes/doc/tree/master/%s"
+edit: "https://github.com/lnalborczyk/IMSB2022/notes/doc/tree/master/%s"
 delete_merged_file: true
-output_dir: "docs"
+# output_dir: "docs"
+output_dir: "../notes"
 
 language:
   label:
