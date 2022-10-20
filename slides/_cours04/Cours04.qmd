@@ -950,7 +950,7 @@ Jusque maintenant, les prédicteurs du modèle entretenaient des relations mutue
 
 . . .
 
-Par exemple : on s'intéresse à la pousse des tulipes selon la quantité de lumière reçue et l'humidité du sol. Il se pourrait que la relation entre quantité de lumière reçue et pousse des tulipes soit différente selon l'humidité du sol. En d'autres termes, il se pourrait que la relation entre quantité de lumière reçue et pousse des tulipe soit **conditionnelle** à l'humidité du sol...
+Par exemple : on s'intéresse à la pousse des tulipes selon la quantité de lumière reçue et l'humidité du sol. Il se pourrait que la relation entre quantité de lumière reçue et pousse des tulipes soit différente selon l'humidité du sol. En d'autres termes, il se pourrait que la relation entre quantité de lumière reçue et pousse des tulipes soit **conditionnelle** à l'humidité du sol...
 
 ## Interaction
 
