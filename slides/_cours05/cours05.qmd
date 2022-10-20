@@ -199,7 +199,7 @@ contient est de surface $S = R^{2} = 1$. Si la loi de probabilité du
 tirage de point est uniforme, la probabilité de tomber dans le quart de
 disque vaut $\frac{\sigma}{S} = \frac{\pi}{4}$. En faisant le rapport du
 nombre de points dans le disque au nombre de tirages, on obtient une
-approximation du nombre $\pi / 4$ si le nombre de tirages est grand.
+approximation du nombre $\pi / 4$.
 
 ```{r pi_gif, echo = FALSE, out.width = "25%"}
 knitr::include_graphics("figures/Pi_30K.gif")
@@ -393,13 +393,12 @@ nouvelle position.
 Deux idées centrales :
 
 - La proposition doit favoriser les valeurs de paramètre les
-plus probables <br> $~~\longrightarrow~$ On parcourt plus souvent ces
-valeurs de paramètres <br>
+plus probables : On parcourt plus souvent ces valeurs de paramètres
 
 . . .
 
-$\bullet~$ La proposition doit se limiter aux valeurs adjacentes au
-paramètre courant <br> $~~\longrightarrow~$ On augmente la vitesse de
+- La proposition doit se limiter aux valeurs adjacentes au
+paramètre courant : On augmente la vitesse de
 convergence en restant là où se trouve l'information (i.e., en
 parcourant l'espace des paramètres de manière **locale** plutôt que
 **globale**)
@@ -409,8 +408,21 @@ parcourant l'espace des paramètres de manière **locale** plutôt que
 Sélectionner un point de départ (on peut sélectionner n'importe quelle
 valeur).
 
-```{r, echo = FALSE, out.width = "75%"}
-knitr::include_graphics("figures/DiscretMCMC_1.png")
+```{r metro1, echo = FALSE, fig.width = 12, fig.height = 6, out.width = "75%"}
+theta %>%
+  data.frame() %>%
+  ggplot(aes(x = theta, y = theta) ) +
+  geom_bar(stat = "identity", width = 0.5) +
+  labs(x = expression(theta), y = expression(paste(p, "(", theta, ")") ) ) +
+  scale_x_continuous(breaks = 1:7) +
+  annotate(
+    geom = "segment", x = 4, y = 9.5, xend = 4, yend = 7.5,
+    arrow = arrow(length = unit(5, "mm") )
+    ) +
+  annotate(
+      geom = "text", x = 4, y = 10,
+      label = "Position de départ", hjust = "center", size = 5
+      )
 ```
 
 ## Algorithme Metropolis
@@ -418,67 +430,95 @@ knitr::include_graphics("figures/DiscretMCMC_1.png")
 Faire une proposition de déplacement centrée sur la valeur courante de
 $\theta$.
 
-```{r, echo = FALSE, out.width = "75%"}
-knitr::include_graphics("figures/DiscretMCMC_2.png")
+```{r metro2, echo = FALSE, fig.width = 12, fig.height = 6, out.width = "75%"}
+theta %>%
+  data.frame() %>%
+  ggplot(aes(x = theta, y = theta) ) +
+  geom_bar(stat = "identity", width = 0.5) +
+  labs(x = expression(theta), y = expression(paste(p, "(", theta, ")") ) ) +
+  scale_x_continuous(breaks = 1:7) +
+  annotate(
+    geom = "segment", x = 3, y = 9.5, xend = 3, yend = 7.5,
+    arrow = arrow(length = unit(5, "mm") )
+    ) +
+  annotate(
+    geom = "segment", x = 5, y = 9.5, xend = 5, yend = 7.5,
+    arrow = arrow(length = unit(5, "mm") )
+    ) +
+  annotate(
+      geom = "text", x = 3, y = 10,
+      label = "50%", hjust = "center", size = 5
+      ) +
+  annotate(
+      geom = "text", x = 5, y = 10,
+      label = "50%", hjust = "center", size = 5
+      )
 ```
 
 ## Algorithme Metropolis
 
-Calculer la **probabilité** d'accepter le déplacement :
+Calculer la **probabilité** d'accepter le déplacement selon la règle suivante :
 
 $$\Pr_{\text{move}} = \text{min} \left(\frac{\Pr(\theta_{\text{proposed}})}{\Pr(\theta_{\text{current}})}, 1 \right)$$
-
-```{r, echo = FALSE, out.width = "75%"}
-knitr::include_graphics("figures/DiscretMCMC_3.png")
+```{r metro3, echo = FALSE, fig.width = 12, fig.height = 6, out.width = "75%"}
+theta %>%
+  data.frame() %>%
+  ggplot(aes(x = theta, y = theta) ) +
+  geom_bar(stat = "identity", width = 0.5) +
+  labs(x = expression(theta), y = expression(paste(p, "(", theta, ")") ) ) +
+  scale_x_continuous(breaks = 1:7) +
+  annotate(
+    geom = "segment", x = 5, y = 9.5, xend = 5, yend = 7.5,
+    arrow = arrow(length = unit(5, "mm") )
+    ) +
+  annotate(
+      geom = "text", x = 5, y = 10, label = "Pr(proposed) / Pr(current) = 5 / 4 > 1",
+      hjust = "center", size = 5
+      )
 ```
-
-<!--
-
-## Algorithme Metropolis
-
-Puis, accepter ou rejeter la proposition de déplacement. On compare le
-ratio de probabilités $\Pr_{\text{move}}$ à un tirage uniforme. On
-génère une valeur $u$ suivant $u \sim \mathrm{Uniform(0, 1)}$. Ensuite :
-
-$$
-\begin{aligned}
-\text{Si }& u \leq \Pr_{\text{move}} \text{, Alors on accepte le déplacement}\\
-\text{Si }& u > \Pr_{\text{move}} \text{, Alors on rejette le déplacement}\\
-\end{aligned}
-$$
-
-```{r, echo = FALSE, out.width = "75%"}
-knitr::include_graphics("figures/DiscretMCMC_3.png")
-```
-
--->
 
 ## Algorithme Metropolis
 
 La position calculée devient la nouvelle position de départ et on répète
 l'algorithme.
 
-```{r, echo = FALSE, out.width = "75%"}
-knitr::include_graphics("figures/DiscretMCMC_4.png")
+```{r metro4, echo = FALSE, fig.width = 12, fig.height = 6, out.width = "75%"}
+theta %>%
+  data.frame() %>%
+  ggplot(aes(x = theta, y = theta) ) +
+  geom_bar(stat = "identity", width = 0.5) +
+  labs(x = expression(theta), y = expression(paste(p, "(", theta, ")") ) ) +
+  scale_x_continuous(breaks = 1:7) +
+  annotate(
+    geom = "segment", x = 5, y = 9.5, xend = 5, yend = 7.5,
+    arrow = arrow(length = unit(5, "mm") )
+    ) +
+  annotate(
+      geom = "text", x = 5, y = 10,
+      label = "Nouvelle position", hjust = "center", size = 5
+      )
 ```
 
 ## Algorithme Metropolis
 
 ```{r metropolis, eval = TRUE, echo = TRUE}
-metropolis <- function (niter = 1e2, startval = 3) {
+metropolis <- function (niter = 1e2, startval = 4) {
     
-    x <- rep(0, niter) # initialises the chain vector
-    x[1] <- startval # defines the starting value
+    x <- rep(0, niter) # initialise la chaîne (le vecteur) de longueur niter
+    x[1] <- startval # définit la valeur de départ du paramètre
     
     for (i in 2:niter) {
         
-        current <- x[i - 1] # current value of the parameter
+        current <- x[i - 1] # valeur courante du paramètre
         proposal <- current + sample(c(-1, 1), size = 1)
-        # making sure proposals are within the possible range
+        # on s'assure que la valeur proposée est bien dans l'intervalle [1, 7]
         if (proposal < 1) proposal <- 1
         if (proposal > 7) proposal <- 7
+        # calcul de la probabilité de déplacement
         prob_move <- min(1, proposal / current)
-        x[i] <- sample(c(current, proposal), size = 1, prob = c(1 - prob_move, prob_move) )
+        # on se déplace (ou pas) suivant cette probabilité
+        # x[i] <- ifelse(prob_move > runif(n = 1, min = 0, max = 1), proposal, current)
+        x[i] <- sample(c(proposal, current), size = 1, prob = c(prob_move, 1 - prob_move) )
         
     }
     
@@ -492,12 +532,12 @@ metropolis <- function (niter = 1e2, startval = 3) {
 ```{r metropolis1, eval = TRUE, echo = FALSE, fig.width = 25, fig.height = 6, fig.align = "center"}
 set.seed(666)
 
-trajLength <- 250
 theta <- 1:7
 ptheta <- theta
+trajLength <- 200
 trajectory <- sample(theta, prob = ptheta, size = trajLength, replace = TRUE)
 
-layout(matrix(1:2, ncol = 2), widths = c(.75, .25) )
+layout(matrix(1:2, ncol = 2), widths = c(0.75, 0.25) )
 
 plot(
     trajectory,
@@ -514,50 +554,21 @@ barplot(
 ```
 
 ```{r metropolis2, eval = TRUE, echo = FALSE, fig.width = 25, fig.height = 6, fig.align = "center"}
-# source("code/DBDA2E-utilities.R")
 set.seed(666)
 
-nextPosition <- function (currentPosition) {
-  
-  # flip coin to generate proposal
-  proposal <- currentPosition + sample( c(-1, 1), size = 1)
-  
-  # now make sure he loops around the archipelago
-  if (proposal < 1) proposal <- 1
-  if (proposal > 7) proposal <- 7
-  
-  # move?
-  prob_move <- min(1.0, proposal / currentPosition)
-  result <- ifelse(runif(1) < prob_move, proposal, currentPosition)
-  
-  return(result)
-  
-}
+trajectory <- metropolis(niter = trajLength, startval = 4)
 
-positionLength <- 250
-trajectory <- rep(0, positionLength)
-trajectory[1] <- 1
+layout(matrix(1:2, ncol = 2), widths = c(0.75, 0.25) )
 
-for (ii in 1:(positionLength - 1) ) {
-  
-        trajectory[ii + 1] <- nextPosition(trajectory[ii])
-        
-}
-
-idxToPlot <- 1:positionLength
-layout(matrix(1:2, ncol = 2), widths = c(.75, .25) )
-
-# plot histogram
 plot(
-  idxToPlot, trajectory[idxToPlot],
+  trajectory,
   main = "Algorithme Metropolis",
-  ylab = bquote(theta), xlim = c(0, positionLength), xlab = "Nombre d'itérations",
+  ylab = bquote(theta), xlim = c(0, trajLength), xlab = "Nombre d'itérations",
   type = "o", pch = 20, col = prior_color, cex.lab = 2, cex.main = 3, cex.axis = 2
   )
 
-# barplot
 barplot(
-  table(trajectory[idxToPlot]), col = prior_color,
+  table(trajectory), col = prior_color,
   horiz = TRUE, axes = FALSE, axisnames = FALSE
   )
 ```
@@ -608,7 +619,7 @@ prior par vraisemblance (car la constante de normalisation s'annule) !
 
 $\longrightarrow~$ Sélectionner un point de départ <br> $~\bullet~$ Il
 faut choisir $\theta \in \left[0,1\right]$ <br> $~\bullet~$ Seule
-contrainte $\Pr(\theta_{initial}) \ne 0$
+contrainte $\Pr(\theta_{\text{initial}}) \ne 0$
 
 . . .
 
@@ -798,9 +809,7 @@ paramInfo <- BEST::plotPost(
 
 ## Algorithme Metropolis
 
-**Le choix de sigma dans la proposition de déplacement**
-
-Deux indices permettent d'évaluer la qualité de l'échantillonnage : <br>
+Comment choisir $\sigma$ pour la proposition de déplacement ? Deux indices permettent d'évaluer la qualité de l'échantillonnage : <br>
 
 $\rightarrow$ Le rapport entre le nombre de déplacements proposés et le
 nombre de déplacements acceptés <br>
@@ -1177,25 +1186,27 @@ $\rightarrow$ Peu de valeurs effectives...
 
 Il faut beaucoup d'itérations pour obtenir un résultat satisfaisant...
 
-## Algorithme Metropolis-Hastings
+## Algorithme Metropolis^[L'algorithme Metropolis-Hastings est une extension de l'algorithme Metropolis qui permet de faire des propositions de déplacement non symmétrique. Voir <https://en.wikipedia.org/wiki/Metropolis–Hastings_algorithm>.]
 
-```{r metropolis-hastings1, eval = TRUE, echo = TRUE}
-metropolis_hastings <- function (niter = 1e2, startval = 0.5) {
+```{r metropolis-beta-binomial1, eval = TRUE, echo = TRUE}
+metropolis_beta_binomial <- function (niter = 1e2, startval = 0.5) {
     
-    x <- rep(0, niter) # initialises the chain vector
-    x[1] <- startval # defines the starting value
+    x <- rep(0, niter) # initialise la chaîne (le vecteur) de longueur niter
+    x[1] <- startval # définit la valeur de départ du paramètre
     
     for (i in 2:niter) {
         
-        current <- x[i - 1] # current value of the parameter
+        current <- x[i - 1] # valeur courante du paramètre
         current_plaus <- dbeta(current, 2, 3) * dbinom(1, 2, current)
-        # proposal <- runif(n = 1, min = 0, max = 1) # proposed value of the parameter
-        proposal <- rnorm(n = 1, mean = current, sd = 0.1) # proposed value of the parameter
-        # making sure proposals are within the possible range
+        # proposal <- runif(n = 1, min = current - w, max = current + w) # valeur proposée
+        proposal <- rnorm(n = 1, mean = current, sd = 0.1) # valeur proposée
+        # on s'assure que la valeur proposée est bien dans l'intervalle [0, 1]
         if (proposal < 0) proposal <- 0
         if (proposal > 1) proposal <- 1
         proposal_plaus <- dbeta(proposal, 2, 3) * dbinom(1, 2, proposal)
-        alpha <- min(1, proposal_plaus / current_plaus) # moving probability ratio
+        # calcul de la probabilité de déplacement
+        alpha <- min(1, proposal_plaus / current_plaus)
+        # on se déplace (ou pas) suivant cette probabilité
         x[i] <- sample(c(current, proposal), size = 1, prob = c(1 - alpha, alpha) )
         
     }
@@ -1205,23 +1216,23 @@ metropolis_hastings <- function (niter = 1e2, startval = 0.5) {
 }
 ```
 
-## Algorithme Metropolis-Hastings
+## Algorithme Metropolis
 
-```{r metropolis-hastings2, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5}
-z1 <- metropolis_hastings(niter = 1e4, startval = 0.5)
-z2 <- metropolis_hastings(niter = 1e4, startval = 0.5)
+```{r metropolis-beta-binomial2, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5}
+z1 <- metropolis_beta_binomial(niter = 1e4, startval = 0.5)
+z2 <- metropolis_beta_binomial(niter = 1e4, startval = 0.5)
 
 data.frame(z1 = z1, z2 = z2) %>%
   mutate(sample = 1:1e4) %>%
   pivot_longer(cols = z1:z2) %>%
   ggplot(aes(x = sample, y = value, colour = name) ) +
   geom_line(show.legend = FALSE) +
-  labs(x = "Nombre d'itérations", y = expression(theta) )
+  labs(x = "Numéro d'itération", y = expression(theta) ) + ylim(c(0, 1) )
 ```
 
-## Algorithme Metropolis-Hastings
+## Algorithme Metropolis
 
-```{r metropolis-hastings3, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5}
+```{r metropolis-beta-binomial3, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5}
 data.frame(z1 = z1, z2 = z2) %>%
   pivot_longer(cols = z1:z2) %>%
   rownames_to_column() %>%
@@ -1230,7 +1241,7 @@ data.frame(z1 = z1, z2 = z2) %>%
   geom_histogram(aes(y = ..density..), color = "white", alpha = 0.8) +
   stat_function(fun = dbeta, args = list(3, 4), color = posterior_color, size = 1) +
   facet_wrap(~name) +
-  labs(x = expression(theta), y = "Nombre d'échantillons")
+  labs(x = expression(theta), y = "Densité")
 ```
 
 ## Algorithme Metropolis-Hastings {background-iframe="https://chi-feng.github.io/mcmc-demo/app.html?algorithm=RandomWalkMH&target=standard"}
@@ -1553,7 +1564,7 @@ garde toujours la même forme (variance constante).
 
 L'algorithme HMC repose sur une autre idée : Adapter la proposition de
 déplacement en fonction de la position courante du paramètre et de la
-géométrie du postérieur aux alentours de cette position.
+géométrie de la distribution postérieure aux alentours de cette position.
 
 ## Algorithme Hamiltonian Monte Carlo
 
@@ -1662,7 +1673,7 @@ knitr::include_graphics("figures/Verif_representativité1.png")
 Cette affichage ne montre que les 500 premières itérations. Les
 trajectoires ne se superposent pas au début (zone orange). La densité
 est également affectée. En pratique on supprime ces premières itérations
-(*burn-in* ou *warm-up*).
+(période de "burn-in" ou de "warm-up").
 
 ```{r repres2, echo = FALSE, out.width = "50%"}
 knitr::include_graphics("figures/Verif_representativité2.png")
@@ -1670,7 +1681,7 @@ knitr::include_graphics("figures/Verif_representativité2.png")
 
 ## Évaluation des MCMC - Représentativité
 
-Vérification numérique des chaînes : Le *shrink factor* (aussi connu
+Vérification numérique des chaînes : Le **shrink factor** (aussi connu
 comme $\hat{R}$ ou `Rhat`) est le rapport entre la variance
 inter-chaînes et intra-chaîne. Cette valeur devrait idéalement tendre
 vers 1 (on la considère comme acceptable jusqu'à 1.01).
@@ -1682,7 +1693,7 @@ knitr::include_graphics("figures/Verif_representativité3.png")
 ## Évaluation des MCMC - Stabilité et précicion
 
 Plus la chaîne est longue et plus le résultat sera précis et stable. Si
-la chaîne *s'attarde* sur chaque position, et que le nombre d'itérations
+la chaîne "s'attarde" sur chaque position, et que le nombre d'itérations
 reste le même, alors on perd en précision. Il lui faudra plus
 d'itérations pour arriver au même niveau de précision. L'autocorrélation
 est la corrélation de la chaîne avec elle-même mais décalé de $k$
@@ -1696,7 +1707,7 @@ knitr::include_graphics("figures/Verif_autocorrelation.png")
 
 La fonction d'autocorrélation est représentée pour chaque chaîne (en
 haut à droite). Un autre résultat rend compte de la précision de
-l'échantillon : l'*effective sample size*,
+l'échantillon : l'effective sample size,
 $ESS = \frac{N}{1 + 2 \sum_k ACF(k)}$. Il représente la taille d'un
 échantillon non-autocorrélé extrait de la somme de toutes les chaînes.
 Pour une précision raisonnable du HDI, il est recommandé d'avoir un ESS
@@ -1752,10 +1763,7 @@ mod1 <- brm(
 # combo can be hist, dens, dens_overlay, trace, trace_highlight...
 # cf. https://mc-stan.org/bayesplot/reference/MCMC-overview.html
 
-plot(
-  x = mod1, combo = c("dens_overlay", "trace"),
-  theme = theme_bw(base_size = 16, base_family = "Open Sans")
-  )
+plot(x = mod1, combo = c("dens_overlay", "trace") )
 ```
 
 ## Évaluation des MCMC - Implémentation via brms
@@ -1812,9 +1820,9 @@ post %>% # rank plots
 ## Résumé du cours
 
 Nous avons introduit et discuté l'utilisation d'échantillonneurs
-(*samplers*) pour obtenir des échantillons issus de la distribution
+pour obtenir des échantillons issus de la distribution
 postérieure (non-normalisée). Ces échantillons peuvent ensuite être
-utilisés pour calculer différentes statistiques sur la distribution
+utilisés pour calculer différentes statistiques de la distribution
 postérieure (e.g., moyenne, médiane, HDI).
 
 . . .
@@ -1862,7 +1870,7 @@ str(df1)
 Écrire le modèle qui prédit `log_gdp` en fonction de la rudesse du
 terrain, du continent, et de l'interaction de ces deux variables avec
 `brms::brm()`, en spécifiant vos propres priors. Examinez ensuite les
-estimations de ce modèle (interprétation, diagnostiques des MCMCs).
+estimations de ce modèle (interprétation des paramètres, diagnostiques des MCMCs).
 
 $$
 \begin{aligned}
@@ -1902,10 +1910,7 @@ summary(mod2)
 ## Proposition de réponse
 
 ```{r mod2-diagnostics, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6}
-plot(
-  x = mod2, combo = c("dens_overlay", "trace"), pars = "^b_",
-  theme = theme_bw(base_size = 16, base_family = "Open Sans")
-  )
+plot(x = mod2, combo = c("dens_overlay", "trace"), pars = "^b_")
 ```
 
 ## Proposition de réponse

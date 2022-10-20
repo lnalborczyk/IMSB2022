@@ -93,7 +93,7 @@ priors <- c(
   )
 
 model <- brm(
-  y ~ 1 + x,
+  formula = y ~ 1 + x,
   family = gaussian(),
   prior = priors,
   data = df
@@ -196,7 +196,7 @@ df1 %>%
   facet_wrap(~key)
 ```
 
-## Influence du taux de mariage
+## Influence du taux de mariage sur le taux de divorce
 
 $$
 \begin{aligned}
@@ -216,7 +216,7 @@ priors <- c(
   )
 
 mod1 <- brm(
-  Divorce.s ~ 1 + Marriage.s,
+  formula = Divorce.s ~ 1 + Marriage.s,
   family = gaussian(),
   prior = priors,
   # for prior predictive checking
@@ -225,7 +225,31 @@ mod1 <- brm(
   )
 ```
 
-## Prior predictive checking
+## Représentation visuelle des priors
+
+```{r prior-mod1, echo = FALSE, fig.width = 16, fig.height = 8}
+library(patchwork)
+
+p1 <- data.frame(x = c(-40, 40) ) %>%
+  ggplot(aes(x = x) ) +
+  stat_function(
+    fun = dnorm, args = list(mean = 0, sd = 10),
+    fill = "steelblue", geom = "area", alpha = 0.8
+    ) +
+  labs(x = expression(alpha), y = "Densité de probabilité")
+
+p2 <- data.frame(x = c(0, 7.5) ) %>%
+  ggplot(aes(x = x) ) +
+  stat_function(
+    fun = dexp, args = list(1),
+    fill = "steelblue", geom = "area", alpha = 0.8
+    ) +
+  labs(x = expression(sigma), y = "Densité de probabilité")
+
+p1 + p2
+```
+
+## Prédictions a priori (pour $\mu$)
 
 ```{r ppc1-mod1, eval = TRUE, echo = TRUE}
 # getting the samples from the prior distribution
@@ -235,17 +259,23 @@ prior <- prior_samples(mod1)
 head(prior)
 ```
 
-## Prior predictions
+## Prédictions a priori (pour $\mu$)
 
-```{r ppc2-mod1, eval = TRUE, echo = TRUE, fig.width = 9, fig.height = 6}
+```{r ppc2-mod1, eval = TRUE, echo = TRUE, fig.width = 9, fig.height = 6, `code-line-numbers` = "|5"}
 prior %>% 
   sample_n(size = 1e2) %>% 
   rownames_to_column("draw") %>% 
   expand(nesting(draw, Intercept, b), a = c(-2, 2) ) %>%
   mutate(d = Intercept + b * a) %>% 
-  ggplot(aes(x = a, y = d)) +
+  ggplot(aes(x = a, y = d) ) +
   geom_line(aes(group = draw), color = "steelblue", size = 0.5, alpha = 0.5) +
   labs(x = "Taux de mariage (standardisé)", y = "Taux de divorce (standardisé)")
+```
+
+## Prédictions a priori (pour $D_{i}$)
+
+```{r ppc3-mod1, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6}
+pp_check(object = mod1, prefix = "ppd", ndraws = 1e2) + labs(x = "Taux de divorce", y = "Densité")
 ```
 
 ## Influence du taux de mariage
@@ -254,9 +284,9 @@ prior %>%
 summary(mod1)
 ```
 
-## Posterior predictions
+## Prédictions a posteriori
 
-```{r posterior-mod1, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5}
+```{r posterior-mod1, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5, `code-line-numbers` = "|6"}
 nd <- data.frame(Marriage.s = seq(from = -2.5, to = 3.5, length.out = 1e2) )
 
 as_draws_df(x = mod1, pars = "^b_") %>%
@@ -267,6 +297,12 @@ as_draws_df(x = mod1, pars = "^b_") %>%
   geom_point(data = df1, aes(x = Marriage.s, y = Divorce.s), size = 2) +
   geom_line(aes(group = .draw), color = "purple", size = 0.5, alpha = 0.5) +
   labs(x = "Taux de mariage (standardisé)", y = "Taux de divorce (standardisé)")
+```
+
+## Prédictions a posteriori (pour $D_{i}$)
+
+```{r ppc4-mod1, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6}
+pp_check(object = mod1, ndraws = 1e2) + labs(x = "Taux de divorce", y = "Densité")
 ```
 
 ## Influence de l'âge médian de mariage
@@ -289,7 +325,7 @@ priors <- c(
   )
 
 mod2 <- brm(
-  Divorce.s ~ 1 + MedianAgeMarriage.s,
+  formula = Divorce.s ~ 1 + MedianAgeMarriage.s,
   family = gaussian(),
   prior = priors,
   data = df1
@@ -302,7 +338,7 @@ mod2 <- brm(
 summary(mod2)
 ```
 
-## Posterior predictions
+## Prédictions a posteriori
 
 ```{r posterior-mod2, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5}
 nd <- data.frame(MedianAgeMarriage.s = seq(from = -3, to = 3.5, length.out = 1e2) )
@@ -348,7 +384,7 @@ priors <- c(
   )
 
 mod3 <- brm(
-  Divorce.s ~ 1 + Marriage.s + MedianAgeMarriage.s,
+  formula = Divorce.s ~ 1 + Marriage.s + MedianAgeMarriage.s,
   family = gaussian(),
   prior = priors,
   data = df1
@@ -360,7 +396,7 @@ mod3 <- brm(
 Interprétation : Une fois qu'on connait l'âge median de mariage dans un état, connaître le taux de mariage de cet état n'apporte pas vraiment d'information supplémentaire...
 
 ```{r summary-mod3, eval = TRUE, echo = TRUE}
-posterior_summary(mod3, pars = "^b_")
+posterior_summary(x = mod3, pars = "^b_")
 ```
 
 ## Visualiser les prédictions du modèle
@@ -389,7 +425,7 @@ data.frame(fitted(mod3) ) %>%
 ## Visualiser les prédictions du modèle
 
 ```{r ppc-mod3-1, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6}
-pp_check(mod3, type = "intervals", ndraws = 1e2, prob = 0.5, prob_outer = 0.95) +
+pp_check(object = mod3, type = "intervals", ndraws = 1e2, prob = 0.5, prob_outer = 0.95) +
   labs(x = "État", y = "Taux de divorce (standardisé)")
 ```
 
@@ -464,7 +500,7 @@ priors <- c(
   )
 
 mod4 <- brm(
-  height ~ 1 + leg_left + leg_right,
+  formula = height ~ 1 + leg_left + leg_right,
   prior = priors,
   family = gaussian,
   data = df2
@@ -502,7 +538,7 @@ post %>%
 
 ## Multicolinéarité
 
-Lorsqu'on inclut deux prédicteurs qui contiennent presque exactement la même information dans un modèle, c'est comme si on incluait deux fois le même prédicteur $x_{i}$. Du point de vue du modèle, les deux pentes ne sont pas dissociables, ils agissent sur le même prédicteur. C'est comme si on avait fitté le modèle suivant :
+Lorsqu'on inclut deux prédicteurs qui contiennent presque exactement la même information dans un modèle, c'est comme si on incluait deux fois le même prédicteur $x_{i}$. Du point de vue du modèle, les deux pentes ne sont pas dissociables, elles agissent sur le même prédicteur. C'est comme si on avait fitté le modèle suivant :
 
 $$
 \begin{aligned}
@@ -532,7 +568,7 @@ priors <- c(
   )
 
 mod5 <- brm(
-  height ~ 1 + leg_left,
+  formula = height ~ 1 + leg_left,
   prior = priors,
   family = gaussian,
   data = df2
@@ -609,7 +645,7 @@ priors <- c(
   )
 
 mod6 <- brm(
-  h1 ~ 1 + h0 + treatment + fungus,
+  formula = h1 ~ 1 + h0 + treatment + fungus,
   prior = priors,
   family = gaussian,
   data = df3
@@ -630,12 +666,14 @@ Nous nous intéressons plutôt à l'influence du traitement sur la pousse. Il su
 
 ```{r mod7, eval = TRUE, echo = TRUE, results = "hide"}
 mod7 <- brm(
-  h1 ~ 1 + h0 + treatment,
+  formula = h1 ~ 1 + h0 + treatment,
   prior = priors,
   family = gaussian,
   data = df3
   )
 ```
+
+. . .
 
 Note : on pourrait également utiliser la méthode `update()`.
 
@@ -680,7 +718,7 @@ priors <- c(
   )
 
 mod8 <- brm(
-  height ~ 1 + male,
+  formula = height ~ 1 + male,
   prior = priors,
   family = gaussian,
   data = df4
@@ -692,7 +730,7 @@ mod8 <- brm(
 L'intercept $\alpha$ représente la taille moyenne des femmes, car $\mu_{i} = \alpha + \beta_{m}(m_{i} = 0) = \alpha$.
 
 ```{r summary-mod8, eval = TRUE, echo = TRUE}
-fixef(mod8) # retrieves fixed effects
+fixef(mod8) # récupère les effets "fixes"
 ```
 
 . . .
@@ -737,13 +775,12 @@ df4 <- df4 %>% mutate(female = 1 - male)
 
 priors <- c(
   # il n'y a plus d'intercept dans ce modèle
-  # prior(normal(178, 100), class = Intercept),
   prior(normal(178, 20), class = b),
   prior(exponential(0.01), class = sigma)
   )
 
 mod9 <- brm(
-  height ~ 0 + female + male,
+  formula = height ~ 0 + female + male,
   prior = priors,
   family = gaussian,
   data = df4
@@ -818,7 +855,7 @@ priors <- c(
   )
 
 mod10 <- brm(
-  kcal.per.g ~ 1 + clade.NWM + clade.OWM + clade.S,
+  formula = kcal.per.g ~ 1 + clade.NWM + clade.OWM + clade.S,
   prior = priors,
   family = gaussian,
   data = df5
@@ -834,10 +871,10 @@ summary(mod10)
 ## Prédicteurs catégoriels
 
 ```{r pairs-mod10, eval = TRUE, echo = TRUE}
-# retrieves posterior samples
+# récupère les échantillons de la distribution postérieure
 post <- as_draws_df(x = mod10)
 
-# retrieves posterior samples for each category
+# récupère les échantillons pour chaque clade
 mu.ape <- post$b_Intercept
 mu.NWM <- post$b_Intercept + post$b_clade.NWM
 mu.OWM <- post$b_Intercept + post$b_clade.OWM
@@ -847,7 +884,7 @@ mu.S <- post$b_Intercept + post$b_clade.S
 . . .
 
 ```{r precis-mod10, eval = TRUE, echo = TRUE}
-# displays a summary of the posterior samples
+# résumé de ces échantillons par clade
 rethinking::precis(data.frame(mu.ape, mu.NWM, mu.OWM, mu.S), prob = 0.95)
 ```
 
@@ -894,7 +931,7 @@ priors <- c(
 
 mod11 <- brm(
   # modèle sans intercept avec seulement un prédicteur catégoriel (facteur)
-  kcal.per.g ~ 0 + clade,
+  formula = kcal.per.g ~ 0 + clade,
   prior = priors,
   family = gaussian,
   data = df5
@@ -963,7 +1000,7 @@ priors <- c(
   )
 
 mod12 <- brm(
-  blooms ~ 1 + water.c + shade.c,
+  formula = blooms ~ 1 + water.c + shade.c,
   prior = priors,
   family = gaussian,
   data = df6
@@ -972,8 +1009,8 @@ mod12 <- brm(
 
 ```{r mod13, eval = TRUE, echo = TRUE, results = "hide"}
 mod13 <- brm(
-  blooms ~ 1 + water.c * shade.c,
-  # equivalent to blooms ~ 1 + water.c + shade.c + water.c:shade.c
+  formula = blooms ~ 1 + water.c * shade.c,
+  # équivalent à blooms ~ 1 + water.c + shade.c + water.c:shade.c
   prior = priors,
   family = gaussian,
   data = df6
@@ -1150,7 +1187,7 @@ priors <- c(
   )
 
 mod14 <- brm(
-  mpg ~ 1 + disp.s * cyl.s,
+  formula = mpg ~ 1 + disp.s * cyl.s,
   prior = priors,
   family = gaussian,
   data = mtcars
@@ -1167,7 +1204,7 @@ summary(mod14)
 
 ```{r plot-mod14-1, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6}
 plot(
-  conditional_effects(mod14, effects = "disp.s:cyl.s"),
+  conditional_effects(x = mod14, effects = "disp.s:cyl.s"),
   points = TRUE,
   point_args = list(
     alpha = 0.8, shape = 21, size = 4,
@@ -1181,7 +1218,7 @@ plot(
 
 ```{r plot-mod14-2, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6}
 plot(
-  conditional_effects(mod14, effects = "disp.s:cyl.s", spaghetti = TRUE, ndraws = 1e2),
+  conditional_effects(x = mod14, effects = "disp.s:cyl.s", spaghetti = TRUE, ndraws = 1e2),
   points = TRUE, mean = FALSE,
   point_args = list(
     alpha = 0.8, shape = 21, size = 4,
@@ -1196,7 +1233,7 @@ plot(
 ```{r plot-mod14-3, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6}
 plot(
   conditional_effects(
-    mod14, effects = "disp.s:cyl.s",
+    x = mod14, effects = "disp.s:cyl.s",
     surface = TRUE, resolution = 1e2
     ),
   stype = "raster", # contour or raster
@@ -1259,7 +1296,7 @@ priors <- c(
   )
 
 mod15 <- brm(
-  Ozone ~ 1 + Wind.s + Temp.s,
+  formula = Ozone ~ 1 + Wind.s + Temp.s,
   prior = priors,
   family = gaussian,
   data = df7
@@ -1276,39 +1313,6 @@ summary(mod15)
 
 ```{r ppc-mod15-1, eval = TRUE, echo = TRUE, fig.width = 16, fig.height = 8}
 pp_check(mod15, type = "intervals", ndraws = 1e2, prob = 0.5, prob_outer = 0.95) +
-  labs(x = "Observations", y = "Ozone")
-```
-
-## Proposition de réponse, posterior predictive checking
-
-```{r ppc-mod15-2, eval = TRUE, echo = FALSE, fig.width = 20, fig.height = 10}
-mod15 %>%
-  # adds the prediction intervals
-  predict(., probs = c(0.025, 0.975) ) %>%
-  data.frame %>%
-  transmute(ll = Q2.5, ul = Q97.5) %>%
-  # adds the fitted intervals
-  bind_cols(fitted(mod15, probs = c(0.025, 0.975) ) %>% data.frame() ) %>%
-  # adds the data
-  bind_cols(mod15$data) %>%
-  mutate(case = 1:nrow(.) ) %>%
-  # plotting it
-  ggplot(aes(x = case) ) +
-  geom_linerange(
-    aes(ymin = ll, ymax = ul),
-    size = 4, alpha = 0.2
-    ) +
-  geom_pointrange(
-    aes(ymin = Q2.5, ymax = Q97.5, y = Estimate),
-    size = 1, shape = 1
-  ) +
-  geom_point(
-    aes(
-      y = Ozone,
-      color = ifelse(Ozone > ll & Ozone < ul, "black", "orangered") ),
-    size = 4, show.legend = FALSE
-    ) +
-  scale_color_identity() +
   labs(x = "Observations", y = "Ozone")
 ```
 

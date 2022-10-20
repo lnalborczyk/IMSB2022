@@ -1,4 +1,4 @@
-## ----setup, eval = TRUE, include = FALSE, cache = FALSE------------------------------------------------
+## ----setup, eval = TRUE, include = FALSE, cache = FALSE-----------------------------------------------------------------
 library(tidyverse)
 library(brms)
 
@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 theme_set(theme_bw(base_size = 16, base_family = "Open Sans") )
 
 
-## ----rappel-brms, eval = FALSE, echo = TRUE------------------------------------------------------------
+## ----rappel-brms, eval = FALSE, echo = TRUE-----------------------------------------------------------------------------
 ## library(brms)
 ## 
 ## priors <- c(
@@ -23,14 +23,14 @@ theme_set(theme_bw(base_size = 16, base_family = "Open Sans") )
 ##   )
 ## 
 ## model <- brm(
-##   y ~ 1 + x,
+##   formula = y ~ 1 + x,
 ##   family = gaussian(),
 ##   prior = priors,
 ##   data = df
 ##   )
 
 
-## ----import-waffle, eval = TRUE, echo = TRUE-----------------------------------------------------------
+## ----import-waffle, eval = TRUE, echo = TRUE----------------------------------------------------------------------------
 library(tidyverse)
 library(imsb)
 
@@ -38,7 +38,7 @@ df1 <- open_data(waffle) # import des données dans une dataframe
 str(df1) # affiche la structure des données
 
 
-## ----waffle-divorce, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5--------------------------
+## ----waffle-divorce, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5-------------------------------------------
 df1 %>%
   ggplot(aes(x = WaffleHouses, y = Divorce) ) +
   geom_text(aes(label = Loc) ) +
@@ -46,7 +46,7 @@ df1 %>%
   labs(x = "Nombre de 'Waffle Houses' (par million d'habitants)", y = "Taux de divorce")
 
 
-## ----waffle-divorce-mariage, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5------------------
+## ----waffle-divorce-mariage, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5-----------------------------------
 df1$Divorce.s <- scale(x = df1$Divorce, center = TRUE, scale = TRUE)
 df1$Marriage.s <- scale(x = df1$Marriage, center = TRUE, scale = TRUE)
 
@@ -57,7 +57,7 @@ df1 %>%
   labs(x = "Taux de mariage", y = "Taux de divorce")
 
 
-## ----waffle-divorce-median, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5-------------------
+## ----waffle-divorce-median, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5------------------------------------
 df1$MedianAgeMarriage.s <- scale(x = df1$MedianAgeMarriage, center = TRUE, scale = TRUE)
 
 df1 %>%
@@ -67,7 +67,7 @@ df1 %>%
   labs(x = "Age médian de mariage", y = "Taux de divorce")
 
 
-## ----waffle-divorce-map, eval = FALSE, echo = FALSE, fig.width = 15, fig.height = 5--------------------
+## ----waffle-divorce-map, eval = FALSE, echo = FALSE, fig.width = 15, fig.height = 5-------------------------------------
 ## # On peut représenter nos trois variables principales sur une carte des 50 états...s
 ## # plot from
 ## # https://bookdown.org/ajkurz/Statistical_Rethinking_recoded/multivariate-linear-models.html
@@ -102,7 +102,7 @@ df1 %>%
 ##   facet_wrap(~key)
 
 
-## ----mod1, eval = TRUE, echo = TRUE, results = "hide"--------------------------------------------------
+## ----mod1, eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------------------------
 priors <- c(
   prior(normal(0, 10), class = Intercept),
   prior(normal(0, 1), class = b),
@@ -110,7 +110,7 @@ priors <- c(
   )
 
 mod1 <- brm(
-  Divorce.s ~ 1 + Marriage.s,
+  formula = Divorce.s ~ 1 + Marriage.s,
   family = gaussian(),
   prior = priors,
   # for prior predictive checking
@@ -119,7 +119,29 @@ mod1 <- brm(
   )
 
 
-## ----ppc1-mod1, eval = TRUE, echo = TRUE---------------------------------------------------------------
+## ----prior-mod1, echo = FALSE, fig.width = 16, fig.height = 8-----------------------------------------------------------
+library(patchwork)
+
+p1 <- data.frame(x = c(-40, 40) ) %>%
+  ggplot(aes(x = x) ) +
+  stat_function(
+    fun = dnorm, args = list(mean = 0, sd = 10),
+    fill = "steelblue", geom = "area", alpha = 0.8
+    ) +
+  labs(x = expression(alpha), y = "Densité de probabilité")
+
+p2 <- data.frame(x = c(0, 7.5) ) %>%
+  ggplot(aes(x = x) ) +
+  stat_function(
+    fun = dexp, args = list(1),
+    fill = "steelblue", geom = "area", alpha = 0.8
+    ) +
+  labs(x = expression(sigma), y = "Densité de probabilité")
+
+p1 + p2
+
+
+## ----ppc1-mod1, eval = TRUE, echo = TRUE--------------------------------------------------------------------------------
 # getting the samples from the prior distribution
 prior <- prior_samples(mod1)
 
@@ -127,22 +149,26 @@ prior <- prior_samples(mod1)
 head(prior)
 
 
-## ----ppc2-mod1, eval = TRUE, echo = TRUE, fig.width = 9, fig.height = 6--------------------------------
+## ----ppc2-mod1, eval = TRUE, echo = TRUE, fig.width = 9, fig.height = 6, `code-line-numbers` = "|5"---------------------
 prior %>% 
   sample_n(size = 1e2) %>% 
   rownames_to_column("draw") %>% 
   expand(nesting(draw, Intercept, b), a = c(-2, 2) ) %>%
   mutate(d = Intercept + b * a) %>% 
-  ggplot(aes(x = a, y = d)) +
+  ggplot(aes(x = a, y = d) ) +
   geom_line(aes(group = draw), color = "steelblue", size = 0.5, alpha = 0.5) +
   labs(x = "Taux de mariage (standardisé)", y = "Taux de divorce (standardisé)")
 
 
-## ----summary-mod1, eval = TRUE, echo = TRUE------------------------------------------------------------
+## ----ppc3-mod1, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6------------------------------------------------
+pp_check(object = mod1, prefix = "ppd", ndraws = 1e2) + labs(x = "Taux de divorce", y = "Densité")
+
+
+## ----summary-mod1, eval = TRUE, echo = TRUE-----------------------------------------------------------------------------
 summary(mod1)
 
 
-## ----posterior-mod1, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5--------------------------
+## ----posterior-mod1, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5, `code-line-numbers` = "|6"---------------
 nd <- data.frame(Marriage.s = seq(from = -2.5, to = 3.5, length.out = 1e2) )
 
 as_draws_df(x = mod1, pars = "^b_") %>%
@@ -155,7 +181,11 @@ as_draws_df(x = mod1, pars = "^b_") %>%
   labs(x = "Taux de mariage (standardisé)", y = "Taux de divorce (standardisé)")
 
 
-## ----mod2, eval = TRUE, echo = TRUE, results = "hide"--------------------------------------------------
+## ----ppc4-mod1, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6------------------------------------------------
+pp_check(object = mod1, ndraws = 1e2) + labs(x = "Taux de divorce", y = "Densité")
+
+
+## ----mod2, eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------------------------
 priors <- c(
   prior(normal(0, 10), class = Intercept),
   prior(normal(0, 1), class = b),
@@ -163,18 +193,18 @@ priors <- c(
   )
 
 mod2 <- brm(
-  Divorce.s ~ 1 + MedianAgeMarriage.s,
+  formula = Divorce.s ~ 1 + MedianAgeMarriage.s,
   family = gaussian(),
   prior = priors,
   data = df1
   )
 
 
-## ----summary-mod2, eval = TRUE, echo = TRUE------------------------------------------------------------
+## ----summary-mod2, eval = TRUE, echo = TRUE-----------------------------------------------------------------------------
 summary(mod2)
 
 
-## ----posterior-mod2, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5--------------------------
+## ----posterior-mod2, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5-------------------------------------------
 nd <- data.frame(MedianAgeMarriage.s = seq(from = -3, to = 3.5, length.out = 1e2) )
 
 as_draws_df(x = mod2, pars = "^b_") %>%
@@ -187,7 +217,7 @@ as_draws_df(x = mod2, pars = "^b_") %>%
   labs(x = "Age médian de mariage (standardisé)", y = "Taux de divorce (standardisé)")
 
 
-## ----mod3, eval = TRUE, echo = TRUE, results = "hide"--------------------------------------------------
+## ----mod3, eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------------------------
 priors <- c(
   prior(normal(0, 10), class = Intercept),
   prior(normal(0, 1), class = b),
@@ -195,18 +225,18 @@ priors <- c(
   )
 
 mod3 <- brm(
-  Divorce.s ~ 1 + Marriage.s + MedianAgeMarriage.s,
+  formula = Divorce.s ~ 1 + Marriage.s + MedianAgeMarriage.s,
   family = gaussian(),
   prior = priors,
   data = df1
   )
 
 
-## ----summary-mod3, eval = TRUE, echo = TRUE------------------------------------------------------------
-posterior_summary(mod3, pars = "^b_")
+## ----summary-mod3, eval = TRUE, echo = TRUE-----------------------------------------------------------------------------
+posterior_summary(x = mod3, pars = "^b_")
 
 
-## ----predictions-mod3, eval = TRUE, echo = FALSE, fig.width = 6, fig.height = 6------------------------
+## ----predictions-mod3, eval = TRUE, echo = FALSE, fig.width = 6, fig.height = 6-----------------------------------------
 data.frame(fitted(mod3) ) %>%
   transmute(mu = Estimate, lb = Q2.5, ub = Q97.5) %>%
   bind_cols(predict(mod3) %>% data.frame() ) %>%
@@ -225,12 +255,12 @@ data.frame(fitted(mod3) ) %>%
   labs(x = "Taux de divorce observé", y = "Taux de divorce prédit")
 
 
-## ----ppc-mod3-1, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6------------------------------
-pp_check(mod3, type = "intervals", ndraws = 1e2, prob = 0.5, prob_outer = 0.95) +
+## ----ppc-mod3-1, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6-----------------------------------------------
+pp_check(object = mod3, type = "intervals", ndraws = 1e2, prob = 0.5, prob_outer = 0.95) +
   labs(x = "État", y = "Taux de divorce (standardisé)")
 
 
-## ----ppc-mod3-2, eval = TRUE, echo = FALSE, fig.width = 20, fig.height = 10----------------------------
+## ----ppc-mod3-2, eval = TRUE, echo = FALSE, fig.width = 20, fig.height = 10---------------------------------------------
 mod3 %>%
   # adds the prediction intervals
   predict(., probs = c(0.025, 0.975) ) %>%
@@ -262,7 +292,7 @@ mod3 %>%
   labs(x = "État", y = "Taux de divorce (standardisé)")
 
 
-## ----leg-height, eval = TRUE, echo = TRUE--------------------------------------------------------------
+## ----leg-height, eval = TRUE, echo = TRUE-------------------------------------------------------------------------------
 set.seed(666) # afin de pouvoir reproduire les résultats
 
 N <- 100 # nombre d'individus
@@ -275,7 +305,7 @@ df2 <- data.frame(height, leg_left, leg_right) # création d'une dataframe
 head(df2) # affiche les six première lignes
 
 
-## ----mod4, eval = TRUE, echo = TRUE, results = "hide"--------------------------------------------------
+## ----mod4, eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------------------------
 priors <- c(
   prior(normal(178, 10), class = Intercept),
   prior(normal(0, 10), class = b),
@@ -283,22 +313,22 @@ priors <- c(
   )
 
 mod4 <- brm(
-  height ~ 1 + leg_left + leg_right,
+  formula = height ~ 1 + leg_left + leg_right,
   prior = priors,
   family = gaussian,
   data = df2
   )
 
 
-## ----summary-mod4, eval = TRUE, echo = TRUE------------------------------------------------------------
+## ----summary-mod4, eval = TRUE, echo = TRUE-----------------------------------------------------------------------------
 summary(mod4) # look at the SE...
 
 
-## ----pairs-mod4, eval = TRUE, echo = TRUE, fig.width = 9, fig.height = 6-------------------------------
+## ----pairs-mod4, eval = TRUE, echo = TRUE, fig.width = 9, fig.height = 6------------------------------------------------
 pairs(mod4, pars = parnames(mod4)[1:3])
 
 
-## ----post-plot-mod4, eval = TRUE, echo = TRUE, fig.width = 7.5, fig.height = 5-------------------------
+## ----post-plot-mod4, eval = TRUE, echo = TRUE, fig.width = 7.5, fig.height = 5------------------------------------------
 post <- as_draws_df(x = mod4)
 
 post %>%
@@ -307,12 +337,12 @@ post %>%
   labs(x = expression(beta[gauche]), y = expression(beta[droite]) )
 
 
-## ----plotpost-legs, eval = TRUE, echo = TRUE, dev = "png", dpi = 200-----------------------------------
+## ----plotpost-legs, eval = TRUE, echo = TRUE, dev = "png", dpi = 200----------------------------------------------------
 sum_legs <- post$b_leg_left + post$b_leg_right
 posterior_plot(samples = sum_legs, compval = 0) + labs(x = expression(beta[1] + beta[2]) )
 
 
-## ----mod5, eval = TRUE, echo = TRUE, results = "hide"--------------------------------------------------
+## ----mod5, eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------------------------
 priors <- c(
   prior(normal(178, 10), class = Intercept),
   prior(normal(0, 10), class = b),
@@ -320,18 +350,18 @@ priors <- c(
   )
 
 mod5 <- brm(
-  height ~ 1 + leg_left,
+  formula = height ~ 1 + leg_left,
   prior = priors,
   family = gaussian,
   data = df2
   )
 
 
-## ----summary-mod5, eval = TRUE, echo = TRUE------------------------------------------------------------
+## ----summary-mod5, eval = TRUE, echo = TRUE-----------------------------------------------------------------------------
 posterior_summary(mod5)
 
 
-## ----fungus-data, eval = TRUE, echo = TRUE-------------------------------------------------------------
+## ----fungus-data, eval = TRUE, echo = TRUE------------------------------------------------------------------------------
 # nombre de plantes
 N <- 100
 
@@ -351,7 +381,7 @@ df3 <- data.frame(h0, h1, treatment, fungus)
 head(df3)
 
 
-## ----mod6, eval = TRUE, echo = TRUE, results = "hide"--------------------------------------------------
+## ----mod6, eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------------------------
 priors <- c(
   prior(normal(0, 10), class = Intercept),
   prior(normal(0, 10), class = b),
@@ -359,40 +389,40 @@ priors <- c(
   )
 
 mod6 <- brm(
-  h1 ~ 1 + h0 + treatment + fungus,
+  formula = h1 ~ 1 + h0 + treatment + fungus,
   prior = priors,
   family = gaussian,
   data = df3
   )
 
 
-## ----summary-mo6, eval = TRUE, echo = TRUE-------------------------------------------------------------
+## ----summary-mo6, eval = TRUE, echo = TRUE------------------------------------------------------------------------------
 posterior_summary(mod6)
 
 
-## ----mod7, eval = TRUE, echo = TRUE, results = "hide"--------------------------------------------------
+## ----mod7, eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------------------------
 mod7 <- brm(
-  h1 ~ 1 + h0 + treatment,
+  formula = h1 ~ 1 + h0 + treatment,
   prior = priors,
   family = gaussian,
   data = df3
   )
 
 
-## ----mod7bis, eval = FALSE, echo = TRUE, results = "hide"----------------------------------------------
+## ----mod7bis, eval = FALSE, echo = TRUE, results = "hide"---------------------------------------------------------------
 ## mod7 <- update(mod6, formula = h1 ~ 1 + h0 + treatment)
 
 
-## ----summary-mod7, eval = TRUE, echo = TRUE------------------------------------------------------------
+## ----summary-mod7, eval = TRUE, echo = TRUE-----------------------------------------------------------------------------
 summary(mod7)
 
 
-## ----data-categ, eval = TRUE, echo = TRUE--------------------------------------------------------------
+## ----data-categ, eval = TRUE, echo = TRUE-------------------------------------------------------------------------------
 df4 <- open_data(howell)
 str(df4)
 
 
-## ----mod8, eval = TRUE, echo = TRUE, results = "hide"--------------------------------------------------
+## ----mod8, eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------------------------
 priors <- c(
   prior(normal(178, 20), class = Intercept),
   prior(normal(0, 10), class = b),
@@ -400,69 +430,68 @@ priors <- c(
   )
 
 mod8 <- brm(
-  height ~ 1 + male,
+  formula = height ~ 1 + male,
   prior = priors,
   family = gaussian,
   data = df4
   )
 
 
-## ----summary-mod8, eval = TRUE, echo = TRUE------------------------------------------------------------
-fixef(mod8) # retrieves fixed effects
+## ----summary-mod8, eval = TRUE, echo = TRUE-----------------------------------------------------------------------------
+fixef(mod8) # récupère les effets "fixes"
 
 
-## ----summary-female, eval = TRUE, echo = TRUE----------------------------------------------------------
+## ----summary-female, eval = TRUE, echo = TRUE---------------------------------------------------------------------------
 post <- as_draws_df(x = mod8)
 mu.male <- post$b_Intercept + post$b_male
 quantile(x = mu.male, probs = c(0.025, 0.5, 0.975) )
 
 
-## ----mod9, eval = TRUE, echo = TRUE, results = "hide"--------------------------------------------------
+## ----mod9, eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------------------------
 # on crée une nouvelle colonne pour les femmes
 df4 <- df4 %>% mutate(female = 1 - male)
 
 priors <- c(
   # il n'y a plus d'intercept dans ce modèle
-  # prior(normal(178, 100), class = Intercept),
   prior(normal(178, 20), class = b),
   prior(exponential(0.01), class = sigma)
   )
 
 mod9 <- brm(
-  height ~ 0 + female + male,
+  formula = height ~ 0 + female + male,
   prior = priors,
   family = gaussian,
   data = df4
   )
 
 
-## ----summary-mod9, eval = TRUE, echo = TRUE------------------------------------------------------------
+## ----summary-mod9, eval = TRUE, echo = TRUE-----------------------------------------------------------------------------
 summary(mod9)
 
 
-## ----cohen, eval = TRUE, echo = TRUE, fig.width = 7.5, fig.height = 5, dev = "png", dpi = 200----------
+## ----cohen, eval = TRUE, echo = TRUE, fig.width = 7.5, fig.height = 5, dev = "png", dpi = 200---------------------------
 post <- as_draws_df(x = mod9)
 
 posterior_plot(samples = (post$b_male - post$b_female) / post$sigma) +
     labs(x = expression(delta) )
 
 
-## ----milk-data, eval = TRUE, echo = TRUE---------------------------------------------------------------
+## ----milk-data, eval = TRUE, echo = TRUE--------------------------------------------------------------------------------
 df5 <- open_data(milk)
 str(df5)
 
 
-## ----categories, eval = TRUE, echo = TRUE--------------------------------------------------------------
+## ----categories, eval = TRUE, echo = TRUE-------------------------------------------------------------------------------
 df5$clade.NWM <- ifelse(df5$clade == "New World Monkey", 1, 0)
 df5$clade.OWM <- ifelse(df5$clade == "Old World Monkey", 1, 0)
 df5$clade.S <- ifelse(df5$clade == "Strepsirrhine", 1, 0)
 
 
-## ----figure-table, eval = TRUE, echo = FALSE-----------------------------------------------------------
+## ----figure-table, eval = TRUE, echo = FALSE----------------------------------------------------------------------------
 knitr::include_graphics("figures/table.png")
 
 
-## ----mod10, eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------
+## ----mod10, eval = TRUE, echo = TRUE, results = "hide"------------------------------------------------------------------
 priors <- c(
   prior(normal(0.6, 10), class = Intercept),
   prior(normal(0, 1), class = b),
@@ -470,43 +499,43 @@ priors <- c(
   )
 
 mod10 <- brm(
-  kcal.per.g ~ 1 + clade.NWM + clade.OWM + clade.S,
+  formula = kcal.per.g ~ 1 + clade.NWM + clade.OWM + clade.S,
   prior = priors,
   family = gaussian,
   data = df5
   )
 
 
-## ----summary-mod10, eval = TRUE, echo = TRUE-----------------------------------------------------------
+## ----summary-mod10, eval = TRUE, echo = TRUE----------------------------------------------------------------------------
 summary(mod10)
 
 
-## ----pairs-mod10, eval = TRUE, echo = TRUE-------------------------------------------------------------
-# retrieves posterior samples
+## ----pairs-mod10, eval = TRUE, echo = TRUE------------------------------------------------------------------------------
+# récupère les échantillons de la distribution postérieure
 post <- as_draws_df(x = mod10)
 
-# retrieves posterior samples for each category
+# récupère les échantillons pour chaque clade
 mu.ape <- post$b_Intercept
 mu.NWM <- post$b_Intercept + post$b_clade.NWM
 mu.OWM <- post$b_Intercept + post$b_clade.OWM
 mu.S <- post$b_Intercept + post$b_clade.S
 
 
-## ----precis-mod10, eval = TRUE, echo = TRUE------------------------------------------------------------
-# displays a summary of the posterior samples
+## ----precis-mod10, eval = TRUE, echo = TRUE-----------------------------------------------------------------------------
+# résumé de ces échantillons par clade
 rethinking::precis(data.frame(mu.ape, mu.NWM, mu.OWM, mu.S), prob = 0.95)
 
 
-## ----quantiles-mod10, eval = TRUE, echo = TRUE---------------------------------------------------------
+## ----quantiles-mod10, eval = TRUE, echo = TRUE--------------------------------------------------------------------------
 diff.NWM.OWM <- mu.NWM - mu.OWM
 quantile(diff.NWM.OWM, probs = c(0.025, 0.5, 0.975) )
 
 
-## ----plotpost-mod10, eval = TRUE, echo = TRUE, dev = "png", dpi = 200----------------------------------
+## ----plotpost-mod10, eval = TRUE, echo = TRUE, dev = "png", dpi = 200---------------------------------------------------
 posterior_plot(samples = diff.NWM.OWM, compval = 0)
 
 
-## ----mod11, eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------
+## ----mod11, eval = TRUE, echo = TRUE, results = "hide"------------------------------------------------------------------
 priors <- c(
   prior(normal(0.6, 10), class = b),
   prior(exponential(0.01), class = sigma)
@@ -514,28 +543,28 @@ priors <- c(
 
 mod11 <- brm(
   # modèle sans intercept avec seulement un prédicteur catégoriel (facteur)
-  kcal.per.g ~ 0 + clade,
+  formula = kcal.per.g ~ 0 + clade,
   prior = priors,
   family = gaussian,
   data = df5
   )
 
 
-## ----summary-mod11, eval = TRUE, echo = TRUE-----------------------------------------------------------
+## ----summary-mod11, eval = TRUE, echo = TRUE----------------------------------------------------------------------------
 summary(mod11)
 
 
-## ----data-tulips, eval = TRUE, echo = TRUE-------------------------------------------------------------
+## ----data-tulips, eval = TRUE, echo = TRUE------------------------------------------------------------------------------
 df6 <- open_data(tulips)
 head(df6, 10)
 
 
-## ----centering, eval = TRUE, echo = TRUE---------------------------------------------------------------
+## ----centering, eval = TRUE, echo = TRUE--------------------------------------------------------------------------------
 df6$shade.c <- df6$shade - mean(df6$shade)
 df6$water.c <- df6$water - mean(df6$water)
 
 
-## ----mod12, eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------
+## ----mod12, eval = TRUE, echo = TRUE, results = "hide"------------------------------------------------------------------
 priors <- c(
   prior(normal(130, 100), class = Intercept),
   prior(normal(0, 100), class = b),
@@ -543,24 +572,24 @@ priors <- c(
   )
 
 mod12 <- brm(
-  blooms ~ 1 + water.c + shade.c,
+  formula = blooms ~ 1 + water.c + shade.c,
   prior = priors,
   family = gaussian,
   data = df6
   )
 
 
-## ----mod13, eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------
+## ----mod13, eval = TRUE, echo = TRUE, results = "hide"------------------------------------------------------------------
 mod13 <- brm(
-  blooms ~ 1 + water.c * shade.c,
-  # equivalent to blooms ~ 1 + water.c + shade.c + water.c:shade.c
+  formula = blooms ~ 1 + water.c * shade.c,
+  # équivalent à blooms ~ 1 + water.c + shade.c + water.c:shade.c
   prior = priors,
   family = gaussian,
   data = df6
   )
 
 
-## ----model-comp, eval = TRUE, echo = FALSE-------------------------------------------------------------
+## ----model-comp, eval = TRUE, echo = FALSE------------------------------------------------------------------------------
 posterior_summary(mod12) %>%
   data.frame %>%
   rownames_to_column("term") %>%
@@ -579,7 +608,7 @@ posterior_summary(mod12) %>%
   data.frame
 
 
-## ----plot-models, eval = TRUE, echo = FALSE, fig.height = 6, fig.width = 12----------------------------
+## ----plot-models, eval = TRUE, echo = FALSE, fig.height = 6, fig.width = 12---------------------------------------------
 # `fitted()` for model b7.8
 fitted(mod12) %>%
   as_tibble() %>%
@@ -614,7 +643,7 @@ fitted(mod12) %>%
   facet_grid(y_grid ~ x_grid)
 
 
-## ----plot-models2, eval = TRUE, echo = FALSE, fig.height = 6, fig.width = 12---------------------------
+## ----plot-models2, eval = TRUE, echo = FALSE, fig.height = 6, fig.width = 12--------------------------------------------
 # `fitted()` for model b7.8
 fitted(mod12) %>%
   as_tibble() %>%
@@ -649,12 +678,12 @@ fitted(mod12) %>%
   facet_grid(y_grid ~ x_grid)
 
 
-## ----mtcars-data, eval = TRUE, echo = TRUE-------------------------------------------------------------
+## ----mtcars-data, eval = TRUE, echo = TRUE------------------------------------------------------------------------------
 data(mtcars)
 head(mtcars, 10)
 
 
-## ----mtcars-plot, eval = TRUE, echo = FALSE, fig.width = 12, fig.height = 6----------------------------
+## ----mtcars-plot, eval = TRUE, echo = FALSE, fig.width = 12, fig.height = 6---------------------------------------------
 mtcars %>%
   ggplot(
     aes(
@@ -666,7 +695,7 @@ mtcars %>%
   geom_smooth(method = "lm")
 
 
-## ----mtcars-lm, eval = TRUE, echo = TRUE---------------------------------------------------------------
+## ----mtcars-lm, eval = TRUE, echo = TRUE--------------------------------------------------------------------------------
 mtcars$disp.s <- as.numeric(scale(mtcars$disp) )
 mtcars$cyl.s <- as.numeric(scale(mtcars$cyl) )
 
@@ -674,7 +703,7 @@ m_cyl <- lm(mpg ~ disp.s * cyl.s, data = mtcars)
 summary(m_cyl)
 
 
-## ----mod14, eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------
+## ----mod14, eval = TRUE, echo = TRUE, results = "hide"------------------------------------------------------------------
 priors <- c(
   prior(normal(0, 100), class = Intercept),
   prior(normal(0, 10), class = b),
@@ -682,20 +711,20 @@ priors <- c(
   )
 
 mod14 <- brm(
-  mpg ~ 1 + disp.s * cyl.s,
+  formula = mpg ~ 1 + disp.s * cyl.s,
   prior = priors,
   family = gaussian,
   data = mtcars
   )
 
 
-## ----summary-mod14, eval = TRUE, echo = TRUE-----------------------------------------------------------
+## ----summary-mod14, eval = TRUE, echo = TRUE----------------------------------------------------------------------------
 summary(mod14)
 
 
-## ----plot-mod14-1, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6----------------------------
+## ----plot-mod14-1, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6---------------------------------------------
 plot(
-  conditional_effects(mod14, effects = "disp.s:cyl.s"),
+  conditional_effects(x = mod14, effects = "disp.s:cyl.s"),
   points = TRUE,
   point_args = list(
     alpha = 0.8, shape = 21, size = 4,
@@ -705,9 +734,9 @@ plot(
   )
 
 
-## ----plot-mod14-2, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6----------------------------
+## ----plot-mod14-2, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6---------------------------------------------
 plot(
-  conditional_effects(mod14, effects = "disp.s:cyl.s", spaghetti = TRUE, ndraws = 1e2),
+  conditional_effects(x = mod14, effects = "disp.s:cyl.s", spaghetti = TRUE, ndraws = 1e2),
   points = TRUE, mean = FALSE,
   point_args = list(
     alpha = 0.8, shape = 21, size = 4,
@@ -717,10 +746,10 @@ plot(
   )
 
 
-## ----plot-mod14-3, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6----------------------------
+## ----plot-mod14-3, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6---------------------------------------------
 plot(
   conditional_effects(
-    mod14, effects = "disp.s:cyl.s",
+    x = mod14, effects = "disp.s:cyl.s",
     surface = TRUE, resolution = 1e2
     ),
   stype = "raster", # contour or raster
@@ -729,14 +758,14 @@ plot(
   )
 
 
-## ----airquality-data, eval = TRUE, echo = TRUE---------------------------------------------------------
+## ----airquality-data, eval = TRUE, echo = TRUE--------------------------------------------------------------------------
 data(airquality)
 df7 <- airquality[complete.cases(airquality), ] # removes NAs
 
 head(df7, 10)
 
 
-## ----mod15, eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------
+## ----mod15, eval = TRUE, echo = TRUE, results = "hide"------------------------------------------------------------------
 df7$Wind.s <- scale(df7$Wind)
 df7$Temp.s <- scale(df7$Temp)
 
@@ -747,53 +776,22 @@ priors <- c(
   )
 
 mod15 <- brm(
-  Ozone ~ 1 + Wind.s + Temp.s,
+  formula = Ozone ~ 1 + Wind.s + Temp.s,
   prior = priors,
   family = gaussian,
   data = df7
   )
 
 
-## ----summary-mod15, eval = TRUE, echo = TRUE-----------------------------------------------------------
+## ----summary-mod15, eval = TRUE, echo = TRUE----------------------------------------------------------------------------
 summary(mod15)
 
 
-## ----ppc-mod15-1, eval = TRUE, echo = TRUE, fig.width = 16, fig.height = 8-----------------------------
+## ----ppc-mod15-1, eval = TRUE, echo = TRUE, fig.width = 16, fig.height = 8----------------------------------------------
 pp_check(mod15, type = "intervals", ndraws = 1e2, prob = 0.5, prob_outer = 0.95) +
   labs(x = "Observations", y = "Ozone")
 
 
-## ----ppc-mod15-2, eval = TRUE, echo = FALSE, fig.width = 20, fig.height = 10---------------------------
-mod15 %>%
-  # adds the prediction intervals
-  predict(., probs = c(0.025, 0.975) ) %>%
-  data.frame %>%
-  transmute(ll = Q2.5, ul = Q97.5) %>%
-  # adds the fitted intervals
-  bind_cols(fitted(mod15, probs = c(0.025, 0.975) ) %>% data.frame() ) %>%
-  # adds the data
-  bind_cols(mod15$data) %>%
-  mutate(case = 1:nrow(.) ) %>%
-  # plotting it
-  ggplot(aes(x = case) ) +
-  geom_linerange(
-    aes(ymin = ll, ymax = ul),
-    size = 4, alpha = 0.2
-    ) +
-  geom_pointrange(
-    aes(ymin = Q2.5, ymax = Q97.5, y = Estimate),
-    size = 1, shape = 1
-  ) +
-  geom_point(
-    aes(
-      y = Ozone,
-      color = ifelse(Ozone > ll & Ozone < ul, "black", "orangered") ),
-    size = 4, show.legend = FALSE
-    ) +
-  scale_color_identity() +
-  labs(x = "Observations", y = "Ozone")
-
-
-## ----ppc-mod15-3, eval = TRUE, echo = TRUE, fig.width = 14, fig.height = 7-----------------------------
+## ----ppc-mod15-3, eval = TRUE, echo = TRUE, fig.width = 14, fig.height = 7----------------------------------------------
 pp_check(object = mod15, ndraws = 1e2) + labs(x = "Ozone", y = "Density")
 

@@ -13,7 +13,7 @@ lang: fr
 
 ## Slides
 
-Les slides de ce cours sont disponibles ci-dessous. Vous pouvez naviguer dans ces slides avec <kbd>←</kbd> et <kbd>→</kbd>. Si vous tapez <kbd>h</kbd>,vous verrez apparaître un ensemble de commandes spécifiques à la lecture de ces slides (e.g., <kbd>f</kbd> pour passer en plein écran). Vous pouvez aussi télécharger une version PDF des slides ou le code du cours en cliquant sur un des boutons ci-dessous.
+Les slides de ce cours sont disponibles ci-dessous. Vous pouvez naviguer dans ces slides avec <kbd>←</kbd> et <kbd>→</kbd>. Si vous tapez <kbd>h</kbd> vous verrez apparaître un ensemble de commandes spécifiques à la lecture de ces slides (e.g., <kbd>f</kbd> pour passer en plein écran). Vous pouvez aussi télécharger une version PDF des slides ou le code du cours en cliquant sur un des boutons ci-dessous.
 
 <p class="buttons" style="text-align:center;"><a class="btn btn-danger" target="_blank" href="../slides/html/cours01.html"><i class="fa-solid fa-arrow-up-right-from-square"></i> Voir les slides en ligne </a> <a class="btn btn-danger" target="_blank" href="../slides/pdf/cours01.pdf" role="button"><i class="fa-solid fa-file-pdf"></i> Télécharger la version PDF </a> <a class="btn btn-danger" target="_blank" href="../slides/code/cours01.R"><i class="fa-solid fa-code"></i> Télécharger le code </a> </p>
 

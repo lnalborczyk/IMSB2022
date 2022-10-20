@@ -1250,9 +1250,9 @@ En effet, les données ont été collectées par deux expérimentateurs. L'un d'
 
 ```{r eval = TRUE, echo = TRUE}
 open_data(absence) %>%
-  sample_frac %>%
+  sample_frac() %>%
   group_by(inscription, reminder) %>%
   summarise(n = sum(total) ) %>%
   spread(key = reminder, value = n) %>%
-  data.frame
+  data.frame()
 ```
