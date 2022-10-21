@@ -456,7 +456,7 @@ library(brms)
 mod1.1 <- brm(
   formula = pulled_left | trials(1) ~ 1,
   family = binomial,
-  prior = set_prior("normal(0, 10)", class = "Intercept"),
+  prior = prior(normal(0, 10), class = Intercept),
   data = df1,
   # stores prior samples
   sample_prior = "yes"
@@ -481,7 +481,7 @@ prior_samples(mod1.1) %>%
 mod1.2 <- brm(
   formula = pulled_left | trials(1) ~ 1,
   family = binomial,
-  prior = set_prior("normal(0, 1)", class = "Intercept"),
+  prior = prior(normal(0, 1), class = Intercept),
   data = df1,
   sample_prior = "yes"
   )
@@ -548,8 +548,8 @@ df1 <- df1 %>%
     )
 
 priors <- c(
-  set_prior("normal(0, 1)", class = "Intercept"),
-  set_prior("normal(0, 10)", class = "b")
+  prior(normal(0, 1), class = Intercept),
+  prior(normal(0, 10), class = b)
   )
 
 mod2.1 <- brm(
@@ -581,8 +581,8 @@ prior_samples(mod2.1) %>%
 
 ```{r mod2.2, eval = TRUE, echo = TRUE, results = "hide"}
 priors <- c(
-  set_prior("normal(0, 1)", class = "Intercept"),
-  set_prior("normal(0, 1)", class = "b")
+  prior(normal(0, 1), class = Intercept),
+  prior(normal(0, 1), class = b)
   )
 
 mod2.2 <- brm(
@@ -907,7 +907,7 @@ $$
 mod5 <- brm(
   admit | trials(applications) ~ 0 + dept,
   family = binomial(link = "logit"),
-  prior = set_prior("normal(0, 1)", class = "b"),
+  prior = prior(normal(0, 1), class = b),
   data = df2
   )
 
@@ -915,7 +915,7 @@ mod5 <- brm(
 mod6 <- brm(
   admit | trials(applications) ~ 0 + dept + male,
   family = binomial(link = "logit"),
-  prior = set_prior("normal(0, 1)", class = "b"),
+  prior = prior(normal(0, 1), class = b),
   data = df2
   )
 ```
@@ -1024,7 +1024,7 @@ $$
 mod7 <- brm(
     presence | trials(total) ~ 1,
     family = binomial(link = "logit"),
-    prior = set_prior("normal(0, 1)", class = "Intercept"),
+    prior = prior(normal(0, 1), class = Intercept),
     data = df3,
     cores = parallel::detectCores()
     )
@@ -1078,8 +1078,8 @@ $$
 
 ```{r mod8, eval = TRUE, echo = TRUE, results = "hide"}
 priors <- c(
-  set_prior("normal(0, 1)", class = "Intercept"),
-  set_prior("normal(0, 1)", class = "b")
+  prior(normal(0, 1), class = Intercept),
+  prior(normal(0, 1), class = b)
   )
 
 mod8 <- brm(
@@ -1158,8 +1158,8 @@ $$
 
 ```{r mod9, eval = TRUE, echo = TRUE, results = "hide"}
 priors <- c(
-  set_prior("normal(0, 1)", class = "Intercept"),
-  set_prior("normal(0, 1)", class = "b")
+  prior(normal(0, 1), class = Intercept),
+  prior(normal(0, 1), class = b)
   )
 
 mod9 <- brm(
@@ -1208,8 +1208,8 @@ $$
 
 ```{r mod10, eval = TRUE, echo = TRUE, results = "hide"}
 priors <- c(
-  set_prior("normal(0, 1)", class = "Intercept"),
-  set_prior("normal(0, 1)", class = "b")
+  prior(normal(0, 1), class = Intercept),
+  prior(normal(0, 1), class = b)
   )
 
 mod10 <- brm(

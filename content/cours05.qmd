@@ -25,5 +25,6 @@ Voir toutes les commandes de `revealjs` en appuyant sur <kbd>m</kbd> puis <kbd>h
 
 ## Pour aller plus loin
 
+- Betancourt, M. (2018). A Conceptual Introduction to Hamiltonian Monte Carlo (arXiv:1701.02434). arXiv. <https://arxiv.org/abs/1701.02434>
 - Feng, C. (2022). Chi-feng/mcmc-demo [JavaScript]. <https://github.com/chi-feng/mcmc-demo> / <https://chi-feng.github.io/mcmc-demo/>
 - Dogucu, A. A. J., Miles Q., & Ott, Mine. (2022). Chapter 7 - MCMC under the Hood. In Bayes Rules! An Introduction to Applied Bayesian Modeling. Available online at: <https://www.bayesrulesbook.com/chapter-7.html>.

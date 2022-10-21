@@ -69,6 +69,81 @@ multi-niveaux généralisés <br> Cours n°10 : Data Hackathon <br>
 
 $$\newcommand\given[1][]{\:#1\vert\:}$$
 
+<!--
+
+## Rappels : prior predictive checking
+
+Assume a model with a Normal likelihood function for the data $y$, a Normal prior on the mean $\mu$, and an Exponential prior on the standard deviation $\sigma$.
+
+$$
+\begin{aligned}
+\color{orangered}{y_{i}} \ &\color{orangered}{\sim \mathrm{Normal}(\mu, \sigma)} \\
+\color{steelblue}{\mu} \ &\color{steelblue}{\sim \mathrm{Normal}(100, 10)} \\
+\color{steelblue}{\sigma} \ &\color{steelblue}{\sim \mathrm{Exponential}(0.1)} \\
+\end{aligned}
+$$
+## Rappels : prior predictive checking
+
+On peut simuler des données à partir de ce modèle, sachant ces priors.
+
+```{r, eval = FALSE, echo = TRUE}
+# graphical parameters (three rows and one column)
+par(mfrow = c(3, 1) )
+
+# number of samples to draw
+nobs <- 1e4
+
+# simulating data from a normal distribution without (epistemic) uncertainty
+rnorm(n = nobs, mean = 100, sd = 10) |> hist(breaks = "FD")
+
+# drawing samples from the normal prior for mu (i.e., p(mu))
+# what we know about mu before seeing the data
+mu_prior <- rnorm(n = nobs, mean = 100, sd = 10)
+
+# simulating data from a normal distribution with uncertainty on mu
+rnorm(n = nobs, mean = mu_prior, sd = 10) |> hist(breaks = "FD")
+
+# drawing samples from the exponential prior for sigma (i.e., p(sigma))
+# what we know about sigma before seeing the data
+sigma_prior <- rexp(n = nobs, rate = 0.1)
+
+# simulating data from a normal distribution with uncertainty on both mu and sigma
+# what we (the model) assume(s) about y according to our priors for mu and sigma
+rnorm(n = nobs, mean = mu_prior, sd = sigma_prior) |> hist(breaks = "FD")
+```
+
+## Rappels : prior predictive checking
+
+On peut simuler des données à partir de ce modèle, sachant ces priors.
+
+```{r, eval = TRUE, echo = FALSE}
+# graphical parameters (three rows and one column)
+par(mfrow = c(3, 1) )
+
+# number of samples to draw
+nobs <- 1e4
+
+# simulating data from a normal distribution without (epistemic) uncertainty
+rnorm(n = nobs, mean = 100, sd = 10) |> hist(breaks = "FD")
+
+# drawing samples from the normal prior for mu (i.e., p(mu))
+# what we know about mu before seeing the data
+mu_prior <- rnorm(n = nobs, mean = 100, sd = 10)
+
+# simulating data from a normal distribution with uncertainty on mu
+rnorm(n = nobs, mean = mu_prior, sd = 10) |> hist(breaks = "FD")
+
+# drawing samples from the exponential prior for sigma (i.e., p(sigma))
+# what we know about sigma before seeing the data
+sigma_prior <- rexp(n = nobs, rate = 0.1)
+
+# simulating data from a normal distribution with uncertainty on both mu and sigma
+# what we (the model) assume(s) about y according to our priors for mu and sigma
+rnorm(n = nobs, mean = mu_prior, sd = sigma_prior) |> hist(breaks = "FD")
+```
+
+-->
+
 ## Le problème avec la distribution postérieure
 
 $$
@@ -217,10 +292,11 @@ pi_estimate <- 4 * sum(inside) / trials
 ```
 
 ```{r pi2, eval = TRUE, echo = FALSE, out.width = "33%", dev = "png"}
-ggplot(data.frame(x, y, inside), aes(x, y, color = inside) ) +
-  ggtitle(paste(round(trials), "Trials,", "Estimate =", pi_estimate) ) +
-  guides(color = FALSE) +
-  geom_point(size = 1 / trials)
+data.frame(x, y, inside) %>%
+    ggplot(aes(x, y, color = inside) ) +
+    ggtitle(paste(round(trials), "Trials,", "Estimate =", pi_estimate) ) +
+    guides(color = "none") +
+    geom_point(size = 1 / trials)
 ```
 
 ## Méthodes Monte Carlo
@@ -663,7 +739,7 @@ likelihood <- function (theta, data) {
 
 # defines the prior density function
 
-prior <- function (theta) {
+prior_prob <- function (theta) {
   
   pTheta <- dbeta(theta, 1, 1)
   
@@ -683,7 +759,7 @@ prior <- function (theta) {
 
 targetRelProb <- function (theta, data) {
   
-  targetRelProb <- likelihood(theta, data) * prior(theta)
+  targetRelProb <- likelihood(theta, data) * prior_prob(theta)
   
   return (targetRelProb)
   
@@ -845,7 +921,7 @@ likelihood <- function(theta, data) {
 
 # defines the prior density function
 
-prior <- function(theta) {
+prior_prob <- function(theta) {
   
   pTheta <- dbeta(theta, 1, 1)
   
@@ -865,7 +941,7 @@ prior <- function(theta) {
 
 targetRelProb <- function(theta, data) {
   
-  targetRelProb <- likelihood(theta, data) * prior(theta)
+  targetRelProb <- likelihood(theta, data) * prior_prob(theta)
   
   return(targetRelProb)
   
@@ -1030,7 +1106,7 @@ likelihood <- function(theta, data) {
 
 # defines the prior density function
 
-prior <- function(theta) {
+prior_prob <- function(theta) {
   
   pTheta <- dbeta(theta, 1, 1)
   
@@ -1050,7 +1126,7 @@ prior <- function(theta) {
 
 targetRelProb <- function(theta, data) {
   
-  targetRelProb <- likelihood(theta, data) * prior(theta)
+  targetRelProb <- likelihood(theta, data) * prior_prob(theta)
   
   return(targetRelProb)
   
@@ -1739,13 +1815,13 @@ d <- open_data(howell)
 d2 <- d %>% filter(age >= 18)
 
 priors <- c(
-  set_prior("normal(150, 20)", class = "Intercept"),
-  set_prior("normal(0, 10)", class = "b"),
-  set_prior("exponential(0.01)", class = "sigma")
+  prior(normal(150, 20), class = Intercept),
+  prior(normal(0, 10), class = b),
+  prior(exponential(0.01), class = sigma)
   )
 
 mod1 <- brm(
-  height ~ 1 + weight,
+  formula = height ~ 1 + weight,
   prior = priors,
   family = gaussian(),
   data = d2, 
@@ -1884,13 +1960,13 @@ $$
 
 ```{r mod2, eval = TRUE, echo = TRUE, results = "hide"}
 priors2 <- c(
-  set_prior("normal(0, 100)", class = "Intercept"),
-  set_prior("normal(0, 10)", class = "b"),
-  set_prior("exponential(0.01)", class = "sigma")
+  prior(normal(0, 100), class = Intercept),
+  prior(normal(0, 10), class = b),
+  prior(exponential(0.01), class = sigma)
   )
 
 mod2 <- brm(
-  log_gdp ~ 1 + rugged * cont_africa,
+  formula = log_gdp ~ 1 + rugged * cont_africa,
   prior = priors2,
   family = gaussian(),
   data = df1,
