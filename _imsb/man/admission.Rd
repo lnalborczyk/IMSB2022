@@ -8,14 +8,14 @@
 A data frame with 12 rows and 5 variables:
 \describe{
 \item{dept}{...}
-\item{applicant.gender}{...}
+\item{gender}{...}
 \item{admit}{...}
 \item{reject}{...}
 \item{applications}{...}
 }
 }
 \source{
-Adapted from the \code{rethinking} package.
+Adapted from...
 }
 \usage{
 data(admission)

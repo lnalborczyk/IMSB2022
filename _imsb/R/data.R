@@ -290,10 +290,29 @@
 #' @format A data frame with 12 rows and 5 variables:
 #' \describe{
 #'   \item{dept}{...}
-#'   \item{applicant.gender}{...}
+#'   \item{gender}{...}
 #'   \item{admit}{...}
 #'   \item{reject}{...}
 #'   \item{applications}{...}
 #'   }
-#' @source Adapted from the `rethinking` package.
+#' @source Adapted from...
 "admission"
+
+#' Chimpanzees data...
+#'
+#' Chimpanzees data...
+#'
+#' @usage data(chimpanzees)
+#' @format A data frame with 504 rows and 8 variables:
+#' \describe{
+#'   \item{actor}{...}
+#'   \item{recipient}{...}
+#'   \item{condition}{...}
+#'   \item{block}{...}
+#'   \item{trial}{...}
+#'   \item{prosoc_left}{...}
+#'   \item{chose_prosoc}{...}
+#'   \item{pulled_left}{...}
+#'   }
+#' @source Adapted from the `rethinking` package.
+"chimpanzees"

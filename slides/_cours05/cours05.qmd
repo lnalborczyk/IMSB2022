@@ -122,7 +122,7 @@ htmlwidgets::saveWidget(fig, file = "plotly1.html")
 ```{r, eval = TRUE}
 #| echo: false
 #| out.width: "100%"
-knitr::include_url(url = "plotly1.html")
+knitr::include_url(url = "plotly1.html", height = "600px")
 ```
 
 ## Rappels Cours n°02
@@ -175,7 +175,7 @@ $\longrightarrow~$ Appliquer ces méthodes à un cas simple
 
 ## Méthodes Monte Carlo
 
-Le terme de *méthode de Monte-Carlo* désigne une famille d'algorithmes
+Le terme de **méthode de Monte-Carlo** désigne une famille d'algorithmes
 visant à calculer (ou approcher) une valeur numérique en utilisant des
 procédés aléatoires, c'est-à-dire des techniques probabilistes. Cette
 méthode a été formalisée en 1947 par Nicholas Metropolis, et publiée
@@ -191,15 +191,14 @@ knitr::include_graphics("figures/Nicholas_Metropolis_cropped.png")
 Soit un point $M$ de coordonnées $(x, y)$, où $0 < x < 1$ et
 $0 < y < 1$. On tire aléatoirement les valeurs de $x$ et $y$ entre $0$
 et $1$ suivant une loi uniforme. Le point $M$ appartient au disque de
-centre $(0, 0)$ de rayon $R = 1$ si et seulement si
+centre $(0, 0)$ de rayon $r = 1$ si et seulement si
 $x^{2} + y^{2} \leqslant 1$. La probabilité que le point $M$ appartienne
 au disque est $\pi / 4$ puisque le quart de disque est de surface
-$\sigma = \frac{\pi R^{2}}{4} = \frac{\pi}{4}$, et le carré qui le
-contient est de surface $S = R^{2} = 1$. Si la loi de probabilité du
+$\sigma = \frac{\pi r^{2}}{4} = \frac{\pi}{4}$, et le carré qui le
+contient est de surface $s = r^{2} = 1$. Si la loi de probabilité du
 tirage de point est uniforme, la probabilité de tomber dans le quart de
-disque vaut $\frac{\sigma}{S} = \frac{\pi}{4}$. En faisant le rapport du
-nombre de points dans le disque au nombre de tirages, on obtient une
-approximation du nombre $\pi / 4$.
+disque vaut $\frac{\sigma}{s} = \frac{\pi}{4}$. En faisant le rapport du
+nombre de points dans le disque au nombre de tirages $\frac{N_{\text{inner}}}{N_{\text{total}}}$, on obtient donc une approximation de $\pi / 4$.
 
 ```{r pi_gif, echo = FALSE, out.width = "25%"}
 knitr::include_graphics("figures/Pi_30K.gif")
@@ -300,13 +299,13 @@ htmlwidgets::saveWidget(fig, file = "plotly2.html")
 ```{r, eval = TRUE}
 #| echo: false
 #| out.width: "100%"
-knitr::include_url(url = "plotly2.html")
+knitr::include_url(url = "plotly2.html", height = "600px")
 ```
 
 ## Méthodes Monte Carlo : Exemple
 
 Considérons un exemple simple : Soit un paramètre $\theta$ avec 7
-valeurs possibles et la fonction de répartition suivante.
+valeurs possibles et la fonction de répartition suivante, où $p(\theta) = \theta$.
 
 ```{r distribution_theta1, echo = FALSE, fig.width = 12, fig.height = 6, out.width = "75%"}
 # knitr::include_graphics("figures/distributionTheta1-7.png")
@@ -365,8 +364,8 @@ barplot(
     )
 ```
 
-- La distribution des échantillons obtenus converge vers la "vraie" distribution
-- Mais, nécessite généralement beaucoup d'échantillons...
+- La distribution des échantillons obtenus converge vers la "vraie" distribution.
+- Mais, cela nécessite généralement beaucoup d'échantillons...
 - Aucun contrôle sur la vitesse de convergence...
 - Et si on abandonnait l'échantillonnage indépendant ?
 
@@ -578,7 +577,7 @@ barplot(
 **Application au lancer de pièce (cas continu)**
 
 $~\bullet~$ La fonction de vraisemblance est donnée par :
-$\color{orangered}{p(y \given \theta, n) = \theta^y(1 - \theta)^{(n - y)}}$ <br>
+$\color{orangered}{p(y \given \theta, n) \propto \theta^y(1 - \theta)^{(n - y)}}$ <br>
 $~\bullet~$ Le prior est donné par :
 $\color{steelblue}{p(\theta \given a, b) \propto \theta^{(a - 1)}(1 - \theta)^{(b - 1)}}$
 <br> $~\bullet~$ Le paramètre que l'on cherche à estimer prend ses
@@ -588,7 +587,7 @@ valeurs dans l'intervalle $\left[0, 1 \right]$
 
 **Problème n°1 :** Comment définir la proposition de déplacement ?
 
-Le déplacement est modélisé par une distribution normale :
+On peut modéliser le déplacement par une distribution normale :
 $\Delta \theta \sim \mathrm{Normal}(0, \sigma)$ <br> $\longrightarrow~$
 La moyenne $\mu$ vaut $0$ : le déplacement se fait autour de la valeur
 courante du paramètre <br> $\longrightarrow~$ La variance reste à
@@ -619,7 +618,7 @@ prior par vraisemblance (car la constante de normalisation s'annule) !
 
 $\longrightarrow~$ Sélectionner un point de départ <br> $~\bullet~$ Il
 faut choisir $\theta \in \left[0,1\right]$ <br> $~\bullet~$ Seule
-contrainte $\Pr(\theta_{\text{initial}}) \ne 0$
+contrainte : $\Pr(\theta_{\text{initial}}) \ne 0$
 
 . . .
 
@@ -1223,11 +1222,11 @@ z1 <- metropolis_beta_binomial(niter = 1e4, startval = 0.5)
 z2 <- metropolis_beta_binomial(niter = 1e4, startval = 0.5)
 
 data.frame(z1 = z1, z2 = z2) %>%
-  mutate(sample = 1:1e4) %>%
+  mutate(sample = 1:nrow(.) ) %>%
   pivot_longer(cols = z1:z2) %>%
   ggplot(aes(x = sample, y = value, colour = name) ) +
   geom_line(show.legend = FALSE) +
-  labs(x = "Numéro d'itération", y = expression(theta) ) + ylim(c(0, 1) )
+  labs(x = "Nombre d'itérations", y = expression(theta) ) + ylim(c(0, 1) )
 ```
 
 ## Algorithme Metropolis
@@ -1239,7 +1238,7 @@ data.frame(z1 = z1, z2 = z2) %>%
   mutate(rowname = as.numeric(rowname) ) %>%
   ggplot(aes(x = value) ) +
   geom_histogram(aes(y = ..density..), color = "white", alpha = 0.8) +
-  stat_function(fun = dbeta, args = list(3, 4), color = posterior_color, size = 1) +
+  stat_function(fun = dbeta, args = list(3, 4), color = "magenta4", size = 1) +
   facet_wrap(~name) +
   labs(x = expression(theta), y = "Densité")
 ```
@@ -1875,9 +1874,9 @@ estimations de ce modèle (interprétation des paramètres, diagnostiques des MC
 $$
 \begin{aligned}
 \log(\text{gdp}_{i}) &\sim \mathrm{Normal}(\mu_{i}, \sigma_{i}) \\
-\mu_{i} &= \alpha + \beta_{1} \cdot \text{rugged}_{i} + \beta_{2} \cdot \text{continent}_{i} + \beta_{3} \cdot (\text{rugged}_{i} \cdot \text{continent}_{i}) \\
-\alpha &\sim \cdots \\
-\beta_{1}, \beta_{2}, \beta_{3} &\sim \cdots \\
+\mu_{i} &= \alpha + \beta_{1} \times \text{rugged}_{i} + \beta_{2} \times \text{continent}_{i} + \beta_{3} \times (\text{rugged}_{i} \times \text{continent}_{i}) \\
+\alpha &\sim \ldots \\
+\beta_{1}, \beta_{2}, \beta_{3} &\sim \ldots \\
 \end{aligned}
 $$
 

@@ -7,15 +7,9 @@ purrr
 dplyr
 stringr
 forcats
+patchwork
 Rcpp
 brms
 imsb
-patchwork
-StanHeaders
-rstan
-cmdstanr
-rethinking
-HDInterval
-BEST
 tidybayes
 modelr

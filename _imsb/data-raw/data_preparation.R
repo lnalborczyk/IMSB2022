@@ -73,5 +73,17 @@ popular <- read.csv(file = here::here("data-raw/popular.csv"), sep = ",")
 usethis::use_data(popular, overwrite = TRUE)
 
 # code to prepare the admission data
-admission <- read.csv(file = here::here("data-raw/UCBadmit.csv"), sep = ";")
+# admission <- read.csv(file = here::here("data-raw/UCBadmit.csv"), sep = ";")
+
+admission <- open_data(UCBAdmissions) |>
+    data.frame() |>
+    tidyr::pivot_wider(names_from = Admit, values_from = Freq) |>
+    dplyr::select(dept = Dept, gender = Gender, admit = Admitted, reject = Rejected) |>
+    dplyr::mutate(applications = admit + reject) |>
+    data.frame()
+
 usethis::use_data(admission, overwrite = TRUE)
+
+# code to prepare the chimpanzees data
+chimpanzees <- read.csv(file = here::here("data-raw/chimpanzees.csv"), sep = ";")
+usethis::use_data(chimpanzees, overwrite = TRUE)

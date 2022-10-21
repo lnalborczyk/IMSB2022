@@ -409,10 +409,9 @@ knitr::include_graphics("figures/chimp_exp.jpg")
 
 ```{r, echo = TRUE}
 library(tidyverse)
-library(rethinking)
+library(imsb)
 
-data(chimpanzees) # see ?chimpanzees for more information on the dataset
-df1 <- chimpanzees
+df1 <- open_data(chimpanzees) 
 str(df1)
 ```
 
@@ -503,7 +502,6 @@ bind_rows(prior_samples(mod1.1), prior_samples(mod1.2) ) %>%
 L'intercept s'interprète dans l'espace des log-odds... pour l'interpréter comme une probabilité, il faut appliquer la fonction de lien inverse. On peut utiliser la fonction `plogis()`.
 
 ```{r, eval = TRUE, echo = TRUE}
-#| output-location: fragment
 fixed_effects <- fixef(mod1.2) # effets fixes (ou constants)
 plogis(fixed_effects) # fonction de lien inverse
 ```
@@ -734,9 +732,7 @@ model_predictions %>%
 Ces données représentent le nombre de candidatures à l'université de Berkeley par sexe et par département. Chaque candidature est acceptée ou rejetée et les résultats sont agrégés par département et par sexe.
 
 ```{r eval = TRUE, echo = TRUE}
-library(rethinking)
-data(UCBadmit)
-(df2 <- UCBadmit)
+(df2 <- open_data(admission) )
 ```
 
 Existe-t-il un biais de recrutement lié au sexe ?
@@ -760,12 +756,12 @@ Les variables :
 
 + $\text{admit}_{i}$ : Le nombre de candidatures acceptées (`admit`)
 + $n_{i}$ : Le nombre total de candidatures (`applications`)
-+ $m_{i}$ : Le sexe du candidat (`1 = male`)
++ $m_{i}$ : Le sexe du candidat (`1 = Male`)
 
 ## Régression binomiale agrégée 
 
 ```{r mod3, eval = TRUE, echo = TRUE, results = "hide"}
-priors <- c(set_prior("normal(0, 1)", class = "Intercept") )
+priors <- c(prior(normal(0, 1), class = Intercept) )
 
 mod3 <- brm(
   formula = admit | trials(applications) ~ 1,
@@ -780,12 +776,12 @@ mod3 <- brm(
 
 ```{r mod4, eval = TRUE, echo = TRUE, results = "hide"}
 priors <- c(
-  set_prior("normal(0, 1)", class = "Intercept"),
-  set_prior("normal(0, 1)", class = "b")
+  prior(normal(0, 1), class = Intercept),
+  prior(normal(0, 1), class = b)
   )
 
 # dummy-coding
-df2$male <- ifelse(df2$applicant.gender == "male", 1, 0)
+df2$male <- ifelse(df2$gender == "Male", 1, 0)
 
 mod4 <- brm(
   formula = admit | trials(applications) ~ 1 + male,
@@ -893,7 +889,7 @@ C'est le paradoxe de Simpson... remarques :
 
 ## Régression binomiale agrégée 
 
-On construit donc un modèle de la décision d'admission en fonction du genre, *au sein de chaque département*.
+On construit donc un modèle de la décision d'admission en fonction du genre, au sein de chaque département.
 
 $$
 \begin{align}
@@ -982,7 +978,7 @@ Les hommes et les femmes ne postulent pas aux mêmes départements et les dépar
 
 . . .
 
-Pour évaluer l'effet du sexe sur la probabilité d'admission, il faut donc se poser la question suivante : "Quelle est la différence de probabilité d'admission entre hommes et femmes *au sein de chaque département* ?" (plutôt que de manière générale).
+Pour évaluer l'effet du sexe sur la probabilité d'admission, il faut donc se poser la question suivante : "Quelle est la différence de probabilité d'admission entre hommes et femmes **au sein de chaque département** ?" (plutôt que de manière générale).
 
 . . .
 
@@ -997,17 +993,18 @@ Retenir la distinction entre **effet relatif** (e.g., un changement de cote) et 
 Travailler avec des sujets humains implique un minimum de coopération réciproque. Mais ce n'est pas toujours le cas. Une partie non-négligeable des étudiants qui s'inscrivent pour passer des expériences de Psychologie ne se présentent pas le jour prévu... On a voulu estimer la **probabilité de présence d'un étudiant inscrit** en fonction de l'envoi (ou non) d'un mail de rappel (cet exemple est présenté en détails dans deux blogposts, accessibles [ici](http://www.barelysignificant.com/post/absenteeism/), et [ici](http://www.barelysignificant.com/post/absenteeism2/)).
 
 ```{r eval = TRUE, echo = TRUE}
-library(imsb)
 df3 <- open_data(absence)
 df3 %>% sample_frac %>% head(10)
 ```
 
 ## Travaux pratiques
 
-1. **Quelle est la probabilité qu'un participant, qui s'est inscrit de son propre chef, vienne effectivement passer l'expérience ?**
-2. Quel est l'effet du rappel ?
-3. Quel est l'effet du mode d'inscription ?
-4. Quel est l'effet conjoint de ces deux prédicteurs ?
+::: nonincremental
+- **Quelle est la probabilité qu'un participant, qui s'est inscrit de son propre chef, vienne effectivement passer l'expérience ?**
+- Quel est l'effet du rappel ?
+- Quel est l'effet du mode d'inscription ?
+- Quel est l'effet conjoint de ces deux prédicteurs ?
+:::
 
 ## Travaux pratiques
 
@@ -1040,14 +1037,16 @@ fixef(mod7) %>% plogis # effet absolu (probabilité de présence)
 
 ## Travaux pratiques
 
-1. Quelle est la probabilité qu'un participant, qui s'est inscrit de son propre chef, vienne effectivement passer l'expérience ?
-2. **Quel est l'effet du rappel ?**
-3. Quel est l'effet du mode d'inscription ?
-4. Quel est l'effet conjoint de ces deux prédicteurs ?
+::: nonincremental
+- Quelle est la probabilité qu'un participant, qui s'est inscrit de son propre chef, vienne effectivement passer l'expérience ?
+- **Quel est l'effet du rappel ?**
+- Quel est l'effet du mode d'inscription ?
+- Quel est l'effet conjoint de ces deux prédicteurs ?
+:::
 
 ## Travaux pratiques
 
-On commence par re-coder en dummy variables le *reminder* et l'*inscription*.
+On commence par re-coder en dummy variables `reminder` et `inscription`.
 
 ```{r eval = TRUE, echo = TRUE}
 df3 <-
@@ -1135,10 +1134,12 @@ df3 %>%
 
 ## Travaux pratiques
 
-1. Quelle est la probabilité qu'un participant, qui s'est inscrit de son propre chef, vienne effectivement passer l'expérience ?
-2. Quel est l'effet du rappel ?
-3. **Quel est l'effet du mode d'inscription ?**
-4. Quel est l'effet conjoint de ces deux prédicteurs ?
+::: nonincremental
+- Quelle est la probabilité qu'un participant, qui s'est inscrit de son propre chef, vienne effectivement passer l'expérience ?
+- Quel est l'effet du rappel ?
+- **Quel est l'effet du mode d'inscription ?**
+- Quel est l'effet conjoint de ces deux prédicteurs ?
+:::
 
 ## Travaux pratiques
 
@@ -1183,10 +1184,12 @@ La probabilité de présence est augmentée de $0.17$ lorsque l'on s'inscrit sur
 
 ## Travaux pratiques
 
-1. Quelle est la probabilité qu'un participant, qui s'est inscrit de son propre chef, vienne effectivement passer l'expérience ?
-2. Quel est l'effet du rappel ?
-3. Quel est l'effet du mode d'inscription ?
-4. **Quel est l'effet conjoint de ces deux prédicteurs ?**
+::: nonincremental
+- Quelle est la probabilité qu'un participant, qui s'est inscrit de son propre chef, vienne effectivement passer l'expérience ?
+- Quel est l'effet du rappel ?
+- Quel est l'effet du mode d'inscription ?
+- **Quel est l'effet conjoint de ces deux prédicteurs ?**
+:::
 
 ## Travaux pratiques
 
