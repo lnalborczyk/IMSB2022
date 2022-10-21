@@ -1,5 +1,5 @@
 book_filename: "IMSB"
-edit: "https://github.com/lnalborczyk/IMSB2022/tree/master/notes/%s"
+edit: "https://github.com/lnalborczyk/IMSB2022/tree/master/_notes/%s"
 delete_merged_file: true
 # output_dir: "docs"
 output_dir: "../notes"

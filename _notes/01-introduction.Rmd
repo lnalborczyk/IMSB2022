@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # Introduction à l'inférence bayésienne {#introduction}
 
 ```{r setup-ch1, include = FALSE, message = FALSE}
@@ -71,8 +76,8 @@ library(tidyverse)
 
 sample(x = c(0, 1), size = 500, replace = TRUE) %>%
         data.frame() %>%
-        mutate(x = seq_along(.), y = cumsum(.) / seq_along(.) ) %>%
-        ggplot(aes(x = x, y = y), log = "y") +
+        mutate(x = seq_along(.), y = cummean(.) ) %>%
+        ggplot(aes(x = x, y = y) ) +
         geom_line(lwd = 1) +
         geom_hline(yintercept = 0.5, lty = 3) +
         labs(x = "Nombre de lancers", y = "Proportion de faces") +
@@ -164,7 +169,7 @@ Les plus curieux d'entre vous seront ravis de trouver plus d'informations dans c
 Le but de cette section est de proposer une courte (et très incomplète) introduction à la logique, afin de pouvoir analyser dans une section ultérieure l'argument central de l'inférence fréquentiste et d'illustrer les similarités entre la logique et le fonctionnement de l'inférence bayésienne. Commençons tout d'abord par définir les termes utilisés [cf. @talbot_critical_2015].
 
 ```{definition, label = "argument"}
-Un **argument** est un ensemble de propositions dans lequel une proposition est affirmée sur la base d'autres propositions.
+Un *argument* est un ensemble de propositions dans lequel une proposition est affirmée sur la base d'autres propositions.
 ```
 
 Un argument (du moins tel que défini ici) est donc composé de différentes propositions. Parmi ces propositions, certaines vont être utilisées pour affirmer une autre proposition.
@@ -191,8 +196,8 @@ Pour résumer, un argument est un ensemble de *propositions*, dont certaines d'e
 
 ### Quelques syllogismes connus
 
-```{r penguin, echo = FALSE, out.width = "50%", fig.cap = "Un pingouin s'essayant à la logique. Source : https://www.pinterest.com/pin/465418942711158498/."}
-knitr::include_graphics("figures/penguin.jpg")
+```{r penguin, eval = TRUE, echo = FALSE, out.width = "50%", fig.cap = "Un pingouin s'essayant à la logique. Source : https://www.pinterest.com/pin/465418942711158498/."}
+knitr::include_graphics("figures/penguin.png")
 ```
 
 Un syllogisme est un raisonnement logique qui met en relation *au moins* trois propositions : au moins deux prémisses et une conclusion. Afin d'illustrer les définitions proposées ci-dessus, nous allons maintenant examiner quelques exemples. Savez-vous reconnaître les arguments valides et invalides ?
@@ -311,7 +316,7 @@ Notons au passage que la falsifiabilité de Popper concerne le problème de la *
 
 Un modèle statistique est un appareil utilisé pour relier, pour faire le lien entre un modèle théorique et certaines données. Il peut être défini comme une instanciation d'une théorie en un ensemble d'énoncés ou de propositions probabilistes [@rouder_interplay_2016]. En général, il n'existe pas de relation univoque entre modèles théoriques et modèles statistiques. Autrement dit, un modèle théorique donné peut être représenté (i.e., implémenté) par différents modèles statistiques et réciproquement, différents modèles statistiques peuvent être construits à partir du même modèle théorique. Par conséquent, la confirmation ou réfutation d'un modèle statistique ne permet pas l'induction strict au modèle théorique.
 
-Par exemple, une pratique statistique courante en sciences expérimentales est le test d'hypothèse nulle fréquentiste (*Null Hypothesis Significance Testing* ou NHST), qui consiste à tester une hypothèse nulle (souvent l'hypothèse d'absence d'effet) afin de confirmer (ou plutôt, corroborer) une hypothèse théorique alternative d'intérêt. Or, le fait de rejeter l'hypothèse d'absence d'effet ne fournit qu'une très faible *corroboration* de l'hypothèse d'intérêt, comme de nombreuses théories peuvent potentiellement prédire un effet est non-nul. L'hypothèse d'absence d'effet (i.e., l'hypothèse que l'effet est précisémment égal à $0$) est beaucoup plus contraignante (restrictive) que l'hypothèse alternative selon laquelle l'effet n'est pas $0$.
+Par exemple, une pratique statistique courante en sciences expérimentales est le test d'hypothèse nulle fréquentiste (*Null Hypothesis Significance Testing* ou NHST), qui consiste à tester une hypothèse nulle (souvent l'hypothèse d'absence d'effet) afin de confirmer (ou plutôt, corroborer) une hypothèse théorique alternative d'intérêt. Or, le fait de rejeter l'hypothèse d'absence d'effet ne fournit qu'une très faible *corroboration* de l'hypothèse d'intérêt, comme de nombreuses théories peuvent potentiellement prédire un effet non nul. L'hypothèse d'absence d'effet (i.e., l'hypothèse que l'effet est précisémment égal à $0$) est beaucoup plus contraignante (restrictive) que l'hypothèse alternative selon laquelle l'effet n'est pas égal à $0$.
 
 #### Le problème de la mesure
 
@@ -325,11 +330,11 @@ La logique de la réfutation est assez simple et repose sur la puissance du *mod
 
 Cet argument est parfaitement valide pour les propositions logiques, qui peuvent être soit vraies, soit fausses. Cependant, le premier problème qui apparait lorsqu'on on applique ce raisonnement à des cas concrets de raisonnement scientifique est le problème de l'erreur d'observation (ou erreur de mesure). Toute observation est sujette à de l'erreur, surtout lorsqu'on étudie des phénomènes nouveaux [@mcelreath_statistical_2016].
 
-Considérons un instant un exemple qui nous vient de Physique, lorsqu'a été rapportée l'observation de [neutrinos](https://en.wikipedia.org/wiki/Neutrino) plus rapides que la vitesse de la lumière [@mcelreath_statistical_2016;@mcelreath_statistical_2020]. Selon Einstein, aucun objet ne peut voyager plus vite que la lumière. Par conséquent, l'observation de certaines particules (en l'occurrence des neutrinos) qui voyageraient à une vitesse supérieure à celel de la lumière pourraient être considérée comme une réfutation flagrante de la théorie de la relativité restreinte.
+Considérons un instant un exemple qui nous vient de la Physique, lorsqu'a été rapportée l'observation de [neutrinos](https://en.wikipedia.org/wiki/Neutrino) plus rapides que la vitesse de la lumière [@mcelreath_statistical_2016;@mcelreath_statistical_2020]. Selon Einstein, aucun objet ne peut voyager plus vite que la lumière. Par conséquent, l'observation de certaines particules (en l'occurrence des neutrinos) qui voyageraient à une vitesse supérieure à celel de la lumière pourraient être considérée comme une réfutation flagrante de la théorie de la relativité restreinte.
 
 En 2011, une large équipe de physiciens de renommée internationale ont pourtant annoncé la détection de neutrinos voyageant plus rapidement quela vitesse de la lumière. De manière intéressante, la première réaction de la communauté scientifique ne fut pas d'annoncer que la théorie d'Einstein était réfutée. Bien au contraire, la plus grande partie de la communauté s'est demandée "D'où est-ce que vient l'erreur dans les mesures réalisées par cette équipe ?" [@mcelreath_statistical_2016;@mcelreath_statistical_2020]. L'équipe ayant réalisée ces mesures a de ses voeux appelé à des réplications indépendantes de leurs résultats. Deux ans plus tard et après plusieurs ré-analyses et réplications contradictoires, la communauté était unanime que les résultats qui semblaient contredire la théorie d'Einstein étaient en fait dû à une erreur de mesure (l'équipe ayant réalisé les premières mesures a réalisé plus tard que l'erreur provenait [d'un câble mal branché](https://profmattstrassler.com/articles-and-posts/particle-physics-basics/neutrinos/neutrinos-faster-than-light/opera-what-went-wrong/)).
 
-Cette anecdote de l'histoire des sciences nous apprend au moins deux choses. Premièrement, il est intéressant d'analyser la réaction de la communauté de l'annonce de ces résultats. La théorie de la relativité restreinte ayant accumulé de nombreux succès prédictis au cours du dernier siècle, la survenue d'une observation si dramatiquement incompatible avec la théorie était perçue comme hautement improbable aux yeux des experts. Cela nous renseigne sur la manière dont les théories scientifiques gagnent en "crédence" aux yeux d'une communauté d'expert, et également comme cette crédence ou l'historique d'une théorie affecte ou influence la manière d'interpréter les observations empiriques. Deuxièmement, cela souligne le fait qu'une observation ou un ensemble d'observation peut difficilement compter comme une réfutation stricte d'une théorique, car il existe (presque) toujours une probabilité de se tromper ou une erreur irréductible dans la précision de la mesure. De manière générale, le problème avec l'erreur de mesure est de savoir si la réfutation d'une théorie $T$ par un ensemble d'observations $D$ est véritable ou simplement superficielle. Sachant que toute mesure est sujette à de l'erreur, toute conclusion scientifique qui repose sur une ou des mesure(s) ne peut qu'apporter une réfutation partielle (exprimée en termes probabilistes) d'une théorie, et non une réfutation stricte (comme en logique formelle).
+Cette anecdote de l'histoire des sciences nous apprend au moins deux choses. Premièrement, il est intéressant d'analyser la réaction de la communauté de l'annonce de ces résultats. La théorie de la relativité restreinte ayant accumulé de nombreux succès prédictifs au cours du dernier siècle, la survenue d'une observation si dramatiquement incompatible avec la théorie était perçue comme hautement improbable aux yeux des experts. Cela nous renseigne sur la manière dont les théories scientifiques gagnent en "crédence" aux yeux d'une communauté d'expert, et également comme cette crédence ou l'historique d'une théorie affecte ou influence la manière d'interpréter les observations empiriques. Deuxièmement, cela souligne le fait qu'une observation ou un ensemble d'observation peut difficilement compter comme une réfutation stricte d'une théorique, car il existe (presque) toujours une probabilité de se tromper ou une erreur irréductible dans la précision de la mesure. De manière générale, le problème avec l'erreur de mesure est de savoir si la réfutation d'une théorie $T$ par un ensemble d'observations $D$ est véritable ou simplement superficielle. Sachant que toute mesure est sujette à de l'erreur, toute conclusion scientifique qui repose sur une ou des mesure(s) ne peut qu'apporter une réfutation partielle (exprimée en termes probabilistes) d'une théorie, et non une réfutation stricte (comme en logique formelle).
 
 #### Hypothèses probabilistes
 
@@ -373,13 +378,13 @@ Lorsque nous testons une théorie qui prédit que "Si $O_{1}$" (une manipulation
 
 $$(T \land A_{t} \land C_{p} \land A_{i} \land C_{n}) \to (O_{1} \supset O_{2})$$
 
-où "$\land$" représente une conjonction ("et"), "$\to$" représente une déduction logique, et "$\supset$" représente l'implication logique (e.g., "Si $O_{1}$, Alors $O_{2}$"). $A_{t}$ est une conjonction de théories auxiliares, $C_{p}$ est connu comme le *ceteribus paribus* (i.e., on postule qu'il n'existe pas de factuers extérieurs non pris en compte et qui pourraient "masquer" l'effet d'intérêt) $A_{i}$ est une théorie auxiliaire concernant les outils utilisés pour mesurer l'effet d'intérêt, et $C_{n}$ est un énoncé à propos des conditions particulières de l'expérience réalisée (i.e., on postule qu'il n'existe pas de bruit ou erreur systémtique dans le protocole expérimental).
+où "$\land$" représente une conjonction ("et"), "$\to$" représente une déduction logique, et "$\supset$" représente l'implication logique (e.g., "Si $O_{1}$, Alors $O_{2}$"). $A_{t}$ est une conjonction de théories auxiliares, $C_{p}$ est connu comme le *ceteribus paribus* (i.e., on postule qu'il n'existe pas de facteurs extérieurs non pris en compte et qui pourraient "masquer" l'effet d'intérêt) $A_{i}$ est une théorie auxiliaire concernant les outils utilisés pour mesurer l'effet d'intérêt, et $C_{n}$ est un énoncé à propos des conditions particulières de l'expérience réalisée (i.e., on postule qu'il n'existe pas de bruit ou erreur systématique dans le protocole expérimental).
 
 En d'autres termes, une *conjonction* de tous les éléments du côté gauche de la formule ci-dessus (ce qui inclut notre théorie $T$) implique la partie droite de la formule, c'est à dire "Si $O_{1}$, Alors $O_{2}$". Si l'expérience réalisée nous révèle que cette relation ne tient pas, alors on aimerait pouvoir conclure que notre hypothèse $T$ est réfutée (en appliquant le modus tollens).
 
 Or, une négation de la partie droite de cette formule nous permet seulement d'affirmer une négation de l'**intégralité** de la partie gauche. Autrement dit, ne pas observer une prédiction empirique d'une théorie nous permet de réfuter l'ensemble $T \land A_{t} \land C_{p} \land A_{i} \land C_{n}$, ce qui est très différent d'une réfutation de $T$ [@meehl_appraising_1990]. En termes plus formels, une négation de la conjonction (de gauche) est logiquement équivalent à déclarer une disjonction des conjoints (i.e., soit l'un ou l'autre des composants de la partie gauche est faux).
 
-Pour résumer, ne pas observer quelque chose qui était prédit par une théorie ne permet pas de montrer que cette théorie est fausse, mais cela permet de montrer que la conjonctions de la théorie et des hypothèses auxiliaires est fausse. Une conséquence des quatre problèmes soulevés dans cette section et que la réfutation d'une théorie scientifique n'est jamais logique, mais elle est **consensuelle** [@mcelreath_statistical_2016;@mcelreath_statistical_2020]. Une proposition théorique est considérée comme réfutée lorsqu'une communauté d'experts a accumulé un grand nombre de preuves variées, issus de protocoles et de groupes de recherches variés, au fil des décennies. Ce travail d'accumulation des preuves s'accompagne de discussions critiques indissociables du travail de développement théorique. En somme, la réfutation d'une théorie est un résultat social, issue d'une communauté d'experts, et n'est (presque) jamais le résultat d'une déduction logique formelle.
+Pour résumer, ne pas observer quelque chose qui était prédit par une théorie ne permet pas de montrer que cette théorie est fausse, mais cela permet de montrer que la conjonctions de la théorie et des hypothèses auxiliaires est fausse. Une conséquence des quatre problèmes soulevés dans cette section et que la réfutation d'une théorie scientifique n'est jamais logique, mais elle est plutôt **consensuelle** [@mcelreath_statistical_2016;@mcelreath_statistical_2020]. Une proposition théorique est considérée comme réfutée lorsqu'une communauté d'experts a accumulé un grand nombre de preuves variées, issus de protocoles et de groupes de recherches variés, au fil des décennies. Ce travail d'accumulation des preuves s'accompagne de discussions critiques indissociables du travail de développement théorique. En somme, la réfutation d'une théorie est un résultat social, issue d'une communauté d'experts, et n'est (presque) jamais le résultat d'une déduction logique formelle.
 
 ### Test d'hypothèse nulle et raisonnement scientifique
 
@@ -407,15 +412,15 @@ Aside from this problem, Fidler et al. (2018) provide four ways in which NHST vi
 
 -->
 
-Pour résumer, @fidler_epistemic_2018 décrivent quatre raisons qui questionne le parallèle entre la procédure NHST et la méthode falficationniste.
+@fidler_epistemic_2018 décrivent quatre raisons de questionner le parallèle entre la procédure NHST et la méthode falficationniste.
 
-1. L'hypothèse nulle $\mathcal{H}_{0}$ (ou plutôt la *nil hypothesis*, c'est à dire l'hypothèse que la valeur du paramètre testé est précisément $0$) est très probablement fausse car en sciences sociales en particulier "tout tend à êtr associé avec tout", un phénomène également connu comme le *crud factor* [@meehl_why_1990].
+1. L'hypothèse nulle $\mathcal{H}_{0}$ (ou plutôt la *nil hypothesis*, c'est à dire l'hypothèse que la valeur du paramètre testé est précisément $0$) est très probablement fausse car en sciences sociales en particulier "tout tend à être associé avec tout", un phénomène également connu sous le nom de *crud factor* [@meehl_why_1990].
 
 2. La procédure NHST ne teste pas réellement l'hypothèse d'intérêt $\mathcal{T}$, mais seulement l'hypothèse épouvantail $\mathcal{H}_{0}$.
 
 3. De nombreuses hypothèses théories sous-jacentes ne sont pas assez bien développées ou formalisées et ne permettent pas de formuler des hypothèses statistiques.
 
-4. Même si tous les points précédents ont été résolus, nous aurions encore besoin de soumettre ces hypothèses à des tests sévères, ce qui nécessiterait des études bien alimentées et bien conçues, ce qui n'est pas la norme actuelle ^[La puissance statistique moyenne des tests d'hypothèse réalisés en Psychologie est estimée à moins de 50% [e.g.,@szucs_empirical_2017-1].].
+4. Même si tous les points précédents ont été résolus, nous aurions encore besoin de soumettre ces hypothèses à des tests sévères, ce qui nécessiterait des études bien alimentées et bien conçues, ce qui n'est pas la norme actuelle.^[La puissance statistique moyenne des tests d'hypothèse réalisés en Psychologie est estimée à moins de 50% [e.g.,@szucs_empirical_2017-1].]
 
 <!--
 
@@ -451,7 +456,7 @@ Par exemple: *si un individu est un homme, alors il est peu probable qu'il soit 
 
 -->
 
-Pour résumer, la vision naïve du falsificationnisme consiste à penser que la science progresse par falsification logique (et que donc la statistique devrait viser la falsification). Cependant, comme discuté dans cette section, cette perspective se retrouve face à plusieurs problèmes difficilement surmontables, que nous résumons ci-dessous/
+Pour résumer, la vision naïve du falsificationnisme consiste à penser que la science progresse par falsification logique (et que donc la statistique devrait viser la falsification). Cependant, comme discuté dans cette section, cette perspective se retrouve face à plusieurs problèmes difficilement surmontables, que nous résumons ci-dessous.
 
 - Premier problème : Les hypothèses théoriques ne sont pas les modèles (hypothèses statistiques). Un modèle statistique est un appareil utilisé pour relier, pour faire le lien entre un modèle théorique et certaines données. Il peut être défini comme une instanciation d'une théorie en un ensemble d'énoncés ou de propositions probabilistes [@rouder_interplay_2016].
 
@@ -465,9 +470,9 @@ Enfin, la falsification concerne le problème de la démarcation, pas celui de l
 
 ### L'approche par comparaison de modèles
 
-En connaissance des limitations de l'approche par test d'hypothèse nulle telle que présentée dans la section précédente, nous adoptons dans ce livre une approche dite par *comparaison de modèle*.
+En connaissance des limitations de l'approche par test d'hypothèse nulle telle que présentée dans la section précédente, nous adoptons dans ce livre une approche dite par *comparaison de modèles**.
 
-En bref, en place d'une approche mécanique du test d'hypothèse nulle, nous proposons une méthode qui met l'accent sur l'estimation de paramètres, la comparaison de modèles statistiques et théoriques (sensés et d'intérêt), et l'extension (amélioration) continuelle du modèle [e.g.,@burnham_model_2002;@burnham_multimodel_2004;@Cumming2012;@cumming_new_2014;@gelman_data_2006;@gelman_bayesian_2013;@judd_data_2009;@R-rethinking;@kruschke_doing_2015;@kruschke_bayesian_2018;@kruschke_bayesian_2018-1]. En d'autres notre approche est une approche de **modélisation statistique** plutôt qu'une approche de **test statistique** [e.g.,@noel_psychologie_2015].  Cette approche vise à modéliser le processus sous-jacent ayant généré les données observées (i.e., le *processus de génération des données* ou PGD) plutôt qu'à tester si la valeur de certains paramètres d'un modèle inapproprié est égal à une valeur arbitraire (e.g., $\theta = 0$). Cette approche n'est cependant pas incompatible avec l'approche falsificationniste tel que décrite en philosophie des sciences. En effet, certains statisticiens bayésiens comme @gelman_philosophy_2013 suggèrent que la réfutation des modèles statistiques joue un rôle important dans le processus de modélisation et d'amélioration des modèles (nous y reviendrons à plusieurs reprises, en particulier lorsque nous discuterons l’utilisation des *prior* et *posterior predictive checks*).
+En bref, en place d'une approche mécanique du test d'hypothèse nulle, nous proposons une méthode qui met l'accent sur l'estimation de paramètres, la comparaison de modèles statistiques et théoriques (sensés et d'intérêt), et l'extension (amélioration) continuelle du modèle [e.g.,@burnham_model_2002;@burnham_multimodel_2004;@Cumming2012;@cumming_new_2014;@gelman_data_2006;@gelman_bayesian_2013;@judd_data_2009;@R-rethinking;@kruschke_doing_2015;@kruschke_bayesian_2018;@kruschke_bayesian_2018-1]. En d'autres notre approche est une approche de **modélisation statistique** plutôt qu'une approche de **test statistique** [e.g.,@noel_psychologie_2015].  Cette approche vise à modéliser le processus sous-jacent ayant généré les données observées (i.e., le **processus de génération des données** ou PGD) plutôt qu'à tester si la valeur de certains paramètres d'un modèle inapproprié est égal à une valeur arbitraire (e.g., $\theta = 0$). Cette approche n'est cependant pas incompatible avec l'approche falsificationniste tel que décrite en philosophie des sciences. En effet, certains statisticiens bayésiens comme @gelman_philosophy_2013 suggèrent que la réfutation des modèles statistiques joue un rôle important dans le processus de modélisation et d'amélioration des modèles (nous y reviendrons à plusieurs reprises, en particulier lorsque nous discuterons l’utilisation des *prior* et *posterior predictive checks*).
 
 Afin d'illustrer l'approche par comparaison de modèles, considérons l'exemple suivant. On s'intéresse au lien entre deux variables aléatoires continues $x$ et $y$. On réalise une expérience et on collecte 10 observations nous permettant d'étudier cette relation. L'hypothèse de modélisation la plus classique est de postuler une relation linéaire entre $x$ et $y$. La droite minimisant la somme des erreurs au carré est représentée par la Figure \@ref(fig:modelcomp2).
 
@@ -880,7 +885,7 @@ L'approche générale que nous allons suivre va consister à, pour chaque probl�
 
 Pour rappel, une probabilité est une valeur numérique comprise entre 0 et 1 et qui respecte la règle de la somme. Ces valeurs sont assignées à des *événements* $\omega$, étant définis comme des sous-ensembles d'un grand *ensemble* $\Omega$. Chaque événement de cet ensemble peut se voir assigner une probabilité qui représente notre in(certitude) vis à vis de sa survenue. Ces probabilités sont assignées par des *fontions de probabilité* qui, à chaque élément $\omega \in \Omega$, associe ou attribue une probabilité [@blitzstein_introduction_2019;@dekking_modern_2005;@noel_psychologie_2015].
 
-Comme illustration, considérons l'exemple suivant. En postulant qu'il est impossible qu'une pièce retombe sur sa tranche, un lancer de pièce peut seulement résulter en deux issues : Pile ou Face. Autrement dit, l'ensemble des issues possibles est défini comme $\Omega = \{\text{Pile}, \ \text{Face}\}$. Étant donné qu'un *événement* est défini comme un sous-ensemble de $\Omega$, Pile et Face sont donc deux événements...
+Comme illustration, considérons l'exemple suivant. En postulant qu'il est impossible qu'une pièce lancée retombe sur sa tranche, un lancer de pièce peut seulement résulter en deux issues : Pile ou Face. Autrement dit, l'ensemble des issues possibles est défini comme $\Omega = \{\text{Pile}, \ \text{Face}\}$. Étant donné qu'un *événement* est défini comme un sous-ensemble de $\Omega$, Pile et Face sont donc deux événements possibles.
 
 ```{definition, label = "prob-function", name = "Fonction de probabilité"}
 Une fonction de probabilité $p$ définie sur un ensemble fini $\Omega$ assigne à chaque événement $A$ dans $\Omega$ une valeur $\Pr(A) \in [0, 1]$ de manière à ce que :
@@ -894,7 +899,7 @@ La valeur $\Pr(A)$ représente la *probabilité* que $A$ se réalise.
 Dans l'exemple d'un lancer de pièce, si la pièce n'est pas truquée, alors $\Pr(\text{Pile}) = \Pr(\text{Face}) = \frac{1}{2}$...
 
 ```{r venn, echo = FALSE, out.width = "100%", fig.cap = "Diagrammes représentant les notions d'intersection, d'union, et de complément."}
-knitr::include_graphics("figures/venn.pdf")
+knitr::include_graphics(path = "figures/venn.png")
 ```
 
 ...
@@ -913,7 +918,7 @@ cont <- round(cont / sum(cont), 2)
 cont
 ```
 
-Dans chaque cellule du tableau de données ci-dessus, on trouve la **probabilité conjointe** d'avoir telle couleur de cheveux **ET** telle couleur d'yeux, qui s'écrit $p(c, y) = p(y, c)$.
+Dans chaque cellule du tableau de données ci-dessus, on trouve la **probabilité conjointe** d'avoir telle couleur de cheveux **ET** telle couleur d'yeux, qui s'écrit $\Pr(c, y) = \Pr(y, c)$.
 
 ### Probabilité marginale
 
@@ -923,7 +928,7 @@ rownames(cont2) <- row.names(cont)
 cont2
 ```
 
-On peut aussi s'intéresser à la probabilité d'avoir des yeux bleus, de manière générale. Il s'agit de la probabilité **marginale** de l'événement *yeux bleus*, qui s'obtient par la somme de toutes les probabilités jointes impliquant l'événement *yeux bleus*. Elle s'écrit $p(y)=\sum\limits_{c}p(y|c)p(c)$.
+On peut aussi s'intéresser à la probabilité d'avoir des yeux bleus, de manière générale. Il s'agit de la probabilité **marginale** de l'événement *yeux bleus*, qui s'obtient par la somme de toutes les probabilités jointes impliquant l'événement *yeux bleus*. Elle s'écrit $\Pr(y)$.
 
 ```{r marginale2}
 cont3 <- rbind(cont2, colSums(cont2) )
@@ -931,7 +936,7 @@ rownames(cont3) <- c(row.names(cont2), "marginal_hair")
 cont3
 ```
 
-On peut bien entendu aussi s'intéresser aux probabilités des couleurs de cheveux, de manière générale. Elle s'écrit $p(c)=\sum\limits_{y}p(c|y)p(y)$.
+On peut bien entendu aussi s'intéresser aux probabilités des couleurs de cheveux, de manière générale. Elle s'écrit $\Pr(c)$.
 
 ### Probabilité conditionnelle
 

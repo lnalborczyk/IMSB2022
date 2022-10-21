@@ -1,4 +1,4 @@
-# IMSB2022 <img src="./files/cover.png" align="right" width="300px">
+# IMSB2022 <img src="files/cover.png" align="right" width="300px">
 
 ## Introduction à la modélisation statistique bayésienne : Un cours avec R, Stan, et brms
 
