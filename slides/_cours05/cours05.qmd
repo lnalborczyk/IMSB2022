@@ -69,80 +69,83 @@ multi-niveaux généralisés <br> Cours n°10 : Data Hackathon <br>
 
 $$\newcommand\given[1][]{\:#1\vert\:}$$
 
-<!--
+## Rappels de notation
+
+La notation $p(y \given \theta)$ peut faire référence à deux choses selon le contexte : la fonction de vraisemblance et le modèle d'observation. De plus, on trouve de nombreuses notations ambigues en statistique. Essayons de clarifier ci-dessous.
+
+- $\Pr(Y = y \given \Theta = \theta)$ désigne une **probabilité** (e.g., `dbinom(x = 2, size = 10, prob = 0.5)`).
+- $p(Y = y \given \Theta = \theta)$ désigne une **densité** de probabilité (e.g., `dbeta(x = 0.4, shape1 = 2, shape2 = 3)`).
+- $p(Y = y \given \Theta)$ désigne une fonction de vraisemblance (likelihood) discrète ou continue, $y$ est connu/fixé, $\Theta$ est une variable aléatoire, la somme (ou l'intégrale) de cette distribution **n'est pas égale à 1** (e.g., `dbinom(x = 2, size = 10, prob = seq(0, 1, 0.1) )`).
+- $p(Y \given \Theta = \theta)$ désigne une fonction de masse (ou densité) de probabilité (dont la somme ou l'intégrale est égale à 1), qu'on appelle aussi "modèle d'observation" (observation model) ou "distribution d'échantillonnage" (sampling distribution), $Y$ est une variable aléatoire, $\theta$ est connu/fixé (e.g., `dbinom(x = 0:10, size = 10, prob = 0.5)`)
+
+. . .
+
+Le but de l'analyse bayésienne (i.e., ce qu'on obtient à la fin d'une telle analyse) est la distribution postérieure $p(\theta \given y)$. On peut la résumer pour faciliter la communication des résultats, mais toute l'information souhaitée est contenue dans **la distribution toute entière** (pas seulement sa moyenne, son mode, ou autre).
 
 ## Rappels : prior predictive checking
-
-Assume a model with a Normal likelihood function for the data $y$, a Normal prior on the mean $\mu$, and an Exponential prior on the standard deviation $\sigma$.
-
-$$
-\begin{aligned}
-\color{orangered}{y_{i}} \ &\color{orangered}{\sim \mathrm{Normal}(\mu, \sigma)} \\
-\color{steelblue}{\mu} \ &\color{steelblue}{\sim \mathrm{Normal}(100, 10)} \\
-\color{steelblue}{\sigma} \ &\color{steelblue}{\sim \mathrm{Exponential}(0.1)} \\
-\end{aligned}
-$$
-## Rappels : prior predictive checking
-
-On peut simuler des données à partir de ce modèle, sachant ces priors.
 
 ```{r, eval = FALSE, echo = TRUE}
-# graphical parameters (three rows and one column)
-par(mfrow = c(3, 1) )
-
-# number of samples to draw
-nobs <- 1e4
+################################################################################
+# Assume a model with a Normal likelihood function: y ~ Normal(mu, sigma)      #
+# A Normal prior on the mean: mu ~ Normal(100, 10)                             #
+# And an Exponential prior on the standard deviation: sigma ~ Exponential(0.1) #
+################################################################################
 
 # simulating data from a normal distribution without (epistemic) uncertainty
-rnorm(n = nobs, mean = 100, sd = 10) |> hist(breaks = "FD")
+rnorm(n = 1e4, mean = 100, sd = 10) |> hist(breaks = "FD")
 
-# drawing samples from the normal prior for mu (i.e., p(mu))
+# drawing 10.000 samples from the normal prior for mu (i.e., p(mu))
 # what we know about mu before seeing the data
-mu_prior <- rnorm(n = nobs, mean = 100, sd = 10)
+mu_prior <- rnorm(n = 1e4, mean = 100, sd = 10)
 
 # simulating data from a normal distribution with uncertainty on mu
-rnorm(n = nobs, mean = mu_prior, sd = 10) |> hist(breaks = "FD")
+rnorm(n = 1e4, mean = mu_prior, sd = 10) |> hist(breaks = "FD")
 
-# drawing samples from the exponential prior for sigma (i.e., p(sigma))
+# drawing 10.000 samples from the exponential prior for sigma (i.e., p(sigma))
 # what we know about sigma before seeing the data
-sigma_prior <- rexp(n = nobs, rate = 0.1)
+sigma_prior <- rexp(n = 1e4, rate = 0.1)
 
 # simulating data from a normal distribution with uncertainty on both mu and sigma
 # what we (the model) assume(s) about y according to our priors for mu and sigma
-rnorm(n = nobs, mean = mu_prior, sd = sigma_prior) |> hist(breaks = "FD")
+rnorm(n = 1e4, mean = mu_prior, sd = sigma_prior) |> hist(breaks = "FD")
 ```
 
 ## Rappels : prior predictive checking
 
-On peut simuler des données à partir de ce modèle, sachant ces priors.
+```{r, eval = TRUE, echo = FALSE, out.width = "75%", fig.asp = 0.75}
+################################################################################
+# Assume a model with a Normal likelihood function: y ~ Normal(mu, sigma)      #
+# A Normal prior on the mean: mu ~ Normal(100, 10)                             #
+# And an Exponential prior on the standard deviation: sigma ~ Exponential(0.1) #
+################################################################################
 
-```{r, eval = TRUE, echo = FALSE}
 # graphical parameters (three rows and one column)
 par(mfrow = c(3, 1) )
 
 # number of samples to draw
-nobs <- 1e4
+nsamples <- 1e4
 
 # simulating data from a normal distribution without (epistemic) uncertainty
-rnorm(n = nobs, mean = 100, sd = 10) |> hist(breaks = "FD")
+rnorm(n = nsamples, mean = 100, sd = 10) |>
+    hist(breaks = "FD", xlim = c(-50, 250) )
 
 # drawing samples from the normal prior for mu (i.e., p(mu))
 # what we know about mu before seeing the data
-mu_prior <- rnorm(n = nobs, mean = 100, sd = 10)
+mu_prior <- rnorm(n = nsamples, mean = 100, sd = 10)
 
 # simulating data from a normal distribution with uncertainty on mu
-rnorm(n = nobs, mean = mu_prior, sd = 10) |> hist(breaks = "FD")
+rnorm(n = nsamples, mean = mu_prior, sd = 10) |>
+    hist(breaks = "FD", xlim = c(-50, 250) )
 
 # drawing samples from the exponential prior for sigma (i.e., p(sigma))
 # what we know about sigma before seeing the data
-sigma_prior <- rexp(n = nobs, rate = 0.1)
+sigma_prior <- rexp(n = nsamples, rate = 0.1)
 
 # simulating data from a normal distribution with uncertainty on both mu and sigma
 # what we (the model) assume(s) about y according to our priors for mu and sigma
-rnorm(n = nobs, mean = mu_prior, sd = sigma_prior) |> hist(breaks = "FD")
+rnorm(n = nsamples, mean = mu_prior, sd = sigma_prior) |>
+    hist(breaks = "FD", xlim = c(-50, 250) )
 ```
-
--->
 
 ## Le problème avec la distribution postérieure
 
@@ -267,12 +270,11 @@ Soit un point $M$ de coordonnées $(x, y)$, où $0 < x < 1$ et
 $0 < y < 1$. On tire aléatoirement les valeurs de $x$ et $y$ entre $0$
 et $1$ suivant une loi uniforme. Le point $M$ appartient au disque de
 centre $(0, 0)$ de rayon $r = 1$ si et seulement si
-$x^{2} + y^{2} \leqslant 1$. La probabilité que le point $M$ appartienne
+$\sqrt{x^{2} + y^{2}} \leqslant 1$. La probabilité que le point $M$ appartienne
 au disque est $\pi / 4$ puisque le quart de disque est de surface
-$\sigma = \frac{\pi r^{2}}{4} = \frac{\pi}{4}$, et le carré qui le
-contient est de surface $s = r^{2} = 1$. Si la loi de probabilité du
-tirage de point est uniforme, la probabilité de tomber dans le quart de
-disque vaut $\frac{\sigma}{s} = \frac{\pi}{4}$. En faisant le rapport du
+$\sigma = \pi r^{2} / 4 = \pi / 4$, et le carré qui le
+contient est de surface $s = 4 r^{2} / 4 = r^{2} = 1$. Si la loi de probabilité du tirage de point est uniforme, la probabilité de tomber dans le quart de
+disque vaut $\sigma / s = \pi / 4$. En faisant le rapport du
 nombre de points dans le disque au nombre de tirages $\frac{N_{\text{inner}}}{N_{\text{total}}}$, on obtient donc une approximation de $\pi / 4$.
 
 ```{r pi_gif, echo = FALSE, out.width = "25%"}
@@ -282,13 +284,13 @@ knitr::include_graphics("figures/Pi_30K.gif")
 ## Méthodes Monte Carlo : Estimation de $\pi$
 
 ```{r pi1, eval = TRUE, echo = TRUE, out.width = "25%"}
-trials <- 1e5
-radius <- 1
-x <- runif(n = trials, min = 0, max = radius)
-y <- runif(n = trials, min = 0, max = radius)
-distance <- sqrt(x^2 + y^2)
-inside <- distance < radius
-pi_estimate <- 4 * sum(inside) / trials
+trials <- 1e5 # nombre d'échantillons
+radius <- 1 # rayon du cercle
+x <- runif(n = trials, min = 0, max = radius) # tirages pour x
+y <- runif(n = trials, min = 0, max = radius) # tirages pour y
+distance <- sqrt(x^2 + y^2) # distance à l'origine
+inside <- distance < radius # à l'intérieur (ou pas) du quart de cercle ?
+pi_estimate <- 4 * sum(inside) / trials # estimation de pi
 ```
 
 ```{r pi2, eval = TRUE, echo = FALSE, out.width = "33%", dev = "png"}
@@ -326,7 +328,7 @@ la fonction de vraisemblance $p(\text{data} \given \theta_{1}, \theta_{2})$
 . . .
 
 Mais on ne sait pas calculer la distribution postérieure...
-$p(\theta_{1}, \theta_{2} \given \text{data}) = \dfrac{p(\text{data} \given \theta_{1}, \theta_{2}) p(\theta_{1}) p(\theta_{1})}{p(\text{data})}$
+$p(\theta_{1}, \theta_{2} \given \text{data}) = \dfrac{p(\text{data} \given \theta_{1}, \theta_{2}) p(\theta_{1}) p(\theta_{2})}{p(\text{data})}$
 <br>
 
 . . .
@@ -398,7 +400,7 @@ theta %>%
 
 ## Méthodes Monte Carlo : Exemple
 
-Estimation de cette distribution par tirage aléatoire : Cela revient à
+Approximation de cette distribution par tirage aléatoire : Cela revient à
 tirer aléatoirement un grand nombre de points "au hasard" parmi ces 28
 cases (comme pour le calcul de $\pi$) !
 
@@ -409,10 +411,10 @@ knitr::include_graphics("figures/DistribCarré1-7.png")
 ## Méthodes Monte Carlo : Exemple
 
 ```{r, eval = FALSE, echo = TRUE}
-niter <- 100
-theta <- 1:7
-ptheta <- theta
-samples <- sample(x = theta, prob = ptheta, size = niter, replace = TRUE)
+niter <- 100 # nombre d'itérations
+theta <- 1:7 # valeurs possibles de theta
+ptheta <- theta # densité de probabilité de theta
+samples <- sample(x = theta, prob = ptheta, size = niter, replace = TRUE) # échantillons
 ```
 
 ```{r, eval = TRUE, echo = FALSE, fig.width = 25}
@@ -423,12 +425,13 @@ theta <- 1:7
 ptheta <- theta
 trajectory <- sample(theta, prob = ptheta, size = trajLength, replace = TRUE)
 
-layout(matrix(1:2, ncol = 2), widths = c(.75, .25) )
+layout(matrix(1:2, ncol = 2), widths = c(0.75, 0.25) )
 
 plot(
     trajectory,
     main = "Distribution postérieure basée sur 100 tirages",
-    ylab = bquote(theta), xlim = c(0, trajLength), xlab = "Nombre d'itérations",
+    ylab = bquote(theta), xlim = c(0, trajLength),
+    xlab = "Numéro d'itération",
     type = "o", pch = 20, col = posterior_color,
     cex.lab = 2, cex.main = 3, cex.axis = 2
     )
@@ -468,7 +471,7 @@ nouvelle position.
 Deux idées centrales :
 
 - La proposition doit favoriser les valeurs de paramètre les
-plus probables : On parcourt plus souvent ces valeurs de paramètres
+plus probables : On parcourt plus souvent ces valeurs de paramètres.
 
 . . .
 
@@ -476,7 +479,7 @@ plus probables : On parcourt plus souvent ces valeurs de paramètres
 paramètre courant : On augmente la vitesse de
 convergence en restant là où se trouve l'information (i.e., en
 parcourant l'espace des paramètres de manière **locale** plutôt que
-**globale**)
+**globale**).
 
 ## Algorithme Metropolis
 
@@ -873,12 +876,22 @@ text(
   )
 
 paramInfo <- BEST::plotPost(
-  acceptedTraj, xlim = c(0, 1), xlab = bquote(theta), 
+  paramSampleVec =acceptedTraj, xlim = c(0, 1), xlab = bquote(theta), 
   cex = 2, cex.main = 1.5, col = posterior_color,
-  main = bquote(list(
-    "Proposal SD" == .(proposalSD),
-    "ESS" == .(round(coda::effectiveSize(acceptedTraj), 1) )
-    ) )
+  # main = paste0(
+  #     "Proposal SD = ", proposalSD,
+  #     ", ESS = ", round(coda::effectiveSize(acceptedTraj), 1)
+  #     )
+  )
+
+# displays proposal SD and acceptance ratio in the plot
+text(
+  x = 0.2, y = 1, # adj = c(0.0, 1.1),
+  cex = 1.5,
+  labels = paste0(
+      "Proposal SD = ", proposalSD,
+      "\nESS = ", round(coda::effectiveSize(acceptedTraj), 1)
+      )
   )
 ```
 
@@ -1059,10 +1072,20 @@ text(
 paramInfo <- BEST::plotPost(
   acceptedTraj, xlim = c(0, 1), xlab = bquote(theta), 
   cex = 2, cex.main = 1.5, col = posterior_color,
-  main = bquote(list(
-    "Proposal SD" == .(proposalSD),
-    "ESS" == .(round(coda::effectiveSize(acceptedTraj), 1) )
-    ) )
+  # main = bquote(list(
+  #   "Proposal SD" == .(proposalSD),
+  #   "ESS" == .(round(coda::effectiveSize(acceptedTraj), 1) )
+  #   ) )
+  )
+
+# displays proposal SD and acceptance ratio in the plot
+text(
+  x = 0.2, y = 1, # adj = c(0.0, 1.1),
+  cex = 1.5,
+  labels = paste0(
+      "Proposal SD = ", proposalSD,
+      "\nESS = ", round(coda::effectiveSize(acceptedTraj), 1)
+      )
   )
 ```
 
@@ -1244,10 +1267,20 @@ text(
 paramInfo <- BEST::plotPost(
   acceptedTraj, xlim = c(0, 1), xlab = bquote(theta), 
   cex = 2, cex.main = 1.5, col = posterior_color,
-  main = bquote(list(
-    "Proposal SD" == .(proposalSD),
-    "ESS" == .(round(coda::effectiveSize(acceptedTraj), 1) )
-    ) )
+  # main = bquote(list(
+  #   "Proposal SD" == .(proposalSD),
+  #   "ESS" == .(round(coda::effectiveSize(acceptedTraj), 1) )
+  #   ) )
+  )
+
+# displays proposal SD and acceptance ratio in the plot
+text(
+  x = 0.2, y = 1, # adj = c(0.0, 1.1),
+  cex = 1.5,
+  labels = paste0(
+      "Proposal SD = ", proposalSD,
+      "\nESS = ", round(coda::effectiveSize(acceptedTraj), 1)
+      )
   )
 ```
 
@@ -1593,13 +1626,16 @@ knitr::include_graphics("figures/Gibbs Error.png")
 
 Les algorithmes Metropolis et Metropolis-Hastings (ou Gibbs) ont de mauvaises
 performances lorsque les paramètres du modèle sont fortement corrêlés.
-L'algorithme **Hamiltonian Monte Carlo** repose sur l'algorithme
-Metropolis mais résout ces problème en utilisant la géométrie de
-l'espace postérieur. On utilise l'opérateur hamiltonien (hamiltonians)
+L'algorithme **Hamiltonian Monte Carlo** résout ces problème en utilisant la géométrie de l'espace postérieur. On va adapter la proposition de
+déplacement à la géométrie de la distribution postérieure aux alentours de la position courante.
+
+. . .
+
+On utilise l'opérateur hamiltonien (hamiltonians)
 qui représente l'énergie totale d'un système. Cette énergie se décompose
 en l'énergie potentielle (qui dépend de la position dans l'espace des
 paramètres $\theta$) et son énergie cinétique, qui dépend de son
-**momentum** ($m$) :
+**moment** (momentum, $m$) :
 
 $$
 H(\theta, m) = \underbrace{U(\theta)}_{\text{énergie potentielle}} + \underbrace{KE(m)}_{\text{énergie cinétique}}
@@ -1617,64 +1653,33 @@ Quand la densité postérieure augmente, l'énergie potentielle diminue
 
 ## Algorithme Hamiltonian Monte Carlo
 
-Si on "suit" simplement la gravité de notre position dans l'espace
-postérieur (imaginons que nous suivions la trajectoire d'une luge ou
-d'une bille dans cet espace), on arrivera à un minimum de cet espace,
-mais on veut explorer tout l'espace proportionnellement à la densité
-postérieure, pas seulement les endroits de forte densité...
-
-. . .
-
-L'algorithme Metropolis repose sur les principes suivants :
-
-$\longrightarrow~$ La proposition de déplacement est toujours une
-gaussienne multivariée centrée sur la position courante.
-
-. . .
-
-$\longrightarrow~$ La proposition de déplacement est une gaussienne qui
-garde toujours la même forme (variance constante).
-
-. . .
-
-L'algorithme HMC repose sur une autre idée : Adapter la proposition de
-déplacement en fonction de la position courante du paramètre et de la
-géométrie de la distribution postérieure aux alentours de cette position.
-
-## Algorithme Hamiltonian Monte Carlo
-
 ```{r hmc1, echo = FALSE, out.width = "50%"}
 knitr::include_graphics("figures/HMC alorithme.png")
 ```
 
 ## Algorithme Hamiltonian Monte Carlo
 
-$\longrightarrow~$ Sélectionner un point de départ $\theta_{0}$ : On
-peut sélectionner n'importe quelle valeur de $\theta$ dans l'espace des
-paramètres
+- Sélectionner un point de départ $\theta_{0}$ : On peut sélectionner
+n'importe quelle valeur de $\theta$ dans l'espace postérieur.
+
+- On génère aléatoirement la force avec laquelle on lance
+la bille (moment), par exemple à partir d'une loi normale multivariée :
+$m \sim \mathrm{MVNormal}(\mu, \Sigma)$.
+
+- On utilise un algorithme d'approximation de la trajectoire (e.g., leapfrog) pour estimer la trajectoire et la position finale de la bille dans l'espace postérieur pour une certaine durée.
+
+- Après un certain temps, on enregistre la position finale de la bille et son moment.
+
+- On accepte ou rejette la proposition de déplacement
+suivant la probabilité suivante (où $\phi$ (phi) est le moment associé à la bille) :
 
 . . .
 
-$\longrightarrow~$ Générer une nouvelle position à partir de la fonction
-de potentiel <br> $~\bullet~$ *L'algorithme génère une proposition par
-analogie au lancer d'une bille sur la fonction de potentiel* <br>
-$~\bullet~$ *Le pas de déplacement, ainsi que le nombre de déplacement,
-sont fixés à l'avance* <br> $~\bullet~$ *La force avec laquelle on lance
-la bille est déterminée par une loi normale multivariée :*
-$m \sim \mathrm{MVNormal}(\mu, \Sigma)$ <br> $~\bullet~$ *Estimation de
-la trajectoire discrétisée via la méthode leapfrog* <br>
-
-. . .
-
-$\longrightarrow~$ Accepter ou rejeter la proposition de déplacement
-suivant la probabilité (où $\phi$ est le moment associé à la bille) :
-
 $$
-\Pr_{déplacement} = \min \left(\frac{\Pr(\theta_{proposé} \given D)~\Pr(\phi_{final})}{\Pr(\theta_{courant} \given D)~\Pr(\phi_{initial})}, 1 \right)
+\Pr_{\text{move}} = \min \left(\frac{p(\theta_{\text{proposed}} \given \text{data})\ p(\phi_{\text{proposed}})}{p(\theta_{\text{current}} \given \text{data})\ p(\phi_{\text{current}})}, 1 \right)
 $$
 
-$\longrightarrow~$ On enregistre la nouvelle position et on
-recommence...
+- On enregistre la nouvelle position et on recommence...
 
 ## Influence de la durée de déplacement...
 
@@ -1690,18 +1695,6 @@ knitr::include_graphics("figures/HMC alorithme ERREUR2.png")
 
 ## Algorithme Hamiltonian Monte Carlo {background-iframe="https://chi-feng.github.io/mcmc-demo/app.html?algorithm=HamiltonianMC&target=standard"}
 
-## Algorithme Hamiltonian Monte Carlo
-
--   L'algorithme HMC est particulièrement utile lorsque le modèle
-    contient un grand nombre de paramètres et quand les paramètres sont
-    corrélés entre eux.
-
--   Il nécessite un paramétrage assez fin. Des logiciels proposent des
-    méthodes clés en main très efficaces. <br>
-
--   Le package brms utilise une variation de cet algorithme
-    (l'algorithme NUTS) qui permet d'éviter les trajectoires cycliques.
-
 ## Évaluation des MCMC
 
 Ces méthodes peuvent ne pas converger vers la "vraie" distribution
@@ -1714,18 +1707,18 @@ Ces méthodes produisent des chaînes de valeurs de paramètres
 échantillonner la distribution postérieure repose sur trois objectifs :
 
 -   Les valeurs de la chaîne doivent être représentatives de la
-    distribution postérieure <br> $~\bullet~$ Ces valeurs ne doivent pas
-    dépendre du point de départ <br> $~\bullet~$ Ces valeurs ne doivent
+    distribution postérieure. Ces valeurs ne doivent pas
+    dépendre du point de départ. Ces valeurs ne doivent
     pas être cantonnées à une région particulière de l'espace des
-    paramètres <br>
+    paramètres.
 
 -   La chaîne doit être suffisamment longue pour assurer la précision et
-    la stabilité du résultat <br> $~\bullet~$ La tendance centrale et le
+    la stabilité du résultat. La tendance centrale et le
     HDI calculés à partir de la chaîne ne doivent pas changer si on
-    relance la procédure <br>
+    relance la procédure.
 
--   La chaîne doit être générée de manière efficace (avec le moins
-    d'itérations possible)
+-   La chaîne doit être générée de manière efficace (i.e., avec le moins
+    d'itérations possible).
 
 ## Évaluation des MCMC - Représentativité
 
@@ -1794,8 +1787,8 @@ knitr::include_graphics("figures/Verif_representativité4.png")
 
 ## Évaluation des MCMC - Stabilité et précicion
 
-L'erreur standard d'un ensemble d'échantillons est donné :
-$SE = SD / \sqrt{N}$. Plus $N$ augmente plus l'erreur standard diminue.
+L'erreur standard d'un ensemble d'échantillons est donné par :
+$SE = SD / \sqrt{N}$. Plus $N$ augmente, plus l'erreur standard diminue.
 On peut généraliser cette idée aux chaînes de Markov :
 $MCSE = SD / \sqrt{ESS}$. Pour une précision raisonnable de la tendance
 centrale, il faut que cette valeur soit faible.
@@ -1837,7 +1830,6 @@ mod1 <- brm(
 ```{r diagnostics2, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6}
 # combo can be hist, dens, dens_overlay, trace, trace_highlight...
 # cf. https://mc-stan.org/bayesplot/reference/MCMC-overview.html
-
 plot(x = mod1, combo = c("dens_overlay", "trace") )
 ```
 
@@ -1913,7 +1905,7 @@ existe de fortes corrélations entre les différents paramètres...
 L'algorithme HMC évite ces problèmes en prenant en considération la
 géométrie de l'espace postérieur lors de son exploration (i.e., lorsque
 l'algorithme décide où il doit aller ensuite). Cet algorithme converge
-beaucoup plus rapidement que les deux précédents et moins d'échantillons
+beaucoup plus rapidement, et donc moins d'échantillons
 seront nécessaires pour approcher la distribution postérieure.
 
 . . .
@@ -1990,6 +1982,6 @@ plot(x = mod2, combo = c("dens_overlay", "trace"), pars = "^b_")
 
 ## Proposition de réponse
 
-```{r mod2-pairs, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 7.5}
-pairs(mod2)
+```{r mod2-pairs, eval = TRUE, echo = TRUE, fig.width = 9, fig.height = 6}
+pairs(x = mod2, np = nuts_params(mod2) ) # voir ?nuts_params
 ```

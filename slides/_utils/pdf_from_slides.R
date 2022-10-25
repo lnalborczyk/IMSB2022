@@ -3,7 +3,7 @@
 # -----------------------------------------------------------------------
 # Written by Ladislas Nalborczyk
 # E-mail: ladislas.nalborczyk@gmail.com
-# Last updated on October 18, 2022
+# Last updated on October 25, 2022
 #######################################################################
 
 library(renderthis)
@@ -17,7 +17,7 @@ slides <- list.files(
     )
 
 # some example
-input <- slides[4]
+input <- slides[5]
 
 for (input in slides) { # for each course
 
