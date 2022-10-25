@@ -84,7 +84,7 @@ Le but de l'analyse bayésienne (i.e., ce qu'on obtient à la fin d'une telle an
 
 ## Rappels de notation
 
-```{r greek, echo = FALSE, fig.cap = "Illustration tirée de https://masterofmemory.com/mmem-0333-learn-the-greek-alphabet/."}
+```{r greek, echo = FALSE, fig.cap = "Illustration tirée de <https://masterofmemory.com/mmem-0333-learn-the-greek-alphabet/>."}
 knitr::include_graphics("figures/greek.jpeg")
 ```
 
@@ -277,12 +277,13 @@ Soit un point $M$ de coordonnées $(x, y)$, où $0 < x < 1$ et
 $0 < y < 1$. On tire aléatoirement les valeurs de $x$ et $y$ entre $0$
 et $1$ suivant une loi uniforme. Le point $M$ appartient au disque de
 centre $(0, 0)$ de rayon $r = 1$ si et seulement si
-$\sqrt{x^{2} + y^{2}} \leqslant 1$. La probabilité que le point $M$ appartienne
-au disque est $\pi / 4$ puisque le quart de disque est de surface
-$\sigma = \pi r^{2} / 4 = \pi / 4$, et le carré qui le
-contient est de surface $s = 4 r^{2} / 4 = r^{2} = 1$. Si la loi de probabilité du tirage de point est uniforme, la probabilité de tomber dans le quart de
-disque vaut $\sigma / s = \pi / 4$. En faisant le rapport du
-nombre de points dans le disque au nombre de tirages $\frac{N_{\text{inner}}}{N_{\text{total}}}$, on obtient donc une approximation de $\pi / 4$.
+$\sqrt{x^{2} + y^{2}} \leqslant 1$. On sait que le quart de disque est de surface
+$\sigma = \pi r^{2} / 4 = \pi / 4$ et que le carré qui le
+contient est de surface $s = r^{2} = 1$. Si la loi de probabilité du tirage de point est uniforme,
+la probabilité que le point $M$ appartienne
+au disque est donc de $\sigma / s = \pi / 4$. En faisant le rapport du
+nombre de points dans le disque au nombre de tirages $\frac{N_{\text{inner}}}{N_{\text{total}}}$,
+on obtient alors une approximation de $\pi / 4$.
 
 ```{r pi_gif, echo = FALSE, out.width = "25%"}
 knitr::include_graphics("figures/Pi_30K.gif")
@@ -311,9 +312,8 @@ data.frame(x, y, inside) %>%
 ## Méthodes Monte Carlo
 
 Autre exemple : déterminer la superficie d'un lac ou encore déterminer
-le maximum d'une fonction (optimisation) via **simulated annealing** ou
-**recuit simulé**
-([Wikipedia](https://en.wikipedia.org/wiki/Simulated_annealing)).
+le maximum d'une fonction (optimisation) via **recuit simulé**
+(simulated annealing, voir [Wikipedia](https://en.wikipedia.org/wiki/Simulated_annealing)).
 
 ```{r simulated_annealing, echo = FALSE, out.width = "50%"}
 knitr::include_graphics("figures/Hill_Climbing_with_Simulated_Annealing.gif")

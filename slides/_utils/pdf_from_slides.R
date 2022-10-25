@@ -44,7 +44,8 @@ for (input in slides) { # for each course
         pagedown::chrome_print(
             input = input,
             output = output,
-            format = "pdf"
+            format = "pdf",
+            timeout = 60
             )
         
     }

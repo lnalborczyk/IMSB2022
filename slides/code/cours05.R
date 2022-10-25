@@ -1,4 +1,4 @@
-## ----setup, eval = TRUE, include = FALSE, cache = FALSE-------------------------------------------------
+## ----setup, eval = TRUE, include = FALSE, cache = FALSE-------------------------------------------------------------------------
 library(tidyverse)
 library(brms)
 library(imsb)
@@ -19,11 +19,11 @@ posterior_color <- "magenta4"
 theme_set(theme_bw(base_size = 16, base_family = "Open Sans") )
 
 
-## ----greek, echo = FALSE, fig.cap = "Illustration tirée de https://masterofmemory.com/mmem-0333-learn-the-greek-alphabet/."----
+## ----greek, echo = FALSE, fig.cap = "Illustration tirée de <https://masterofmemory.com/mmem-0333-learn-the-greek-alphabet/>."----
 knitr::include_graphics("figures/greek.jpeg")
 
 
-## ---- eval = FALSE, echo = TRUE-------------------------------------------------------------------------
+## ---- eval = FALSE, echo = TRUE-------------------------------------------------------------------------------------------------
 ## ########################################################################
 ## # On définit un modèle avec :                                          #
 ## # Une fonction de vraisemblance Gaussienne : y ~ Normal(mu, sigma)     #
@@ -50,7 +50,7 @@ knitr::include_graphics("figures/greek.jpeg")
 ## rnorm(n = 1e4, mean = mu_prior, sd = sigma_prior) |> hist(breaks = "FD")
 
 
-## ---- eval = TRUE, echo = FALSE, out.width = "75%", fig.asp = 0.75--------------------------------------
+## ---- eval = TRUE, echo = FALSE, out.width = "75%", fig.asp = 0.75--------------------------------------------------------------
 ################################################################################
 # Assume a model with a Normal likelihood function: y ~ Normal(mu, sigma)      #
 # A Normal prior on the mean: mu ~ Normal(100, 10)                             #
@@ -85,7 +85,7 @@ rnorm(n = nsamples, mean = mu_prior, sd = sigma_prior) |>
     hist(breaks = "FD", xlim = c(-50, 250) )
 
 
-## ---- eval = FALSE, echo = FALSE------------------------------------------------------------------------
+## ---- eval = FALSE, echo = FALSE------------------------------------------------------------------------------------------------
 ## # from https://plotly.com/r/3d-surface-plots/
 ## 
 ## z <- c(
@@ -120,19 +120,19 @@ rnorm(n = nsamples, mean = mu_prior, sd = sigma_prior) |>
 ## htmlwidgets::saveWidget(fig, file = "plotly1.html")
 
 
-## ---- eval = TRUE---------------------------------------------------------------------------------------
+## ---- eval = TRUE---------------------------------------------------------------------------------------------------------------
 knitr::include_url(url = "plotly1.html", height = "600px")
 
 
-## ----metropolis_picture, echo = FALSE, out.width = "20%"------------------------------------------------
+## ----metropolis_picture, echo = FALSE, out.width = "20%"------------------------------------------------------------------------
 knitr::include_graphics("figures/Nicholas_Metropolis_cropped.png")
 
 
-## ----pi_gif, echo = FALSE, out.width = "25%"------------------------------------------------------------
+## ----pi_gif, echo = FALSE, out.width = "25%"------------------------------------------------------------------------------------
 knitr::include_graphics("figures/Pi_30K.gif")
 
 
-## ----pi1, eval = TRUE, echo = TRUE, out.width = "25%"---------------------------------------------------
+## ----pi1, eval = TRUE, echo = TRUE, out.width = "25%"---------------------------------------------------------------------------
 trials <- 1e5 # nombre d'échantillons
 radius <- 1 # rayon du cercle
 x <- runif(n = trials, min = 0, max = radius) # tirages pour x
@@ -142,7 +142,7 @@ inside <- distance < radius # à l'intérieur (ou pas) du quart de cercle ?
 pi_estimate <- 4 * sum(inside) / trials # estimation de pi
 
 
-## ----pi2, eval = TRUE, echo = FALSE, out.width = "33%", dev = "png"-------------------------------------
+## ----pi2, eval = TRUE, echo = FALSE, out.width = "33%", dev = "png"-------------------------------------------------------------
 data.frame(x, y, inside) %>%
     ggplot(aes(x, y, color = inside) ) +
     ggtitle(paste(round(trials), "Trials,", "Estimate =", pi_estimate) ) +
@@ -150,11 +150,11 @@ data.frame(x, y, inside) %>%
     geom_point(size = 1 / trials)
 
 
-## ----simulated_annealing, echo = FALSE, out.width = "50%"-----------------------------------------------
+## ----simulated_annealing, echo = FALSE, out.width = "50%"-----------------------------------------------------------------------
 knitr::include_graphics("figures/Hill_Climbing_with_Simulated_Annealing.gif")
 
 
-## ---- eval = FALSE, echo = FALSE------------------------------------------------------------------------
+## ---- eval = FALSE, echo = FALSE------------------------------------------------------------------------------------------------
 ## # from https://plotly.com/r/3d-surface-plots/
 ## 
 ## z <- c(
@@ -186,11 +186,11 @@ knitr::include_graphics("figures/Hill_Climbing_with_Simulated_Annealing.gif")
 ## htmlwidgets::saveWidget(fig, file = "plotly2.html")
 
 
-## ---- eval = TRUE---------------------------------------------------------------------------------------
+## ---- eval = TRUE---------------------------------------------------------------------------------------------------------------
 knitr::include_url(url = "plotly2.html", height = "600px")
 
 
-## ----distribution_theta1, echo = FALSE, fig.width = 12, fig.height = 6, out.width = "75%"---------------
+## ----distribution_theta1, echo = FALSE, fig.width = 12, fig.height = 6, out.width = "75%"---------------------------------------
 # knitr::include_graphics("figures/distributionTheta1-7.png")
 
 theta <- c(1, 2, 3, 4, 5, 6, 7)
@@ -203,18 +203,18 @@ theta %>%
   scale_x_continuous(breaks = 1:7)
 
 
-## ----distribution_theta2, echo = FALSE, out.width = "50%"-----------------------------------------------
+## ----distribution_theta2, echo = FALSE, out.width = "50%"-----------------------------------------------------------------------
 knitr::include_graphics("figures/DistribCarré1-7.png")
 
 
-## ---- eval = FALSE, echo = TRUE-------------------------------------------------------------------------
+## ---- eval = FALSE, echo = TRUE-------------------------------------------------------------------------------------------------
 ## niter <- 100 # nombre d'itérations
 ## theta <- 1:7 # valeurs possibles de theta
 ## ptheta <- theta # densité de probabilité de theta
 ## samples <- sample(x = theta, prob = ptheta, size = niter, replace = TRUE) # échantillons
 
 
-## ---- eval = TRUE, echo = FALSE, fig.width = 25---------------------------------------------------------
+## ---- eval = TRUE, echo = FALSE, fig.width = 25---------------------------------------------------------------------------------
 set.seed(667)
 
 trajLength <- 100
@@ -240,7 +240,7 @@ barplot(
     )
 
 
-## ----metro1, echo = FALSE, fig.width = 12, fig.height = 6, out.width = "75%"----------------------------
+## ----metro1, echo = FALSE, fig.width = 12, fig.height = 6, out.width = "75%"----------------------------------------------------
 theta %>%
   data.frame() %>%
   ggplot(aes(x = theta, y = theta) ) +
@@ -257,7 +257,7 @@ theta %>%
       )
 
 
-## ----metro2, echo = FALSE, fig.width = 12, fig.height = 6, out.width = "75%"----------------------------
+## ----metro2, echo = FALSE, fig.width = 12, fig.height = 6, out.width = "75%"----------------------------------------------------
 theta %>%
   data.frame() %>%
   ggplot(aes(x = theta, y = theta) ) +
@@ -282,7 +282,7 @@ theta %>%
       )
 
 
-## ----metro3, echo = FALSE, fig.width = 12, fig.height = 6, out.width = "75%"----------------------------
+## ----metro3, echo = FALSE, fig.width = 12, fig.height = 6, out.width = "75%"----------------------------------------------------
 theta %>%
   data.frame() %>%
   ggplot(aes(x = theta, y = theta) ) +
@@ -299,7 +299,7 @@ theta %>%
       )
 
 
-## ----metro4, echo = FALSE, fig.width = 12, fig.height = 6, out.width = "75%"----------------------------
+## ----metro4, echo = FALSE, fig.width = 12, fig.height = 6, out.width = "75%"----------------------------------------------------
 theta %>%
   data.frame() %>%
   ggplot(aes(x = theta, y = theta) ) +
@@ -316,7 +316,7 @@ theta %>%
       )
 
 
-## ----metropolis, eval = TRUE, echo = TRUE---------------------------------------------------------------
+## ----metropolis, eval = TRUE, echo = TRUE---------------------------------------------------------------------------------------
 metropolis <- function (niter = 1e2, startval = 4) {
     
     x <- rep(0, niter) # initialise la chaîne (le vecteur) de longueur niter
@@ -342,7 +342,7 @@ metropolis <- function (niter = 1e2, startval = 4) {
 }
 
 
-## ----metropolis1, eval = TRUE, echo = FALSE, fig.width = 25, fig.height = 6, fig.align = "center"-------
+## ----metropolis1, eval = TRUE, echo = FALSE, fig.width = 25, fig.height = 6, fig.align = "center"-------------------------------
 set.seed(666)
 
 theta <- 1:7
@@ -366,7 +366,7 @@ barplot(
     )
 
 
-## ----metropolis2, eval = TRUE, echo = FALSE, fig.width = 25, fig.height = 6, fig.align = "center"-------
+## ----metropolis2, eval = TRUE, echo = FALSE, fig.width = 25, fig.height = 6, fig.align = "center"-------------------------------
 set.seed(666)
 
 trajectory <- metropolis(niter = trajLength, startval = 4)
@@ -386,11 +386,11 @@ barplot(
   )
 
 
-## ---- echo = FALSE, out.width = "75%"-------------------------------------------------------------------
+## ---- echo = FALSE, out.width = "75%"-------------------------------------------------------------------------------------------
 knitr::include_graphics("figures/MetroAlgoAcceptProposal.png")
 
 
-## ----eval = TRUE, echo = FALSE, fig.width = 8, fig.height = 8-------------------------------------------
+## ----eval = TRUE, echo = FALSE, fig.width = 8, fig.height = 8-------------------------------------------------------------------
 # source("code/DBDA2E-utilities.R")
 
 # specifies the data to be used in the likelihood function
@@ -570,7 +570,7 @@ text(
   )
 
 
-## ----eval = TRUE, echo = FALSE, fig.width = 8, fig.height = 8-------------------------------------------
+## ----eval = TRUE, echo = FALSE, fig.width = 8, fig.height = 8-------------------------------------------------------------------
 # source("code/DBDA2E-utilities.R")
 
 # specifies the data to be used in the likelihood function
@@ -752,7 +752,7 @@ text(
   )
 
 
-## ----eval = TRUE, echo = FALSE, fig.width = 8, fig.height = 8-------------------------------------------
+## ----eval = TRUE, echo = FALSE, fig.width = 8, fig.height = 8-------------------------------------------------------------------
 # source("code/DBDA2E-utilities.R")
 
 # specifies the data to be used in the likelihood function
@@ -934,7 +934,7 @@ text(
   )
 
 
-## ----metropolis-beta-binomial1, eval = TRUE, echo = TRUE------------------------------------------------
+## ----metropolis-beta-binomial1, eval = TRUE, echo = TRUE------------------------------------------------------------------------
 metropolis_beta_binomial <- function (niter = 1e2, startval = 0.5) {
     
     x <- rep(0, niter) # initialise la chaîne (le vecteur) de longueur niter
@@ -962,7 +962,7 @@ metropolis_beta_binomial <- function (niter = 1e2, startval = 0.5) {
 }
 
 
-## ----metropolis-beta-binomial2, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5----------------
+## ----metropolis-beta-binomial2, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5----------------------------------------
 z1 <- metropolis_beta_binomial(niter = 1e4, startval = 0.5)
 z2 <- metropolis_beta_binomial(niter = 1e4, startval = 0.5)
 
@@ -974,7 +974,7 @@ data.frame(z1 = z1, z2 = z2) %>%
   labs(x = "Nombre d'itérations", y = expression(theta) ) + ylim(c(0, 1) )
 
 
-## ----metropolis-beta-binomial3, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5----------------
+## ----metropolis-beta-binomial3, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5----------------------------------------
 data.frame(z1 = z1, z2 = z2) %>%
   pivot_longer(cols = z1:z2) %>%
   rownames_to_column() %>%
@@ -986,27 +986,27 @@ data.frame(z1 = z1, z2 = z2) %>%
   labs(x = expression(theta), y = "Densité")
 
 
-## ----bivariate_prior, echo = FALSE, out.width = "50%"---------------------------------------------------
+## ----bivariate_prior, echo = FALSE, out.width = "50%"---------------------------------------------------------------------------
 knitr::include_graphics("figures/BayesianInferenceBivariate_PRIOR.png")
 
 
-## ----bivariate, echo = FALSE, out.width = "33%"---------------------------------------------------------
+## ----bivariate, echo = FALSE, out.width = "33%"---------------------------------------------------------------------------------
 knitr::include_graphics("figures/BayesianInferenceBivariate.png")
 
 
-## ----metropolis-2d, echo = FALSE, out.width = "75%"-----------------------------------------------------
+## ----metropolis-2d, echo = FALSE, out.width = "75%"-----------------------------------------------------------------------------
 knitr::include_graphics("figures/MetroAlgo2Var.png")
 
 
-## ----gibbs1, echo = FALSE, out.width = "25%"------------------------------------------------------------
+## ----gibbs1, echo = FALSE, out.width = "25%"------------------------------------------------------------------------------------
 knitr::include_graphics("figures/MetroAlgoVarByVar.png")
 
 
-## ----gibbs2, echo = FALSE, out.width = "75%"------------------------------------------------------------
+## ----gibbs2, echo = FALSE, out.width = "75%"------------------------------------------------------------------------------------
 knitr::include_graphics("figures/MetroAlgo2VarResults.png")
 
 
-## ----gibbs2_code1, echo = TRUE--------------------------------------------------------------------------
+## ----gibbs2_code1, echo = TRUE--------------------------------------------------------------------------------------------------
 # code from https://stats.stackexchange.com/questions/266665/gibbs-sampler-examples-in-r
 n <- 30 # sample size
 ybar <- 15 # sample mean
@@ -1030,7 +1030,7 @@ mu  <- mu[-(1:burn)] # removes burnin
 tau <- tau[-(1:burn)] # removes burnin
 
 
-## ----gibbs2_code2, echo = TRUE, fig.width = 12, out.width = "66%"---------------------------------------
+## ----gibbs2_code2, echo = TRUE, fig.width = 12, out.width = "66%"---------------------------------------------------------------
 data.frame(mu = mu, tau = tau) %>%
   pivot_longer(cols = mu:tau) %>%
   ggplot(aes(x = value) ) +
@@ -1039,47 +1039,47 @@ data.frame(mu = mu, tau = tau) %>%
   labs(x = "Valeur du paramètre", y = "Nombre d'échantillons")
 
 
-## ----gibbs_error, echo = FALSE, out.width = "50%"-------------------------------------------------------
+## ----gibbs_error, echo = FALSE, out.width = "50%"-------------------------------------------------------------------------------
 knitr::include_graphics("figures/Gibbs Error.png")
 
 
-## ----hmc1, echo = FALSE, out.width = "50%"--------------------------------------------------------------
+## ----hmc1, echo = FALSE, out.width = "50%"--------------------------------------------------------------------------------------
 knitr::include_graphics("figures/HMC alorithme.png")
 
 
-## ----hmc_erreur, echo = FALSE, out.width = "50%"--------------------------------------------------------
+## ----hmc_erreur, echo = FALSE, out.width = "50%"--------------------------------------------------------------------------------
 knitr::include_graphics("figures/HMC alorithme ERREUR1.png")
 
 
-## ----hmc_erreur2, echo = FALSE, out.width = "50%"-------------------------------------------------------
+## ----hmc_erreur2, echo = FALSE, out.width = "50%"-------------------------------------------------------------------------------
 knitr::include_graphics("figures/HMC alorithme ERREUR2.png")
 
 
-## ----repres1, echo = FALSE, out.width = "50%"-----------------------------------------------------------
+## ----repres1, echo = FALSE, out.width = "50%"-----------------------------------------------------------------------------------
 knitr::include_graphics("figures/Verif_representativité1.png")
 
 
-## ----repres2, echo = FALSE, out.width = "50%"-----------------------------------------------------------
+## ----repres2, echo = FALSE, out.width = "50%"-----------------------------------------------------------------------------------
 knitr::include_graphics("figures/Verif_representativité2.png")
 
 
-## ----repres3, echo = FALSE, out.width = "50%"-----------------------------------------------------------
+## ----repres3, echo = FALSE, out.width = "50%"-----------------------------------------------------------------------------------
 knitr::include_graphics("figures/Verif_representativité3.png")
 
 
-## ----autocorrelation, echo = FALSE, out.width = "40%"---------------------------------------------------
+## ----autocorrelation, echo = FALSE, out.width = "40%"---------------------------------------------------------------------------
 knitr::include_graphics("figures/Verif_autocorrelation.png")
 
 
-## ----repres4, echo = FALSE, out.width = "50%"-----------------------------------------------------------
+## ----repres4, echo = FALSE, out.width = "50%"-----------------------------------------------------------------------------------
 knitr::include_graphics("figures/Verif_representativité4.png")
 
 
-## ----repres5, echo = FALSE, out.width = "50%"-----------------------------------------------------------
+## ----repres5, echo = FALSE, out.width = "50%"-----------------------------------------------------------------------------------
 knitr::include_graphics("figures/Verif_representativité5.png")
 
 
-## ----diagnostics1, eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------
+## ----diagnostics1, eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------------------------
 library(tidyverse)
 library(imsb)
 library(brms)
@@ -1105,30 +1105,30 @@ mod1 <- brm(
   )
 
 
-## ----diagnostics2, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6-----------------------------
+## ----diagnostics2, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6-----------------------------------------------------
 # combo can be hist, dens, dens_overlay, trace, trace_highlight...
 # cf. https://mc-stan.org/bayesplot/reference/MCMC-overview.html
 plot(x = mod1, combo = c("dens_overlay", "trace") )
 
 
-## ----diagnostics3, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6-----------------------------
+## ----diagnostics3, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6-----------------------------------------------------
 library(bayesplot)
 post <- posterior_samples(mod1, add_chain = TRUE)
 post %>% mcmc_acf(pars = vars(b_Intercept:sigma), lags = 10)
 
 
-## ----diagnostics4, eval = TRUE, echo = TRUE-------------------------------------------------------------
+## ----diagnostics4, eval = TRUE, echo = TRUE-------------------------------------------------------------------------------------
 summary(mod1)
 
 
-## ----diagnostics5, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6-----------------------------
+## ----diagnostics5, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6-----------------------------------------------------
 post %>% # rank plots
   mcmc_rank_overlay(pars = vars(b_Intercept:sigma) ) +
   labs(x = "Rang", y = "Fréquence") +
   coord_cartesian(ylim = c(25, NA) )
 
 
-## ----rugged, eval = TRUE, echo = TRUE-------------------------------------------------------------------
+## ----rugged, eval = TRUE, echo = TRUE-------------------------------------------------------------------------------------------
 library(tidyverse)
 library(imsb)
 
@@ -1137,7 +1137,7 @@ df1 <- d[complete.cases(d$rgdppc_2000), ]
 str(df1)
 
 
-## ----mod2, eval = TRUE, echo = TRUE, results = "hide"---------------------------------------------------
+## ----mod2, eval = TRUE, echo = TRUE, results = "hide"---------------------------------------------------------------------------
 priors2 <- c(
   prior(normal(0, 100), class = Intercept),
   prior(normal(0, 10), class = b),
@@ -1155,14 +1155,14 @@ mod2 <- brm(
   )
 
 
-## ----mod2-summary, eval = TRUE, echo = TRUE-------------------------------------------------------------
+## ----mod2-summary, eval = TRUE, echo = TRUE-------------------------------------------------------------------------------------
 summary(mod2)
 
 
-## ----mod2-diagnostics, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6-------------------------
+## ----mod2-diagnostics, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6-------------------------------------------------
 plot(x = mod2, combo = c("dens_overlay", "trace"), pars = "^b_")
 
 
-## ----mod2-pairs, eval = TRUE, echo = TRUE, fig.width = 9, fig.height = 6--------------------------------
+## ----mod2-pairs, eval = TRUE, echo = TRUE, fig.width = 9, fig.height = 6--------------------------------------------------------
 pairs(x = mod2, np = nuts_params(mod2) ) # voir ?nuts_params
 
