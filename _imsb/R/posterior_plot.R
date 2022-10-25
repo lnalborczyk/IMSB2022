@@ -244,3 +244,21 @@ posterior_plot <- function (
             )
 
 }
+
+# library(microbenchmark)
+# library(profvis)
+
+# getting samples for a normal distribution
+# samples <- rnorm(n = 1e3, mean = 0, sd = 1)
+
+# plotting it
+# profvis({posterior_plot(
+#     samples = samples, credmass = 0.96, usemode = FALSE,
+#     compval = 1, rope = c(0.8, 1.2), showcurve = FALSE
+#     )})
+
+# microbenchmark
+# microbenchmark(
+#     mean(samples),
+#     sum(samples) / length(samples)
+#     )

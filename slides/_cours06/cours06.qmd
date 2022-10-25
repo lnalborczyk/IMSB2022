@@ -81,7 +81,7 @@ Le modèle linéaire Gaussien qu'on a vu aux Cours n°03 et n°04 est caractéri
 $$
 \begin{align}
 y_{i} &\sim \mathrm{Normal}(\mu_{i}, \sigma)\\
-\mu_{i} &= \alpha + \beta_{1} \cdot x_{1i} + \beta_{2} \cdot x_{2i}\\
+\mu_{i} &= \alpha + \beta_{1} \times x_{1i} + \beta_{2} \times x_{2i}\\
 \end{align}
 $$
 
@@ -94,15 +94,15 @@ Cette modélisation (le choix d'une distribution Normale) induit plusieurs contr
 
 . . .
 
-Comment modéliser certaines données qui ne respectent pas ces contraintes ? Par exemple, la proportion de bonnes réponses à un test (bornée entre 0 et 1), un temps de réponse (restreint à des valeurs positives et souvent distribué de manière approximativement log-normale), un nombre d'accidents...
+Comment modéliser certaines données qui ne respectent pas ces contraintes ? Par exemple, la proportion de bonnes réponses à un test (bornée entre 0 et 1), un temps de réponse (restreint à des valeurs positives et souvent distribué de manière approximativement log-normale), un nombre d'avalanches...
 
 ## Introduction
 
 Nous avons déjà rencontré un modèle différent : le modèle Beta-Binomial (cf. Cours n°02).
 
-+ Les données observées sont binaires (e.g., 0 vs. 1) ou le résultat d'une somme d'observations binaires (e.g., une proportion)
-+ La probabilité de succès (obtenir 1) a priori se caractérise par une distribution Beta
-+ La probabilité de succès (obtenir 1) ne dépend d'aucun prédicteur
++ Les données observées sont binaires (e.g., 0 vs. 1) ou le résultat d'une somme d'observations binaires (e.g., une proportion).
++ La probabilité de succès (obtenir 1) a priori se caractérise par une distribution Beta.
++ La probabilité de succès (obtenir 1) ne dépend d'aucun prédicteur.
 
 . . .
 
@@ -131,7 +131,7 @@ Comment pourrait-on ajouter des prédicteurs à ce modèle ?
 $$
 \begin{align}
 y_{i} &\sim \mathrm{Binomial}(n, p_{i}) \\
-f(p_{i}) &= \alpha + \beta \cdot x_{i} \\
+f(p_{i}) &= \alpha + \beta \times x_{i} \\
 \end{align}
 $$
 
@@ -268,10 +268,10 @@ $$\text{logit}(p_{i}) = \log \left(\frac{p_{i}}{1 - p_{i}} \right)$$
 
 . . .
 
-La cote d'un événement (*odds* en anglais) est le ratio entre la probabilité que l'événement se produise et la probabilité qu'il ne se produise pas. Le logarithme de cette cote est prédit par un modèle linéaire.
+La cote d'un évènement ("odds" en anglais) est le ratio entre la probabilité que l'évènement se produise et la probabilité qu'il ne se produise pas. Le logarithme de cette cote est prédit par un modèle linéaire.
 
 $$
-\log \left(\frac{p_{i}}{1 - p_{i}} \right) = \alpha + \beta \cdot x_{i}
+\log \left(\frac{p_{i}}{1 - p_{i}} \right) = \alpha + \beta \times x_{i}
 $$
 
 . . .
@@ -279,7 +279,7 @@ $$
 Pour retrouver la probabilité d'un événement, il faut utiliser la fonction de **lien inverse**, la fonction **logistique** (ou logit-inverse) :
 
 $$
-p_{i} = \frac{\exp(\alpha + \beta \cdot x_{i})}{1 + \exp(\alpha + \beta \cdot x_{i})}
+p_{i} = \frac{\exp(\alpha + \beta \times x_{i})}{1 + \exp(\alpha + \beta \times x_{i})}
 $$
 
 ## Complications induites par la fonction de lien
@@ -387,14 +387,14 @@ Dans un modèle Gaussien, le taux de changement de $y$ en fonction de $x$ est do
 
 Dans un GLM binomial (avec une fonction de lien logit), la probabilité d'un événement est donnée par la fonction logistique :
 
-$$p_{i} = \frac{\exp(\alpha + \beta \cdot x_{i})}{1 + \exp(\alpha + \beta \cdot x_{i})}$$
+$$p_{i} = \frac{\exp(\alpha + \beta \times x_{i})}{1 + \exp(\alpha + \beta \times x_{i})}$$
 
 . . .
 
 Et le taux de changement de $p$ en fonction du prédicteur $x$ est donné par :
 
 $$
-\frac{\partial p}{\partial x} = \frac{\beta}{2(1 + cosh(\alpha + \beta \cdot x)}
+\frac{\partial p}{\partial x} = \frac{\beta}{2(1 + \cosh(\alpha + \beta \times x)}
 $$
 
 On voit que la variation sur $p$ due au prédicteur $x$ est fonction du prédicteur $x$... !
@@ -425,6 +425,8 @@ str(df1)
 
 On cherche à savoir si la présence d'un singe partenaire incite le chimpanzé à appuyer sur le levier prosocial, c'est à dire l'option qui donne de la nourriture aux deux individus. Autrement dit, est-ce qu'il existe une interaction entre l'effet de la latéralité et l'effet de la présence d'un autre chimpanzé sur la probabilité d'actionner le levier gauche.
 
+. . .
+
 ### Les variables
 
 + Observations (`pulled_left`) : Ce sont des variables de Bernoulli. Elles prennent comme valeur 0/1. 
@@ -438,7 +440,7 @@ On cherche à savoir si la présence d'un singe partenaire incite le chimpanzé 
 $$
 \begin{align}
 L_{i} &\sim \mathrm{Binomial}(1, p_{i}) \\
-\text{(equivalent to)} \quad L_{i} &\sim \mathrm{Bernoulli}(p_{i}) \\
+\text{(équivalent à)} \quad L_{i} &\sim \mathrm{Bernoulli}(p_{i}) \\
 \text{logit}(p_{i}) &= \alpha \\
 \alpha &\sim \mathrm{Normal}(0, \omega) \\
 \end{align}
@@ -466,9 +468,9 @@ mod1.1 <- brm(
 ## Prior predictive check
 
 ```{r ppc-mod1.1, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6, out.width = "60%"}
-# extracts prior samples
+# récupère les échantillons (sur la base) du prior
 prior_samples(mod1.1) %>%
-  # applies the inverse link function
+  # applique la fonction de lien inverse
   mutate(p = brms::inv_logit_scaled(Intercept) ) %>%
   ggplot(aes(x = p) ) +
   geom_density(fill = "steelblue", adjust = 0.1) +
@@ -506,7 +508,7 @@ fixed_effects <- fixef(mod1.2) # effets fixes (ou constants)
 plogis(fixed_effects) # fonction de lien inverse
 ```
 
-En moyenne (sans considérer les prédicteurs), il semblerait que les singes aient plus tendance à appuyer sur le levier gauche que sur le levier droit...
+En moyenne (sans considérer les prédicteurs), il semblerait que les chimpanzés aient plus tendance à appuyer sur le levier gauche que sur le levier droit...
 
 ## Régression logistique 
 
@@ -522,7 +524,7 @@ posterior_plot(
 
 ## Régression logistique 
 
-Et si on ajoute des prédicteurs... comment choisir une valeur pour $\omega$ ?
+Et si on ajoutait des prédicteurs... comment choisir une valeur pour $\omega$ ?
 
 $$
 \begin{align}
@@ -533,9 +535,9 @@ L_{i} &\sim \mathrm{Binomial}(1, p_{i}) \\
 \end{align}
 $$
 
-+ $L_{i}$ indique si le singe a poussé le levier gauche (`pulled_left`)
-+ $P_{i}$ indique si le coté gauche correspond au coté prosocial
-+ $C_{i}$ indique la présence d'un partenaire
++ $L_{i}$ indique si le singe a poussé le levier gauche (`pulled_left`).
++ $P_{i}$ indique si le coté gauche correspond au coté prosocial.
++ $C_{i}$ indique la présence d'un partenaire.
 
 ## Régression logistique 
 
@@ -630,15 +632,15 @@ $$
 
 On peut donc distinguer et interpréter deux types d'effets.
 
-**Effet relatif** : L'effet relatif porte sur le logarithme du rapport des probabilités. Il indique une *proportion* de changement induit par le prédicteur sur *les chances* de succès (ou plutôt, sur la cote). Cela ne nous dit rien de la probabilité de l'événement, dans l'absolu.
+**Effet relatif** : L'effet relatif porte sur le logarithme du rapport des probabilités. Il indique une proportion de changement induit par le prédicteur sur **les chances** de succès (ou plutôt, sur la cote). Cela ne nous dit rien de la probabilité de l'évènement, dans l'absolu.
 
 . . .
 
-**Effet absolu** : Effet qui porte directement sur la probabilité d'un événement. Il dépend de tous les paramètres du modèle et nous donne l'impact effectif d'un changement d'une unité d'un prédicteur (dans l'espace des probabilités).
+**Effet absolu** : Effet qui porte directement sur la probabilité d'un évènement. Il dépend de tous les paramètres du modèle et nous donne l'impact effectif d'un changement d'une unité d'un prédicteur (dans l'espace des probabilités).
 
 ## Effet relatif
 
-Il s'agit d'une **proportion** de changement induit par le prédicteur sur le rapport des chances ou "cote" (*odds*). Illustration avec un modèle sans interaction.
+Il s'agit d'une **proportion** de changement induit par le prédicteur sur le rapport des chances ou "cote" (odds). Illustration avec un modèle sans interaction.
 
 $$ 
 \begin{align}
@@ -649,7 +651,7 @@ $$
 
 . . .
 
-La cote proportionnelle $q$ d'un événement est le nombre par lequel la cote est multipliée lorsque $x_{i}$ augmente d'une unité.
+La cote proportionnelle $q$ d'un évènement est le nombre par lequel la cote est multipliée lorsque $x_{i}$ augmente d'une unité.
 
 $$
 \begin{align}
@@ -661,7 +663,7 @@ Lorsque $q = 2$ (par exemple), une augmentation de $x_{i}$ d'une unité génère
 
 ## Interprétation de l'effet relatif
 
-L'effet relatif d'un paramètre **dépend également des autres paramètres**. Dans le modèle précédent, le prédicteur `prosoc_left` augmente le log de la cote d'environ 0.54, ce qui se traduit par une augmentation de la cote de $\exp(0.54) \approx 1.72$ soit une augmentation d'environ 72% de la cote.
+L'effet relatif d'un paramètre **dépend également des autres paramètres**. Dans le modèle précédent, le prédicteur `prosoc_left` augmente le logarithme de la cote d'environ 0.54, ce qui se traduit par une augmentation de la cote de $\exp(0.54) \approx 1.72$ soit une augmentation d'environ 72% de la cote.
 
 . . .
 
@@ -1046,7 +1048,7 @@ fixef(mod7) %>% plogis # effet absolu (probabilité de présence)
 
 ## Travaux pratiques
 
-On commence par re-coder en dummy variables `reminder` et `inscription`.
+On commence par recoder en dummy variables `reminder` et `inscription`.
 
 ```{r eval = TRUE, echo = TRUE}
 df3 <-
@@ -1106,10 +1108,10 @@ Envoyer un rappel augmente proportionnellement les chances de présence (i.e., a
 Quel est l'effet **absolu** du mail de rappel ?
 
 ```{r eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5, dev = "png", dpi = 200}
-post <- as_draws_df(x = mod8) # extracting posterior samples
-p.no <- plogis(post$b_Intercept) # mean probability of presence when no reminder
-p.yes <- plogis(post$b_Intercept + post$b_reminder) # mean probability of presence when reminder
-posterior_plot(samples = p.yes - p.no, compval = 0, usemode = TRUE) # plotting it
+post <- as_draws_df(x = mod8) # récupères les échantillons du posterior
+p.no <- plogis(post$b_Intercept) # probabilité moyenne de présence sans mail de rappel
+p.yes <- plogis(post$b_Intercept + post$b_reminder) # probabilité moyenne de présence avec mail de rappel
+posterior_plot(samples = p.yes - p.no, compval = 0, usemode = TRUE)
 ```
 
 ## Travaux pratiques 
@@ -1175,9 +1177,9 @@ mod9 <- brm(
 
 ```{r eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5, dev = "png", dpi = 200}
 post <- as_draws_df(x = mod9)
-p.panel <- plogis(post$b_Intercept) # mean probability of presence for panel
-p.doodle <- plogis(post$b_Intercept + post$b_inscription) # mean probability of presence for doodle
-posterior_plot(samples = p.panel - p.doodle, compval = 0, usemode = TRUE) # plotting it
+p.panel <- plogis(post$b_Intercept) # probabilité moyenne de présence - panel
+p.doodle <- plogis(post$b_Intercept + post$b_inscription) # probabilité moyenne de présence - doodle
+posterior_plot(samples = p.panel - p.doodle, compval = 0, usemode = TRUE)
 ```
 
 La probabilité de présence est augmentée de $0.17$ lorsque l'on s'inscrit sur un panel comparativement à une inscription sur un doodle (effet légèrement plus faible que pour le rappel).
