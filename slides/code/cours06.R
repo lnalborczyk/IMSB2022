@@ -33,7 +33,6 @@ tibble(x = seq(from = -1, to = 3, by = 0.01) ) %>%
 
 ## ---- eval = TRUE, echo = FALSE, fig.width = 12, fig.height = 6, out.width = "75%"------------
 # plot from https://bookdown.org/content/4857/big-entropy-and-the-generalized-linear-model.html#generalized-linear-models
-# fonction logit utilisée dans le GLM binomial (ou régression logistique)
 
 # make data for the horizontal lines
 alpha <- 0
@@ -84,45 +83,10 @@ p2 <-
   labs(x = "Prédicteur", y = "Probabilité")
 
 p1 + p2
-
-# finally, we're ready to mash the plots together and behold their nerdy glory
-# (p1 | p2) +
-#   plot_annotation(subtitle = "The logit link transforms a linear model (left) into a probability (right).")
-# 
-# 
-# x <- seq.int(from = -1, to = 1, length.out = 1e2)
-# y <- 0 + 2 * x
-# 
-# library(scales)
-# 
-# tn <- trans_new(
-#   name = "logpeps",
-#   transform = function(x) plogis(x),
-#   inverse = function(y) log(y / (1 - y) ),
-#   # inverse = function(y) y,
-#   domain = c(0, Inf),
-#   breaks = c(0, 0.1, 1)
-#   )
-# 
-# data.frame(x = x, y = y) %>%
-#   ggplot(aes(x = x, y = y) ) +
-#   geom_line() +
-#   theme_bw(base_size = 12) +
-#   ylim(-4, 4) +
-#   labs(y = "Log-odds")
-# 
-# data.frame(x = x, y = y) %>%
-#   ggplot(aes(x = x, y = y) ) +
-#   geom_line() +
-#   coord_trans(y = tn) +
-#   theme_bw(base_size = 12) +
-#   ylim(0, 1) +
-#   labs(y = "Probability")
 
 
 ## ---- eval = TRUE, echo = FALSE, fig.width = 12, fig.height = 6, out.width = "75%"------------
 # plot from https://bookdown.org/content/4857/big-entropy-and-the-generalized-linear-model.html#generalized-linear-models
-# fonction logit utilisée dans le GLM binomial (ou régression logistique)
 
 # make data for the horizontal lines
 alpha <- 0
@@ -173,40 +137,6 @@ p2 <-
   labs(x = "Prédicteur", y = "Probabilité")
 
 p1 + p2
-
-# finally, we're ready to mash the plots together and behold their nerdy glory
-# (p1 | p2) +
-#   plot_annotation(subtitle = "The logit link transforms a linear model (left) into a probability (right).")
-# 
-# 
-# x <- seq.int(from = -1, to = 1, length.out = 1e2)
-# y <- 0 + 2 * x
-# 
-# library(scales)
-# 
-# tn <- trans_new(
-#   name = "logpeps",
-#   transform = function(x) plogis(x),
-#   inverse = function(y) log(y / (1 - y) ),
-#   # inverse = function(y) y,
-#   domain = c(0, Inf),
-#   breaks = c(0, 0.1, 1)
-#   )
-# 
-# data.frame(x = x, y = y) %>%
-#   ggplot(aes(x = x, y = y) ) +
-#   geom_line() +
-#   theme_bw(base_size = 12) +
-#   ylim(-4, 4) +
-#   labs(y = "Log-odds")
-# 
-# data.frame(x = x, y = y) %>%
-#   ggplot(aes(x = x, y = y) ) +
-#   geom_line() +
-#   coord_trans(y = tn) +
-#   theme_bw(base_size = 12) +
-#   ylim(0, 1) +
-#   labs(y = "Probability")
 
 
 ## ----chimp, echo = FALSE, out.width = "50%"---------------------------------------------------
@@ -225,17 +155,19 @@ str(df1)
 library(brms)
 
 mod1.1 <- brm(
+  # "trials" permet de définir le nombre d'essais (i.e., n)
   formula = pulled_left | trials(1) ~ 1,
-  family = binomial,
+  family = binomial(),
   prior = prior(normal(0, 10), class = Intercept),
   data = df1,
+  # on veut récupérer les échantillons issus du prior
   sample_prior = "yes"
   )
 
 
 ## ----ppc-mod1.1, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6, out.width = "60%"----
 # récupère les échantillons (sur la base) du prior
-prior_samples(mod1.1) %>%
+prior_draws(x = mod1.1) %>%
   # applique la fonction de lien inverse
   mutate(p = brms::inv_logit_scaled(Intercept) ) %>%
   ggplot(aes(x = p) ) +
@@ -252,7 +184,7 @@ mod1.2 <- brm(
   sample_prior = "yes"
   )
 
-bind_rows(prior_samples(mod1.1), prior_samples(mod1.2) ) %>% 
+bind_rows(prior_draws(mod1.1), prior_draws(mod1.2) ) %>% 
   mutate(
     p = inv_logit_scaled(Intercept),
     w = factor(rep(c(10, 1), each = n() / 2), levels = c(10, 1) )
@@ -264,18 +196,15 @@ bind_rows(prior_samples(mod1.1), prior_samples(mod1.2) ) %>%
 
 
 ## ---- eval = TRUE, echo = TRUE----------------------------------------------------------------
-fixed_effects <- fixef(mod1.2) # effets fixes (ou constants)
+fixed_effects <- fixef(mod1.2) # effets fixes (i.e., que l'intercept ici)
 plogis(fixed_effects) # fonction de lien inverse
 
 
 ## ---- eval = TRUE, echo = TRUE, results = "hide", fig.width = 9, fig.height = 6, out.width = "50%", dev = "png", dpi = 200----
-post <- as_draws_df(x = mod1.2)
-intercept_samples <- plogis(post$b_Intercept)
+post <- as_draws_df(x = mod1.2) # récupère les échantillons du posterior
+intercept_samples <- plogis(post$b_Intercept) # échantillons pour l'intercept
 
-posterior_plot(
-    samples = intercept_samples, compval = 0.5
-    ) +
-    labs(x = "Probability of pulling left")
+posterior_plot(samples = intercept_samples, compval = 0.5) + labs(x = "Probability of pulling left")
 
 
 ## ----mod2, eval = TRUE, echo = TRUE, results = "hide"-----------------------------------------
@@ -301,12 +230,12 @@ mod2.1 <- brm(
 
 
 ## ----ppc-mod2.1, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6, out.width = "50%"----
-prior_samples(mod2.1) %>%
+prior_draws(x = mod2.1) %>% # échantillons du prior
   mutate(
-    condition1 = plogis(Intercept - 0.5 * b),
-    condition2 = plogis(Intercept + 0.5 * b)
+    condition1 = plogis(Intercept - 0.5 * b), # p dans condition 1
+    condition2 = plogis(Intercept + 0.5 * b) # p dans condition 0
     ) %>%
-  ggplot(aes(x = condition2 - condition1) ) +
+  ggplot(aes(x = condition2 - condition1) ) + # on plot la différence
   geom_density(fill = "steelblue", adjust = 0.1) +
   labs(
     x = "Différence dans la probabilité a priori de tirer le levier gauche entre conditions",
@@ -330,10 +259,10 @@ mod2.2 <- brm(
 
 
 ## ----ppc-mod2.2, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6, out.width = "50%"----
-prior_samples(mod2.2) %>%
+prior_draws(mod2.2) %>% # échantillons du prior
   mutate(
-    condition1 = plogis(Intercept - 0.5 * b),
-    condition2 = plogis(Intercept + 0.5 * b)
+    condition1 = plogis(Intercept - 0.5 * b), # p dans condition 1
+    condition2 = plogis(Intercept + 0.5 * b) # p dans condition 0
     ) %>%
   ggplot(aes(x = condition2 - condition1) ) +
   geom_density(fill = "steelblue", adjust = 0.1) +
@@ -348,11 +277,11 @@ summary(mod2.2)
 
 
 ## ---- eval = TRUE, echo = TRUE----------------------------------------------------------------
-fixef(mod2.2)
+fixef(mod2.2) # récupère les estimations des effets dits "fixes"
 
 
 ## ---- eval = TRUE, echo = TRUE, fig.width = 9, fig.height = 6, out.width = "50%", dev = "png", dpi = 200----
-post <- as_draws_df(x = mod2.2)
+post <- as_draws_df(x = mod2.2) # échantillons du posterior
 posterior_plot(samples = exp(post$b_prosoc_left), compval = 1) + labs(x = "Odds ratio")
 
 
@@ -603,8 +532,8 @@ exp(fixef(mod8)[2]) # rapport des cotes sans vs. avec mail de rappel
 
 ## ----eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5, dev = "png", dpi = 200---------
 post <- as_draws_df(x = mod8) # récupères les échantillons du posterior
-p.no <- plogis(post$b_Intercept) # probabilité moyenne de présence sans mail de rappel
-p.yes <- plogis(post$b_Intercept + post$b_reminder) # probabilité moyenne de présence avec mail de rappel
+p.no <- plogis(post$b_Intercept) # probabilité de présence sans mail de rappel
+p.yes <- plogis(post$b_Intercept + post$b_reminder) # probabilité de présence avec mail de rappel
 posterior_plot(samples = p.yes - p.no, compval = 0, usemode = TRUE)
 
 
@@ -668,9 +597,9 @@ summary(mod10)
 
 
 ## ----eval = TRUE, echo = TRUE-----------------------------------------------------------------
-fixef(mod8) %>% exp
-fixef(mod9) %>% exp
-fixef(mod10) %>% exp
+fixef(mod8) %>% exp() # calcul du "odds ratio"
+fixef(mod9) %>% exp() # calcul du "odds ratio"
+fixef(mod10) %>% exp() # calcul du "odds ratio"
 
 
 ## ----eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6---------------------------------
@@ -682,7 +611,6 @@ as_draws_df(x = mod10) %>%
 
 ## ----eval = TRUE, echo = TRUE-----------------------------------------------------------------
 open_data(absence) %>%
-  sample_frac() %>%
   group_by(inscription, reminder) %>%
   summarise(n = sum(total) ) %>%
   spread(key = reminder, value = n) %>%

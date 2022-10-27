@@ -68,12 +68,15 @@ Modèle linéaire généralisé <br> **Cours n°07 : Comparaison de modèles**
 <br> Cours n°08 : Modèles multi-niveaux <br> Cours n°09 : Modèles
 multi-niveaux généralisés <br> Cours n°10 : Data Hackathon <br>
 
+$$\newcommand\given[1][]{\:#1\vert\:}$$
+
 ## Null Hypothesis Significance Testing (NHST)
 
 On s'intéresse aux différences de taille entre hommes et femmes. On va
 mesurer 100 femmes et 100 hommes.
 
 ```{r eval = TRUE, echo = TRUE}
+set.seed(19) # pour reproduire les résultats
 men <- rnorm(100, 175, 10) # 100 tailles d'hommes
 women <- rnorm(100, 170, 10) # 100 tailles de femmes
 ```
@@ -82,8 +85,16 @@ women <- rnorm(100, 170, 10) # 100 tailles de femmes
 
 ```{r eval = TRUE, echo = TRUE}
 #| output-location: fragment
-t.test(men, women)
+t.test(men, women) # test de student pour différence de moyenne
 ```
+
+## {background-iframe="https://embed.polleverywhere.com/multiple_choice_polls/ok3TmpBIp0fmbxGJDS7rr?controls=none&short_poll=true"}
+
+<!--
+
+## {background-image="figures/man.jpg"}
+
+-->
 
 ## Null Hypothesis Significance Testing (NHST)
 
@@ -131,7 +142,7 @@ data.frame(x = c(-5, 5) ) %>%
 ## Null Hypothesis Significance Testing (NHST)
 
 ```{r eval = TRUE, echo = TRUE}
-alpha <- 0.05
+alpha <- 0.05 # seuil de significativité
 abs(qt(alpha / 2, df = t.test(men, women)$parameter) ) # valeur de t critique
 ```
 
@@ -218,7 +229,7 @@ df <- t.test(men, women)$parameter
 ## Intervalles de confiance
 
 Les intervalles de confiance peuvent être interprétés comme des régions
-de significativité (ou des régions de *compatibilité* avec l'hypothèse
+de significativité (ou des régions de **compatibilité** avec l'hypothèse
 nulle). Par conséquent, un intervalle de confiance contient la même
 information qu'une *p*-valeur et s'interprète de manière similaire.
 
@@ -233,7 +244,7 @@ contrairement à l'intervalle de crédibilité bayésien.
 . . .
 
 Un intervalle de confiance à 95% représente une degré de "recouvrement"
-(*coverage*). Le "95%" fait référence à une propriété fréquentiste
+(coverage). Le "95%" fait référence à une propriété fréquentiste
 (i.e., sur le long-terme) de la procédure, mais ne fait pas référence au
 paramètre $\theta$. Autrement dit, sur le long-terme, 95% des
 intervalles de confiance à 95% que l'on pourrait calculer (dans une
@@ -244,27 +255,27 @@ particulier a une probabilité de 95% de contenir la "vraie" valeur de
 $\theta$... soit ce dernier contient la vraie valeur de $\theta$, soit
 il ne la contient pas.
 
-##  {background-iframe="https://rpsychologist.com/d3/CI/"}
+## {background-iframe="https://rpsychologist.com/d3/CI/"}
 
 ## Facteur de Bayes
 
 On compare deux modèles :
 
--   $H_{0}: \mu_{1} = \mu_{2} \rightarrow \delta = 0$
--   $H_{1}: \mu_{1} \neq \mu_{2} \rightarrow \delta \neq 0$
+-   $\mathcal{H}_{0}: \mu_{1} = \mu_{2} \rightarrow \delta = 0$
+-   $\mathcal{H}_{1}: \mu_{1} \neq \mu_{2} \rightarrow \delta \neq 0$
 
 . . .
 
 $$
-\underbrace{\dfrac{p(H_{0}|D)}{p(H_{1}|D)}}_{posterior\ odds} = \underbrace{\dfrac{p(D|H_{0})}{p(D|H_{1})}}_{Bayes\ factor} \times \underbrace{\dfrac{p(H_{0})}{p(H_{1})}}_{prior\ odds}
+\underbrace{\dfrac{p(\mathcal{H}_{0} \given D)}{p(\mathcal{H}_{1} \given D)}}_{\text{posterior odds}} = \underbrace{\dfrac{p(D \given \mathcal{H}_{0})}{p(D \given \mathcal{H}_{1})}}_{\text{Bayes factor}} \times \underbrace{\dfrac{p(\mathcal{H}_{0})}{p(\mathcal{H}_{1})}}_{\text{prior odds}}
 $$
 
-$$\text{evidence}\ = p(D|H) = \int p(\theta|H) p(D|\theta, H) \text{d}\theta$$
+$$\text{evidence}\ = p(D \given \mathcal{H}) = \int p(\theta \given \mathcal{H}) p(D \given \theta, \mathcal{H}) \text{d}\theta$$
 
 . . .
 
-L'évidence en faveur d'un modèle correspond à la *vraisemblance
-marginale* d'un modèle (le dénominateur du théorème de Bayes), c'est à
+L'évidence en faveur d'un modèle correspond à la **vraisemblance
+marginale** d'un modèle (le dénominateur du théorème de Bayes), c'est à
 dire à la vraisemblance moyennée sur le prior... Ce qui fait du facteur
 de Bayes un ratio de vraisemblances, pondéré par (ou moyenné sur) le
 prior.
@@ -332,21 +343,19 @@ knitr::include_graphics("figures/bf.gif")
 
 ## Le facteur de Bayes est la nouvelle p-valeur
 
-Attention à ne pas interpréter le BF comme un *posterior odds*...
+Attention à ne pas interpréter le BF comme un rapport des chances a posteriori (posterior odds)...
 
-Le BF est un facteur qui nous indique de combien nos *prior odds*
-doivent changer, au vue des données. Il ne nous dit pas quelle est
-l'hypothèse la plus probable, sachant les données (sauf si les *prior
-odds* sont 1:1).
+Le BF est un facteur qui nous indique de combien notre rapport des chances a priori (prior odds) doit changer, au vu des données. Il ne nous dit pas quelle est l'hypothèse la plus probable, sachant les données (sauf si les prior
+odds sont de 1/1).
 
 . . .
 
--   $H_{0}$: la précognition n'existe pas !
--   $H_{1}$: la précognition existe
+-   $\mathcal{H}_{0}$: la précognition n'existe pas !
+-   $\mathcal{H}_{1}$: la précognition existe
 
 . . .
 
-On fait une expérience et on calcule un $BF_{10} = 27$. Quelle est la
+On fait une expérience et on calcule un $\text{BF}_{10} = 27$. Quelle est la
 probabilité a posteriori de H1 ?
 
 . . .
@@ -354,7 +363,7 @@ probabilité a posteriori de H1 ?
 <br>
 
 $$
-\underbrace{\dfrac{p(H_{1}|D)}{p(H_{0}|D)}}_{posterior\ odds} = \underbrace{\dfrac{27}{1}}_{Bayes\ factor} \times \underbrace{\dfrac{1}{1000}}_{prior\ odds} = \dfrac{27}{1000} = 0.027
+\underbrace{\dfrac{p(\mathcal{H}_{1} \given D)}{p(\mathcal{H}_{0} \given D)}}_{\text{posterior odds}} = \underbrace{\dfrac{27}{1}}_{\text{Bayes factor}} \times \underbrace{\dfrac{1}{1000}}_{\text{prior odds}} = \dfrac{27}{1000} = 0.027
 $$
 
 ## Facteur de Bayes - Test d'hypothèse nulle
@@ -379,14 +388,14 @@ data.frame(x = c(-10, 10) ) %>%
 
 ## Double sens
 
-Dans le cadre bayésien, le terme de *prior* peut faire référence soit :
+Dans le cadre bayésien, le terme de **prior** peut faire référence soit :
 
--   À la probabilité *a priori* ou *a posteriori* d'un modèle (par
-    rapport à un autre modèle), c'est à dire $\Pr(M_{i})$. Voir ce
+-   À la probabilité a priori ou a posteriori d'un modèle (par
+    rapport à un autre modèle), c'est à dire $\Pr(\mathcal{M}_{i})$. Voir ce
     [blogpost](http://www.nicebread.de/two-meanings-of-priors-1/).
 
--   Aux prédictions du modèle, par exemple
-    $\beta \sim \mathrm{Normal}(0, 10)$. Voir ce
+-   Aux priors qu'on définit sur les paramètres d'un modèle, par exemple
+    $\beta \sim \mathrm{Normal}(0, 1)$. Voir ce
     [blogpost](http://www.nicebread.de/two-meanings-of-priors-2/).
 
 . . .
@@ -404,12 +413,11 @@ data.frame(x = c(-20, 20) ) %>%
 ## Comparaison de modèles
 
 Deux problèmes récurrents à éviter en modélisation : le
-sous-apprentissage et sur-apprentissage (*overffitting* et
-*underfitting*). Comment s'en sortir ?
+sous-apprentissage (underfitting) et sur-apprentissage (overfitting). Comment s'en sortir ?
 
--   Utiliser des priors pour *régulariser*, pour contraindre le
-    posterior (i.e., accorder moins de poids à la vraisemblance)
--   Utiliser des critères d'information (e.g., AIC, WAIC)
+-   Utiliser des priors pour **régulariser**, pour contraindre le
+    posterior (i.e., accorder moins de poids à la vraisemblance).
+-   Utiliser des critères d'information (e.g., AIC, WAIC).
 
 . . .
 
@@ -610,21 +618,21 @@ d %>%
 ## Théorie de l'information
 
 Il nous faut une autre mesure des capacités de prédiction pour évaluer
-nos modèles. Idéalement, on voudrait pouvoir mesurer la *distance* entre
-notre modèle et le *full model* (i.e., la "réalité", la nature)... mais
+nos modèles. Idéalement, on voudrait pouvoir mesurer la "distance" entre
+notre modèle et le "full model" (i.e., la "réalité", la nature)... mais
 on ne sait pas faire cela.
 
 . . .
 
 Par contre, on peut mesurer de combien notre incertitude est réduite en
-découvrant un *outcome* (une observation) supplémentaire. Cette
+découvrant un outcome (une observation) supplémentaire. Cette
 réduction est la définition de l'**information**.
 
 . . .
 
 Mais il nous faut tout d'abord une mesure de l'incertitude (pour savoir
 si on l'a réduite, ou pas)... S'il existe $n$ événements possibles, et
-que chaque événement $i$ a pour probabilité $p_{i}$, alors une mesure de
+que chaque évènement $i$ a pour probabilité $p_{i}$, alors une mesure de
 l'incertitude est donnée par l'entropie (de Shannon) $H$ :
 
 $$H(p) = - \mathbb{E} [\log(p_{i})] = \sum_{i=1}^{n}p_{i} \log\left(\frac{1}{p_{i}}\right) = - \sum_{i=1}^{n}p_{i} \log(p_{i})$$
@@ -632,9 +640,9 @@ $$H(p) = - \mathbb{E} [\log(p_{i})] = \sum_{i=1}^{n}p_{i} \log\left(\frac{1}{p_{
 . . .
 
 En d'autres termes, *l'incertitude contenue dans une distribution de
-probabilités est la log-probabilité moyenne d'un événement*.
+probabilités est la log-probabilité moyenne d'un évènement*.
 
-## Incertitude
+## Incertitude (exemple)
 
 Exemple de prédiction météorologique. Si on imagine que la probabilité
 qu'il pleuve ou qu'il fasse beau (à Grenoble) est de $p_{1} = 0.3$ et
