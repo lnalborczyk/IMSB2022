@@ -67,30 +67,26 @@ multi-niveaux généralisés <br> Cours n°10 : Data Hackathon <br>
 
 ## Introduction
 
-Le modèle linéaire Gaussien qu'on a vu aux Cours n°03 et n°04 est caractérisé par un ensemble de postulats, entre autres choses :
-
-+ Les résidus sont distribués selon une loi Normale
-+ La variance de cette distribution Normale est constante (postulat d'homogénéité de la variance)
-+ Les prédicteurs agissent sur la moyenne de cette distribution
-+ La moyenne suit un modèle linéaire ou multi-linéaire
-
-. . .
-
-<br>
-
 $$
 \begin{align}
-y_{i} &\sim \mathrm{Normal}(\mu_{i}, \sigma)\\
-\mu_{i} &= \alpha + \beta_{1} \times x_{1i} + \beta_{2} \times x_{2i}\\
+\color{orangered}{y_{i}} \ &\color{orangered}{\sim \mathrm{Normal}(\mu_{i}, \sigma)}\\
+\color{black}{\mu_{i}} \ &\color{black}{= \alpha + \beta_{1} \times x_{1i} + \beta_{2} \times x_{2i}} \\
 \end{align}
 $$
+
+Le modèle linéaire Gaussien qu'on a vu aux Cours n°03 et n°04 est caractérisé par un ensemble de postulats, entre autres choses :
+
+- Les résidus sont distribués selon une loi Normale.
+- La variance de cette distribution Normale est constante (postulat d'homogénéité de la variance).
+- Les prédicteurs agissent sur la moyenne de cette distribution.
+- La moyenne suit un modèle linéaire ou multi-linéaire.
 
 ## Introduction
 
 Cette modélisation (le choix d'une distribution Normale) induit plusieurs contraintes, par exemple :
 
-+ Les données observées sont définies sur un espace continu
-+ Cet espace n'est pas borné
++ Les données observées sont définies sur un espace continu.
++ Cet espace n'est pas borné.
 
 . . .
 
@@ -100,27 +96,23 @@ Comment modéliser certaines données qui ne respectent pas ces contraintes ? Pa
 
 Nous avons déjà rencontré un modèle différent : le modèle Beta-Binomial (cf. Cours n°02).
 
-+ Les données observées sont binaires (e.g., 0 vs. 1) ou le résultat d'une somme d'observations binaires (e.g., une proportion).
-+ La probabilité de succès (obtenir 1) a priori se caractérise par une distribution Beta.
-+ La probabilité de succès (obtenir 1) ne dépend d'aucun prédicteur.
-
-. . .
-
-<br>
-
 $$
 \begin{align}
-w &\sim \mathrm{Binomial}(n, p) \\
-p &\sim \mathrm{Beta}(a, b)
+\color{orangered}{y_{i}} \ &\color{orangered}{\sim \mathrm{Binomial}(n, p)} \\
+\color{steelblue}{p} \ &\color{steelblue}{\sim \mathrm{Beta}(a, b)} \\
 \end{align}
 $$
+
+- Les données observées sont binaires (e.g., 0 vs. 1) ou le résultat d'une somme d'observations binaires (e.g., une proportion).
+- La probabilité de succès (obtenir 1) a priori se caractérise par une distribution Beta.
+- La probabilité de succès (obtenir 1) ne dépend d'aucun prédicteur.
 
 ## Introduction
 
 Cette modélisation induit deux contraintes :
 
-+ Les données observées sont définies sur un espace discret
-+ Cet espace est borné
++ Les données observées sont définies sur un espace discret.
++ Cet espace est borné.
 
 . . .
 
@@ -130,26 +122,26 @@ Comment pourrait-on ajouter des prédicteurs à ce modèle ?
 
 $$
 \begin{align}
-y_{i} &\sim \mathrm{Binomial}(n, p_{i}) \\
-f(p_{i}) &= \alpha + \beta \times x_{i} \\
+\color{orangered}{y_{i}} \ &\color{orangered}{\sim \mathrm{Binomial}(n, p_{i})} \\
+\color{black}{f(p_{i})} \ &\color{black}{= \alpha + \beta \times x_{i}} \\
 \end{align}
 $$
 
 Objectifs :
 
-+ Rendre compte de données discrètes générées par un processus unique
-+ Introduire des prédicteurs dans le modèle
+- Rendre compte de données discrètes (e.g., échec/succès) générées par un processus unique.
+- Introduire des prédicteurs dans le modèle.
 
 . . .
 
 Deux changements par rapport au modèle Gaussien :
 
-+ L'utilisation d'une distribution de probabilité Binomiale
-+ Le modèle linéaire ne sert plus à décrire directement un des paramètres de la distribution, mais une fonction de ce paramètre (on peut aussi considérer que le modèle Gaussien était formulé avec une fonction identité)
+- L'utilisation d'une distribution de probabilité Binomiale.
+- Le modèle linéaire ne sert plus à décrire directement un des paramètres de la distribution, mais une fonction de ce paramètre (on peut aussi considérer que le modèle Gaussien était formulé avec une fonction identité).
 
 ## Fonction de lien
 
-Les fonctions de lien  ont pour tâche de mettre en correspondance l'espace d'un modèle linéaire (non borné) avec l'espace d'un paramètre potentiellement borné comme une probabilité, définie sur l'intervalle $[0, 1]$.
+Les fonctions de lien ont pour tâche de mettre en correspondance l'espace d'un modèle linéaire (non borné) avec l'espace d'un paramètre potentiellement borné comme une probabilité, définie sur l'intervalle $[0, 1]$.
 
 ```{r, echo = FALSE, fig.width = 12, fig.height = 6, out.width = "75%"}
 # plot from https://bookdown.org/content/4857/big-entropy-and-the-generalized-linear-model.html#generalized-linear-models
@@ -276,7 +268,7 @@ $$
 
 . . .
 
-Pour retrouver la probabilité d'un événement, il faut utiliser la fonction de **lien inverse**, la fonction **logistique** (ou logit-inverse) :
+Pour retrouver la probabilité d'un évènement, il faut utiliser la fonction de **lien inverse**, la fonction **logistique** (ou logit-inverse) :
 
 $$
 p_{i} = \frac{\exp(\alpha + \beta \times x_{i})}{1 + \exp(\alpha + \beta \times x_{i})}
@@ -284,7 +276,7 @@ $$
 
 ## Complications induites par la fonction de lien
 
-Ces fonctions de lien posent des problèmes d'interprétation : Un changement d'une unité sur un prédicteur n'a plus un effet constant sur la probabilité mais la modifie plus ou moins en fonction de son éloignement à l'origine. Quand $x = 0$, une augmentation d'une demi-unité (i.e., $x = 0.5$) se traduit par une augmentation de la probabilité de $0.25$. Puis, chaque augmentation d'une demi-unité se traduit par une augmentation de $p$ de plus en plus petite...
+Ces fonctions de lien posent des problèmes d'interprétation : Un changement d'une unité sur un prédicteur n'a plus un effet constant sur la probabilité mais la modifie plus ou moins en fonction de son éloignement à l'origine. Quand $x = 0$, une augmentation d'une demi-unité (i.e., $\Delta x = 0.5$) se traduit par une augmentation de la probabilité de $0.25$. Puis, chaque augmentation d'une demi-unité se traduit par une augmentation de $p$ de plus en plus petite...
 
 ```{r, eval = TRUE, echo = FALSE, fig.width = 12, fig.height = 6, out.width = "75%"}
 # plot from https://bookdown.org/content/4857/big-entropy-and-the-generalized-linear-model.html#generalized-linear-models
@@ -377,7 +369,7 @@ p1 + p2
 
 ## Complications induites par la fonction de lien
 
-Deuxième complication : cette fonction de lien force chaque prédicteur à interagir avec lui même et à interagir avec TOUS les autres prédicteurs, même si les interactions ne sont pas explicites...
+Deuxième complication : cette fonction de lien "force" chaque prédicteur à interagir avec lui même et à interagir avec TOUS les autres prédicteurs, même si les interactions ne sont pas explicites...
 
 . . .
 
@@ -385,7 +377,7 @@ Dans un modèle Gaussien, le taux de changement de $y$ en fonction de $x$ est do
 
 . . .
 
-Dans un GLM binomial (avec une fonction de lien logit), la probabilité d'un événement est donnée par la fonction logistique :
+Dans un GLM binomial (avec une fonction de lien logit), la probabilité d'un évènement est donnée par la fonction logistique :
 
 $$p_{i} = \frac{\exp(\alpha + \beta \times x_{i})}{1 + \exp(\alpha + \beta \times x_{i})}$$
 
@@ -415,9 +407,9 @@ df1 <- open_data(chimpanzees)
 str(df1)
 ```
 
-+ **pulled_left** : 1 lorsque le chimpanzé pousse le levier gauche, 0 sinon 
-+ **prosoc_left** : 1 lorsque le levier gauche est associé à l'option prosociale, 0 sinon
-+ **condition** : 1 lorsqu'un partenaire est présent, 0 sinon
++ **pulled_left** : 1 lorsque le chimpanzé pousse le levier gauche, 0 sinon.
++ **prosoc_left** : 1 lorsque le levier gauche est associé à l'option prosociale, 0 sinon.
++ **condition** : 1 lorsqu'un partenaire est présent, 0 sinon.
 
 ## Régression logistique 
 
@@ -435,14 +427,14 @@ On cherche à savoir si la présence d'un singe partenaire incite le chimpanzé 
 
 + Prédicteur (`condition`) : Est-ce qu'un partenaire est présent ?
 
-## Régression logistique 
+## Régression logistique
 
 $$
 \begin{align}
-L_{i} &\sim \mathrm{Binomial}(1, p_{i}) \\
-\text{(équivalent à)} \quad L_{i} &\sim \mathrm{Bernoulli}(p_{i}) \\
-\text{logit}(p_{i}) &= \alpha \\
-\alpha &\sim \mathrm{Normal}(0, \omega) \\
+\color{orangered}{L_{i}} \ &\color{orangered}{\sim \mathrm{Binomial}(1, p_{i})} \\
+\text{(équivalent à)} \quad \color{orangered}{L_{i}} \ &\color{orangered}{\sim \mathrm{Bernoulli}(p_{i})} \\
+\color{black}{\text{logit}(p_{i})} \ &\color{black}{= \alpha} \\
+\color{steelblue}{\alpha} \ &\color{steelblue}{\sim \mathrm{Normal}(0, \omega)} \\
 \end{align}
 $$
 
@@ -460,7 +452,6 @@ mod1.1 <- brm(
   family = binomial,
   prior = prior(normal(0, 10), class = Intercept),
   data = df1,
-  # stores prior samples
   sample_prior = "yes"
   )
 ```
@@ -501,14 +492,16 @@ bind_rows(prior_samples(mod1.1), prior_samples(mod1.2) ) %>%
 
 ## Régression logistique 
 
-L'intercept s'interprète dans l'espace des log-odds... pour l'interpréter comme une probabilité, il faut appliquer la fonction de lien inverse. On peut utiliser la fonction `plogis()`.
+L'intercept s'interprète dans l'espace des log-odds... pour l'interpréter comme une probabilité, il faut appliquer la fonction de lien inverse. On peut utiliser la fonction `brms::inv_logit_scaled()` ou la fonction `plogis()`.
+
+. . .
 
 ```{r, eval = TRUE, echo = TRUE}
 fixed_effects <- fixef(mod1.2) # effets fixes (ou constants)
 plogis(fixed_effects) # fonction de lien inverse
 ```
 
-En moyenne (sans considérer les prédicteurs), il semblerait que les chimpanzés aient plus tendance à appuyer sur le levier gauche que sur le levier droit...
+En moyenne (sans considérer les prédicteurs), il semblerait que les chimpanzés aient légèrement plus tendance à appuyer sur le levier gauche que sur le levier droit...
 
 ## Régression logistique 
 
@@ -528,10 +521,10 @@ Et si on ajoutait des prédicteurs... comment choisir une valeur pour $\omega$ ?
 
 $$
 \begin{align}
-L_{i} &\sim \mathrm{Binomial}(1, p_{i}) \\
-\text{logit}(p_{i}) &= \alpha + \beta_{P} P_{i} + \beta_{C} C_{i} + \beta_{PC} P_{i} C_{i} \\
-\alpha &\sim \mathrm{Normal}(0, 1) \\
-\beta_{P}, \beta_{C}, \beta_{PC} &\sim \mathrm{Normal}(0, \omega) \\
+\color{orangered}{L_{i}} \ &\color{orangered}{\sim \mathrm{Binomial}(1, p_{i})} \\
+\color{black}{\text{logit}(p_{i})} \ &\color{black}{= \alpha + \beta_{P} P_{i} + \beta_{C} C_{i} + \beta_{PC} P_{i} C_{i}} \\
+\color{steelblue}{\alpha} \ &\color{steelblue}{\sim \mathrm{Normal}(0, 1)} \\
+\color{steelblue}{\beta_{P}, \beta_{C}, \beta_{PC}} \ &\color{steelblue}{\sim \mathrm{Normal}(0, \omega)} \\
 \end{align}
 $$
 
@@ -624,13 +617,13 @@ Le modèle linéaire ne prédit pas directement la probabilité mais le log-odds
 
 $$
 \begin{align}
-\text{logit}(p_{i}) &= \log \left(\frac{p_{i}}{1 - p_{i}} \right) = \alpha + \beta x_{i} \\
+\text{logit}(p_{i}) &= \log \left(\frac{p_{i}}{1 - p_{i}} \right) = \alpha + \beta \times x_{i} \\
 \end{align}
 $$
 
 . . .
 
-On peut donc distinguer et interpréter deux types d'effets.
+On peut distinguer et interpréter deux types d'effets.
 
 **Effet relatif** : L'effet relatif porte sur le logarithme du rapport des probabilités. Il indique une proportion de changement induit par le prédicteur sur **les chances** de succès (ou plutôt, sur la cote). Cela ne nous dit rien de la probabilité de l'évènement, dans l'absolu.
 
@@ -669,7 +662,7 @@ L'effet relatif d'un paramètre **dépend également des autres paramètres**. D
 
 Supposons que l'intercept $\alpha = 4$.
 
-+ La probabilité de pousser le levier sans autre considération est de $\text{logit}^{-1}(4) = 0.98$.
++ La probabilité de pousser le levier sans autre considération est de $\text{logit}^{-1}(4) \approx 0.98$.
 + En considérant l'effet de `prosoc_left`, on obtient $\text{logit}^{-1}(4 + 0.54) \approx 0.99$.
 
 . . .
@@ -682,14 +675,11 @@ Une augmentation de 72% sur le log-odds se traduit par une augmentation de seule
 fixef(mod2.2)
 ```
 
+. . .
+
 ```{r, eval = TRUE, echo = TRUE, fig.width = 9, fig.height = 6, out.width = "50%", dev = "png", dpi = 200}
 post <- as_draws_df(x = mod2.2)
-
-posterior_plot(
-    samples = exp(post$b_prosoc_left),
-    compval = 1
-    ) +
-    labs(x = "Odds ratio")
+posterior_plot(samples = exp(post$b_prosoc_left), compval = 1) + labs(x = "Odds ratio")
 ```
 
 ## Effet absolu
@@ -697,7 +687,7 @@ posterior_plot(
 L'effet absolu dépend de tous les paramètres du modèle et nous donne l'impact effectif d'un changement d'une unité d'un prédicteur (dans l'espace des probabilités).
 
 ```{r, eval = TRUE, echo = TRUE}
-model_predictions <- fitted(mod2.2) %>%
+model_predictions <- fitted(mod2.2) %>% # prédiction pour p (i.e., la probabilité)
   data.frame() %>% 
   bind_cols(df1) %>%
   mutate(condition = factor(condition), prosoc_left = factor(prosoc_left) )
@@ -745,10 +735,10 @@ On va construire un modèle de la décision d'admission en prenant comme prédic
 
 $$
 \begin{align}
-\text{admit}_{i} &\sim \mathrm{Binomial}(n_{i}, p_{i}) \\
-\text{logit}(p_i) &= \alpha + \beta_{m} m_{i} \\
-\alpha &\sim \mathrm{Normal}(0, 1) \\
-\beta_{m} &\sim \mathrm{Normal}(0, 1) \\
+\color{orangered}{\text{admit}_{i}} \ &\color{orangered}{\sim \mathrm{Binomial}(n_{i}, p_{i})} \\
+\color{black}{\text{logit}(p_i)} \ &\color{black}{= \alpha + \beta_{m} \times m_{i}} \\
+\color{steelblue}{\alpha} \ &\color{steelblue}{\sim \mathrm{Normal}(0, 1)} \\
+\color{steelblue}{\beta_{m}} \ &\color{steelblue}{\sim \mathrm{Normal}(0, 1)} \\
 \end{align}
 $$
 
@@ -756,9 +746,9 @@ $$
 
 Les variables :
 
-+ $\text{admit}_{i}$ : Le nombre de candidatures acceptées (`admit`)
-+ $n_{i}$ : Le nombre total de candidatures (`applications`)
-+ $m_{i}$ : Le sexe du candidat (`1 = Male`)
++ $\text{admit}_{i}$ : Le nombre de candidatures acceptées (`admit`).
++ $n_{i}$ : Le nombre total de candidatures (`applications`).
++ $m_{i}$ : Le sexe du candidat (`1 = Male`).
 
 ## Régression binomiale agrégée 
 
@@ -879,15 +869,15 @@ Les prédictions du modèle sont très mauvaises... Il n'y a que deux départeme
 
 Le problème est double :
 
-+ Les hommes et les femmes ne postulent pas aux mêmes départements
-+ Les départements n'ont pas tous les mêmes effectifs
+- Les hommes et les femmes ne postulent pas aux mêmes départements.
+- Les départements n'ont pas tous les mêmes effectifs.
 
 . . .
 
-C'est le paradoxe de Simpson... remarques :
+C'est le ["paradoxe" de Simpson](https://en.wikipedia.org/wiki/Simpson%27s_paradox)... remarques :
 
-+ La distribution postérieure seule n'aurait pas permis de détecter ce problème
-+ C'est l'étude des prédictions du modèle qui nous a permis de mettre le doigt sur le problème...
+- La distribution postérieure seule n'aurait pas permis de détecter ce problème.
+- C'est l'étude des prédictions du modèle qui nous a permis de mettre le doigt sur le problème...
 
 ## Régression binomiale agrégée 
 
@@ -895,10 +885,10 @@ On construit donc un modèle de la décision d'admission en fonction du genre, a
 
 $$
 \begin{align}
-\text{admit}_{i} &\sim \mathrm{Binomial}(n_{i}, p_{i}) \\
-\text{logit}(p_i) &= \alpha_{\text{dept}[i]} + \beta_{m} m_{i} \\
-\alpha_{\text{dept}[i]} &\sim \mathrm{Normal}(0, 1) \\
-\beta_{m} &\sim \mathrm{Normal}(0, 1) \\
+\color{orangered}{\text{admit}_{i}} \ &\color{orangered}{\sim \mathrm{Binomial}(n_{i}, p_{i})} \\
+\color{black}{\text{logit}(p_i)} \ &\color{black}{= \alpha_{\text{dept}[i]} + \beta_{m} \times m_{i}} \\
+\color{steelblue}{\alpha_{\text{dept}[i]}} \ &\color{steelblue}{\sim \mathrm{Normal}(0, 1)} \\
+\color{steelblue}{\beta_{m}} \ &\color{steelblue}{\sim \mathrm{Normal}(0, 1)} \\
 \end{align}
 $$
 
@@ -934,7 +924,7 @@ summary(mod6)
 fixef(mod6)
 ```
 
-Maintenant, la prédiction pour $\beta_{m}$ va dans l'autre sens... La rapport des cotes (odds ratio) est de $\exp(-0.1)$ soit 90% de la cote des femmes.
+Maintenant, la prédiction pour $\beta_{m}$ va dans l'autre sens... La rapport des cotes (odds ratio) est de $\exp(-0.1) = 0.9$, la cote (odds) des hommes est estimée à 90% de la cote des femmes.
 
 ## Régression binomiale agrégée 
 
@@ -992,7 +982,7 @@ Retenir la distinction entre **effet relatif** (e.g., un changement de cote) et 
 
 ## Travaux pratiques - Absentéisme expérimental
 
-Travailler avec des sujets humains implique un minimum de coopération réciproque. Mais ce n'est pas toujours le cas. Une partie non-négligeable des étudiants qui s'inscrivent pour passer des expériences de Psychologie ne se présentent pas le jour prévu... On a voulu estimer la **probabilité de présence d'un étudiant inscrit** en fonction de l'envoi (ou non) d'un mail de rappel (cet exemple est présenté en détails dans deux blogposts, accessibles [ici](http://www.barelysignificant.com/post/absenteeism/), et [ici](http://www.barelysignificant.com/post/absenteeism2/)).
+Travailler avec des sujets humains implique un minimum de coopération réciproque. Mais ce n'est pas toujours le cas. Une partie non-négligeable des étudiants qui s'inscrivent pour passer des expériences de Psychologie ne se présentent pas le jour prévu... On a voulu estimer la **probabilité de présence d'un étudiant inscrit** en fonction de l'envoi (ou non) d'un mail de rappel (cet exemple est présenté en détails dans deux articles de blog, accessibles [ici](http://www.barelysignificant.com/post/absenteeism/), et [ici](http://www.barelysignificant.com/post/absenteeism2/)).
 
 ```{r eval = TRUE, echo = TRUE}
 df3 <- open_data(absence)
@@ -1014,9 +1004,9 @@ df3 %>% sample_frac %>% head(10)
 
 $$
 \begin{aligned}
-y_{i} &\sim \mathrm{Binomial}(n_{i}, p_{i}) \\
-\text{logit}(p_{i}) &= \alpha \\
-\alpha &\sim \mathrm{Normal}(0, 1) \\
+\color{orangered}{y_{i}} \ &\color{orangered}{\sim \mathrm{Binomial}(n_{i}, p_{i})} \\
+\color{black}{\text{logit}(p_{i})} \ &\color{black}{= \alpha} \\
+\color{steelblue}{\alpha} \ &\color{steelblue}{\sim \mathrm{Normal}(0, 1)} \\
 \end{aligned}
 $$
 
@@ -1028,6 +1018,7 @@ mod7 <- brm(
     family = binomial(link = "logit"),
     prior = prior(normal(0, 1), class = Intercept),
     data = df3,
+    # utilise tous les coeurs disponibles de la machine...
     cores = parallel::detectCores()
     )
 ```
@@ -1067,10 +1058,10 @@ head(df3, n = 10)
 
 $$
 \begin{aligned}
-y_{i} &\sim \mathrm{Binomial}(n_{i}, p_{i}) \\
-\text{logit}(p_{i}) &= \alpha + \beta \times \text{reminder}_{i} \\
-\alpha &\sim \mathrm{Normal}(0, 1) \\
-\beta &\sim \mathrm{Normal}(0, 1) \\
+\color{orangered}{y_{i}} \ &\color{orangered}{\sim \mathrm{Binomial}(n_{i}, p_{i})} \\
+\color{black}{\text{logit}(p_{i})} \ &\color{black}{= \alpha + \beta \times \text{reminder}_{i}} \\
+\color{steelblue}{\alpha} \ &\color{steelblue}{\sim \mathrm{Normal}(0, 1)} \\
+\color{steelblue}{\beta} \ &\color{steelblue}{\sim \mathrm{Normal}(0, 1)} \\
 \end{aligned}
 $$
 
@@ -1098,10 +1089,10 @@ mod8 <- brm(
 Quel est l'effet **relatif** du mail de rappel ?
 
 ```{r eval = TRUE, echo = TRUE}
-exp(fixef(mod8)[2]) # odds ratio between no-reminder and reminder
+exp(fixef(mod8)[2]) # rapport des cotes sans vs. avec mail de rappel
 ```
 
-Envoyer un rappel augmente proportionnellement les chances de présence (i.e., augmente la cote) par environ $3$.
+Envoyer un mail de rappel augmente la cote (le rapport des chances) par environ $3$.
 
 ## Travaux pratiques 
 
@@ -1149,10 +1140,10 @@ df3 %>%
 
 $$
 \begin{aligned}
-y_{i} &\sim \mathrm{Binomial}(n_{i}, p_{i}) \\
-\text{logit}(p_{i}) &= \alpha + \beta \times \text{inscription}_{i} \\
-\alpha &\sim \mathrm{Normal}(0, 1) \\
-\beta &\sim \mathrm{Normal}(0, 1) \\
+\color{orangered}{y_{i}} \ &\color{orangered}{\sim \mathrm{Binomial}(n_{i}, p_{i})} \\
+\color{black}{\text{logit}(p_{i})} \ &\color{black}{= \alpha + \beta \times \text{inscription}_{i}} \\
+\color{steelblue}{\alpha} \ &\color{steelblue}{\sim \mathrm{Normal}(0, 1)} \\
+\color{steelblue}{\beta} \ &\color{steelblue}{\sim \mathrm{Normal}(0, 1)} \\
 \end{aligned}
 $$
 
@@ -1182,7 +1173,7 @@ p.doodle <- plogis(post$b_Intercept + post$b_inscription) # probabilité moyenne
 posterior_plot(samples = p.panel - p.doodle, compval = 0, usemode = TRUE)
 ```
 
-La probabilité de présence est augmentée de $0.17$ lorsque l'on s'inscrit sur un panel comparativement à une inscription sur un doodle (effet légèrement plus faible que pour le rappel).
+La probabilité de présence est augmentée d'environ $0.16$ lorsque l'on s'inscrit sur un panel comparativement à une inscription sur un Doodle (effet légèrement plus faible que pour le rappel).
 
 ## Travaux pratiques
 
@@ -1199,10 +1190,10 @@ La probabilité de présence est augmentée de $0.17$ lorsque l'on s'inscrit sur
 
 $$
 \begin{aligned}
-y_{i} &\sim \mathrm{Binomial}(n_{i}, p_{i}) \\
-\text{logit}(p_{i}) &= \alpha + \beta_{1} \times \text{reminder}_{i} + \beta_{2} \times \text{inscription}_{i} \\
-\alpha &\sim \mathrm{Normal}(0, 1) \\
-\beta_{1}, \beta_{2} &\sim \mathrm{Normal}(0, 1) \\
+\color{orangered}{y_{i}} \ &\color{orangered}{\sim \mathrm{Binomial}(n_{i}, p_{i})} \\
+\color{black}{\text{logit}(p_{i})} \ &\color{black}{= \alpha + \beta_{1} \times \text{reminder}_{i} + \beta_{2} \times \text{inscription}_{i}} \\
+\color{steelblue}{\alpha} \ &\color{steelblue}{\sim \mathrm{Normal}(0, 1)} \\
+\color{steelblue}{\beta_{1}, \beta_{2}} \ &\color{steelblue}{\sim \mathrm{Normal}(0, 1)} \\
 \end{aligned}
 $$
 
@@ -1231,7 +1222,7 @@ summary(mod10)
 
 ## Travaux pratiques
 
-Le mode d'inscription et le mail de rappel semblent avoir moins d'effet dans le modèle complet que dans les modèles simples... pourquoi ?
+Le mail de rappel semble avoir moins d'effet dans le modèle complet que dans le modèle simple... pourquoi ?
 
 ```{r eval = TRUE, echo = TRUE}
 fixef(mod8) %>% exp
@@ -1241,17 +1232,18 @@ fixef(mod10) %>% exp
 
 ## Travaux pratiques
 
-On a déjà rencontré ce cas de figure (cf. Cours n°04). Lorsque deux prédicteurs contiennent une part d'information commune, l'estimation des pentes est corrêlée...
+On a déjà rencontré ce cas de figure (cf. Cours n°04). Lorsque deux prédicteurs contiennent une part d'information commune, l'estimation des pentes est corrélée...
 
 ```{r eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6}
 as_draws_df(x = mod10) %>%
     ggplot(aes(b_reminder, b_inscription) ) +
-    geom_point(size = 3, pch = 21, alpha = 0.8, color = "white", fill = "black")
+    geom_point(size = 3, pch = 21, alpha = 0.8, color = "white", fill = "black") +
+    labs(x = "Effet (pente) du mail de rappel", y = "Effet (pente) du mode d'inscription")
 ```
 
 ## Travaux pratiques
 
-En effet, les données ont été collectées par deux expérimentateurs. L'un d'entre eux a recruté tous ses participants via doodle, et n'envoyait pas souvent de mail de rappel. Le deuxième expérimentateur a recruté tous ses participants via un panneau physique présent dans le laboratoire et envoyait systématiquement un mail de rappel. Autrement dit, ces deux variables sont presque parfaitement confondues.
+En effet, les données ont été collectées par deux expérimentateurs. L'un d'entre eux a recruté tous ses participants via Doodle, et n'envoyait pas souvent de mail de rappel. Le deuxième expérimentateur a recruté tous ses participants via un panneau physique présent dans le laboratoire et envoyait systématiquement un mail de rappel. Autrement dit, ces deux variables sont presque parfaitement confondues.
 
 ```{r eval = TRUE, echo = TRUE}
 open_data(absence) %>%

@@ -25,5 +25,6 @@ Voir toutes les commandes de `revealjs` en appuyant sur <kbd>m</kbd> puis <kbd>h
 
 ## Pour aller plus loin
 
-- http://www.nicebread.de/two-meanings-of-priors-1/
-- http://www.nicebread.de/two-meanings-of-priors-2/
+- Burnham, K. P., & Anderson, D. R. (2004). Multimodel inference: Understanding AIC and BIC in model selection. *Sociological Methods & Research, 33*(2), 261–304. <https://doi.org/10.1177/0049124104268644>
+- Stefan, A., & Schönbrodt, F. (2017). Two meanings of priors, part I: The plausibility of models. Blogpost available at: <https://www.nicebread.de/two-meanings-of-priors-1/>.
+- Stefan, A., & Schönbrodt, F. (2017). Two meanings of priors, part II: Quantifying uncertainty about model parameters. Blogpot available at: <https://www.nicebread.de/two-meanings-of-priors-2/>.

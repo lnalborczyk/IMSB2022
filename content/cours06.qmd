@@ -25,4 +25,4 @@ Voir toutes les commandes de `revealjs` en appuyant sur <kbd>m</kbd> puis <kbd>h
 
 ## Pour aller plus loin
 
-...
+- Nalborczyk, L. (2018). Using R to make sense of the generalised linear model. Blogpost available at <https://www.barelysignificant.com/post/glm/>.
