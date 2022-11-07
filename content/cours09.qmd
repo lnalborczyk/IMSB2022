@@ -25,4 +25,5 @@ Voir toutes les commandes de `revealjs` en appuyant sur <kbd>m</kbd> puis <kbd>h
 
 ## Pour aller plus loin
 
-...
+- Bürkner, P.-C., & Vuorre, M. (2019). Ordinal Regression Models in Psychology: A Tutorial. *Advances in Methods and Practices in Psychological Science, 2*(1), 77–101. <https://doi.org/10.1177/2515245918823199>
+- Winter, B., & Bürkner, P. (2021). Poisson regression for linguists: A tutorial introduction to modelling count data with brms. *Language and Linguistics Compass, 15*(11). <https://doi.org/10.1111/lnc3.12439>

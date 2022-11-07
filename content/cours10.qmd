@@ -25,4 +25,4 @@ Voir toutes les commandes de `revealjs` en appuyant sur <kbd>m</kbd> puis <kbd>h
 
 ## Pour aller plus loin
 
-...
+- Gelman, A., Vehtari, A., Simpson, D., Margossian, C. C., Carpenter, B., Yao, Y., Kennedy, L., Gabry, J., Bürkner, P.-C., & Modrák, M. (2020). Bayesian Workflow. ArXiv:2011.01808 [Stat]. <https://arxiv.org/abs/2011.01808>

@@ -90,12 +90,6 @@ t.test(men, women) # test de student pour différence de moyenne
 
 ## {background-iframe="https://embed.polleverywhere.com/multiple_choice_polls/ok3TmpBIp0fmbxGJDS7rr?controls=none&short_poll=true"}
 
-<!--
-
-## {background-image="figures/man.jpg"}
-
--->
-
 ## Null Hypothesis Significance Testing (NHST)
 
 On va simuler des t-valeurs issues de données générées sous l'hypothèse
@@ -108,7 +102,7 @@ t <- rep(NA, nsims) # initialisation d'un vecteur vide
 for (i in 1:nsims) {
     
     men2 <- rnorm(100, 170, 10) # 100 tailles d'hommes
-    women2 <- rnorm(100, 170, 10) # 100 tailles de femmes
+    women2 <- rnorm(100, 170, 10) # 100 tailles de femmes (de même distribution)
     t[i] <- t.test(men2, women2)$statistic # on conserve la t-valeur
     
 }
@@ -197,11 +191,10 @@ data.frame(t = c(-5, 5) ) %>%
 
 ## P-valeur
 
-Une *p*-valeur est une aire sous la courbe, une intégrale, sous la
+Une p-valeur est une aire sous la courbe (une intégrale) sous la
 distribution de statistiques de test sous l'hypothèse nulle (i.e., étant
-admis que l'hypothèse nulle est vraie). La *p*-valeur indique la
-probabilité d'observer la valeur de la statistique de test observée, ou
-une valeur plus extrême, sous l'hypothèse nulle.
+admis que l'hypothèse nulle est vraie). La p-valeur indique la
+probabilité d'observer la valeur de la statistique de test (e.g., une valeur de t) observée, ou une valeur plus extrême, sous l'hypothèse nulle.
 
 $$p[\mathbf{t}(\mathbf{x}^{\text{rep}}; \mathcal{H}_{0}) \geq t(x)]$$
 
@@ -231,7 +224,7 @@ df <- t.test(men, women)$parameter
 Les intervalles de confiance peuvent être interprétés comme des régions
 de significativité (ou des régions de **compatibilité** avec l'hypothèse
 nulle). Par conséquent, un intervalle de confiance contient la même
-information qu'une *p*-valeur et s'interprète de manière similaire.
+information qu'une p-valeur et s'interprète de manière similaire.
 
 . . .
 
@@ -346,17 +339,17 @@ knitr::include_graphics("figures/bf.gif")
 Attention à ne pas interpréter le BF comme un rapport des chances a posteriori (posterior odds)...
 
 Le BF est un facteur qui nous indique de combien notre rapport des chances a priori (prior odds) doit changer, au vu des données. Il ne nous dit pas quelle est l'hypothèse la plus probable, sachant les données (sauf si les prior
-odds sont de 1/1).
+odds sont de $1/1$). Par exemple :
 
 . . .
 
 -   $\mathcal{H}_{0}$: la précognition n'existe pas !
--   $\mathcal{H}_{1}$: la précognition existe
+-   $\mathcal{H}_{1}$: la précognition existe.
 
 . . .
 
 On fait une expérience et on calcule un $\text{BF}_{10} = 27$. Quelle est la
-probabilité a posteriori de H1 ?
+probabilité a posteriori de $\mathcal{H}_{1}$ ?
 
 . . .
 
@@ -365,6 +358,8 @@ probabilité a posteriori de H1 ?
 $$
 \underbrace{\dfrac{p(\mathcal{H}_{1} \given D)}{p(\mathcal{H}_{0} \given D)}}_{\text{posterior odds}} = \underbrace{\dfrac{27}{1}}_{\text{Bayes factor}} \times \underbrace{\dfrac{1}{1000}}_{\text{prior odds}} = \dfrac{27}{1000} = 0.027
 $$
+
+<!--
 
 ## Facteur de Bayes - Test d'hypothèse nulle
 
@@ -385,6 +380,14 @@ data.frame(x = c(-10, 10) ) %>%
         ) +
     labs(x = expression(delta), y = "Densité de probabilité")
 ```
+
+## Facteur de Bayes
+
+```{r echo = FALSE, out.width = "800px"}
+knitr::include_graphics("figures/bayes_factor.png")
+```
+
+-->
 
 ## Double sens
 
@@ -639,8 +642,8 @@ $$H(p) = - \mathbb{E} [\log(p_{i})] = \sum_{i=1}^{n}p_{i} \log\left(\frac{1}{p_{
 
 . . .
 
-En d'autres termes, *l'incertitude contenue dans une distribution de
-probabilités est la log-probabilité moyenne d'un évènement*.
+> En d'autres termes : l'incertitude contenue dans une distribution de
+probabilités est la log-probabilité moyenne d'un évènement.
 
 ## Incertitude (exemple)
 
@@ -650,8 +653,7 @@ $p_{2} = 0.7$.
 
 . . .
 
-Alors,
-$H(p) = - (p_{1} \cdot \log(p_{1}) + p_{2} \cdot \log(p_{2})) \approx 0.61$.
+Alors, $H(p) = - (p_{1} \times \log(p_{1}) + p_{2} \times \log(p_{2})) \approx 0.61$.
 
 ```{r eval = TRUE, echo = TRUE}
 p <- c(0.3, 0.7)
@@ -681,7 +683,7 @@ mesure pour quantifier la distance entre notre modèle et la réalité ?
 distribution de probabilités pour décrire... une autre distribution de
 probabilités ([Kullback-Leibler
 divergence](https://fr.wikipedia.org/wiki/Divergence_de_Kullback-Leibler),
-ou *entropie relative*).
+ou "entropie relative").
 
 $$
 D_{\text{KL}}(p, q) = \sum_{i} p_{i}\big(\log(p_{i}) - \log(q_{i})\big) = \sum_{i} p_{i} \log\bigg(\frac{p_{i}}{q_{i}}\bigg)
@@ -698,10 +700,10 @@ $$
 D_{KL}(p, q) = \sum_{i} p_{i}\big(\log(p_{i}) - \log(q_{i})\big) = \sum_{i} p_{i} \log\bigg(\frac{p_{i}}{q_{i}}\bigg)
 $$
 
-Par exemple, supposons que la *véritable* distribution de nos événements
-(soleil vs pluie) soit $p_{1}=0.3$ et $p_{2}=0.7$. Si nous pensons
-plutôt que ces événements arrivent avec une probabilité $q_{1}=0.25$ et
-$q_{2}=0.75$, quelle quantité d'incertitude avons-nous ajoutée ?
+Par exemple, supposons que la "véritable" distribution de nos évènements
+(soleil vs pluie) soit $p_{1} = 0.3$ et $p_{2} = 0.7$. Si nous pensons
+plutôt que ces évènements arrivent avec une probabilité $q_{1} = 0.25$ et
+$q_{2} = 0.75$, quelle quantité d'incertitude avons-nous ajoutée ?
 
 . . .
 
@@ -744,9 +746,9 @@ utilisant $q$ pour décrire $p$.
 
 $$
 \begin{align}
-D_{KL}(p,q) &= H(p,q) - H(p) \\
-&= - \sum_{i} p_{i} \log(q_{i}) - \big( - \sum_{i} p_{i} \log(p_{i}) \big) \\
-&= - \sum_{i} p_{i} \big(\log(q_{i}) - \log(p_{i}) \big) \\ 
+D_{\text{KL}}(p, q) &= H(p, q) - H(p) \\
+&= - \sum_{i} p_{i} \log(q_{i}) - \left( - \sum_{i} p_{i} \log(p_{i}) \right) \\
+&= - \sum_{i} p_{i} \left(\log(q_{i}) - \log(p_{i}) \right) \\ 
 \end{align}
 $$
 
@@ -756,7 +758,7 @@ $$
 
 ## Vers la déviance...
 
-OK, mais nous ne connaissons pas la distribution *target* (la réalité),
+OK, mais nous ne connaissons pas la distribution "cible" (la réalité),
 à quoi cela peut donc nous servir ?
 
 . . .
@@ -772,9 +774,9 @@ knitr::include_graphics("figures/mind_blowing.jpg")
 ## Vers la déviance...
 
 On peut donc utiliser $\mathbb{E} [\log(q_{i})]$ et
-$\mathbb{E} [\log(r_{i})]$ comme estimateurs de la distance *relative*
-entre chaque modèle et notre distribution cible. On a donc seulement
-besoin de la *log-probabilité moyenne des modèles*. Comme on ne connaît
+$\mathbb{E} [\log(r_{i})]$ comme estimateurs de la distance **relative**
+entre chaque modèle et notre distribution cible. On a seulement
+besoin de la **log-probabilité moyenne des modèles**. Comme on ne connaît
 pas la distribution cible, cela veut dire qu'on ne peut pas interpréter
 cette quantité en termes absolus mais seulement en termes relatifs. Ce
 qui nous intéresse c'est
@@ -787,13 +789,12 @@ knitr::include_graphics("figures/KL_distance.png")
 ## Déviance
 
 Pour approximer la valeur de $\mathbb{E} [\log(q_{i})]$, on peut
-utiliser la
-[déviance](https://en.wikipedia.org/wiki/Deviance_%28statistics%29) d'un
-modèle, qui est une mesure du fit *relatif* du modèle.
+utiliser la [déviance](https://en.wikipedia.org/wiki/Deviance_%28statistics%29) d'un
+modèle, qui est une mesure du fit **relatif** du modèle.
 
 $$D(q) = -2 \sum_{i} \log(q_{i})$$
 
-où $i$ indice chaque observation et $q_{i}$ est la *vraisemblance* de
+où $i$ indice chaque observation et $q_{i}$ est la **vraisemblance** de
 chaque observation.
 
 . . .
@@ -809,21 +810,18 @@ mod1.8 <- lm(brain ~ mass.s, data = d)
 
 ```{r eval = TRUE, echo = TRUE}
 # paramètres estimés (intercept et pente)
-
 alpha <- coef(mod1.8)[1]
 beta <- coef(mod1.8)[2]
 
 # calcul de la log-vraisemblance
-
 ll <- sum(dnorm(
-    d$brain,
+    x = d$brain,
     mean = alpha + beta * d$mass.s,
     sd = sigma(mod1.8),
-    log = TRUE)
-    )
+    log = TRUE
+    ) )
 
 # calcul de la déviance
-
 (-2) * ll
 ```
 
@@ -842,7 +840,7 @@ On peut calculer $S(q)$ sur toute la distribution postérieure, ce qui
 donne la version bayésienne du log-score, la **log-pointwise-predictive
 density** :
 
-$$\text{lppd}(y, \Theta) = \sum_{i} \log \frac{1}{S} \sum_{s} p(y_{i} | \Theta_{s})$$
+$$\text{lppd}(y, \Theta) = \sum_{i} \log \frac{1}{S} \sum_{s} p(y_{i} \given \Theta_{s})$$
 
 Où $S$ est le nombre d'échantillons et $\Theta_{s}$ est le $s$-ième
 ensemble de valeurs de paramètres échantillonnés de la distribution
@@ -860,18 +858,18 @@ Si on est intéressé par les capacités de prédiction de notre modèle,
 nous pouvons calculer la déviance du modèle sur de nouvelles données...
 qu'on appellera dans ce cas déviance **out-of-sample**. Cela revient à
 se demander si notre modèle est performant pour prédire de nouvelles
-données.
+données (non observées).
 
 . . .
 
 Imaginons que nous disposions d'un échantillon de taille $N$, que nous
-appellerons échantillon d'apprentissage (*training*). Nous pouvons
-calculer la déviance du modèle sur cet échantillon ($D_{train}$ ou
-$D_{in}$). Si nous acquérons ensuite un nouvel échantillon de taille $N$
+appellerons échantillon d'apprentissage (training). Nous pouvons
+calculer la déviance du modèle sur cet échantillon ($D_{\text{train}}$ ou
+$D_{\text{in}}$). Si nous acquérons ensuite un nouvel échantillon de taille $N$
 issu du même processus de génération de données (que nous appellerons
 échantillon de test), nous pouvons calculer une déviance sur ce nouvel
 échantillon, en utilisant les paramètres estimés avec l'échantillon
-d'entraînement (que nous appellerons $D_{test}$ ou $D_{out}$).
+d'entraînement (que nous appellerons $D_{\text{test}}$ ou $D_{\text{out}}$).
 
 ## In sample and out of sample deviance
 
@@ -893,8 +891,7 @@ la déviance calculée sur l'échantillon de test.
 
 ## Régularisation
 
-Une autre manière de lutter contre l'*overfitting* est d'utiliser des
-priors *sceptiques* qui vont venir ralentir l'apprentissage réalisé sur
+Une autre manière de lutter contre le sur-apprentissage (overfitting) est d'utiliser des priors "sceptiques" qui vont venir ralentir l'apprentissage réalisé sur
 les données (i.e., accorder plus de poids au prior).
 
 ```{r eval = TRUE, echo = FALSE, fig.width = 10, fig.height = 6}
@@ -920,9 +917,9 @@ knitr::include_graphics("figures/inout2.png")
 
 Comment décider de la précision du prior ? Est-ce que le prior est
 "assez" régularisateur ou pas ? On peut diviser le jeu de données en
-deux parties (*training* et *test*) afin de choisir le prior qui produit
-la déviance *out-of-sample* la plus faible. On appelle cette stratégie
-la *validation croisée* (cross-validation).
+deux parties (training et testing) afin de choisir le prior qui produit
+la déviance **out-of-sample** la plus faible. On appelle cette stratégie
+la **validation croisée** (cross-validation).
 
 ## Critères d'information
 
@@ -937,28 +934,23 @@ la déviance **out-of-sample** (en noir). On remarque que la déviance
 
 ## Akaike information criterion
 
-L'AIC fournit une approximation de la déviance **out-of-sample**:
+L'AIC fournit une approximation de la déviance **out-of-sample** :
 
 $$\text{AIC} = D_{\text{train}} + 2p = -2 \text{lppd} + 2p \approx D_{\text{test}}$$
 
 où $p$ est le nombre de paramètres libres (i.e., à estimer) dans le
 modèle. L'AIC donne donc une approximation des capacités de prédiction
-du modèle.
+(out-of-sample) du modèle.^[NB : l'AIC fonctionne bien uniquement quand le nombre d'observations $N$ est largement supérieur au nombre de paramètres $p$. Dans le cas
+contraire, on utilise plutôt l'AICc [@burnham2002; @burnham2004].]
 
 ```{r echo = FALSE, fig.align = "center", out.width = "400px"}
 knitr::include_graphics("figures/mind_blowing2.gif")
 ```
 
-. . .
-
-NB : l'AIC fonctionne bien uniquement quand le nombre d'observations $N$
-est largement supérieur au nombre de paramètres $p$. Dans le cas
-contraire, on utilise plutôt l'AICc [@burnham2002; @burnham2004].
-
 ## Deviance information criterion
 
-Une autre condition de l'AIC est que les priors soient plats (i.e., peu
-informatifs) ou dépassés par la vraisemblance (on a beaucoup de
+Une condition d'applicaiton de l'AIC est que les priors soient plats
+ou dépassés par la vraisemblance (e.g., lorsqu'on a beaucoup de
 données). Le DIC est un indice qui ne requiert pas cette condition, en
 s'accommodant de priors informatifs.
 
@@ -966,7 +958,7 @@ s'accommodant de priors informatifs.
 
 Le DIC est calculé à partir de la distribution a posteriori de la
 déviance $D$ calculée sur l'échantillon d'apprentissage (i.e.,
-$D_{train}$).
+$D_{\text{train}}$).
 
 $$\text{DIC} = \bar{D} + (\bar{D} - \hat{D} ) = \bar{D} + p_{D}$$
 
@@ -981,24 +973,24 @@ dans le calcul de l'AIC (en cas de prior plat, cette différence revient
 
 Une condition d'application de l'AIC et du DIC est que la distribution a
 posteriori soit une distribution gaussienne multivariée. Le WAIC relâche
-cette condition. Il est souvent plus précis que le DIC.
+cette condition et il est souvent plus précis que le DIC.
 
 . . .
 
-Un aspect important du WAIC est qu'il est dit *pointwise*, c'est à dire
+Un aspect important du WAIC est qu'il est dit "pointwise", c'est à dire
 qu'il considère l'imprécision de prédiction point par point (donnée par
 donnée), indépendamment pour chaque observation.
 
 . . .
 
-On va commencer par calculer la *log-pointwise-predictive-density*
-(*lppd*), définie de la manière suivante :
+On va commencer par calculer la **log-pointwise-predictive-density**
+(lppd), définie de la manière suivante :
 
-$$\text{lppd}(y, \Theta) = \sum_{i} \log \frac{1}{S} \sum_{s} p(y_{i} | \Theta_{s})$$
+$$\text{lppd}(y, \Theta) = \sum_{i} \log \frac{1}{S} \sum_{s} p(y_{i} \given \Theta_{s})$$
 
-En Français : *la log-densité prédictive point par point est la somme du
-log de la vraisemblance moyenne de chaque observation*. Il s'agit de
-l'analogue point par point de la déviance, moyenné sur toute la
+En Français : la log-densité prédictive point par point est **la somme du
+log de la vraisemblance moyenne de chaque observation**. Il s'agit de
+l'analogue point par point de la déviance, moyennée sur toute la
 distribution postérieure.
 
 ## Widely applicable information criterion
@@ -1008,9 +1000,9 @@ library(brms)
 data(cars)
 
 priors <- c(
-  set_prior("normal(0, 100)", class = "Intercept"),
-  set_prior("normal(0, 10)", class = "b"),
-  set_prior("exponential(0.1)", class = "sigma")
+  prior(normal(0, 100), class = Intercept),
+  prior(normal(0, 10), class = b),
+  prior(exponential(0.1), class = sigma)
   )
 
 mod1 <- brm(
@@ -1022,7 +1014,7 @@ mod1 <- brm(
 
 ## Widely applicable information criterion
 
-$$\text{lppd}(y, \Theta) = \sum_{i} \log \frac{1}{S} \sum_{s} p(y_{i} | \Theta_{s})$$
+$$\text{lppd}(y, \Theta) = \sum_{i} \log \frac{1}{S} \sum_{s} p(y_{i} \given \Theta_{s})$$
 
 ```{r eval = TRUE, echo = TRUE}
 n_obs <- nrow(cars) # number of observations
@@ -1057,7 +1049,7 @@ $\text{var}_{\theta}\log[p(y_{i} | \theta)]$ comme la variance de la
 log-vraisemblance pour chaque observation $i$ de l'échantillon
 d'entraînement.
 
-$$p_{\text{WAIC}} = \sum_{i} \text{var}_{\theta}\log[p(y_{i} | \theta)]$$
+$$p_{\text{WAIC}} = \sum_{i} \text{var}_{\theta}\log[p(y_{i} \given \theta)]$$
 
 ```{r eval = TRUE, echo = TRUE}
 (pwaic <-
@@ -1078,7 +1070,7 @@ $$p_{\text{WAIC}} = \sum_{i} \text{var}_{\theta}\log[p(y_{i} | \theta)]$$
 Ensuite, le WAIC est défini par :
 
 $$
-\text{WAIC}(y, \Theta) = - 2 \big(\text{lppd} - \underbrace{\sum_{i} \text{var}_{\theta}\log[p(y_{i} | \theta) ]}_{\text{penalty term}}\big)
+\text{WAIC}(y, \Theta) = - 2 \big(\text{lppd} - \underbrace{\sum_{i} \text{var}_{\theta}\log[p(y_{i} \given \theta) ]}_{\text{penalty term}}\big)
 $$
 
 ```{r eval = TRUE, echo = TRUE}
@@ -1087,8 +1079,8 @@ $$
 
 ## Widely applicable information criterion
 
-Le WAIC est aussi un estimateur de la déviance *out-of-sample*. La
-fonction `brms::waic()`permet de le calculer directement.
+Le WAIC est également un estimateur de la déviance **out-of-sample**. La
+fonction `brms::waic()` permet de le calculer directement.
 
 ```{r eval = TRUE, echo = TRUE}
 waic(mod1)
@@ -1101,10 +1093,10 @@ knitr::include_graphics("figures/combining.png")
 ```
 
 Le DIC et le WAIC peuvent être conceptualisés (au même titre que l'AIC)
-comme des approximations de la déviance *out-of-sample*. On remarque que
+comme des approximations de la déviance **out-of-sample**. On remarque que
 le WAIC produit des approximations plus précises que le DIC, et que
 l'utilisation de priors régularisateurs permet de réduire la déviance
-*out-of-sample*.
+**out-of-sample**.
 
 ## Et ensuite ?
 
@@ -1115,19 +1107,19 @@ estimés par ce meilleur modèle.
 . . .
 
 **Comparaison de modèles** : On utilise la validation croisée ou des
-critères d'informations mais aussi les outils de *posterior predictive
-checking* discutés précédemment, pour chaque modèle, afin d'étudier
+critères d'informations mais aussi les outils de **posterior predictive
+checking** discutés précédemment, pour chaque modèle, afin d'étudier
 leurs forces et faiblesses.
 
 . . .
 
-**Moyennage de modèles** : On va construire des *posterior predictive
-checks* qui exploitent ce qu'on sait des capacités de prédiction de
+**Moyennage de modèles** : On va construire des posterior predictive
+checks qui exploitent ce qu'on sait des capacités de prédiction de
 chaque modèle (e.g., via le WAIC).
 
 ## Comparaison de modèles
 
-Nous allons essayer de prédire les kg par gramme de lait (`kcal.per.g`)
+On essaye de prédire les kg par gramme de lait (`kcal.per.g`)
 avec les prédicteurs `neocortex` et le logarithme de `mass`. Nous allons
 ensuite fitter 4 modèles qui correspondent aux 4 combinaisons possibles
 de prédicteurs et les comparer en utilisant le WAIC.
@@ -1150,11 +1142,11 @@ mod2.1 <- brm(
   family = gaussian,
   data = d,
   prior = c(
-    brms::prior(normal(0, 100), class = Intercept),
-    brms::prior(exponential(0.01), class = sigma)
+    prior(normal(0, 100), class = Intercept),
+    prior(exponential(0.01), class = sigma)
     ),
   iter = 2000, warmup = 1000,
-  backend = "cmdstanr"
+  backend = "cmdstanr" # on peut changer le backend de brms
   )
 
 mod2.2 <- brm(
@@ -1162,9 +1154,9 @@ mod2.2 <- brm(
   family = gaussian,
   data = d,
   prior = c(
-    brms::prior(normal(0, 100), class = Intercept),
-    brms::prior(normal(0, 10), class = b),
-    brms::prior(exponential(0.01), class = sigma)
+    prior(normal(0, 100), class = Intercept),
+    prior(normal(0, 10), class = b),
+    prior(exponential(0.01), class = sigma)
     ),
   iter = 2000, warmup = 1000,
   backend = "cmdstanr"
@@ -1179,8 +1171,8 @@ mod2.3 <- brm(
   family = gaussian,
   data = d,
   prior = c(
-    brms::prior(normal(0, 100), class = Intercept),
-    brms::prior(exponential(0.01), class = sigma)
+    prior(normal(0, 100), class = Intercept),
+    prior(exponential(0.01), class = sigma)
     ),
   iter = 2000, warmup = 1000,
   backend = "cmdstanr"
@@ -1191,9 +1183,9 @@ mod2.4 <- brm(
   family = gaussian,
   data = d,
   prior = c(
-    brms::prior(normal(0, 100), class = Intercept),
-    brms::prior(normal(0, 10), class = b),
-    brms::prior(exponential(0.01), class = sigma)
+    prior(normal(0, 100), class = Intercept),
+    prior(normal(0, 10), class = b),
+    prior(exponential(0.01), class = sigma)
     ),
   iter = 2000, warmup = 1000,
   backend = "cmdstanr"
@@ -1241,13 +1233,12 @@ Le poids d'un modèle est une estimation de la probabilité que ce modèle
 fera les meilleures prédictions possibles sur un nouveau jeu de données,
 conditionnellement au set de modèles considéré.
 
-$$w_{i} = \frac{\exp (-\frac{1}{2}\text{dWAIC}_{i})}{\sum_{j=1}^{m} \exp (-\frac{1}{2}\text{dWAIC}_{j})}$$
+$$w_{i} = \frac{\exp \left(-\frac{1}{2}\text{dWAIC}_{i}\right)}{\sum_{j=1}^{m} \exp \left(-\frac{1}{2}\text{dWAIC}_{j}\right)}$$
 
 . . .
 
-Cette fonction permet simplement de passer d'un WAIC à une probabilité
-(softmax). Le modèle `mod2.4` a un poids de $0.96$, qui le place en tête
-du jeu de modèles. N'oublions cependant pas que nous disposons seulement
+Cette fonction permet simplement de passer du WAIC à une probabilité
+(équivalent à une fonction softmax). Le modèle `mod2.4` a un poids de $0.96$, qui le place en tête du jeu de modèles. N'oublions cependant pas que nous disposons seulement
 de 17 observations...
 
 ```{r eval = TRUE, echo = TRUE}
@@ -1259,13 +1250,12 @@ model_weights(mod2.1, mod2.2, mod2.3, mod2.4, weights = "waic") %>% round(digits
 Pourquoi ne conserver uniquement le premier modèle et oublier les autres
 ? Une autre stratégie consisterait à pondérer les prédictions des
 modèles par leurs poids respectifs. C'est ce qu'on appelle le moyennage
-de modèles (*model averaging*).
+de modèles (model averaging).
 
--   Calculer le WAIC de chaque modèle
--   Calculer le poids de chaque modèle
--   Simuler des données à partir de chaque modèle
--   Combiner ces valeurs simulées dans un *ensemble* de prédictions
-    pondérées par le poids du modèle
+-   Calculer le WAIC de chaque modèle.
+-   Calculer le poids de chaque modèle.
+-   Simuler des données à partir de chaque modèle.
+-   Combiner ces valeurs simulées dans un **ensemble** de prédictions pondérées par le poids du modèle.
 
 ## Moyennage de modèles (model averaging)
 
@@ -1340,7 +1330,7 @@ bayes_R2(mod2.4) %>% round(digits = 3)
 
 . . .
 
-```{r eval = TRUE, echo = TRUE, dev = "png", dpi = 200}
+```{r eval = TRUE, echo = TRUE, fig.width = 8, fig.height = 4, dev = "png", dpi = 200}
 posterior_plot(samples = bayes_R2(mod2.4, summary = FALSE)[, 1])
 ```
 
@@ -1351,19 +1341,19 @@ posterior_plot(
     samples = bayes_R2(mod2.4, summary = FALSE)[, 1] -
         bayes_R2(mod2.3, summary = FALSE)[, 1],
     compval = 0
-    )
+    ) + labs(x = "Différence de R2")
 ```
 
 ## Conclusions
 
 Se méfier des interprétations intuitives (et souvent erronées) de la
-*p*-valeur, des intervalles de confiance, ou du facteur de Bayes.
+p-valeur, des intervalles de confiance, ou du facteur de Bayes.
 
 . . .
 
 Retenir que la difficulté en modélisation est de trouver un juste
-équilibre entre sous-apprentissage (*under-fitting*) et
-sur-apprentissage (*over-fitting*).
+équilibre entre sous-apprentissage (underfitting) et
+sur-apprentissage (overfitting).
 
 . . .
 
@@ -1377,21 +1367,19 @@ nouvelles données.
 ## Travaux pratiques
 
 ```{r eval = TRUE, echo = TRUE}
-library(imsb)
-
-# importing data
+# import des données "howell"
 d <- open_data(howell) %>% mutate(age = scale(age) )
 
-# setting the seed (for reproducible results)
+# on définit une graine (afin de pouvoir reproduire les résultats)
 set.seed(666)
 
-# sampling some rows of the data
+# on échantillonne des lignes du jeu de données
 i <- sample(1:nrow(d), size = nrow(d) / 2)
 
-# training sample
+# on définit l'échantillon d'entraînement
 d1 <- d[i, ]
 
-# testing sample
+# on définit l'échantillon de test
 d2 <- d[-i, ]
 ```
 
@@ -1426,6 +1414,7 @@ utilisant `brms::brm()` et des priors faiblement régularisateurs.
 
 \end{align}
 ```
+
 ## Travaux pratiques
 
 ::: nonincremental
@@ -1456,8 +1445,8 @@ mod3.1 <- brm(
   family = gaussian(),
   data = d1,
   prior = c(
-    brms::prior(normal(0, 100), class = Intercept),
-    brms::prior(exponential(0.01), class = sigma)
+    prior(normal(0, 100), class = Intercept),
+    prior(exponential(0.01), class = sigma)
     ),
   backend = "cmdstanr"
   )
@@ -1715,26 +1704,26 @@ d1 %>%
 ## Solution - Question 4
 
 ```{r eval = TRUE, echo = TRUE, results = "hide"}
-# extract log-likelihood of mod3.1
-# each row is an iteration and each column is an observation
+# calcul de la log-vraisemblance (log-likelihood) du modèle mod3.1
+# chaque ligne est une itération et chaque colonne une observation
 log_lik_mod3.1 <- log_lik(mod3.1)
 
-# NB: the deviance has a distribution too in the Bayesian world
+# NB : la déviance possède également une distribution dans le monde bayésien...
 dev.mod3.1 <- mean(-2 * rowSums(log_lik_mod3.1) )
 
-# model 3.2
+# calcul de la log-vraisemblance (log-likelihood) du modèle mod3.2
 dev.mod3.2 <- mean(-2 * rowSums(log_lik(mod3.2) ) )
 
-# model 3.3
+# calcul de la log-vraisemblance (log-likelihood) du modèle mod3.3
 dev.mod3.3 <- mean(-2 * rowSums(log_lik(mod3.3) ) )
 
-# model 3.4
+# calcul de la log-vraisemblance (log-likelihood) du modèle mod3.4
 dev.mod3.4 <- mean(-2 * rowSums(log_lik(mod3.4) ) )
 
-# model 3.5
+# calcul de la log-vraisemblance (log-likelihood) du modèle mod3.5
 dev.mod3.5 <- mean(-2 * rowSums(log_lik(mod3.5) ) )
 
-# model 3.6
+# calcul de la log-vraisemblance (log-likelihood) du modèle mod3.6
 dev.mod3.6 <- mean(-2 * rowSums(log_lik(mod3.6) ) )
 ```
 
@@ -1751,7 +1740,6 @@ data.frame(deviance = deviances, waic = waics) %>%
     gather(type, value) %>%
     mutate(x = rep(1:6, 2) ) %>%
     ggplot(aes(x = x, y = value, colour = type) ) +
-    # scale_colour_grey() +
     scale_colour_brewer(palette = "Dark2") +
     geom_point(size = 2) +
     geom_line(size = 1, linetype = 2) +

@@ -78,7 +78,7 @@ l'exemple suivant tout au long de ce cours.
 Imaginons que nous ayons construit un robot visiteur de cafés, et que
 celui-ci s'amuse à mesurer le temps d'attente après avoir commandé. Ce
 robot visite 20 cafés différents, 5 fois le matin et 5 fois
-l'après-midi.
+l'après-midi, et mesure le temps (en minutes) de service d'un café.
 
 ```{r echo = FALSE, out.width = "400px"}
 knitr::include_graphics("figures/robot.png")
@@ -144,8 +144,8 @@ library(brms)
 mod1 <- brm(
   wait ~ 1,
   prior = c(
-    set_prior("normal(5, 10)", class = "Intercept"),
-    set_prior("cauchy(0, 2)", class = "sigma")
+    prior(normal(5, 10), class = Intercept),
+    prior(cauchy(0, 2), class = sigma)
     ),
   data = df,
   cores = parallel::detectCores()
@@ -185,8 +185,8 @@ $$
 mod2 <- brm(
   wait ~ 0 + factor(cafe),
   prior = c(
-    set_prior("normal(5, 10)", class = "b"),
-    set_prior("cauchy(0, 2)", class = "sigma")
+    prior(normal(5, 10), class = b),
+    prior(cauchy(0, 2), class = sigma)
     ),
   data = df,
   cores = parallel::detectCores()
@@ -202,7 +202,7 @@ posterior_summary(mod2)
 ## Modèle multi-niveaux
 
 Est-ce qu'on ne pourrait pas faire en sorte que le temps mesuré au café
-1 *informe* la mesure réalisée au café 2, et au café 3 ? Ainsi que le
+1 **informe** la mesure réalisée au café 2, et au café 3 ? Ainsi que le
 temps moyen pour être servi ? Nous allons apprendre le prior à partir
 des données...
 
@@ -275,9 +275,9 @@ dens(y2, add = TRUE)
 mod3 <- brm(
   wait ~ 1 + (1 | cafe),
   prior = c(
-    set_prior("normal(5, 10)", class = "Intercept"),
-    set_prior("cauchy(0, 2)", class = "sigma"),
-    set_prior("cauchy(0, 2)", class = "sd")
+    prior(normal(5, 10), class = Intercept),
+    prior(cauchy(0, 2), class = sigma),
+    prior(cauchy(0, 2), class = sd)
     ),
   data = df,
   warmup = 1000, iter = 5000,
@@ -350,18 +350,18 @@ On distingue en général trois perspectives (ou stratégies) :
 
 -   **No pooling** : on suppose que les temps d'attente de chaque café
     sont uniques et indépendants: on estime un intercept par café, mais
-    sans informer le *niveau* supérieur (`mod2`)
+    sans informer le **niveau** supérieur (`mod2`)
 
 -   **Partial pooling** : on utilise un prior adaptatif, comme dans
     l'exemple précédent (`mod3`)
 
 . . .
 
-La stratégie *complete pooling* en général *underfit* les données
-(faibles capacités de prédiction) tandis que le stratégie *no pooling*
-revient à *overfitter* les données (faibles capacités de prédiction ici
-aussi). La stratégie *partial pooling* (celle des modèles multi-niveaux)
-permet de balancer *underfitting* et *overfitting*.
+La stratégie **complete pooling** en général underfitte les données
+(faibles capacités de prédiction) tandis que le stratégie **no pooling**
+revient à overfitter les données (faibles capacités de prédiction ici
+aussi). La stratégie **partial pooling** (i.e., celle des modèles multi-niveaux)
+permet d''équilibrer underfitting et overfitting.
 
 ## Comparaison de modèles
 
@@ -379,18 +379,18 @@ w <- loo_compare(mod1, mod2, mod3, criterion = "waic")
 print(w, simplify = FALSE)
 ```
 
-On remarque que le modèle 3 a seulement 18 *effective parameters*
-(*pWAIC*), et moins de paramètres que le modèle 2, alors qu'il en a *en
-réalité* 2 de plus... `posterior_summary(mod3)[3, 1]` nous donne le
+On remarque que le modèle 3 a seulement 18 "effective parameters"
+(*pWAIC*), et moins de paramètres que le modèle 2, alors qu'il en a en
+réalité 2 de plus... `posterior_summary(mod3)[3, 1]` nous donne le
 sigma du prior adaptatif des $\alpha_{\text{café}}$
 ($\sigma_{\text{café}} = 0.82$). On remarque que ce sigma est très
 faible et correspond à assigner un prior très contraignant, ou
-*régularisateur*.
+**régularisateur**.
 
 ## Comparaison de modèles
 
-On compare le premier modèle (*complete pooling model*) et le troisième
-modèle (*partial pooling model*).
+On compare le premier modèle (complete pooling model) et le troisième
+modèle (partial pooling model).
 
 ```{r eval = TRUE, echo = TRUE}
 posterior_summary(mod1, pars = c("^b", "sigma") )
@@ -419,9 +419,9 @@ df2 <- open_data(robot_unequal)
 mod4 <- brm(
   wait ~ 1 + (1 | cafe),
   prior = c(
-    set_prior("normal(5, 10)", class = "Intercept"),
-    set_prior("cauchy(0, 2)", class = "sigma"),
-    set_prior("cauchy(0, 2)", class = "sd")
+    prior(normal(5, 10), class = Intercept),
+    prior(cauchy(0, 2), class = sigma),
+    prior(cauchy(0, 2), class = sd)
     ),
   data = df2,
   warmup = 1000, iter = 5000,
@@ -432,7 +432,7 @@ mod4 <- brm(
 ## Shrinkage
 
 On observe que les cafés qui sont souvent visités (à droite) subissent
-moins l'effet du *shrinkage*. Leur estimation est moins "tirée" vers la
+moins l'effet du **shrinkage**. Leur estimation est moins "tirée" vers la
 moyenne générale que les estimations des cafés les moins souvent visités
 (à gauche).
 
@@ -472,10 +472,10 @@ Cinq définitions (contradictoires) relevées par @gelman2005.
 
 . . .
 
-@gelman2006a suggèrent plutôt l'utilisation des termes de *constant
-effects* et *varying effects*, et de toujours utiliser la modèlisation
-multi-niveaux, en considérant que ce qu'on appelle *effet fixe* peut
-simplement être considéré comme un *effet aléatoire* dont la variance
+@gelman2006a suggèrent plutôt l'utilisation des termes de **constant
+effects** et **varying effects**, et de toujours utiliser la modélisation
+multi-niveaux, en considérant que ce qu'on appelle **effet fixe** peut
+simplement être considéré comme un **effet aléatoire** dont la variance
 serait égale à $0$.
 
 ## Régularisation et terminologie
@@ -488,10 +488,10 @@ différents, tout en estimant les caractéristiques de chaque café...
 
 . . .
 
-Différence entre les **cross-classified** (ou *crossed*) multilevel
+Différence entre les **cross-classified** (ou "crossed") multilevel
 models et **nested or hierarchical** multilevel models. Le premier type
 de modèle concerne des données structurées selon deux (ou plus) facteurs
-aléatoires non *nichés*. Le deuxième type de modèles concerne des
+aléatoires non "nichés". Le deuxième type de modèles concerne des
 données structurées de manière hiérarchique (e.g., un élève dans une
 classe dans une école dans une ville...). Voir [ce
 thread](https://stats.stackexchange.com/questions/228800/crossed-vs-nested-random-effects-how-do-they-differ-and-how-are-they-specified)
@@ -500,7 +500,7 @@ pour plus de détails.
 . . .
 
 Les deux types de modèles s'écrivent cependant de manière similaire, sur
-plusieurs *niveaux*. Le terme "multi-niveaux" (dans notre terminologie)
+plusieurs "niveaux". Le terme "multi-niveaux" (dans notre terminologie)
 fait donc référence à la structure du modèle, à sa spécification. À
 distinguer de la structure des données.
 
@@ -536,7 +536,7 @@ w_{i} &\sim \mathrm{Normal}(\mu_{i},\sigma) \\
 \end{align}
 $$
 
-Où $A_{i}$ est une *dummy variable* codée 0/1 pour le matin et
+Où $A_{i}$ est une dummy variable codée 0/1 pour le matin et
 l'après-midi et $\beta_{\text{café}}$ est un paramètre de différence
 entre le matin et l'après-midi.
 
@@ -608,7 +608,7 @@ $$
 knitr::include_graphics("figures/bivariate.png")
 ```
 
-## Aparté : distribution gaussienne multivariée, calcul matriciel
+## Aparté : distribution gaussienne multivariée
 
 $$
 \begin{align}
@@ -631,7 +631,7 @@ cov_ab <- sigma_a * sigma_b * rho
 (Sigma1 <- matrix(c(sigma_a^2, cov_ab, cov_ab, sigma_b^2), ncol = 2) )
 ```
 
-## Aparté : distribution gaussienne multivariée, calcul matriciel
+## Aparté : distribution gaussienne multivariée
 
 $$
 \begin{align}
@@ -688,60 +688,38 @@ dernière ligne spécifie le prior pour $\textbf{R}$.
 
 ## LKJ prior
 
-D'après @lewandowski2009. Un seul paramètre $\zeta$ spécifie la
+D'après @lewandowski2009. Un seul paramètre $\zeta$ (zeta) spécifie la
 concentration de la distribution du coefficient de corrélation. Le prior
-$\mathrm{LKJ}(2)$ définit un prior peu informatif pour $\rho$ qui est
-sceptique des corrélations extrêmes (i.e., proches de $-1$ ou $1$).
+$\mathrm{LKJ}(2)$ définit un prior peu informatif pour $\rho$ (rho) qui est
+sceptique des corrélations extrêmes (i.e., des valeurs proches de $-1$ ou $1$).
 
 ```{r, echo = FALSE, fig.width = 14, fig.height = 7, cache = TRUE}
-# nsims <- 1e6
-# 
-# data.frame(
-#     zeta05 = rethinking::rlkjcorr(nsims, K = 2, eta = 0.5)[, 1, 2],
-#     zeta1 = rethinking::rlkjcorr(nsims, K = 2, eta = 2)[, 1, 2],
-#     zeta5 = rethinking::rlkjcorr(nsims, K = 2, eta = 5)[, 1, 2],
-#     zeta50 = rethinking::rlkjcorr(nsims, K = 2, eta = 10)[, 1, 2] ) %>%
-#     gather(shape, y, zeta05:zeta50) %>%
-#     ggplot(aes(x = y, colour = shape) ) +
-#     geom_line(stat = "density", position = "identity", size = 1) +
-#     labs(x = expression(rho), y = "Densité de probabilité") +
-#     theme_bw(base_size = 18) +
-#     scale_colour_manual(
-#         values = c("steelblue", "orangered", "purple", "darkgreen"),
-#         labels = c(
-#             expression(paste(zeta, " = ", "0.5") ),
-#             expression(paste(zeta, " = ", "2") ),
-#             expression(paste(zeta, " = ", "10") ),
-#             expression(paste(zeta, " = ", "50") )
-#             )
-#         ) +
-#     theme(
-#         legend.text.align = 0,
-#         legend.position = c(0.75, 0.8),
-#         legend.background = element_rect(size = 0.5, colour = "black")
-#         )
-
 library(ggdist)
 
 expand.grid(eta = c(0.5, 2, 5, 10), K = c(2, 3, 4, 5) ) %>%
-  ggplot(aes(y = ordered(eta), dist = "lkjcorr_marginal", arg1 = K, arg2 = eta, fill = as.factor(eta) ) ) +
+  ggplot(
+      aes(
+          y = ordered(eta), dist = "lkjcorr_marginal",
+          arg1 = K, arg2 = eta, fill = as.factor(eta)
+          )
+      ) +
   stat_dist_slab(p_limits = c(0, 1), alpha = 0.8) +
   facet_grid(~paste0(K, "x", K) ) +
   labs(x = expression(rho), y = "Densité de probabilité (par prior)") +
   scale_fill_manual(
-    values = c("steelblue", "orangered", "purple", "darkgreen"),
-    labels = c(
-      expression(paste(zeta, " = ", "0.5") ),
-      expression(paste(zeta, " = ", "2") ),
-      expression(paste(zeta, " = ", "10") ),
-      expression(paste(zeta, " = ", "50") )
-    )
-  ) +
-  theme(
-    legend.title = element_blank(),
-    legend.text.align = 0,
-    legend.background = element_rect(size = 0.5, colour = "black")
-  )
+      values = c("steelblue", "orangered", "purple", "darkgreen"),
+      labels = c(
+        expression(paste(zeta, " = ", "0.5") ),
+        expression(paste(zeta, " = ", "2") ),
+        expression(paste(zeta, " = ", "10") ),
+        expression(paste(zeta, " = ", "50") )
+        )
+      ) +
+    theme(
+        legend.title = element_blank(),
+        legend.text.align = 0,
+        legend.background = element_rect(size = 0.5, colour = "black")
+        )
 ```
 
 ## Rappels de syntaxe
@@ -753,7 +731,7 @@ Le package `brms` utilise la même syntaxe que les fonctions de base R
 Reaction ~ Days + (1 + Days | Subject)
 ```
 
-La partie gauche représente notre variable dépendante (ou *outcome*,
+La partie gauche représente notre variable dépendante (ou "outcome",
 i.e., ce qu'on essaye de prédire).
 
 . . .
@@ -771,7 +749,7 @@ c(Reaction, Memory) ~ 1 + Days + (1 + Days | Subject)
 
 La première partie de la partie droite de la formule représente les
 effets constants (effets fixes), tandis que la seconde partie (entre
-parenthèses) représente les effets variables (effets aléatoires).
+parenthèses) représente les effets "variants" ou "variables" (effets aléatoires).
 
 ```{r eval = FALSE, echo = TRUE}
 c(Reaction, Memory) ~ Days + (1 | Subject)
@@ -785,7 +763,7 @@ intercept variable, mais aussi une pente variable pour l'effet de
 
 ## Rappels de syntaxe
 
-Lorsqu'on inclut plusieurs effets variables (e.g., un intercept et une
+Lorsqu'on inclut plusieurs effets variants (e.g., un intercept et une
 pente variables), `brms` postule qu'on souhaite aussi estimer la
 corrélation entre ces deux effets. Dans le cas contraire, on peut
 supprimer cette corrélation (i.e., la fixer à 0) en utilisant `||`.
@@ -813,10 +791,10 @@ varient par `cafe`.
 mod5 <- brm(
   wait ~ 1 + afternoon + (1 + afternoon | cafe),
   prior = c(
-    set_prior("normal(0, 10)", class = "Intercept"),
-    set_prior("normal(0, 10)", class = "b"),
-    set_prior("cauchy(0, 2)", class = "sigma"),
-    set_prior("cauchy(0, 2)", class = "sd")
+    prior(normal(0, 10), class = Intercept),
+    prior(normal(0, 10), class = b),
+    prior(cauchy(0, 2), class = sigma),
+    prior(cauchy(0, 2), class = sd)
     ),
   data = df,
   warmup = 1000, iter = 5000,
@@ -904,8 +882,8 @@ shrinkage %>%
 
 ## Comparaison de modèles
 
-On compare le premier modèle (*complete pooling model*), le troisième
-modèle (*partial pooling model*), et le dernier modèle.
+On compare le premier modèle (complete pooling model), le troisième
+modèle (partial pooling model), et le dernier modèle.
 
 ```{r eval = TRUE, echo = TRUE}
 # comparaison des WAIC de chaque modèle
@@ -980,12 +958,12 @@ sleepstudy %>%
 À vous de construire les modèles mathématiques et les modèles `brms`
 correspondant aux modèles suivants :
 
--   Modèle avec seulement l'effet fixe de `Days`
+-   Modèle avec seulement l'effet fixe de `Days`.
 -   Modèle avec l'effet fixe de `Days` + un effet aléatoire de `Subject`
-    (*varying intercept*)
--   Modèle avec l'effet fixe de `Days` + un effet aléatoire de `Subject`
-    (*varying intercept*) + un effet aléatoire de `Days` (*varying
-    slope*)
+    (varying intercept).
+-   Modèle avec l'effet fixe de `Days` + un effet aléatoire de `Subject`.
+    (varying intercept) + un effet aléatoire de `Days` (varying
+    slope).
 
 Comparez ensuite ces modèles en utilisant les outils discutés aux cours
 précédents (e.g., WAIC) et concluez.
@@ -1007,9 +985,9 @@ anova(fmod1, fmod2)
 mod6 <- brm(
   Reaction ~ 1 + Days,
   prior = c(
-    set_prior("normal(200, 100)", class = "Intercept"),
-    set_prior("normal(0, 10)", class = "b"),
-    set_prior("cauchy(0, 10)", class = "sigma")
+    prior(normal(200, 100), class = Intercept),
+    prior(normal(0, 10), class = b),
+    prior(cauchy(0, 10), class = sigma)
     ),
   data = sleepstudy,
   warmup = 1000, iter = 5000,
@@ -1027,10 +1005,10 @@ posterior_summary(mod6)
 mod7 <- brm(
   Reaction ~ 1 + Days + (1 | Subject),
   prior = c(
-    set_prior("normal(200, 100)", class = "Intercept"),
-    set_prior("normal(0, 10)", class = "b"),
-    set_prior("cauchy(0, 10)", class = "sigma"),
-    set_prior("cauchy(0, 10)", class = "sd")
+    prior(normal(200, 100), class = Intercept),
+    prior(normal(0, 10), class = b),
+    prior(cauchy(0, 10), class = sigma),
+    prior(cauchy(0, 10), class = sd)
     ),
   data = sleepstudy,
   warmup = 1000, iter = 5000,
@@ -1048,10 +1026,10 @@ posterior_summary(mod7, pars = c("^b", "sigma") )
 mod8 <- brm(
   Reaction ~ 1 + Days + (1 + Days | Subject),
   prior = c(
-    set_prior("normal(200, 100)", class = "Intercept"),
-    set_prior("normal(0, 10)", class = "b"),
-    set_prior("cauchy(0, 10)", class = "sigma"),
-    set_prior("cauchy(0, 10)", class = "sd")
+    prior(normal(200, 100), class = Intercept),
+    prior(normal(0, 10), class = b),
+    prior(cauchy(0, 10), class = sigma),
+    prior(cauchy(0, 10), class = sd)
     ),
   data = sleepstudy,
   warmup = 1000, iter = 5000,

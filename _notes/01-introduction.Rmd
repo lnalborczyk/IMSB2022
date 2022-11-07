@@ -1,8 +1,3 @@
----
-output: html_document
-editor_options: 
-  chunk_output_type: console
----
 # Introduction à l'inférence bayésienne {#introduction}
 
 ```{r setup-ch1, include = FALSE, message = FALSE}
@@ -22,6 +17,7 @@ opts_chunk$set(
 \definecolor{green}{RGB}{0, 153, 0}
 \definecolor{purple}{RGB}{153, 0, 153}
 \definecolor{orangered}{cmyk}{0, 73, 100, 0}
+\newcommand\given[1][]{\:#1\vert\:}
 
 \epigraph{"The numbers have no way of speaking for themselves. We speak for them. We imbue them with meaning"}{Nate Silver}
 
@@ -142,11 +138,11 @@ Une conséquence intéressante de cette interprétation est que toute probabilit
 
 #### Interprétation bayésienne
 
-Selon l'interprétation bayésienne (subjective), la probabilité est **une mesure du degré de croyance** (ou "crédence") ou d'*incertitude*. Un événement *certain* aura donc une probabilité de 1 et un événement **impossible** aura une probabilité de 0.
+Selon l'interprétation bayésienne (subjective), la probabilité est **une mesure du degré de croyance** (ou "crédence") ou d'*incertitude*. Un événement *certain* aura donc une probabilité de 1 et un évènement **impossible** aura une probabilité de 0.
 
 > So to assign equal probabilities to two events is not in any way an assertion that they must occur equally often in any "random experiment"; as Jeffrey emphasized, it is only a formal way of saying "I don't know" [@jaynes_bayesian_1986].
 
-Pour parler de probabilités, dans ce cadre, nous n'avons donc plus besoin de nous référer à la limite d'occurrence d'un événement (à sa fréquence). La probabilité est un concept abstrait faisant référence à un état de connaissance et / ou permettant de quantifier l'incertitude liée à cet état de connaissance.
+Pour parler de probabilités, dans ce cadre, nous n'avons donc plus besoin de nous référer à la limite d'occurrence d'un évènement (à sa fréquence). La probabilité est un concept abstrait faisant référence à un état de connaissance et / ou permettant de quantifier l'incertitude liée à cet état de connaissance.
 
 #### Interprétations probabilistes - résumé
 
@@ -161,6 +157,273 @@ Pour résumer, les différentes interprétations discutées ci-dessus peuvent ê
 > Interprétation classique (e.g., Laplace, Bernouilli, Leibniz), interprétation fréquentiste (e.g., Venn, Reichenbach, von Mises).
 
 Les plus curieux d'entre vous seront ravis de trouver plus d'informations dans cet excellent article de la *Stanford Encyclopedia of Philosophy* [@sep-probability-interpret] sur les différentes interprétations du concept de probabilité.
+
+## Rappels de théorie des probabilités
+
+Pour rappel, une probabilité est donc une valeur numérique comprise entre 0 et 1 et qui respecte la règle de la somme. Ces valeurs sont assignées à des *évènements* $\omega$, étant définis comme des sous-ensembles d'un grand *ensemble* $\Omega$. Chaque évènement de cet ensemble peut se voir assigner une probabilité qui représente notre in(certitude) vis à vis de sa survenue. Ces probabilités sont assignées par des *fonctions de probabilité* qui, à chaque élément $\omega \in \Omega$, associe ou attribue une probabilité [@blitzstein_introduction_2019; @dekking_modern_2005; @noel_psychologie_2015].
+
+Comme illustration, considérons l'exemple suivant. En postulant qu'il est impossible qu'une pièce lancée retombe sur sa tranche, un lancer de pièce peut seulement résulter en deux issues : Pile ou Face. Autrement dit, l'ensemble des issues possibles est défini comme $\Omega = \{\text{Pile}, \ \text{Face}\}$. Étant donné qu'un *évènement* est défini comme un sous-ensemble de $\Omega$, Pile et Face sont donc deux évènements possibles.
+
+```{definition, label = "prob-function", name = "Fonction de probabilité"}
+Une fonction de probabilité $p$ définie sur un ensemble fini $\Omega$ assigne à chaque événement $A$ dans $\Omega$ une valeur $\Pr(A) \in [0, 1]$ de manière à ce que :
+  
+  - $\Pr(\Omega) = 1$ et
+  - $\Pr(A \cup B) = \Pr(A) + \Pr(B)$ si $A$ et $B$ sont disjoints.
+
+La valeur $\Pr(A)$ représente la *probabilité* que $A$ se réalise.
+```
+
+Dans l'exemple d'un lancer de pièce, si la pièce n'est pas truquée, alors $\Pr(\text{Pile}) = \Pr(\text{Face}) = \frac{1}{2}$...
+
+```{r venn, echo = FALSE, out.width = "100%", fig.cap = "Diagrammes représentant les notions d'intersection, d'union, et de complément."}
+knitr::include_graphics(path = "figures/venn.png")
+```
+
+...
+
+### Probabilité conjointe
+
+La probabilité conjointe $\Pr(A, B)$ nous indique la probabilité qu'à la fois $A$ et $B$ se réalisent, c'est à dire la probabilité de l'union de $A$ et $B$, qu'on note également $\Pr(A \cap B)$.
+
+```{r conjointe, message = FALSE, echo = TRUE} 
+library(tidyverse)
+
+data(HairEyeColor) # données adaptés de Snee (1974)
+
+cont <- apply(HairEyeColor, c(1, 2), sum) %>% t 
+cont <- round(cont / sum(cont), 2)
+cont
+```
+
+Dans chaque cellule du tableau de données ci-dessus, on trouve la **probabilité conjointe** d'avoir telle couleur de cheveux **ET** telle couleur d'yeux, qui s'écrit $\Pr(c, y) = \Pr(y, c)$.
+
+### Probabilité marginale
+
+```{r marginale} 
+cont2 <- cont %>% as.data.frame %>% mutate(marginal_eye = rowSums(cont) )
+rownames(cont2) <- row.names(cont)
+cont2
+```
+
+On peut aussi s'intéresser à la probabilité d'avoir des yeux bleus, de manière générale. Il s'agit de la probabilité **marginale** de l’évènement *yeux bleus*, qui s'obtient par la somme de toutes les probabilités jointes impliquant l’évènement *yeux bleus*. Elle s'écrit $\Pr(y)$.
+
+```{r marginale2}
+cont3 <- rbind(cont2, colSums(cont2) )
+rownames(cont3) <- c(row.names(cont2), "marginal_hair")
+cont3
+```
+
+On peut bien entendu aussi s'intéresser aux probabilités des couleurs de cheveux, de manière générale. Elle s'écrit $\Pr(c)$.
+
+### Probabilité conditionnelle
+
+On pourrait aussi s'intéresser à la probabilité qu'une personne ait les cheveux blonds, **sachant** qu'elle a les yeux bleus. Il s'agit d'une probabilité **conditionnelle**, et s'écrit $p(c|y)$. Cette probabilité conditionnelle peut se ré-écrire: $p(c|y)= \frac{p(c,y)}{p(y)}$.
+
+```{r cond1, echo = FALSE, eval = TRUE} 
+cont3["Blue", ]
+```
+
+Par exemple, quelle est la probabilité d'avoir des yeux bleus lorsqu'on a les cheveux blonds ?
+
+```{r cond2, echo = TRUE, eval = TRUE} 
+cont3["Blue", "Blond"] / cont3["Blue", "marginal_eye"]  
+```
+
+On remarque dans le cas précédent que $p(blonds|bleus)$ **n'est pas nécessairement égal** à $p(bleus|blonds)$.
+
+Autre exemple: la probabilité de mourir sachant qu'on a été attaqué par un requin n'est pas la même que la probabilité d'avoir été attaqué par un requin, sachant qu'on est mort ([*confusion of the inverse*](https://en.wikipedia.org/wiki/Confusion_of_the_inverse)). De la même manière, $p(data|H_{0}) \neq p(H_{0}|data)$.
+
+À partir des axiomes de Kolmogorov (cf. début du cours), et des définitions précédentes des probabilités conjointes, marginales, et conditionnelles, découle la **règle du produit** (en multipliant chaque côté par $p(y)$) :
+
+$$p(a, b) = p(b) \cdot p(a|b) = p(a) \cdot p(b|a)$$
+
+...
+
+### Dérivation du théorème de Bayes
+
+$$p(x, y) = p(x|y) p(y) = p(y|x)p(x)$$
+
+$$p(y|x)p(x) = p(x|y)p(y)$$
+
+$$p(y|x) = \dfrac{p(x|y)p(y)}{p(x)}$$
+
+$$p(x|y) = \dfrac{p(y|x)p(x)}{p(y)}$$
+
+On retrouve le résultat présenté dans la section précédente, en remplaçant $x$ par *données* et $y$ par *hypothèse* :
+
+$$
+\Pr(\text{hypothèse} \ | \ \text{données}) = \frac{\Pr(\text{données} \ | \ \text{hypothèse}) \times \Pr(\text{hypothèse})}{\text{Somme des produits}}
+$$
+
+...
+
+### Loi de probabilité, cas discret
+
+...
+
+```{definition, label = "PMF", name = "Fonction de masse de probabilité"}
+La fonction de masse de probabilité $p$ d'une variable aléatoire $X$ is la fonction $p : \mathbb{R} \rightarrow [0, 1]$, définie par :
+
+$$p(a) = \Pr(X = a) \quad \text{for} - \infty < a < \infty$$
+```
+
+Une fonction de masse (*probability mass function*, ou *PMF*) est une fonction qui attribue une probabilité à chaque valeur d'une variable aléatoire. Exemple de la distribution binomiale pour une pièce non biaisée ($\theta = 0.5$), indiquant la probabilité d'obtenir $N$ faces sur 10 lancers. 
+
+```{r binomial-barplot, echo = FALSE, out.width = "50%", fig.cap = "Distribution de la probabilité d'obtenir N 'Face' sur 10 lancers de pièce."}
+coin <- dbinom(x = 0:10, size = 10, prob = 0.5)
+
+barplot(
+  coin, names.arg = 0:10, border = NA,
+  axes = FALSE, cex.names = 1.5, col = "grey20"
+  )
+```
+
+Somme à 1...
+
+```{r eval-dbinom, eval = TRUE, echo = TRUE}
+# PMFs sum to 1
+dbinom(x = 0:10, size = 10, prob = 0.5) %>% sum
+```
+
+### Loi de probabilité, cas continu
+
+```{definition, label = "PDF", name = "Fonction de densité de probabilité"}
+Une variable aléatoire $X$ est dite *continue* si pour une fonction donnée $p : \mathbb{R} \rightarrow \mathbb{R}$ et pour tout nombres $a$ et $b$ avec $a \leq b$,
+
+$$\Pr(a \leq X \leq b) = \int_{a}^{b} p(x) \mathrm{d} x$$
+
+La fonction $p$ doit satisfaire la condition $p(x) \geq 0$ pour tout $x$ et $\int_{-\infty}^{\infty} p(x) \mathrm{d} x = 1$. On appelle $p$ la fonction de densité de probabilité (ou densité de probabilité) de $X$.
+```
+
+Une fonction de densité de probabilité (*probability density function*, ou *PDF*), est une fonction qui permet de représenter une loi de probabilité sous forme d'intégrales (l'équivalent de la PMF pour des variables aléatoires strictement continues).
+
+```{r pdf-plot, echo = FALSE, out.width = "50%", fig.cap = "Blah blah..."}
+data.frame(x = c(0, 200) ) %>%
+    ggplot(aes(x) ) +
+    stat_function(
+        fun = dnorm,
+        args = list(mean = 100, sd = 15),
+        lwd = 2
+        ) +
+    theme_bw(base_size = 12) +
+    xlab("QI") + ylab("")
+```
+
+```{r integrate-pdf, echo = TRUE}
+# PDFs integrate to 1
+integrate(dnorm, -Inf, Inf, mean = 100, sd = 15)
+```
+
+...
+
+```{r pdf-html, eval = knitr::opts_knit$get("rmarkdown.pandoc.to") == "html", results = "asis", echo = FALSE, purl = FALSE}
+cat('
+<div class = "keyconcept" id="KC1.1">
+<h3 class = "right"> Concept essentiel 1.1 </h3> 
+<h3 class = "left"> Variable aléatoire continue </h3>
+<p>
+Une variable aléatoire continue peut prendre (littéralement) une infinité de valeurs. On se retrouve donc face un problème. Si on attribue une probabilité non-nulle à chacune de ces valeurs (à une infinité de valeurs donc), la somme des probabilités de ces valeurs sera elle aussi infinie, et cette fonction ne pourra donc pas être considérée comme une fonction de probabilité. Pour pallier à ce problème, chaque valeur ponctuelle d\'une variable aléatoire est assignée une probabilité nulle (i.e., $\\Pr(X = x) = 0$) et uniquement des intervalles (e.g., $\\Pr(a < x < b)$) peuvent se voir attribuer une probabilité.
+</p> 
+</div>')
+```
+
+```{r pdf-pdf, eval = knitr::opts_knit$get("rmarkdown.pandoc.to") == "latex", results = "asis", echo = FALSE, purl = FALSE}
+cat("\\begin{keyconcepts}[Variable aléatoire continue]{1.1}
+Une variable aléatoire continue peut prendre (littéralement) une infinité de valeurs. On se retrouve donc face un problème. Si on attribue une probabilité non-nulle à chacune de ces valeurs (à une infinité de valeurs donc), la 'somme' (l'intégrale) des probabilités de ces valeurs sera elle aussi infinie, et cette fonction ne pourra donc pas être considérée comme une fonction de probabilité. Pour pallier à ce problème, chaque valeur ponctuelle d'une variable aléatoire est assignée une probabilité nulle (i.e., $\\Pr(X = x) = 0$) et uniquement des intervalles (e.g., $\\Pr(a < x < b)$) peuvent se voir attribuer une probabilité.
+\\end{keyconcepts}")
+```
+
+...
+
+### Aparté, qu'est-ce qu'une intégrale ?
+
+Une intégrale correspond à la **surface** (aire géométrique) délimitée par la représentation graphique d'une fonction, *l'aire sous la courbe*. Une distribution est dite **impropre** si son intégrale n'est pas égale à un nombre fini (e.g., $+ \infty$) et **normalisée** si son intégrale est égale à 1.
+
+```{r integral, echo = FALSE, fig.width = 7, fig.height = 5, fig.cap = "Blah blah..."}
+cord.x <- c(90, seq(90, 96, 0.01), 96) 
+cord.y <- c(0, dnorm(seq(90, 96, 0.01), 100, 15), 0) 
+
+data.frame(x = c(0, 200) ) %>%
+    ggplot(aes(x) ) +
+    stat_function(
+        fun = dnorm,
+        args = list(mean = 100, sd = 15),
+        lwd = 2,
+        color = "black"
+        ) +
+    geom_polygon(
+        data = data.frame(cord.x, cord.y),
+        aes(cord.x, cord.y),
+        color = "black"
+        ) +
+    theme_bw(base_size = 12) +
+    xlab("QI") + ylab("Probability density")
+```
+
+```{r integral-qi, echo = FALSE, fig.width = 7, fig.height = 5, fig.cap = "Blah blah..."}
+data.frame(x = c(0, 200) ) %>%
+    ggplot(aes(x) ) +
+    stat_function(
+        fun = dnorm,
+        args = list(mean = 100, sd = 15),
+        lwd = 2
+        ) +
+    geom_polygon(
+        data = data.frame(cord.x, cord.y),
+        aes(cord.x, cord.y)
+        ) +
+    theme_bw(base_size = 12) +
+    xlab("QI") + ylab("Probability density")
+```
+
+L'intégrale de $f(x)$ sur l'intervalle [90 ; 96] vaut: $p(90 < x < 96) = \int_{90}^{96} f(x) \ \mathrm{d}x = 0.142$.
+
+```{r integrate-pdf-qi}
+integrate(dnorm, 90, 96, mean = 100, sd = 15)
+```
+
+### Notations, terminologie
+
+Ayant introduit de manière intuitive les concepts centraux de l'inférence bayésienne (en particulier, la mise à jour d'un connaissance a posteriori en une connaissance a posteriori) nous allons maintenant établit la terminologie qui nous accompagner au fil de ce livre.
+
+- $\theta$ désigne habituellement un paramètre ou un vecteur de paramètres (e.g., la proportion de billes bleues)
+
+- $\color{orangered}{p(x\vert \theta)}$ <span style="color:orangered"> désigne la probabilité conditionnelle des données $x$ sachant le paramètre $\theta$ </span> $\color{orangered}{[p(x | \theta = \theta)]}$
+
+- $\color{orangered}{p(x\vert \theta)}$ <span style="color:orangered"> une fois que la valeur de $x$ est connue, est vue comme la fonction de vraisemblance (*likelihood*) du paramètre $\theta$. Attention, il ne s'agit pas d'une distribution de probabilité (n'intègre pas à 1). </span> $\color{orangered}{[p(x = x | \theta)]}$
+
+- $\color{steelblue}{p(\theta)}$ <span style="color:steelblue"> la probabilité a priori de $\theta$</span>
+- $\color{purple}{p(\theta \vert x)}$ <span style="color:purple"> la probabilité a posteriori de $\theta$ (sachant $x$)</span>
+- $\color{green}{p(x)}$ <span style="color:green"> la probabilité marginale de $x$ (sur $\theta$)</span>
+
+<br>
+
+$$
+\color{purple}{p(\theta \vert x)} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{p(x)}} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{\sum\limits_{\theta}p(x|\theta)p(\theta)}} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{\int\limits_{\theta}p(x|\theta)p(\theta)\mathrm{d}x}} \propto \color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}
+$$
+
+...
+
+```{r logic-html, eval = knitr::opts_knit$get("rmarkdown.pandoc.to") == "html", results = "asis", echo = FALSE, purl = FALSE}
+cat('
+<div class = "keyconcept" id="KC1.1">
+<h3 class = "right"> Concept essentiel 1.1 </h3> 
+<h3 class = "left"> La théorie des probabilités comme extension de la logique </h3>
+<p>
+La théorie des probabilités est parfois présentée comme une extension de la logique. En effet, elle généralise les règles de la logique qui s\'appliquent à des événements discrets (vrais ou faux) à des événements continus. Ce faisant, les probabilités nous permettent de décrire et quantifier l\'incertitude. Il est important de souligner que les règles du calcul probabiliste ont le même statut que les règles logiques : ces règles de base peuvent être utilisées pour déduire des conclusions qui seront garanties d\'être correctes, si les prémises sont corrects.
+
+Dans ce cadre, l\'analyse statistique bayésienne peut être conceptualisée comme une application de la théorie des probabilités à l\'analyse statistique. Bien que la dépendance des conclusions de ce genre d\'analyse aux a priori qu\'elles rendent explicitent est souvent présenté comme une faiblesse, c\'est précisémment ce qui les rend "optimales" ou "cohérentes" (au sens où elles respectent les règles du calcul probabiliste). Comme résumé par Vandekerckhove (2018), conclure que les analyses bayésiennes seraient invalidées par l\'utilisation d\'informations a priori serait similaire à conclure que des déductions logiques seraient invalidées par la considération de prémisses.
+</p> 
+</div>')
+```
+
+```{r logic-pdf, eval = knitr::opts_knit$get("rmarkdown.pandoc.to") == "latex", results = "asis", echo = FALSE, purl = FALSE}
+cat("\\begin{keyconcepts}[La théorie des probabilités comme extension de la logique]{1.1}
+La théorie des probabilités est parfois présentée comme une extension de la logique. En effet, elle généralise les règles de la logique qui s\\' appliquent à des événements discrets (vrais ou faux) à des événements continus. Ce faisant, les probabilités nous permettent de décrire et quantifier l\\' incertitude. Il est important de souligner que les règles du calcul probabiliste ont le même statut que les règles logiques : ces règles de base peuvent être utilisées pour déduire des conclusions qui seront garanties d\\' être correctes, si les prémises sont corrects.
+
+Dans ce cadre, l\\' analyse statistique bayésienne peut être conceptualisée comme une application de la théorie des probabilités à l\\'analyse statistique. Bien que la dépendance des conclusions de ce genre d\' analyse aux a priori qu\'elles rendent explicitent est souvent présenté comme une faiblesse, c\\'est précisémment ce qui les rend 'optimales' ou 'cohérentes' (au sens où elles respectent les règles du calcul probabiliste). Comme résumé par Vandekerckhove (2018), conclure que les analyses bayésiennes seraient invalidées par l\\' utilisation d\\' informations a priori serait similaire à conclure que des déductions logiques seraient invalidées par la considération de prémisses.
+\\end{keyconcepts}")
+```
 
 ## Logique et raisonnement scientifique
 
@@ -870,283 +1133,6 @@ ways / sum(ways)
 ```
 
 Pour résumer, la probabilité postérieure représente la probabilité d'une hypothèse, **sachant** certaines données observées et certaines connaissances a priori. Cette probabilité postérieure est proportionnelle au produit de la probabilité des données sachant l'hypothèse (i.e., le nombre de manières qu'a l'hypothèse de produire les données) et de la probabilité a priori de l'hypothèse. Autrement dit et comme résumé par @mcelreath_statistical_2016, "*Bayesian inference is really just counting and comparing of possibilities*".
-
-<!--
-
-L'approche générale que nous allons suivre va consister à, pour chaque problème, i) Construire le modèle (l'histoire des données): *likelihood* + *prior*
-- Mettre à jour grâce aux données (*updating*), calculer la probabilité *a posteriori*
-- Evaluer le modèle, *fit*, sensibilité, résumer les résultats, ré-ajuster
-
-> *Bayesian inference is really just counting and comparing of possibilities [...] in order to make good inference about what actually happened, it helps to consider everything that could have happened* (McElreath, 2015).
-
--->
-
-## Rappels de théorie des probabilités
-
-Pour rappel, une probabilité est une valeur numérique comprise entre 0 et 1 et qui respecte la règle de la somme. Ces valeurs sont assignées à des *événements* $\omega$, étant définis comme des sous-ensembles d'un grand *ensemble* $\Omega$. Chaque événement de cet ensemble peut se voir assigner une probabilité qui représente notre in(certitude) vis à vis de sa survenue. Ces probabilités sont assignées par des *fontions de probabilité* qui, à chaque élément $\omega \in \Omega$, associe ou attribue une probabilité [@blitzstein_introduction_2019;@dekking_modern_2005;@noel_psychologie_2015].
-
-Comme illustration, considérons l'exemple suivant. En postulant qu'il est impossible qu'une pièce lancée retombe sur sa tranche, un lancer de pièce peut seulement résulter en deux issues : Pile ou Face. Autrement dit, l'ensemble des issues possibles est défini comme $\Omega = \{\text{Pile}, \ \text{Face}\}$. Étant donné qu'un *événement* est défini comme un sous-ensemble de $\Omega$, Pile et Face sont donc deux événements possibles.
-
-```{definition, label = "prob-function", name = "Fonction de probabilité"}
-Une fonction de probabilité $p$ définie sur un ensemble fini $\Omega$ assigne à chaque événement $A$ dans $\Omega$ une valeur $\Pr(A) \in [0, 1]$ de manière à ce que :
-  
-  - $\Pr(\Omega) = 1$ et
-  - $\Pr(A \cup B) = \Pr(A) + \Pr(B)$ si $A$ et $B$ sont disjoints.
-
-La valeur $\Pr(A)$ représente la *probabilité* que $A$ se réalise.
-```
-
-Dans l'exemple d'un lancer de pièce, si la pièce n'est pas truquée, alors $\Pr(\text{Pile}) = \Pr(\text{Face}) = \frac{1}{2}$...
-
-```{r venn, echo = FALSE, out.width = "100%", fig.cap = "Diagrammes représentant les notions d'intersection, d'union, et de complément."}
-knitr::include_graphics(path = "figures/venn.png")
-```
-
-...
-
-### Probabilité conjointe
-
-La probabilité conjointe $\Pr(A, B)$ nous indique la probabilité qu'à la fois $A$ et $B$ se réalisent, c'est à dire la probabilité de l'union de $A$ et $B$, qu'on note également $\Pr(A \cap B)$.
-
-```{r conjointe, message = FALSE, echo = TRUE} 
-library(tidyverse)
-
-data(HairEyeColor) # données adaptés de Snee (1974)
-
-cont <- apply(HairEyeColor, c(1, 2), sum) %>% t 
-cont <- round(cont / sum(cont), 2)
-cont
-```
-
-Dans chaque cellule du tableau de données ci-dessus, on trouve la **probabilité conjointe** d'avoir telle couleur de cheveux **ET** telle couleur d'yeux, qui s'écrit $\Pr(c, y) = \Pr(y, c)$.
-
-### Probabilité marginale
-
-```{r marginale} 
-cont2 <- cont %>% as.data.frame %>% mutate(marginal_eye = rowSums(cont) )
-rownames(cont2) <- row.names(cont)
-cont2
-```
-
-On peut aussi s'intéresser à la probabilité d'avoir des yeux bleus, de manière générale. Il s'agit de la probabilité **marginale** de l'événement *yeux bleus*, qui s'obtient par la somme de toutes les probabilités jointes impliquant l'événement *yeux bleus*. Elle s'écrit $\Pr(y)$.
-
-```{r marginale2}
-cont3 <- rbind(cont2, colSums(cont2) )
-rownames(cont3) <- c(row.names(cont2), "marginal_hair")
-cont3
-```
-
-On peut bien entendu aussi s'intéresser aux probabilités des couleurs de cheveux, de manière générale. Elle s'écrit $\Pr(c)$.
-
-### Probabilité conditionnelle
-
-On pourrait aussi s'intéresser à la probabilité qu'une personne ait les cheveux blonds, **sachant** qu'elle a les yeux bleus. Il s'agit d'une probabilité **conditionnelle**, et s'écrit $p(c|y)$. Cette probabilité conditionnelle peut se ré-écrire: $p(c|y)= \frac{p(c,y)}{p(y)}$.
-
-```{r cond1, echo = FALSE, eval = TRUE} 
-cont3["Blue", ]
-```
-
-Par exemple, quelle est la probabilité d'avoir des yeux bleus lorsqu'on a les cheveux blonds ?
-
-```{r cond2, echo = TRUE, eval = TRUE} 
-cont3["Blue", "Blond"] / cont3["Blue", "marginal_eye"]  
-```
-
-On remarque dans le cas précédent que $p(blonds|bleus)$ **n'est pas nécessairement égal** à $p(bleus|blonds)$.
-
-Autre exemple: la probabilité de mourir sachant qu'on a été attaqué par un requin n'est pas la même que la probabilité d'avoir été attaqué par un requin, sachant qu'on est mort ([*confusion of the inverse*](https://en.wikipedia.org/wiki/Confusion_of_the_inverse)). De la même manière, $p(data|H_{0}) \neq p(H_{0}|data)$.
-
-À partir des axiomes de Kolmogorov (cf. début du cours), et des définitions précédentes des probabilités conjointes, marginales, et conditionnelles, découle la **règle du produit** (en multipliant chaque côté par $p(y)$) :
-
-$$p(a, b) = p(b) \cdot p(a|b) = p(a) \cdot p(b|a)$$
-
-...
-
-### Dérivation du théorème de Bayes
-
-$$p(x, y) = p(x|y) p(y) = p(y|x)p(x)$$
-
-$$p(y|x)p(x) = p(x|y)p(y)$$
-
-$$p(y|x) = \dfrac{p(x|y)p(y)}{p(x)}$$
-
-$$p(x|y) = \dfrac{p(y|x)p(x)}{p(y)}$$
-
-On retrouve le résultat présenté dans la section précédente, en remplaçant $x$ par *données* et $y$ par *hypothèse* :
-
-$$
-\Pr(\text{hypothèse} \ | \ \text{données}) = \frac{\Pr(\text{données} \ | \ \text{hypothèse}) \times \Pr(\text{hypothèse})}{\text{Somme des produits}}
-$$
-
-...
-
-### Loi de probabilité, cas discret
-
-...
-
-```{definition, label = "PMF", name = "Fonction de masse de probabilité"}
-La fonction de masse de probabilité $p$ d'une variable aléatoire $X$ is la fonction $p : \mathbb{R} \rightarrow [0, 1]$, définie par :
-
-$$p(a) = \Pr(X = a) \quad \text{for} - \infty < a < \infty$$
-```
-
-Une fonction de masse (*probability mass function*, ou *PMF*) est une fonction qui attribue une probabilité à chaque valeur d'une variable aléatoire. Exemple de la distribution binomiale pour une pièce non biaisée ($\theta = 0.5$), indiquant la probabilité d'obtenir $N$ faces sur 10 lancers. 
-
-```{r binomial-barplot, echo = FALSE, out.width = "50%", fig.cap = "Distribution de la probabilité d'obtenir N 'Face' sur 10 lancers de pièce."}
-coin <- dbinom(x = 0:10, size = 10, prob = 0.5)
-
-barplot(
-  coin, names.arg = 0:10, border = NA,
-  axes = FALSE, cex.names = 1.5, col = "grey20"
-  )
-```
-
-Somme à 1...
-
-```{r eval-dbinom, eval = TRUE, echo = TRUE}
-# PMFs sum to 1
-dbinom(x = 0:10, size = 10, prob = 0.5) %>% sum
-```
-
-### Loi de probabilité, cas continu
-
-```{definition, label = "PDF", name = "Fonction de densité de probabilité"}
-Une variable aléatoire $X$ est dite *continue* si pour une fonction donnée $p : \mathbb{R} \rightarrow \mathbb{R}$ et pour tout nombres $a$ et $b$ avec $a \leq b$,
-
-$$\Pr(a \leq X \leq b) = \int_{a}^{b} p(x) \mathrm{d} x$$
-
-La fonction $p$ doit satisfaire la condition $p(x) \geq 0$ pour tout $x$ et $\int_{-\infty}^{\infty} p(x) \mathrm{d} x = 1$. On appelle $p$ la fonction de densité de probabilité (ou densité de probabilité) de $X$.
-```
-
-Une fonction de densité de probabilité (*probability density function*, ou *PDF*), est une fonction qui permet de représenter une loi de probabilité sous forme d'intégrales (l'équivalent de la PMF pour des variables aléatoires strictement continues).
-
-```{r pdf-plot, echo = FALSE, out.width = "50%", fig.cap = "Blah blah..."}
-data.frame(x = c(0, 200) ) %>%
-    ggplot(aes(x) ) +
-    stat_function(
-        fun = dnorm,
-        args = list(mean = 100, sd = 15),
-        lwd = 2
-        ) +
-    theme_bw(base_size = 12) +
-    xlab("QI") + ylab("")
-```
-
-```{r integrate-pdf, echo = TRUE}
-# PDFs integrate to 1
-integrate(dnorm, -Inf, Inf, mean = 100, sd = 15)
-```
-
-...
-
-```{r pdf-html, eval = knitr::opts_knit$get("rmarkdown.pandoc.to") == "html", results = "asis", echo = FALSE, purl = FALSE}
-cat('
-<div class = "keyconcept" id="KC1.1">
-<h3 class = "right"> Concept essentiel 1.1 </h3> 
-<h3 class = "left"> Variable aléatoire continue </h3>
-<p>
-Une variable aléatoire continue peut prendre (littéralement) une infinité de valeurs. On se retrouve donc face un problème. Si on attribue une probabilité non-nulle à chacune de ces valeurs (à une infinité de valeurs donc), la somme des probabilités de ces valeurs sera elle aussi infinie, et cette fonction ne pourra donc pas être considérée comme une fonction de probabilité. Pour pallier à ce problème, chaque valeur ponctuelle d\'une variable aléatoire est assignée une probabilité nulle (i.e., $\\Pr(X = x) = 0$) et uniquement des intervalles (e.g., $\\Pr(a < x < b)$) peuvent se voir attribuer une probabilité.
-</p> 
-</div>')
-```
-
-```{r pdf-pdf, eval = knitr::opts_knit$get("rmarkdown.pandoc.to") == "latex", results = "asis", echo = FALSE, purl = FALSE}
-cat("\\begin{keyconcepts}[Variable aléatoire continue]{1.1}
-Une variable aléatoire continue peut prendre (littéralement) une infinité de valeurs. On se retrouve donc face un problème. Si on attribue une probabilité non-nulle à chacune de ces valeurs (à une infinité de valeurs donc), la 'somme' (l'intégrale) des probabilités de ces valeurs sera elle aussi infinie, et cette fonction ne pourra donc pas être considérée comme une fonction de probabilité. Pour pallier à ce problème, chaque valeur ponctuelle d'une variable aléatoire est assignée une probabilité nulle (i.e., $\\Pr(X = x) = 0$) et uniquement des intervalles (e.g., $\\Pr(a < x < b)$) peuvent se voir attribuer une probabilité.
-\\end{keyconcepts}")
-```
-
-...
-
-### Aparté, qu'est-ce qu'une intégrale ?
-
-Une intégrale correspond à la **surface** (aire géométrique) délimitée par la représentation graphique d'une fonction, *l'aire sous la courbe*. Une distribution est dite **impropre** si son intégrale n'est pas égale à un nombre fini (e.g., $+ \infty$) et **normalisée** si son intégrale est égale à 1.
-
-```{r integral, echo = FALSE, fig.width = 7, fig.height = 5, fig.cap = "Blah blah..."}
-cord.x <- c(90, seq(90, 96, 0.01), 96) 
-cord.y <- c(0, dnorm(seq(90, 96, 0.01), 100, 15), 0) 
-
-data.frame(x = c(0, 200) ) %>%
-    ggplot(aes(x) ) +
-    stat_function(
-        fun = dnorm,
-        args = list(mean = 100, sd = 15),
-        lwd = 2,
-        color = "black"
-        ) +
-    geom_polygon(
-        data = data.frame(cord.x, cord.y),
-        aes(cord.x, cord.y),
-        color = "black"
-        ) +
-    theme_bw(base_size = 12) +
-    xlab("QI") + ylab("Probability density")
-```
-
-```{r integral-qi, echo = FALSE, fig.width = 7, fig.height = 5, fig.cap = "Blah blah..."}
-data.frame(x = c(0, 200) ) %>%
-    ggplot(aes(x) ) +
-    stat_function(
-        fun = dnorm,
-        args = list(mean = 100, sd = 15),
-        lwd = 2
-        ) +
-    geom_polygon(
-        data = data.frame(cord.x, cord.y),
-        aes(cord.x, cord.y)
-        ) +
-    theme_bw(base_size = 12) +
-    xlab("QI") + ylab("Probability density")
-```
-
-L'intégrale de $f(x)$ sur l'intervalle [90 ; 96] vaut: $p(90 < x < 96) = \int_{90}^{96} f(x) \ \mathrm{d}x = 0.142$.
-
-```{r integrate-pdf-qi}
-integrate(dnorm, 90, 96, mean = 100, sd = 15)
-```
-
-### Notations, terminologie
-
-Ayant introduit de manière intuitive les concepts centraux de l'inférence bayésienne (en particulier, la mise à jour d'un connaissance a posteriori en une connaissance a posteriori) nous allons maintenant établit la terminologie qui nous accompagner au fil de ce livre.
-
-- $\theta$ désigne habituellement un paramètre ou un vecteur de paramètres (e.g., la proportion de billes bleues)
-
-- $\color{orangered}{p(x\vert \theta)}$ <span style="color:orangered"> désigne la probabilité conditionnelle des données $x$ sachant le paramètre $\theta$ </span> $\color{orangered}{[p(x | \theta = \theta)]}$
-
-- $\color{orangered}{p(x\vert \theta)}$ <span style="color:orangered"> une fois que la valeur de $x$ est connue, est vue comme la fonction de vraisemblance (*likelihood*) du paramètre $\theta$. Attention, il ne s'agit pas d'une distribution de probabilité (n'intègre pas à 1). </span> $\color{orangered}{[p(x = x | \theta)]}$
-
-- $\color{steelblue}{p(\theta)}$ <span style="color:steelblue"> la probabilité a priori de $\theta$</span>
-- $\color{purple}{p(\theta \vert x)}$ <span style="color:purple"> la probabilité a posteriori de $\theta$ (sachant $x$)</span>
-- $\color{green}{p(x)}$ <span style="color:green"> la probabilité marginale de $x$ (sur $\theta$)</span>
-
-<br>
-
-$$
-\color{purple}{p(\theta \vert x)} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{p(x)}} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{\sum\limits_{\theta}p(x|\theta)p(\theta)}} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{\int\limits_{\theta}p(x|\theta)p(\theta)\mathrm{d}x}} \propto \color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}
-$$
-
-...
-
-```{r logic-html, eval = knitr::opts_knit$get("rmarkdown.pandoc.to") == "html", results = "asis", echo = FALSE, purl = FALSE}
-cat('
-<div class = "keyconcept" id="KC1.1">
-<h3 class = "right"> Concept essentiel 1.1 </h3> 
-<h3 class = "left"> La théorie des probabilités comme extension de la logique </h3>
-<p>
-La théorie des probabilités est parfois présentée comme une extension de la logique. En effet, elle généralise les règles de la logique qui s\'appliquent à des événements discrets (vrais ou faux) à des événements continus. Ce faisant, les probabilités nous permettent de décrire et quantifier l\'incertitude. Il est important de souligner que les règles du calcul probabiliste ont le même statut que les règles logiques : ces règles de base peuvent être utilisées pour déduire des conclusions qui seront garanties d\'être correctes, si les prémises sont corrects.
-
-Dans ce cadre, l\'analyse statistique bayésienne peut être conceptualisée comme une application de la théorie des probabilités à l\'analyse statistique. Bien que la dépendance des conclusions de ce genre d\'analyse aux a priori qu\'elles rendent explicitent est souvent présenté comme une faiblesse, c\'est précisémment ce qui les rend "optimales" ou "cohérentes" (au sens où elles respectent les règles du calcul probabiliste). Comme résumé par Vandekerckhove (2018), conclure que les analyses bayésiennes seraient invalidées par l\'utilisation d\'informations a priori serait similaire à conclure que des déductions logiques seraient invalidées par la considération de prémisses.
-</p> 
-</div>')
-```
-
-```{r logic-pdf, eval = knitr::opts_knit$get("rmarkdown.pandoc.to") == "latex", results = "asis", echo = FALSE, purl = FALSE}
-cat("\\begin{keyconcepts}[La théorie des probabilités comme extension de la logique]{1.1}
-La théorie des probabilités est parfois présentée comme une extension de la logique. En effet, elle généralise les règles de la logique qui s\\' appliquent à des événements discrets (vrais ou faux) à des événements continus. Ce faisant, les probabilités nous permettent de décrire et quantifier l\\' incertitude. Il est important de souligner que les règles du calcul probabiliste ont le même statut que les règles logiques : ces règles de base peuvent être utilisées pour déduire des conclusions qui seront garanties d\\' être correctes, si les prémises sont corrects.
-
-Dans ce cadre, l\\' analyse statistique bayésienne peut être conceptualisée comme une application de la théorie des probabilités à l\\'analyse statistique. Bien que la dépendance des conclusions de ce genre d\' analyse aux a priori qu\'elles rendent explicitent est souvent présenté comme une faiblesse, c\\'est précisémment ce qui les rend 'optimales' ou 'cohérentes' (au sens où elles respectent les règles du calcul probabiliste). Comme résumé par Vandekerckhove (2018), conclure que les analyses bayésiennes seraient invalidées par l\\' utilisation d\\' informations a priori serait similaire à conclure que des déductions logiques seraient invalidées par la considération de prémisses.
-\\end{keyconcepts}")
-```
 
 ## Quelques exemples d'application
 

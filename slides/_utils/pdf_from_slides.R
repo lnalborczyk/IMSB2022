@@ -17,7 +17,7 @@ slides <- list.files(
     )
 
 # some example
-input <- slides[6]
+input <- slides[7]
 
 for (input in slides) { # for each course
 

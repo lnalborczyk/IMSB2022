@@ -34,11 +34,6 @@ format:
 title-slide-attributes:
     data-background-color: "#1c5253"
 bibliography: ../../files/bib/references.bib
-editor_options: 
-  chunk_output_type: console
-editor: 
-  markdown: 
-    wrap: 72
 ---
 
 ## Planning
@@ -125,7 +120,7 @@ head(d4, 10)
 
 ## Problème n°5
 
-Le dilemme du tramway (*trolley problem*) est une expérience de pensée qui permet d'étudier les déterminants des jugements de moralité (i.e., qu'est-ce qui fait qu'on juge une action comme morale, ou pas ?).
+Le dilemme du tramway (trolley problem) est une expérience de pensée qui permet d'étudier les déterminants des jugements de moralité (i.e., qu'est-ce qui fait qu'on juge une action comme morale, ou pas ?).
 
 . . .
 
@@ -719,7 +714,7 @@ moral2 <- brm(
 
 ## Réponse possible problème n°5
 
-Toutes les pentes sont négatives... ce qui signifie que chaque facteur réduit la réponse moyenne (i.e., le jugement de moralité). Ces pentes représentent des changements dans les *log-odds cumulatifs*.
+Toutes les pentes sont négatives... ce qui signifie que chaque facteur réduit la réponse moyenne (i.e., le jugement de moralité). Ces pentes représentent des changements dans les log-odds cumulatifs.
 
 ```{r WAIC-moral, eval = TRUE, echo = TRUE}
 brms::waic(moral1, moral2)

@@ -35,11 +35,6 @@ title-slide-attributes:
     data-background-color: "#1c5253"
 bibliography: ../../files/bib/references.bib
 nocite: "@gelman2020"
-editor_options: 
-  chunk_output_type: console
-editor: 
-  markdown: 
-    wrap: 72
 ---
 
 ## Planning
@@ -80,7 +75,7 @@ Reaction ~ Days + (1 + Days | Subject)
 
 . . .
 
-La partie gauche représente notre variable dépendante (ou *outcome*,
+La partie gauche représente notre variable dépendante (ou "outcome",
 i.e., ce qu'on essaye de prédire). Le package `brms` permet également de
 fitter des modèles multivariés (plusieurs outcomes) en les combinant
 avec `c()`:
@@ -194,7 +189,7 @@ y_{i} &\sim \mathrm{Binomial}(n_{i}, p_{i}) \\
 $$
 
 Il s'agit du même modèle de régression logistique vu au Cours n°06, avec
-une fonction de lien *logit*, mais cette fois-ci sur plusieurs niveaux.
+une fonction de lien logit, mais cette fois-ci sur plusieurs niveaux.
 
 ## Mise en pratique - absentéisme expérimental
 
@@ -247,8 +242,8 @@ quel que soit le chercheur et pour toutes conditions confondues) est
 égale à $p = \exp(\alpha) / (1 + \exp(\alpha) )$.
 
 ```{r eval = TRUE, echo = TRUE}
-a <- fixef(mod1)[1] # extract the intercept
-exp(a) / (1 + exp(a) ) # equivalent to plogis(a)
+a <- fixef(mod1)[1] # on récupère la valeur de l'intercept
+exp(a) / (1 + exp(a) ) # équivalent à plogis(a)
 ```
 
 ## Mise en pratique - absentéisme expérimental
@@ -270,8 +265,8 @@ rapport $\frac{\Pr(\text{présent})}{\Pr(\text{absent})}$).
 ## Représenter les prédictions du modèle
 
 Une manière de représenter les prédictions du modèle est de plotter
-directement quelques échantillons issus de la distribution *a
-posteriori*. On appelle ce genre de plot un *spaghetti plot*.
+directement quelques échantillons issus de la distribution a posteriori.
+On appelle ce genre de plot un "spaghetti plot".
 
 ```{r, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, fig.width = 12, fig.height = 7}
 library(tidybayes)
@@ -308,12 +303,13 @@ data %>%
 ## Test d'hypothèse - 1
 
 Plusieurs manières de tester des hypothèses avec `brms`. La fonction
-`hypothesis()` calcule un *evidence ratio* (équivalent au Bayes factor).
-Lorsque l'hypothèse testée est une hypothèse ponctuelle (on teste une
-valeur précise du paramètre, e.g., $\theta = 0$), cet *evidence ratio*
-est approximé via la méthode de **Savage-Dickey**. Cette méthode
-consiste simplement à comparer la densité du point testé accordée par le
-prior à la densité accordée par la distribution *a posteriori*.
+`hypothesis()` calcule un **evidence ratio** (équivalent au Bayes
+factor). Lorsque l'hypothèse testée est une hypothèse ponctuelle (on
+teste une valeur précise du paramètre, e.g., $\theta = 0$), cet
+**evidence ratio** est approximé via la méthode de **Savage-Dickey**.
+Cette méthode consiste simplement à comparer la densité du point testé
+accordée par le prior à la densité accordée par la distribution a
+posteriori.
 
 ```{r, echo = TRUE}
 (hyp1 <- hypothesis(mod1, "reminder = 0") )
@@ -326,6 +322,14 @@ prior à la densité accordée par la distribution *a posteriori*.
 plot(hyp1, plot = FALSE, theme = theme_bw(base_size = 20, base_family = "Open Sans") )[[1]] +
   geom_vline(xintercept = 0, linetype = 2) +
   coord_cartesian(xlim = c(-5, 5) )
+```
+
+## Test d'hypothèse - 1
+
+```{r, echo = TRUE, fig.width = 10, fig.height = 7}
+library(bayestestR)
+bf <- bayesfactor_parameters(posterior = mod1, null = 0)
+plot(bf)
 ```
 
 ## Comparer le prior et le posterior
@@ -433,7 +437,7 @@ data %>%
 
 Cette procédure est implémentée dans `brms` via la méthode `pp_check()`
 qui permet de réaliser de nombreux checks. Par exemple, ci-dessous on
-compare les prédictions *a posteriori* (n = 100) aux données observées.
+compare les prédictions a posteriori (n = 100) aux données observées.
 
 ```{r, echo = TRUE, fig.width = 12, fig.height = 6}
 pp_check(mod2, nsamples = 1e2)
@@ -497,10 +501,10 @@ une variance connue.
 
 On distingue deux classes de modèles.
 
--   Méta-analyse à effets fixes (*constant effects*) : on considère que
-    la taille d'effet estimée par toutes les études est la même
--   Méta-analyse à effets aléatoires (*varying effects*) : on modélise
-    la variabilité et les sources de dépendance dans les données
+-   Méta-analyse à effets fixes (constant effects) : on considère que la
+    taille d'effet estimée par toutes les études est la même.
+-   Méta-analyse à effets aléatoires (varying effects) : on modélise la
+    variabilité et les sources de dépendance dans les données.
 
 . . .
 
@@ -510,7 +514,7 @@ effet aléatoire dont on a fixé $\tau = 0$.
 
 ## Méta-analyse
 
-Le jeu de données ci-dessous recense le résultat de 32 expériences
+Le jeu de données ci-dessous recense les résultats de 32 expériences
 visant à évaluer l'effet des contraintes bioméchaniques sur l'évaluation
 des distances [@molto2020].
 
@@ -526,8 +530,8 @@ On peut écrire un premier modèle de la manière suivante.
 $$
 \begin{aligned}
 y_{j} &\sim \mathrm{Normal}(\mu_{j}, \sigma_{j}) \\
-\mu_{j} &= \alpha + \alpha_{study[j]} \\
-\alpha_{study[j]} &\sim \mathrm{Normal}(0, \tau_{s}) \\
+\mu_{j} &= \alpha + \alpha_{\text{study}[j]} \\
+\alpha_{\text{study}[j]} &\sim \mathrm{Normal}(0, \tau_{s}) \\
 \alpha &\sim \mathrm{Normal}(0, 1) \\
 \tau_{s} &\sim \mathrm{HalfCauchy}(0, 1) \\
 \end{aligned}
@@ -535,10 +539,10 @@ $$
 
 Où $\sigma_{j}^2 = v_{j}$ est la variance de l'effet dans la $j$ème
 étude et $\alpha$ la taille d'effet dans la population. L'index
-$\alpha_{study[j]}$ indique la taille d'effet moyenne dans l'étude $j$.
-En plus de la variance dans l'échantillon $\sigma_{j}^2$ (qui est
-connue), on estime aussi la variabilité des effets entre les études
-$\text{Var}(\alpha_{study}) = \tau_{s}^{2}$ (niveau 2).
+$\alpha_{\text{study}[j]}$ indique la taille d'effet moyenne dans
+l'étude $j$. En plus de la variance dans l'échantillon $\sigma_{j}^2$
+(qui est connue), on estime aussi la variabilité des effets entre les
+études $\text{Var}(\alpha_{\text{study}}) = \tau_{s}^{2}$ (niveau 2).
 
 ## Méta-analyse
 
@@ -559,9 +563,9 @@ On peut écrire ce modèle sur trois niveaux, comme ci-dessous.
 $$
 \begin{aligned}
 y_{ij} &\sim \mathrm{Normal}(\mu_{ij}, \sigma_{ij}) \\
-\mu_{ij} &= \alpha + \alpha_{study[j]} + \alpha_{experiment[ij]} \\
-\alpha_{study[j]} &\sim \mathrm{Normal}(0, \tau_{s}) \\
-\alpha_{experiment[ij]} &\sim \mathrm{Normal}(0, \tau_{e}) \\
+\mu_{ij} &= \alpha + \alpha_{\text{study}[j]} + \alpha_{\text{experiment}[ij]} \\
+\alpha_{\text{study}[j]} &\sim \mathrm{Normal}(0, \tau_{s}) \\
+\alpha_{\text{experiment}[ij]} &\sim \mathrm{Normal}(0, \tau_{e}) \\
 \alpha &\sim \mathrm{Normal}(0, 1) \\
 \tau_{e}, \tau_{s} &\sim \mathrm{HalfCauchy}(0, 1) \\
 \end{aligned}
@@ -570,9 +574,9 @@ $$
 On estime maintenant, en plus de la variabilité $\sigma_{ij}$, deux
 autres sources de variation : la variation des effets entre différentes
 expériences issues d'une même étude
-$\text{Var}(\alpha_{experiment}) = \tau_{e}^{2}$ (niveau 2) et la
+$\text{Var}(\alpha_{\text{experiment}}) = \tau_{e}^{2}$ (niveau 2) et la
 variation entre différentes études
-$\text{Var}(\alpha_{study}) = \tau_{s}^{2}$ (niveau 3).
+$\text{Var}(\alpha_{\text{study}}) = \tau_{s}^{2}$ (niveau 3).
 
 ## Méta-analyse
 
@@ -656,10 +660,12 @@ quel type de modèle de régression. Cela comprend tous les modèles que
 nous avons vu en cours, mais également bien d'autres. Entre autres, des
 modèles multivariés (i.e., avec plusieurs outcomes), des modèles
 "distributionnels" (e.g., pour prédire des différence de variance), des
-[*generalised additive
-models*](https://fromthebottomoftheheap.net/2018/04/21/fitting-gams-with-brms/),
-des [procesus Gaussiens](https://rdrr.io/cran/brms/man/gp.html), des
-modèles issus de la théorie de détection du signal, des [mixture
+[generalised additive
+models](https://fromthebottomoftheheap.net/2018/04/21/fitting-gams-with-brms/),
+des [procesus Gaussiens](https://rdrr.io/cran/brms/man/gp.html)
+(Gaussian processes), des modèles issus de la [théorie de détection du
+signal](https://mvuorre.github.io/posts/2017-10-09-bayesian-estimation-of-signal-detection-theory-models/),
+des [mixture
 models](https://www.martinmodrak.cz/2021/04/01/using-brms-to-model-reaction-times-contaminated-with-errors/),
 des [modèles de
 diffusion](http://singmann.org/wiener-model-analysis-with-brms-part-i/),
@@ -672,13 +678,13 @@ pouvez aussi contacter le créateur du paquet `brms`, très actif en ligne
 (voir [son site](https://paul-buerkner.github.io/about/)). Voir aussi le
 [forum Stan](https://discourse.mc-stan.org).
 
-## Bayesian workflow
+## Bayesian workflow [@gelman2020]
 
 ```{r echo = FALSE, out.width = "66%"}
 knitr::include_graphics("figures/bayes_workflow_1.png")
 ```
 
-## Bayesian workflow
+## Bayesian workflow [@gelman2020]
 
 ```{r echo = FALSE, out.width = "50%"}
 knitr::include_graphics("figures/bayes_workflow_2.png")
@@ -737,7 +743,7 @@ library(magrittr)
 
 d %<>%
     mutate(
-        # contrast-coding gender
+        # using a sum contrast for gender
         sex = ifelse(sex == "boy", -0.5, 0.5),
         # centering and standardising teacher experience
         texp = scale(texp) %>% as.numeric
@@ -825,15 +831,28 @@ mod8 <- add_criterion(mod8, "waic")
 
 ```{r eval = TRUE, echo = TRUE}
 # comparaison des WAIC de chaque modèle
-w <- loo_compare(mod5, mod6, mod7, mod8, criterion = "waic")
-print(w, simplify = FALSE)
+# w <- loo_compare(mod5, mod6, mod7, mod8, criterion = "waic")
+# print(w, simplify = FALSE)
+
+# comparaison des WAIC de chaque modèle
+# model_weights(mod5, mod6, mod7, mod8, weights = "waic") %>% round(digits = 3)
+
+model_comparison_table <- loo_compare(mod5, mod6, mod7, mod8, criterion = "waic") %>%
+  data.frame() %>%
+  rownames_to_column(var = "model")
+
+weights <- data.frame(weight = model_weights(mod5, mod6, mod7, mod8, weights = "waic") ) %>%
+  round(digits = 3) %>%
+  rownames_to_column(var = "model")
+
+left_join(model_comparison_table, weights, by = "model")
 ```
 
 ## Proposition de solution
 
 Les prédictions du modèle ne coïncident pas exactement avec les données
 car celles-ci sont catégorielles. Les élèves étaient notés sur une
-échelle discrète allant de 1 à 10 (i.e., un élève ne pouvait pas avoir
+échelle discrète allant de 1 à 10 (un élève ne pouvait pas avoir
 une note de 3.456). Ce type de données peut-être approximée par une
 distribution normale (comme nous l'avons fait) mais ce choix n'est pas
 optimal en termes de prédiction...
@@ -846,7 +865,7 @@ pp_check(mod8, nsamples = 1e2)
 
 On pourrait choisir un modèle qui se rapproche du processus de
 génération des données. C'est le cas du modèle de régression logistique
-ordinale, ou *ordered categorical model*. Ce modèle est une sorte de
+ordinale (ordered categorical model). Ce modèle est une sorte de
 généralisation à plus de 2 catégories du modèle de régression logistique
 vu au Cours n°06 (voir ce
 [blogpost](https://kevinstadler.github.io/blog/bayesian-ordinal-regression-with-random-effects-using-brms/)

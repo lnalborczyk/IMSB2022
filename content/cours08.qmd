@@ -25,4 +25,4 @@ Voir toutes les commandes de `revealjs` en appuyant sur <kbd>m</kbd> puis <kbd>h
 
 ## Pour aller plus loin
 
-...
+- Nalborczyk, L., Batailler, C., L\oe venbruck, H., Vilain, A., & Bürkner, P.-C. (2019). An introduction to Bayesian multilevel models using brms: A case study of gender effects on vowel variability in standard indonesian. *Journal of Speech Language and Hearing Research, 62*(5), 1225–1242. <https://doi.org/10.1044/2018_JSLHR-S-18-0006>. Preprint: <https://psyarxiv.com/guhsa/>.

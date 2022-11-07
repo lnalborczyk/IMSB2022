@@ -393,7 +393,7 @@ colback=kcblue,colframe=kcdarkblue,fonttitle=\bfseries, title=Concept essentiel~
 \makeatother
 \subtitle{Un cours avec R, Stan, et brms}
 \author{Ladislas Nalborczyk}
-\date{Dernière mise à jour : 21-10-2022}
+\date{Dernière mise à jour : 07-11-2022}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Théorème}[chapter]
@@ -465,6 +465,7 @@ Enfin, ce document est diffusé sous une licence \emph{Creative Commons Attribut
 \definecolor{green}{RGB}{0, 153, 0}
 \definecolor{purple}{RGB}{153, 0, 153}
 \definecolor{orangered}{cmyk}{0, 73, 100, 0}
+\newcommand\given[1][]{\:#1\vert\:}
 
 \epigraph{"The numbers have no way of speaking for themselves. We speak for them. We imbue them with meaning"}{Nate Silver}
 
@@ -610,13 +611,13 @@ Une conséquence intéressante de cette interprétation est que toute probabilit
 \hypertarget{interpruxe9tation-bayuxe9sienne}{%
 \subsubsection{Interprétation bayésienne}\label{interpruxe9tation-bayuxe9sienne}}
 
-Selon l'interprétation bayésienne (subjective), la probabilité est \textbf{une mesure du degré de croyance} (ou ``crédence'') ou d'\emph{incertitude}. Un événement \emph{certain} aura donc une probabilité de 1 et un événement \textbf{impossible} aura une probabilité de 0.
+Selon l'interprétation bayésienne (subjective), la probabilité est \textbf{une mesure du degré de croyance} (ou ``crédence'') ou d'\emph{incertitude}. Un événement \emph{certain} aura donc une probabilité de 1 et un évènement \textbf{impossible} aura une probabilité de 0.
 
 \begin{quote}
 So to assign equal probabilities to two events is not in any way an assertion that they must occur equally often in any ``random experiment''; as Jeffrey emphasized, it is only a formal way of saying ``I don't know'' (\protect\hyperlink{ref-jaynes_bayesian_1986}{Jaynes, 1986}).
 \end{quote}
 
-Pour parler de probabilités, dans ce cadre, nous n'avons donc plus besoin de nous référer à la limite d'occurrence d'un événement (à sa fréquence). La probabilité est un concept abstrait faisant référence à un état de connaissance et / ou permettant de quantifier l'incertitude liée à cet état de connaissance.
+Pour parler de probabilités, dans ce cadre, nous n'avons donc plus besoin de nous référer à la limite d'occurrence d'un évènement (à sa fréquence). La probabilité est un concept abstrait faisant référence à un état de connaissance et / ou permettant de quantifier l'incertitude liée à cet état de connaissance.
 
 \hypertarget{interpruxe9tations-probabilistes---ruxe9sumuxe9}{%
 \subsubsection{Interprétations probabilistes - résumé}\label{interpruxe9tations-probabilistes---ruxe9sumuxe9}}
@@ -636,6 +637,303 @@ Interprétation classique (e.g., Laplace, Bernouilli, Leibniz), interprétation 
 \end{quote}
 
 Les plus curieux d'entre vous seront ravis de trouver plus d'informations dans cet excellent article de la \emph{Stanford Encyclopedia of Philosophy} (\protect\hyperlink{ref-sep-probability-interpret}{Hájek, 2019}) sur les différentes interprétations du concept de probabilité.
+
+\hypertarget{rappels-de-thuxe9orie-des-probabilituxe9s}{%
+\section{Rappels de théorie des probabilités}\label{rappels-de-thuxe9orie-des-probabilituxe9s}}
+
+Pour rappel, une probabilité est donc une valeur numérique comprise entre 0 et 1 et qui respecte la règle de la somme. Ces valeurs sont assignées à des \emph{évènements} \(\omega\), étant définis comme des sous-ensembles d'un grand \emph{ensemble} \(\Omega\). Chaque évènement de cet ensemble peut se voir assigner une probabilité qui représente notre in(certitude) vis à vis de sa survenue. Ces probabilités sont assignées par des \emph{fonctions de probabilité} qui, à chaque élément \(\omega \in \Omega\), associe ou attribue une probabilité (\protect\hyperlink{ref-blitzstein_introduction_2019}{Blitzstein \& Hwang, 2019}; \protect\hyperlink{ref-dekking_modern_2005}{Dekking, 2005}; \protect\hyperlink{ref-noel_psychologie_2015}{Noël, 2015}).
+
+Comme illustration, considérons l'exemple suivant. En postulant qu'il est impossible qu'une pièce lancée retombe sur sa tranche, un lancer de pièce peut seulement résulter en deux issues : Pile ou Face. Autrement dit, l'ensemble des issues possibles est défini comme \(\Omega = \{\text{Pile}, \ \text{Face}\}\). Étant donné qu'un \emph{évènement} est défini comme un sous-ensemble de \(\Omega\), Pile et Face sont donc deux évènements possibles.
+
+\begin{definition}[Fonction de probabilité]
+\protect\hypertarget{def:prob-function}{}\label{def:prob-function}Une fonction de probabilité \(p\) définie sur un ensemble fini \(\Omega\) assigne à chaque événement \(A\) dans \(\Omega\) une valeur \(\Pr(A) \in [0, 1]\) de manière à ce que :
+
+\begin{itemize}
+\tightlist
+\item
+  \(\Pr(\Omega) = 1\) et
+\item
+  \(\Pr(A \cup B) = \Pr(A) + \Pr(B)\) si \(A\) et \(B\) sont disjoints.
+\end{itemize}
+
+La valeur \(\Pr(A)\) représente la \emph{probabilité} que \(A\) se réalise.
+\end{definition}
+
+Dans l'exemple d'un lancer de pièce, si la pièce n'est pas truquée, alors \(\Pr(\text{Pile}) = \Pr(\text{Face}) = \frac{1}{2}\)\ldots{}
+
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=1\linewidth]{figures/venn} 
+
+}
+
+\caption{Diagrammes représentant les notions d'intersection, d'union, et de complément.}\label{fig:venn}
+\end{figure}
+
+\ldots{}
+
+\hypertarget{probabilituxe9-conjointe}{%
+\subsection{Probabilité conjointe}\label{probabilituxe9-conjointe}}
+
+La probabilité conjointe \(\Pr(A, B)\) nous indique la probabilité qu'à la fois \(A\) et \(B\) se réalisent, c'est à dire la probabilité de l'union de \(A\) et \(B\), qu'on note également \(\Pr(A \cap B)\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+
+\FunctionTok{data}\NormalTok{(HairEyeColor) }\CommentTok{\# données adaptés de Snee (1974)}
+
+\NormalTok{cont }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(HairEyeColor, }\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{), sum) }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ t }
+\NormalTok{cont }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(cont }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(cont), }\DecValTok{2}\NormalTok{)}
+\NormalTok{cont}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        Hair
+## Eye     Black Brown  Red Blond
+##   Brown  0.11  0.20 0.04  0.01
+##   Blue   0.03  0.14 0.03  0.16
+##   Hazel  0.03  0.09 0.02  0.02
+##   Green  0.01  0.05 0.02  0.03
+\end{verbatim}
+
+Dans chaque cellule du tableau de données ci-dessus, on trouve la \textbf{probabilité conjointe} d'avoir telle couleur de cheveux \textbf{ET} telle couleur d'yeux, qui s'écrit \(\Pr(c, y) = \Pr(y, c)\).
+
+\hypertarget{probabilituxe9-marginale}{%
+\subsection{Probabilité marginale}\label{probabilituxe9-marginale}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cont2 }\OtherTok{\textless{}{-}}\NormalTok{ cont }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ as.data.frame }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{marginal\_eye =} \FunctionTok{rowSums}\NormalTok{(cont) )}
+\FunctionTok{rownames}\NormalTok{(cont2) }\OtherTok{\textless{}{-}} \FunctionTok{row.names}\NormalTok{(cont)}
+\NormalTok{cont2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       Black Brown  Red Blond marginal_eye
+## Brown  0.11  0.20 0.04  0.01         0.36
+## Blue   0.03  0.14 0.03  0.16         0.36
+## Hazel  0.03  0.09 0.02  0.02         0.16
+## Green  0.01  0.05 0.02  0.03         0.11
+\end{verbatim}
+
+On peut aussi s'intéresser à la probabilité d'avoir des yeux bleus, de manière générale. Il s'agit de la probabilité \textbf{marginale} de l'évènement \emph{yeux bleus}, qui s'obtient par la somme de toutes les probabilités jointes impliquant l'évènement \emph{yeux bleus}. Elle s'écrit \(\Pr(y)\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cont3 }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(cont2, }\FunctionTok{colSums}\NormalTok{(cont2) )}
+\FunctionTok{rownames}\NormalTok{(cont3) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{row.names}\NormalTok{(cont2), }\StringTok{"marginal\_hair"}\NormalTok{)}
+\NormalTok{cont3}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##               Black Brown  Red Blond marginal_eye
+## Brown          0.11  0.20 0.04  0.01         0.36
+## Blue           0.03  0.14 0.03  0.16         0.36
+## Hazel          0.03  0.09 0.02  0.02         0.16
+## Green          0.01  0.05 0.02  0.03         0.11
+## marginal_hair  0.18  0.48 0.11  0.22         0.99
+\end{verbatim}
+
+On peut bien entendu aussi s'intéresser aux probabilités des couleurs de cheveux, de manière générale. Elle s'écrit \(\Pr(c)\).
+
+\hypertarget{probabilituxe9-conditionnelle}{%
+\subsection{Probabilité conditionnelle}\label{probabilituxe9-conditionnelle}}
+
+On pourrait aussi s'intéresser à la probabilité qu'une personne ait les cheveux blonds, \textbf{sachant} qu'elle a les yeux bleus. Il s'agit d'une probabilité \textbf{conditionnelle}, et s'écrit \(p(c|y)\). Cette probabilité conditionnelle peut se ré-écrire: \(p(c|y)= \frac{p(c,y)}{p(y)}\).
+
+\begin{verbatim}
+##      Black Brown  Red Blond marginal_eye
+## Blue  0.03  0.14 0.03  0.16         0.36
+\end{verbatim}
+
+Par exemple, quelle est la probabilité d'avoir des yeux bleus lorsqu'on a les cheveux blonds ?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cont3[}\StringTok{"Blue"}\NormalTok{, }\StringTok{"Blond"}\NormalTok{] }\SpecialCharTok{/}\NormalTok{ cont3[}\StringTok{"Blue"}\NormalTok{, }\StringTok{"marginal\_eye"}\NormalTok{]  }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      Blue 
+## 0.4444444
+\end{verbatim}
+
+On remarque dans le cas précédent que \(p(blonds|bleus)\) \textbf{n'est pas nécessairement égal} à \(p(bleus|blonds)\).
+
+Autre exemple: la probabilité de mourir sachant qu'on a été attaqué par un requin n'est pas la même que la probabilité d'avoir été attaqué par un requin, sachant qu'on est mort (\href{https://en.wikipedia.org/wiki/Confusion_of_the_inverse}{\emph{confusion of the inverse}}). De la même manière, \(p(data|H_{0}) \neq p(H_{0}|data)\).
+
+À partir des axiomes de Kolmogorov (cf.~début du cours), et des définitions précédentes des probabilités conjointes, marginales, et conditionnelles, découle la \textbf{règle du produit} (en multipliant chaque côté par \(p(y)\)) :
+
+\[p(a, b) = p(b) \cdot p(a|b) = p(a) \cdot p(b|a)\]
+
+\ldots{}
+
+\hypertarget{duxe9rivation-du-thuxe9oruxe8me-de-bayes}{%
+\subsection{Dérivation du théorème de Bayes}\label{duxe9rivation-du-thuxe9oruxe8me-de-bayes}}
+
+\[p(x, y) = p(x|y) p(y) = p(y|x)p(x)\]
+
+\[p(y|x)p(x) = p(x|y)p(y)\]
+
+\[p(y|x) = \dfrac{p(x|y)p(y)}{p(x)}\]
+
+\[p(x|y) = \dfrac{p(y|x)p(x)}{p(y)}\]
+
+On retrouve le résultat présenté dans la section précédente, en remplaçant \(x\) par \emph{données} et \(y\) par \emph{hypothèse} :
+
+\[
+\Pr(\text{hypothèse} \ | \ \text{données}) = \frac{\Pr(\text{données} \ | \ \text{hypothèse}) \times \Pr(\text{hypothèse})}{\text{Somme des produits}}
+\]
+
+\ldots{}
+
+\hypertarget{loi-de-probabilituxe9-cas-discret}{%
+\subsection{Loi de probabilité, cas discret}\label{loi-de-probabilituxe9-cas-discret}}
+
+\ldots{}
+
+\begin{definition}[Fonction de masse de probabilité]
+\protect\hypertarget{def:PMF}{}\label{def:PMF}La fonction de masse de probabilité \(p\) d'une variable aléatoire \(X\) is la fonction \(p : \mathbb{R} \rightarrow [0, 1]\), définie par :
+
+\[p(a) = \Pr(X = a) \quad \text{for} - \infty < a < \infty\]
+\end{definition}
+
+Une fonction de masse (\emph{probability mass function}, ou \emph{PMF}) est une fonction qui attribue une probabilité à chaque valeur d'une variable aléatoire. Exemple de la distribution binomiale pour une pièce non biaisée (\(\theta = 0.5\)), indiquant la probabilité d'obtenir \(N\) faces sur 10 lancers.
+
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.5\linewidth]{IMSB_files/figure-latex/binomial-barplot-1} 
+
+}
+
+\caption{Distribution de la probabilité d'obtenir N 'Face' sur 10 lancers de pièce.}\label{fig:binomial-barplot}
+\end{figure}
+
+Somme à 1\ldots{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# PMFs sum to 1}
+\FunctionTok{dbinom}\NormalTok{(}\AttributeTok{x =} \DecValTok{0}\SpecialCharTok{:}\DecValTok{10}\NormalTok{, }\AttributeTok{size =} \DecValTok{10}\NormalTok{, }\AttributeTok{prob =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ sum}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1
+\end{verbatim}
+
+\hypertarget{loi-de-probabilituxe9-cas-continu}{%
+\subsection{Loi de probabilité, cas continu}\label{loi-de-probabilituxe9-cas-continu}}
+
+\begin{definition}[Fonction de densité de probabilité]
+\protect\hypertarget{def:PDF}{}\label{def:PDF}Une variable aléatoire \(X\) est dite \emph{continue} si pour une fonction donnée \(p : \mathbb{R} \rightarrow \mathbb{R}\) et pour tout nombres \(a\) et \(b\) avec \(a \leq b\),
+
+\[\Pr(a \leq X \leq b) = \int_{a}^{b} p(x) \mathrm{d} x\]
+
+La fonction \(p\) doit satisfaire la condition \(p(x) \geq 0\) pour tout \(x\) et \(\int_{-\infty}^{\infty} p(x) \mathrm{d} x = 1\). On appelle \(p\) la fonction de densité de probabilité (ou densité de probabilité) de \(X\).
+\end{definition}
+
+Une fonction de densité de probabilité (\emph{probability density function}, ou \emph{PDF}), est une fonction qui permet de représenter une loi de probabilité sous forme d'intégrales (l'équivalent de la PMF pour des variables aléatoires strictement continues).
+
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.5\linewidth]{IMSB_files/figure-latex/pdf-plot-1} 
+
+}
+
+\caption{Blah blah...}\label{fig:pdf-plot}
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# PDFs integrate to 1}
+\FunctionTok{integrate}\NormalTok{(dnorm, }\SpecialCharTok{{-}}\ConstantTok{Inf}\NormalTok{, }\ConstantTok{Inf}\NormalTok{, }\AttributeTok{mean =} \DecValTok{100}\NormalTok{, }\AttributeTok{sd =} \DecValTok{15}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 1 with absolute error < 1.3e-06
+\end{verbatim}
+
+\ldots{}
+
+\begin{keyconcepts}[Variable aléatoire continue]{1.1}
+Une variable aléatoire continue peut prendre (littéralement) une infinité de valeurs. On se retrouve donc face un problème. Si on attribue une probabilité non-nulle à chacune de ces valeurs (à une infinité de valeurs donc), la 'somme' (l'intégrale) des probabilités de ces valeurs sera elle aussi infinie, et cette fonction ne pourra donc pas être considérée comme une fonction de probabilité. Pour pallier à ce problème, chaque valeur ponctuelle d'une variable aléatoire est assignée une probabilité nulle (i.e., $\Pr(X = x) = 0$) et uniquement des intervalles (e.g., $\Pr(a < x < b)$) peuvent se voir attribuer une probabilité.
+\end{keyconcepts}
+
+\ldots{}
+
+\hypertarget{apartuxe9-quest-ce-quune-intuxe9grale}{%
+\subsection{Aparté, qu'est-ce qu'une intégrale ?}\label{apartuxe9-quest-ce-quune-intuxe9grale}}
+
+Une intégrale correspond à la \textbf{surface} (aire géométrique) délimitée par la représentation graphique d'une fonction, \emph{l'aire sous la courbe}. Une distribution est dite \textbf{impropre} si son intégrale n'est pas égale à un nombre fini (e.g., \(+ \infty\)) et \textbf{normalisée} si son intégrale est égale à 1.
+
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.75\linewidth]{IMSB_files/figure-latex/integral-1} 
+
+}
+
+\caption{Blah blah...}\label{fig:integral}
+\end{figure}
+
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.75\linewidth]{IMSB_files/figure-latex/integral-qi-1} 
+
+}
+
+\caption{Blah blah...}\label{fig:integral-qi}
+\end{figure}
+
+L'intégrale de \(f(x)\) sur l'intervalle {[}90 ; 96{]} vaut: \(p(90 < x < 96) = \int_{90}^{96} f(x) \ \mathrm{d}x = 0.142\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{integrate}\NormalTok{(dnorm, }\DecValTok{90}\NormalTok{, }\DecValTok{96}\NormalTok{, }\AttributeTok{mean =} \DecValTok{100}\NormalTok{, }\AttributeTok{sd =} \DecValTok{15}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 0.1423704 with absolute error < 1.6e-15
+\end{verbatim}
+
+\hypertarget{notations-terminologie}{%
+\subsection{Notations, terminologie}\label{notations-terminologie}}
+
+Ayant introduit de manière intuitive les concepts centraux de l'inférence bayésienne (en particulier, la mise à jour d'un connaissance a posteriori en une connaissance a posteriori) nous allons maintenant établit la terminologie qui nous accompagner au fil de ce livre.
+
+\begin{itemize}
+\item
+  \(\theta\) désigne habituellement un paramètre ou un vecteur de paramètres (e.g., la proportion de billes bleues)
+\item
+  \(\color{orangered}{p(x\vert \theta)}\) { désigne la probabilité conditionnelle des données \(x\) sachant le paramètre \(\theta\) } \(\color{orangered}{[p(x | \theta = \theta)]}\)
+\item
+  \(\color{orangered}{p(x\vert \theta)}\) { une fois que la valeur de \(x\) est connue, est vue comme la fonction de vraisemblance (\emph{likelihood}) du paramètre \(\theta\). Attention, il ne s'agit pas d'une distribution de probabilité (n'intègre pas à 1). } \(\color{orangered}{[p(x = x | \theta)]}\)
+\item
+  \(\color{steelblue}{p(\theta)}\) { la probabilité a priori de \(\theta\)}
+\item
+  \(\color{purple}{p(\theta \vert x)}\) { la probabilité a posteriori de \(\theta\) (sachant \(x\))}
+\item
+  \(\color{green}{p(x)}\) { la probabilité marginale de \(x\) (sur \(\theta\))}
+\end{itemize}
+
+\[
+\color{purple}{p(\theta \vert x)} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{p(x)}} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{\sum\limits_{\theta}p(x|\theta)p(\theta)}} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{\int\limits_{\theta}p(x|\theta)p(\theta)\mathrm{d}x}} \propto \color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}
+\]
+
+\ldots{}
+
+\begin{keyconcepts}[La théorie des probabilités comme extension de la logique]{1.1}
+La théorie des probabilités est parfois présentée comme une extension de la logique. En effet, elle généralise les règles de la logique qui s\' appliquent à des événements discrets (vrais ou faux) à des événements continus. Ce faisant, les probabilités nous permettent de décrire et quantifier l\' incertitude. Il est important de souligner que les règles du calcul probabiliste ont le même statut que les règles logiques : ces règles de base peuvent être utilisées pour déduire des conclusions qui seront garanties d\' être correctes, si les prémises sont corrects.
+
+Dans ce cadre, l\' analyse statistique bayésienne peut être conceptualisée comme une application de la théorie des probabilités à l\'analyse statistique. Bien que la dépendance des conclusions de ce genre d' analyse aux a priori qu'elles rendent explicitent est souvent présenté comme une faiblesse, c\'est précisémment ce qui les rend 'optimales' ou 'cohérentes' (au sens où elles respectent les règles du calcul probabiliste). Comme résumé par Vandekerckhove (2018), conclure que les analyses bayésiennes seraient invalidées par l\' utilisation d\' informations a priori serait similaire à conclure que des déductions logiques seraient invalidées par la considération de prémisses.
+\end{keyconcepts}
 
 \hypertarget{logique-et-raisonnement-scientifique}{%
 \section{Logique et raisonnement scientifique}\label{logique-et-raisonnement-scientifique}}
@@ -1276,303 +1574,6 @@ Où la probabilité est calculée en divisant chaque valeur de la troisième col
 
 Pour résumer, la probabilité postérieure représente la probabilité d'une hypothèse, \textbf{sachant} certaines données observées et certaines connaissances a priori. Cette probabilité postérieure est proportionnelle au produit de la probabilité des données sachant l'hypothèse (i.e., le nombre de manières qu'a l'hypothèse de produire les données) et de la probabilité a priori de l'hypothèse. Autrement dit et comme résumé par McElreath (\protect\hyperlink{ref-mcelreath_statistical_2016}{2016b}), ``\emph{Bayesian inference is really just counting and comparing of possibilities}''.
 
-\hypertarget{rappels-de-thuxe9orie-des-probabilituxe9s}{%
-\section{Rappels de théorie des probabilités}\label{rappels-de-thuxe9orie-des-probabilituxe9s}}
-
-Pour rappel, une probabilité est une valeur numérique comprise entre 0 et 1 et qui respecte la règle de la somme. Ces valeurs sont assignées à des \emph{événements} \(\omega\), étant définis comme des sous-ensembles d'un grand \emph{ensemble} \(\Omega\). Chaque événement de cet ensemble peut se voir assigner une probabilité qui représente notre in(certitude) vis à vis de sa survenue. Ces probabilités sont assignées par des \emph{fontions de probabilité} qui, à chaque élément \(\omega \in \Omega\), associe ou attribue une probabilité (\protect\hyperlink{ref-blitzstein_introduction_2019}{Blitzstein \& Hwang, 2019}; \protect\hyperlink{ref-dekking_modern_2005}{Dekking, 2005}; \protect\hyperlink{ref-noel_psychologie_2015}{Noël, 2015}).
-
-Comme illustration, considérons l'exemple suivant. En postulant qu'il est impossible qu'une pièce lancée retombe sur sa tranche, un lancer de pièce peut seulement résulter en deux issues : Pile ou Face. Autrement dit, l'ensemble des issues possibles est défini comme \(\Omega = \{\text{Pile}, \ \text{Face}\}\). Étant donné qu'un \emph{événement} est défini comme un sous-ensemble de \(\Omega\), Pile et Face sont donc deux événements possibles.
-
-\begin{definition}[Fonction de probabilité]
-\protect\hypertarget{def:prob-function}{}\label{def:prob-function}Une fonction de probabilité \(p\) définie sur un ensemble fini \(\Omega\) assigne à chaque événement \(A\) dans \(\Omega\) une valeur \(\Pr(A) \in [0, 1]\) de manière à ce que :
-
-\begin{itemize}
-\tightlist
-\item
-  \(\Pr(\Omega) = 1\) et
-\item
-  \(\Pr(A \cup B) = \Pr(A) + \Pr(B)\) si \(A\) et \(B\) sont disjoints.
-\end{itemize}
-
-La valeur \(\Pr(A)\) représente la \emph{probabilité} que \(A\) se réalise.
-\end{definition}
-
-Dans l'exemple d'un lancer de pièce, si la pièce n'est pas truquée, alors \(\Pr(\text{Pile}) = \Pr(\text{Face}) = \frac{1}{2}\)\ldots{}
-
-\begin{figure}[!htb]
-
-{\centering \includegraphics[width=1\linewidth]{figures/venn} 
-
-}
-
-\caption{Diagrammes représentant les notions d'intersection, d'union, et de complément.}\label{fig:venn}
-\end{figure}
-
-\ldots{}
-
-\hypertarget{probabilituxe9-conjointe}{%
-\subsection{Probabilité conjointe}\label{probabilituxe9-conjointe}}
-
-La probabilité conjointe \(\Pr(A, B)\) nous indique la probabilité qu'à la fois \(A\) et \(B\) se réalisent, c'est à dire la probabilité de l'union de \(A\) et \(B\), qu'on note également \(\Pr(A \cap B)\).
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(tidyverse)}
-
-\FunctionTok{data}\NormalTok{(HairEyeColor) }\CommentTok{\# données adaptés de Snee (1974)}
-
-\NormalTok{cont }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(HairEyeColor, }\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{), sum) }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ t }
-\NormalTok{cont }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(cont }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(cont), }\DecValTok{2}\NormalTok{)}
-\NormalTok{cont}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##        Hair
-## Eye     Black Brown  Red Blond
-##   Brown  0.11  0.20 0.04  0.01
-##   Blue   0.03  0.14 0.03  0.16
-##   Hazel  0.03  0.09 0.02  0.02
-##   Green  0.01  0.05 0.02  0.03
-\end{verbatim}
-
-Dans chaque cellule du tableau de données ci-dessus, on trouve la \textbf{probabilité conjointe} d'avoir telle couleur de cheveux \textbf{ET} telle couleur d'yeux, qui s'écrit \(\Pr(c, y) = \Pr(y, c)\).
-
-\hypertarget{probabilituxe9-marginale}{%
-\subsection{Probabilité marginale}\label{probabilituxe9-marginale}}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{cont2 }\OtherTok{\textless{}{-}}\NormalTok{ cont }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ as.data.frame }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{marginal\_eye =} \FunctionTok{rowSums}\NormalTok{(cont) )}
-\FunctionTok{rownames}\NormalTok{(cont2) }\OtherTok{\textless{}{-}} \FunctionTok{row.names}\NormalTok{(cont)}
-\NormalTok{cont2}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##       Black Brown  Red Blond marginal_eye
-## Brown  0.11  0.20 0.04  0.01         0.36
-## Blue   0.03  0.14 0.03  0.16         0.36
-## Hazel  0.03  0.09 0.02  0.02         0.16
-## Green  0.01  0.05 0.02  0.03         0.11
-\end{verbatim}
-
-On peut aussi s'intéresser à la probabilité d'avoir des yeux bleus, de manière générale. Il s'agit de la probabilité \textbf{marginale} de l'événement \emph{yeux bleus}, qui s'obtient par la somme de toutes les probabilités jointes impliquant l'événement \emph{yeux bleus}. Elle s'écrit \(\Pr(y)\).
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{cont3 }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(cont2, }\FunctionTok{colSums}\NormalTok{(cont2) )}
-\FunctionTok{rownames}\NormalTok{(cont3) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{row.names}\NormalTok{(cont2), }\StringTok{"marginal\_hair"}\NormalTok{)}
-\NormalTok{cont3}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##               Black Brown  Red Blond marginal_eye
-## Brown          0.11  0.20 0.04  0.01         0.36
-## Blue           0.03  0.14 0.03  0.16         0.36
-## Hazel          0.03  0.09 0.02  0.02         0.16
-## Green          0.01  0.05 0.02  0.03         0.11
-## marginal_hair  0.18  0.48 0.11  0.22         0.99
-\end{verbatim}
-
-On peut bien entendu aussi s'intéresser aux probabilités des couleurs de cheveux, de manière générale. Elle s'écrit \(\Pr(c)\).
-
-\hypertarget{probabilituxe9-conditionnelle}{%
-\subsection{Probabilité conditionnelle}\label{probabilituxe9-conditionnelle}}
-
-On pourrait aussi s'intéresser à la probabilité qu'une personne ait les cheveux blonds, \textbf{sachant} qu'elle a les yeux bleus. Il s'agit d'une probabilité \textbf{conditionnelle}, et s'écrit \(p(c|y)\). Cette probabilité conditionnelle peut se ré-écrire: \(p(c|y)= \frac{p(c,y)}{p(y)}\).
-
-\begin{verbatim}
-##      Black Brown  Red Blond marginal_eye
-## Blue  0.03  0.14 0.03  0.16         0.36
-\end{verbatim}
-
-Par exemple, quelle est la probabilité d'avoir des yeux bleus lorsqu'on a les cheveux blonds ?
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{cont3[}\StringTok{"Blue"}\NormalTok{, }\StringTok{"Blond"}\NormalTok{] }\SpecialCharTok{/}\NormalTok{ cont3[}\StringTok{"Blue"}\NormalTok{, }\StringTok{"marginal\_eye"}\NormalTok{]  }
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##      Blue 
-## 0.4444444
-\end{verbatim}
-
-On remarque dans le cas précédent que \(p(blonds|bleus)\) \textbf{n'est pas nécessairement égal} à \(p(bleus|blonds)\).
-
-Autre exemple: la probabilité de mourir sachant qu'on a été attaqué par un requin n'est pas la même que la probabilité d'avoir été attaqué par un requin, sachant qu'on est mort (\href{https://en.wikipedia.org/wiki/Confusion_of_the_inverse}{\emph{confusion of the inverse}}). De la même manière, \(p(data|H_{0}) \neq p(H_{0}|data)\).
-
-À partir des axiomes de Kolmogorov (cf.~début du cours), et des définitions précédentes des probabilités conjointes, marginales, et conditionnelles, découle la \textbf{règle du produit} (en multipliant chaque côté par \(p(y)\)) :
-
-\[p(a, b) = p(b) \cdot p(a|b) = p(a) \cdot p(b|a)\]
-
-\ldots{}
-
-\hypertarget{duxe9rivation-du-thuxe9oruxe8me-de-bayes}{%
-\subsection{Dérivation du théorème de Bayes}\label{duxe9rivation-du-thuxe9oruxe8me-de-bayes}}
-
-\[p(x, y) = p(x|y) p(y) = p(y|x)p(x)\]
-
-\[p(y|x)p(x) = p(x|y)p(y)\]
-
-\[p(y|x) = \dfrac{p(x|y)p(y)}{p(x)}\]
-
-\[p(x|y) = \dfrac{p(y|x)p(x)}{p(y)}\]
-
-On retrouve le résultat présenté dans la section précédente, en remplaçant \(x\) par \emph{données} et \(y\) par \emph{hypothèse} :
-
-\[
-\Pr(\text{hypothèse} \ | \ \text{données}) = \frac{\Pr(\text{données} \ | \ \text{hypothèse}) \times \Pr(\text{hypothèse})}{\text{Somme des produits}}
-\]
-
-\ldots{}
-
-\hypertarget{loi-de-probabilituxe9-cas-discret}{%
-\subsection{Loi de probabilité, cas discret}\label{loi-de-probabilituxe9-cas-discret}}
-
-\ldots{}
-
-\begin{definition}[Fonction de masse de probabilité]
-\protect\hypertarget{def:PMF}{}\label{def:PMF}La fonction de masse de probabilité \(p\) d'une variable aléatoire \(X\) is la fonction \(p : \mathbb{R} \rightarrow [0, 1]\), définie par :
-
-\[p(a) = \Pr(X = a) \quad \text{for} - \infty < a < \infty\]
-\end{definition}
-
-Une fonction de masse (\emph{probability mass function}, ou \emph{PMF}) est une fonction qui attribue une probabilité à chaque valeur d'une variable aléatoire. Exemple de la distribution binomiale pour une pièce non biaisée (\(\theta = 0.5\)), indiquant la probabilité d'obtenir \(N\) faces sur 10 lancers.
-
-\begin{figure}[!htb]
-
-{\centering \includegraphics[width=0.5\linewidth]{IMSB_files/figure-latex/binomial-barplot-1} 
-
-}
-
-\caption{Distribution de la probabilité d'obtenir N 'Face' sur 10 lancers de pièce.}\label{fig:binomial-barplot}
-\end{figure}
-
-Somme à 1\ldots{}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# PMFs sum to 1}
-\FunctionTok{dbinom}\NormalTok{(}\AttributeTok{x =} \DecValTok{0}\SpecialCharTok{:}\DecValTok{10}\NormalTok{, }\AttributeTok{size =} \DecValTok{10}\NormalTok{, }\AttributeTok{prob =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ sum}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 1
-\end{verbatim}
-
-\hypertarget{loi-de-probabilituxe9-cas-continu}{%
-\subsection{Loi de probabilité, cas continu}\label{loi-de-probabilituxe9-cas-continu}}
-
-\begin{definition}[Fonction de densité de probabilité]
-\protect\hypertarget{def:PDF}{}\label{def:PDF}Une variable aléatoire \(X\) est dite \emph{continue} si pour une fonction donnée \(p : \mathbb{R} \rightarrow \mathbb{R}\) et pour tout nombres \(a\) et \(b\) avec \(a \leq b\),
-
-\[\Pr(a \leq X \leq b) = \int_{a}^{b} p(x) \mathrm{d} x\]
-
-La fonction \(p\) doit satisfaire la condition \(p(x) \geq 0\) pour tout \(x\) et \(\int_{-\infty}^{\infty} p(x) \mathrm{d} x = 1\). On appelle \(p\) la fonction de densité de probabilité (ou densité de probabilité) de \(X\).
-\end{definition}
-
-Une fonction de densité de probabilité (\emph{probability density function}, ou \emph{PDF}), est une fonction qui permet de représenter une loi de probabilité sous forme d'intégrales (l'équivalent de la PMF pour des variables aléatoires strictement continues).
-
-\begin{figure}[!htb]
-
-{\centering \includegraphics[width=0.5\linewidth]{IMSB_files/figure-latex/pdf-plot-1} 
-
-}
-
-\caption{Blah blah...}\label{fig:pdf-plot}
-\end{figure}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# PDFs integrate to 1}
-\FunctionTok{integrate}\NormalTok{(dnorm, }\SpecialCharTok{{-}}\ConstantTok{Inf}\NormalTok{, }\ConstantTok{Inf}\NormalTok{, }\AttributeTok{mean =} \DecValTok{100}\NormalTok{, }\AttributeTok{sd =} \DecValTok{15}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## 1 with absolute error < 1.3e-06
-\end{verbatim}
-
-\ldots{}
-
-\begin{keyconcepts}[Variable aléatoire continue]{1.1}
-Une variable aléatoire continue peut prendre (littéralement) une infinité de valeurs. On se retrouve donc face un problème. Si on attribue une probabilité non-nulle à chacune de ces valeurs (à une infinité de valeurs donc), la 'somme' (l'intégrale) des probabilités de ces valeurs sera elle aussi infinie, et cette fonction ne pourra donc pas être considérée comme une fonction de probabilité. Pour pallier à ce problème, chaque valeur ponctuelle d'une variable aléatoire est assignée une probabilité nulle (i.e., $\Pr(X = x) = 0$) et uniquement des intervalles (e.g., $\Pr(a < x < b)$) peuvent se voir attribuer une probabilité.
-\end{keyconcepts}
-
-\ldots{}
-
-\hypertarget{apartuxe9-quest-ce-quune-intuxe9grale}{%
-\subsection{Aparté, qu'est-ce qu'une intégrale ?}\label{apartuxe9-quest-ce-quune-intuxe9grale}}
-
-Une intégrale correspond à la \textbf{surface} (aire géométrique) délimitée par la représentation graphique d'une fonction, \emph{l'aire sous la courbe}. Une distribution est dite \textbf{impropre} si son intégrale n'est pas égale à un nombre fini (e.g., \(+ \infty\)) et \textbf{normalisée} si son intégrale est égale à 1.
-
-\begin{figure}[!htb]
-
-{\centering \includegraphics[width=0.75\linewidth]{IMSB_files/figure-latex/integral-1} 
-
-}
-
-\caption{Blah blah...}\label{fig:integral}
-\end{figure}
-
-\begin{figure}[!htb]
-
-{\centering \includegraphics[width=0.75\linewidth]{IMSB_files/figure-latex/integral-qi-1} 
-
-}
-
-\caption{Blah blah...}\label{fig:integral-qi}
-\end{figure}
-
-L'intégrale de \(f(x)\) sur l'intervalle {[}90 ; 96{]} vaut: \(p(90 < x < 96) = \int_{90}^{96} f(x) \ \mathrm{d}x = 0.142\).
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{integrate}\NormalTok{(dnorm, }\DecValTok{90}\NormalTok{, }\DecValTok{96}\NormalTok{, }\AttributeTok{mean =} \DecValTok{100}\NormalTok{, }\AttributeTok{sd =} \DecValTok{15}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## 0.1423704 with absolute error < 1.6e-15
-\end{verbatim}
-
-\hypertarget{notations-terminologie}{%
-\subsection{Notations, terminologie}\label{notations-terminologie}}
-
-Ayant introduit de manière intuitive les concepts centraux de l'inférence bayésienne (en particulier, la mise à jour d'un connaissance a posteriori en une connaissance a posteriori) nous allons maintenant établit la terminologie qui nous accompagner au fil de ce livre.
-
-\begin{itemize}
-\item
-  \(\theta\) désigne habituellement un paramètre ou un vecteur de paramètres (e.g., la proportion de billes bleues)
-\item
-  \(\color{orangered}{p(x\vert \theta)}\) { désigne la probabilité conditionnelle des données \(x\) sachant le paramètre \(\theta\) } \(\color{orangered}{[p(x | \theta = \theta)]}\)
-\item
-  \(\color{orangered}{p(x\vert \theta)}\) { une fois que la valeur de \(x\) est connue, est vue comme la fonction de vraisemblance (\emph{likelihood}) du paramètre \(\theta\). Attention, il ne s'agit pas d'une distribution de probabilité (n'intègre pas à 1). } \(\color{orangered}{[p(x = x | \theta)]}\)
-\item
-  \(\color{steelblue}{p(\theta)}\) { la probabilité a priori de \(\theta\)}
-\item
-  \(\color{purple}{p(\theta \vert x)}\) { la probabilité a posteriori de \(\theta\) (sachant \(x\))}
-\item
-  \(\color{green}{p(x)}\) { la probabilité marginale de \(x\) (sur \(\theta\))}
-\end{itemize}
-
-\[
-\color{purple}{p(\theta \vert x)} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{p(x)}} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{\sum\limits_{\theta}p(x|\theta)p(\theta)}} = \dfrac{\color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}}{\color{green}{\int\limits_{\theta}p(x|\theta)p(\theta)\mathrm{d}x}} \propto \color{orangered}{p(x\vert \theta)} \color{steelblue}{p(\theta)}
-\]
-
-\ldots{}
-
-\begin{keyconcepts}[La théorie des probabilités comme extension de la logique]{1.1}
-La théorie des probabilités est parfois présentée comme une extension de la logique. En effet, elle généralise les règles de la logique qui s\' appliquent à des événements discrets (vrais ou faux) à des événements continus. Ce faisant, les probabilités nous permettent de décrire et quantifier l\' incertitude. Il est important de souligner que les règles du calcul probabiliste ont le même statut que les règles logiques : ces règles de base peuvent être utilisées pour déduire des conclusions qui seront garanties d\' être correctes, si les prémises sont corrects.
-
-Dans ce cadre, l\' analyse statistique bayésienne peut être conceptualisée comme une application de la théorie des probabilités à l\'analyse statistique. Bien que la dépendance des conclusions de ce genre d' analyse aux a priori qu'elles rendent explicitent est souvent présenté comme une faiblesse, c\'est précisémment ce qui les rend 'optimales' ou 'cohérentes' (au sens où elles respectent les règles du calcul probabiliste). Comme résumé par Vandekerckhove (2018), conclure que les analyses bayésiennes seraient invalidées par l\' utilisation d\' informations a priori serait similaire à conclure que des déductions logiques seraient invalidées par la considération de prémisses.
-\end{keyconcepts}
-
 \hypertarget{quelques-exemples-dapplication}{%
 \section{Quelques exemples d'application}\label{quelques-exemples-dapplication}}
 
@@ -1840,17 +1841,61 @@ Nos intuitions probabilistes sont, dans la grande majorité des cas, très mauva
 
 \textbf{Affirmation du conséquent} : Raisonnement fallacieux qui consiste à inférer la réalisation d'un antécédent sur la base de la réalisation du conséquent.
 
-\textbf{Facteur de Bayes (Bayes factor)} : Support relatif fourni par un jeu de données pour deux hypothèses alternatives. Si on considère deux hypothèses \(\mathcal{H}_{1}\) et \(\mathcal{H}_{2}\) et des données \(x\), alors le facteur de Bayes est \(p(x \ | \ \mathcal{H}_{1}) / p(x \ | \ \mathcal{H}_{2})\). Ce dernier peut-être inteprêté comme un ``facteur de mise à jour'' du rapport des chances a priori (i.e., avant de prendre connaissance des données) vers le rapport des chances a posteriori (i.e., après avoir pris connaissance des données).
+\textbf{Facteur de Bayes (Bayes factor)} : Support relatif fourni par un jeu de données pour deux hypothèses alternatives. Si on considère deux hypothèses \(\mathcal{H}_{1}\) et \(\mathcal{H}_{2}\) et des données \(x\), alors le facteur de Bayes est \(p(x \:\vert\:\mathcal{H}_{1}) / p(x \:\vert\:\mathcal{H}_{2})\). Ce dernier peut-être interprété comme un ``facteur de mise à jour'' du rapport des chances a priori (i.e., avant de prendre connaissance des données) vers le rapport des chances a posteriori (i.e., après avoir pris connaissance des données).
 
 \textbf{Négation de l'antécédent} : Raisonnement fallacieux qui consiste à affirmer une négation du conséquent sur la base d'une négation de l'antécédent.
 
 \textbf{Probabilité} : Une valeur numérique comprise entre 0 et 1 respectant les règles du calcul probabiliste (cf.~Chapitre 1).
 
-\textbf{Règle de la somme}: Pour deux événements \(A\) et \(B\), la règle de la somme nous dit que : \(\Pr(A \cup B) = \Pr(A) + \Pr(B) - \Pr(A \cap B)\).
+\textbf{Règle de la somme}: Pour deux évènements \(A\) et \(B\), la règle de la somme nous dit que : \(\Pr(A \cup B) = \Pr(A) + \Pr(B) - \Pr(A \cap B)\).
 
-\textbf{Règle du produit}: Pour deux événements \(A\) et \(B\), la règle du produit nous dit que : \(\Pr(A, B) = \Pr(B) \times \Pr(A \ | \ B) = \Pr(A) \times \Pr(B \ | \ A)\).
+\textbf{Règle du produit}: Pour deux évènements \(A\) et \(B\), la règle du produit nous dit que : \(\Pr(A, B) = \Pr(B) \times \Pr(A \:\vert\:B) = \Pr(A) \times \Pr(B \:\vert\:A)\).
 
-\textbf{Vraisemblance (likelihood)} : Une mesure du support fourni par les données pour certaines valeurs de paramètres. Après avoir observé des données \(x\) (i.e., lorsque \(x\) est fixe), peut être vu comme la fonction vraisemblance \(\mathcal{L}(\theta\ |\ x)\) du paramètre \(\theta\) (i.e., \(p(X = x\ |\ \theta)\).
+\textbf{Vraisemblance (likelihood)} : Une mesure du support fourni par les données pour certaines valeurs de paramètres. Après avoir observé des données \(x\) (i.e., lorsque \(x\) est fixe), peut être vu comme la fonction vraisemblance \(\mathcal{L}(\theta \:\vert\:x)\) du paramètre \(\theta\) (i.e., \(p(X = x \:\vert\:\theta)\).
+
+\hypertarget{notations}{%
+\chapter{Notations}\label{notations}}
+
+\hypertarget{uxe9vuxe9nements-et-ensembles}{%
+\section*{Événements et ensembles}\label{uxe9vuxe9nements-et-ensembles}}
+
+\begin{longtable}{@{}p{2cm}@{}p{\dimexpr\textwidth-2cm\relax}@{}}
+
+\nomenclature{$A$ ou $B$}{Les lettres majuscules représentent des \textit{événements}.}
+\nomenclature{$\Pr(A)$}{La probabilité de l'événement $A$.}
+\nomenclature{$\Pr(A \:\vert\:B)$}{La probabilité conditionnelle de l'événement $A$ sachant $B$.}
+\nomenclature{$\binom{n}{k}$}{Coefficient binomial.}
+
+\end{longtable}
+
+\hypertarget{variables-aluxe9atoires}{%
+\section*{Variables aléatoires}\label{variables-aluxe9atoires}}
+
+\begin{longtable}{@{}p{2cm}@{}p{\dimexpr\textwidth-2cm\relax}@{}}
+
+\nomenclature{$X$ ou $Y$}{Les lettres majuscules représentent des variables aléatoires.}
+\nomenclature{$E[X]$}{Espérance de $X$.}
+\nomenclature{$Var[X]$}{Variance de $X$.}
+\nomenclature{$p(x)$}{Fonction de masse / densité de la variable aléatoire $X$.}
+
+\end{longtable}
+
+\hypertarget{lambiguituxe9-de-py-verttheta}{%
+\section*{\texorpdfstring{L'ambiguité de \(p(y \:\vert\:\theta)\)}{L'ambiguité de p(y \textbackslash:\textbackslash vert\textbackslash:\textbackslash theta)}}\label{lambiguituxe9-de-py-verttheta}}
+
+La notation \(p(y \:\vert\:\theta)\) peut faire référence à deux choses selon le contexte : la fonction de vraisemblance et le modèle d'observation. De plus, on trouve de nombreuses notations ambigues en statistique. Essayons de clarifier ci-dessous.
+
+\begin{itemize}
+\tightlist
+\item
+  \(\Pr(Y = y \:\vert\:\Theta = \theta)\) désigne une \textbf{probabilité} (e.g., \texttt{dbinom(x\ =\ 2,\ size\ =\ 10,\ prob\ =\ 0.5)}).
+\item
+  \(p(Y = y \:\vert\:\Theta = \theta)\) désigne une \textbf{densité} de probabilité (e.g., \texttt{dbeta(x\ =\ 0.4,\ shape1\ =\ 2,\ shape2\ =\ 3)}).
+\item
+  \(p(Y = y \:\vert\:\Theta)\) désigne une fonction de vraisemblance (likelihood) discrète ou continue, \(y\) est connu/fixé, \(\Theta\) est une variable aléatoire, la somme (ou l'intégrale) de cette distribution \textbf{n'est pas égale à 1} (e.g., \texttt{dbinom(x\ =\ 2,\ size\ =\ 10,\ prob\ =\ seq(0,\ 1,\ 0.1)\ )}).
+\item
+  \(p(Y \:\vert\:\Theta = \theta)\) désigne une fonction de masse (ou densité) de probabilité (dont la somme ou l'intégrale est égale à 1), qu'on appelle aussi ``modèle d'observation'' (observation model) ou ``distribution d'échantillonnage'' (sampling distribution), \(Y\) est une variable aléatoire, \(\theta\) est connu/fixé (e.g., \texttt{dbinom(x\ =\ 0:10,\ size\ =\ 10,\ prob\ =\ 0.5)}).
+\end{itemize}
 
 \hypertarget{bibliographie}{%
 \chapter*{Bibliographie}\label{bibliographie}}
