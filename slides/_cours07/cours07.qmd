@@ -1,6 +1,6 @@
 ---
 title: Introduction à la modélisation statistique bayésienne
-subtitle: Un cours en R, Stan, et brms
+subtitle: Un cours en R et Stan avec brms
 author: Ladislas Nalborczyk (LPC, LNC, CNRS, Aix-Marseille Univ)
 from: markdown+emoji
 format:
@@ -34,11 +34,6 @@ format:
 title-slide-attributes:
     data-background-color: "#1c5253"
 bibliography: ../../files/bib/references.bib
-editor_options: 
-  chunk_output_type: console
-editor: 
-  markdown: 
-    wrap: 72
 ---
 
 ## Planning
@@ -137,7 +132,7 @@ data.frame(x = c(-5, 5) ) %>%
 
 ```{r eval = TRUE, echo = TRUE}
 alpha <- 0.05 # seuil de significativité
-abs(qt(alpha / 2, df = t.test(men, women)$parameter) ) # valeur de t critique
+abs(qt(p = alpha / 2, df = t.test(men, women)$parameter) ) # valeur de t critique
 ```
 
 ```{r eval = TRUE, echo = FALSE, fig.width = 7, fig.height = 7}
@@ -343,7 +338,7 @@ odds sont de $1/1$). Par exemple :
 
 . . .
 
--   $\mathcal{H}_{0}$: la précognition n'existe pas !
+-   $\mathcal{H}_{0}$: la précognition n'existe pas.
 -   $\mathcal{H}_{1}$: la précognition existe.
 
 . . .
@@ -623,7 +618,7 @@ d %>%
 Il nous faut une autre mesure des capacités de prédiction pour évaluer
 nos modèles. Idéalement, on voudrait pouvoir mesurer la "distance" entre
 notre modèle et le "full model" (i.e., la "réalité", la nature)... mais
-on ne sait pas faire cela.
+on ne sait (encore) pas faire cela.
 
 . . .
 
@@ -634,7 +629,7 @@ réduction est la définition de l'**information**.
 . . .
 
 Mais il nous faut tout d'abord une mesure de l'incertitude (pour savoir
-si on l'a réduite, ou pas)... S'il existe $n$ événements possibles, et
+si on l'a réduite, ou pas)... S'il existe $n$ évènements possibles, et
 que chaque évènement $i$ a pour probabilité $p_{i}$, alors une mesure de
 l'incertitude est donnée par l'entropie (de Shannon) $H$ :
 
@@ -656,20 +651,20 @@ $p_{2} = 0.7$.
 Alors, $H(p) = - (p_{1} \times \log(p_{1}) + p_{2} \times \log(p_{2})) \approx 0.61$.
 
 ```{r eval = TRUE, echo = TRUE}
-p <- c(0.3, 0.7)
-- sum(p * log(p) )
+p <- c(0.3, 0.7) # distribution des probabilités de pluie et soleil à Grenoble
+- sum(p * log(p) ) # équivalent à sum(p * log(1 / p) )
 ```
 
 . . .
 
 Imaginons que nous habitions à Abu Dhabi et que la probabilité qu'il y
-pleuve ou qu'il y fasse beau est de $p_{1} = 0.01$ et $p_{2} = 0.99$.
+pleuve ou qu'il y fasse beau soit de $p_{1} = 0.01$ et $p_{2} = 0.99$.
 
 . . .
 
 ```{r eval = TRUE, echo = TRUE}
-p <- c(0.01, 0.99)
-- sum(p * log(p) )
+p <- c(0.01, 0.99) # distribution des probabilités de pluie et soleil à Abu Dhabi
+- sum(p * log(p) ) # toujours équivalent à sum(p * log(1 / p) )
 ```
 
 ## Divergence
@@ -753,7 +748,8 @@ D_{\text{KL}}(p, q) &= H(p, q) - H(p) \\
 $$
 
 ```{r eval = TRUE, echo = TRUE}
-- sum (p * (log(q) - log(p) ) )
+- sum(p * (log(q) - log(p) ) )
+sum(p * log(p / q) )
 ```
 
 ## Vers la déviance...
@@ -779,11 +775,57 @@ entre chaque modèle et notre distribution cible. On a seulement
 besoin de la **log-probabilité moyenne des modèles**. Comme on ne connaît
 pas la distribution cible, cela veut dire qu'on ne peut pas interpréter
 cette quantité en termes absolus mais seulement en termes relatifs. Ce
-qui nous intéresse c'est
-$\mathbb{E} [\log(q_{i})] - \mathbb{E} [\log(r_{i})]$.
+qui nous intéresse c'est $\mathbb{E} [\log(q_{i})] - \mathbb{E} [\log(r_{i})]$ (i.e., des différences de divergences).
 
 ```{r eval = TRUE, echo = FALSE}
 knitr::include_graphics("figures/KL_distance.png")
+```
+
+## Vers la déviance (exemple d'application)
+
+Exemple d'une distribution cible uniforme $p$, et 4 modèles $q1, q2, q3, q4$ (exemple tiré de [cet article](https://en.wikipedia.org/wiki/Kullback–Leibler_divergence#Basic_example)).
+
+```{r eval = TRUE, echo = TRUE}
+p <- c(1/3, 1/3, 1/3) # distribution cible (distribution uniforme avec p = 1/3)
+q1 <- c(0.36, 0.48, 0.16) # modèle q1
+q2 <- c(0.2, 0.6, 0.2) # modèle q2
+q3 <- c(0.1, 0.8, 0.1) # modèle q3
+q4 <- c(0.3, 0.4, 0.3) # modèle q4
+```
+
+```{r eval = TRUE, echo = FALSE}
+# plotting the distributions
+data.frame(p, q1, q2, q3, q4) %>%
+    mutate(x = c(0, 1, 2) ) %>%
+    pivot_longer(cols = 1:5) %>%
+    ggplot(aes(x = x, y = value) ) +
+    geom_bar(stat = "identity") +
+    facet_wrap(~name, ncol = 5) +
+    labs(x = expression(theta), y = "")
+```
+
+## Vers la déviance (exemple d'application)
+
+```{r eval = TRUE, echo = TRUE}
+divergence_q1 <- sum(p * log(p / q1) ) # divergence du modèle q1
+divergence_q2 <- sum(p * log(p / q2) ) # divergence du modèle q2
+divergence_q3 <- sum(p * log(p / q3) ) # divergence du modèle q3
+divergence_q4 <- sum(p * log(p / q4) ) # divergence du modèle q4
+
+# vecteur de divergences
+divergences <- c(divergence_q1, divergence_q2, divergence_q3, divergence_q4)
+
+# vecteur de negative log-scores
+neg_log_scores <- c(-sum(log(q1) ), -sum(log(q2) ), -sum(log(q3) ), -sum(log(q4) ) )
+```
+
+```{r eval = TRUE, echo = FALSE}
+# relation entre les deux
+data.frame(divergences = divergences, neglogscore = neg_log_scores) %>%
+    ggplot(aes(x = divergences, y = neglogscore) ) +
+    geom_line() +
+    geom_point() +
+    labs(x = "KL Divergence", y = "Negative log-score")
 ```
 
 ## Déviance
@@ -800,16 +842,20 @@ chaque observation.
 . . .
 
 ```{r eval = TRUE, echo = TRUE}
+# on standardise la variable "mass"
 d$mass.s <- scale(d$mass)
-mod1.8 <- lm(brain ~ mass.s, data = d)
 
--2 * logLik(mod1.8) # calcul de la déviance
+# on "fit" un modèle de régression linéaire Gaussien
+mod1.8 <- lm(formula = brain ~ mass.s, data = d)
+
+# calcul de la déviance
+-2 * logLik(mod1.8)
 ```
 
 ## Déviance
 
 ```{r eval = TRUE, echo = TRUE}
-# paramètres estimés (intercept et pente)
+# on récupère les paramètres estimés via MLE (intercept et pente)
 alpha <- coef(mod1.8)[1]
 beta <- coef(mod1.8)[2]
 
@@ -827,7 +873,7 @@ ll <- sum(dnorm(
 
 ## Log-pointwise-predictive density
 
-Les fréquentistes multiplient le log-score par $-2$ car la différence de
+Dans le monde fréquentiste, on multiplie le log-score par $-2$ car la différence de
 deux déviances suit une loi de $\chi^{2}$, ce qui est utile pour tester
 l'hypothèse nulle. Mais sans besoin de tester l'hypothèse nulle (avec
 une forme prédéfinie), on peut très bien travailler directement avec le
@@ -949,7 +995,7 @@ knitr::include_graphics("figures/mind_blowing2.gif")
 
 ## Deviance information criterion
 
-Une condition d'applicaiton de l'AIC est que les priors soient plats
+Une condition d’application de l'AIC est que les priors soient plats
 ou dépassés par la vraisemblance (e.g., lorsqu'on a beaucoup de
 données). Le DIC est un indice qui ne requiert pas cette condition, en
 s'accommodant de priors informatifs.
@@ -1006,7 +1052,7 @@ priors <- c(
   )
 
 mod1 <- brm(
-  dist ~ 1 + speed,
+  formula = dist ~ 1 + speed,
   prior = priors,
   data = cars
   )
@@ -1017,34 +1063,32 @@ mod1 <- brm(
 $$\text{lppd}(y, \Theta) = \sum_{i} \log \frac{1}{S} \sum_{s} p(y_{i} \given \Theta_{s})$$
 
 ```{r eval = TRUE, echo = TRUE}
-n_obs <- nrow(cars) # number of observations
+# pointwise log-likelihood (S samples * N observations)
+ll <- log_lik(mod1) %>% data.frame()
 
-ll <-
-  log_lik(mod1) %>% # pointwise log-likelihood (S rows * N observations)
-  data.frame() %>% # converts to dataframe
-  set_names(c(str_c(0, 1:9), 10:n_obs) ) # renaming columns
-
-(lppd <- 
+(lppd <-
   ll %>% 
   pivot_longer(
-    everything(), # for all columns
+    cols = everything(),
     names_to = "i",
     values_to = "loglikelihood"
     ) %>%
   # log-likelihood to likelihood
-  mutate(likelihood = exp(loglikelihood) ) %>% 
+  mutate(likelihood = exp(loglikelihood) ) %>%
+  # pour chaque observation
   group_by(i) %>%
-  # taking the log of the average likelihood
-  summarise(log_mean_likelihood = mean(likelihood) %>% log() ) %>%
-  # computing the sum of these values
+  # logarithme de la vraisemblance moyenne
+  summarise(log_mean_likelihood = log(mean(likelihood) ) ) %>%
+  # on prend la somme de ces valeurs
   summarise(lppd = sum(log_mean_likelihood) ) %>%
+  ungroup() %>%
   pull(lppd) )
 ```
 
 ## Widely applicable information criterion
 
 La deuxième partie du calcul du WAIC est le nombre de paramètres
-effectif, $p_{WAIC}$. On définit
+effectif, $p_{\text{WAIC}}$. On définit
 $\text{var}_{\theta}\log[p(y_{i} | \theta)]$ comme la variance de la
 log-vraisemblance pour chaque observation $i$ de l'échantillon
 d'entraînement.
@@ -1058,11 +1102,15 @@ $$p_{\text{WAIC}} = \sum_{i} \text{var}_{\theta}\log[p(y_{i} \given \theta)]$$
     everything(),
     names_to = "i",
     values_to = "loglikelihood"
-    ) %>% 
-  group_by(i) %>% 
+    ) %>%
+  # pour chaque observation
+  group_by(i) %>%
+  # variance de la log-vraisemblance
   summarise(var_loglikelihood = var(loglikelihood) ) %>%
-  summarise(pwaic = sum(var_loglikelihood) ) %>% 
-  pull() )
+  # somme de ces variances
+  summarise(pwaic = sum(var_loglikelihood) ) %>%
+  ungroup() %>%
+  pull(pwaic) )
 ```
 
 ## Widely applicable information criterion
@@ -1138,7 +1186,7 @@ head(d)
 
 ```{r eval = TRUE, echo = TRUE, results = "hide"}
 mod2.1 <- brm(
-  kcal.per.g ~ 1,
+  formula = kcal.per.g ~ 1,
   family = gaussian,
   data = d,
   prior = c(
@@ -1150,7 +1198,7 @@ mod2.1 <- brm(
   )
 
 mod2.2 <- brm(
-  kcal.per.g ~ 1 + neocortex,
+  formula = kcal.per.g ~ 1 + neocortex,
   family = gaussian,
   data = d,
   prior = c(
@@ -1167,7 +1215,7 @@ mod2.2 <- brm(
 
 ```{r eval = TRUE, echo = TRUE, results = "hide"}
 mod2.3 <- brm(
-  kcal.per.g ~ 1 + log(mass),
+  formula = kcal.per.g ~ 1 + log(mass),
   family = gaussian,
   data = d,
   prior = c(
@@ -1179,7 +1227,7 @@ mod2.3 <- brm(
   )
 
 mod2.4 <- brm(
-  kcal.per.g ~ 1 + neocortex + log(mass),
+  formula = kcal.per.g ~ 1 + neocortex + log(mass),
   family = gaussian,
   data = d,
   prior = c(
@@ -1441,7 +1489,7 @@ utilisant `brms::brm()` et des priors faiblement régularisateurs.
 
 ```{r eval = TRUE, echo = TRUE, results = "hide"}
 mod3.1 <- brm(
-  height ~ 1 + age,
+  formula = height ~ 1 + age,
   family = gaussian(),
   data = d1,
   prior = c(
