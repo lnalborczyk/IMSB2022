@@ -1,4 +1,4 @@
-## ----setup, eval = TRUE, include = FALSE, cache = FALSE-----------------------------------------
+## ----setup, eval = TRUE, include = FALSE, cache = FALSE----------------------------------------------------------------------------
 library(tidyverse)
 library(patchwork)
 library(brms)
@@ -15,11 +15,11 @@ knitr::opts_chunk$set(
 theme_set(theme_bw(base_size = 16, base_family = "Open Sans") )
 
 
-## ----echo = FALSE, out.width = "300px"----------------------------------------------------------
+## ----echo = FALSE, out.width = "300px"---------------------------------------------------------------------------------------------
 knitr::include_graphics("figures/robot.png")
 
 
-## ----eval = TRUE, echo = TRUE-------------------------------------------------------------------
+## ----eval = TRUE, echo = TRUE------------------------------------------------------------------------------------------------------
 library(tidyverse)
 library(imsb)
 
@@ -27,7 +27,7 @@ df <- open_data(robot)
 head(x = df, n = 15)
 
 
-## ----eval = TRUE, echo = TRUE, fig.width = 15, fig.height = 5-----------------------------------
+## ----eval = TRUE, echo = TRUE, fig.width = 15, fig.height = 5----------------------------------------------------------------------
 df %>%
   ggplot(aes(x = factor(cafe), y = wait, fill = factor(afternoon) ) ) +
   geom_dotplot(
@@ -39,7 +39,7 @@ df %>%
   labs(x = "Café", y = "Temps d'attente (en minutes)")
 
 
-## ----eval = TRUE, echo = TRUE, ig.width = 7.5, fig.height = 5-----------------------------------
+## ----eval = TRUE, echo = TRUE, ig.width = 7.5, fig.height = 5----------------------------------------------------------------------
 ggplot(data = data.frame(x = c(0, 10) ), aes(x = x) ) +
     stat_function(
         fun = dcauchy,
@@ -47,7 +47,7 @@ ggplot(data = data.frame(x = c(0, 10) ), aes(x = x) ) +
         )
 
 
-## ----eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------
+## ----eval = TRUE, echo = TRUE, results = "hide"------------------------------------------------------------------------------------
 library(brms)
 
 mod1 <- brm(
@@ -62,18 +62,18 @@ mod1 <- brm(
   )
 
 
-## ----eval = TRUE, echo = TRUE-------------------------------------------------------------------
-posterior_summary(mod1, probs = c(0.025, 0.975) )
+## ----eval = TRUE, echo = TRUE, warning = FALSE-------------------------------------------------------------------------------------
+posterior_summary(x = mod1, probs = c(0.025, 0.975), pars = c("^b_", "sigma") )
 
 
-## ----eval = TRUE, echo = TRUE, fig.width = 14, fig.height = 7-----------------------------------
+## ----eval = TRUE, echo = TRUE, fig.width = 14, fig.height = 7----------------------------------------------------------------------
 plot(
   x = mod1, combo = c("dens_overlay", "trace"),
   theme = theme_bw(base_size = 16, base_family = "Open Sans")
   )
 
 
-## ----eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------
+## ----eval = TRUE, echo = TRUE, results = "hide"------------------------------------------------------------------------------------
 mod2 <- brm(
   formula = wait ~ 0 + factor(cafe),
   prior = c(
@@ -85,11 +85,11 @@ mod2 <- brm(
   )
 
 
-## ----eval = TRUE, echo = TRUE-------------------------------------------------------------------
-posterior_summary(mod2)
+## ----eval = TRUE, echo = TRUE, warning = FALSE-------------------------------------------------------------------------------------
+posterior_summary(x = mod2, pars = "^b_")
 
 
-## ----eval = TRUE, echo = TRUE, out.width = "33%"------------------------------------------------
+## ----eval = TRUE, echo = TRUE, out.width = "33%"-----------------------------------------------------------------------------------
 y1 <- rnorm(n = 1e4, mean = 5, sd = 1)
 y2 <- rnorm(n = 1e4, mean = 0, sd = 1) + 5
 
@@ -99,7 +99,7 @@ data.frame(y1 = y1, y2 = y2) %>%
     geom_density(show.legend = FALSE)
 
 
-## ----eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------
+## ----eval = TRUE, echo = TRUE, results = "hide"------------------------------------------------------------------------------------
 mod3 <- brm(
   formula = wait ~ 1 + (1 | cafe),
   prior = c(
@@ -113,7 +113,7 @@ mod3 <- brm(
   )
 
 
-## ----echo = FALSE, fig.width = 14, fig.height = 8-----------------------------------------------
+## ----echo = FALSE, fig.width = 14, fig.height = 8----------------------------------------------------------------------------------
 library(wesanderson) # for plotting
 post <- as_draws_df(mod3) # extracts posterior samples
 
@@ -132,15 +132,15 @@ df %>%
     theme(legend.title = element_blank() )
 
 
-## ----echo = FALSE, fig.align = "center", out.width = "66%"--------------------------------------
+## ----echo = FALSE, fig.align = "center", out.width = "66%"-------------------------------------------------------------------------
 knitr::include_graphics("figures/stein1.png")
 
 
-## ----echo = FALSE, fig.align = "center", out.width = "75%"--------------------------------------
+## ----echo = FALSE, fig.align = "center", out.width = "75%"-------------------------------------------------------------------------
 knitr::include_graphics("figures/stein2.png")
 
 
-## ----eval = TRUE, echo = TRUE-------------------------------------------------------------------
+## ----eval = TRUE, echo = TRUE------------------------------------------------------------------------------------------------------
 # calcul du WAIC et ajout du WAIC à chaque modèle
 mod1 <- add_criterion(mod1, "waic")
 mod2 <- add_criterion(mod2, "waic")
@@ -151,12 +151,12 @@ w <- loo_compare(mod1, mod2, mod3, criterion = "waic")
 print(w, simplify = FALSE)
 
 
-## ----eval = TRUE, echo = TRUE-------------------------------------------------------------------
+## ----eval = TRUE, echo = TRUE------------------------------------------------------------------------------------------------------
 posterior_summary(mod1, pars = c("^b", "sigma") )
 posterior_summary(mod3, pars = c("^b", "sigma") )
 
 
-## ----eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------
+## ----eval = TRUE, echo = TRUE, results = "hide"------------------------------------------------------------------------------------
 df2 <- open_data(robot_unequal) # nouveau jeu de données
 
 mod4 <- brm(
@@ -172,7 +172,7 @@ mod4 <- brm(
   )
 
 
-## ----echo = FALSE, fig.width = 12, fig.height = 6-----------------------------------------------
+## ----echo = FALSE, fig.width = 12, fig.height = 6----------------------------------------------------------------------------------
 post <- as_draws_df(mod4)
 
 df2 %>%
@@ -190,11 +190,11 @@ df2 %>%
     theme(legend.title = element_blank() )
 
 
-## ----echo = FALSE, out.width = "800px"----------------------------------------------------------
+## ----echo = FALSE, out.width = "800px"---------------------------------------------------------------------------------------------
 knitr::include_graphics("figures/bivariate.png")
 
 
-## ----eval = TRUE, echo = TRUE-------------------------------------------------------------------
+## ----eval = TRUE, echo = TRUE------------------------------------------------------------------------------------------------------
 sigma_a <- 1
 sigma_b <- 0.75
 rho <- 0.7
@@ -202,13 +202,13 @@ cov_ab <- sigma_a * sigma_b * rho
 (Sigma1 <- matrix(c(sigma_a^2, cov_ab, cov_ab, sigma_b^2), ncol = 2) )
 
 
-## ----eval = TRUE, echo = TRUE-------------------------------------------------------------------
+## ----eval = TRUE, echo = TRUE------------------------------------------------------------------------------------------------------
 (sigmas <- c(sigma_a, sigma_b) ) # standard deviations
 (Rho <- matrix(c(1, rho, rho, 1), nrow = 2) ) # correlation matrix
 (Sigma2 <- diag(sigmas) %*% Rho %*% diag(sigmas) )
 
 
-## ---- echo = FALSE, fig.width = 14, fig.height = 7, cache = TRUE--------------------------------
+## ---- echo = FALSE, fig.width = 14, fig.height = 7, cache = TRUE-------------------------------------------------------------------
 library(ggdist)
 
 expand.grid(eta = c(0.5, 2, 5, 10), K = c(2, 3, 4, 5) ) %>%
@@ -237,31 +237,31 @@ expand.grid(eta = c(0.5, 2, 5, 10), K = c(2, 3, 4, 5) ) %>%
         )
 
 
-## ----eval = FALSE, echo = TRUE------------------------------------------------------------------
+## ----eval = FALSE, echo = TRUE-----------------------------------------------------------------------------------------------------
 ## Reaction ~ Days + (1 + Days | Subject)
 
 
-## ----eval = FALSE, echo = TRUE------------------------------------------------------------------
-## c(Reaction, Memory) ~ Days + (1 + Days | Subject)
-## c(Reaction, Memory) ~ 1 + Days + (1 + Days | Subject)
+## ----eval = FALSE, echo = TRUE-----------------------------------------------------------------------------------------------------
+## Reaction ~ Days + (1 + Days | Subject)
+## Reaction ~ 1 + Days + (1 + Days | Subject)
 
 
-## ----eval = FALSE, echo = TRUE------------------------------------------------------------------
-## c(Reaction, Memory) ~ Days + (1 | Subject)
-## c(Reaction, Memory) ~ Days + (Days | Subject)
+## ----eval = FALSE, echo = TRUE-----------------------------------------------------------------------------------------------------
+## Reaction ~ 1 + Days + (1 | Subject)
+## Reaction ~ 1 + Days + (1 + Days | Subject)
 
 
-## ----eval = FALSE, echo = TRUE------------------------------------------------------------------
-## c(Reaction, Memory) ~ Days + (1 + Days || Subject)
+## ----eval = FALSE, echo = TRUE-----------------------------------------------------------------------------------------------------
+## Reaction ~ Days + (1 + Days || Subject)
 
 
-## ----eval = FALSE, echo = TRUE------------------------------------------------------------------
-## brm(Reaction ~ 1 + Days + (1 + Days | Subject), family = lognormal() )
+## ----eval = FALSE, echo = TRUE-----------------------------------------------------------------------------------------------------
+## brm(formula = Reaction ~ 1 + Days + (1 + Days | Subject), family = lognormal() )
 
 
-## ----eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------
+## ----eval = TRUE, echo = TRUE, results = "hide"------------------------------------------------------------------------------------
 mod5 <- brm(
-  wait ~ 1 + afternoon + (1 + afternoon | cafe),
+  formula = wait ~ 1 + afternoon + (1 + afternoon | cafe),
   prior = c(
     prior(normal(0, 10), class = Intercept),
     prior(normal(0, 10), class = b),
@@ -274,7 +274,7 @@ mod5 <- brm(
   )
 
 
-## ----eval = TRUE, echo = TRUE, fig.width = 9, fig.height = 6------------------------------------
+## ----eval = TRUE, echo = TRUE, fig.width = 9, fig.height = 6-----------------------------------------------------------------------
 post <- as_draws_df(x = mod5) # extracts posterior samples
 R <- rethinking::rlkjcorr(n = 16000, K = 2, eta = 2) # samples from prior
 
@@ -285,7 +285,7 @@ data.frame(prior = R[, 1, 2], posterior = post$cor_cafe__Intercept__afternoon) %
     labs(x = expression(rho), y = "Nombre d'échantillons")
 
 
-## ----eval = TRUE, echo = FALSE, fig.width = 12, fig.height = 8----------------------------------
+## ----eval = TRUE, echo = FALSE, fig.width = 12, fig.height = 8---------------------------------------------------------------------
 a1 <- sapply(1:20, function(i) mean(df$wait[df$cafe == i & df$afternoon == 0]) )
 b1 <- sapply(1:20, function(i) mean(df$wait[df$cafe == i & df$afternoon == 1]) ) - a1
 
@@ -348,7 +348,7 @@ shrinkage %>%
     labs(x = "Intercept", y = "Slope")
 
 
-## ----eval = TRUE, echo = TRUE-------------------------------------------------------------------
+## ----eval = TRUE, echo = TRUE------------------------------------------------------------------------------------------------------
 # comparaison des WAIC de chaque modèle
 mod5 <- add_criterion(mod5, "waic")
 w <- loo_compare(mod1, mod2, mod3, mod5, criterion = "waic")
@@ -356,19 +356,19 @@ print(w, simplify = FALSE)
 model_weights(mod1, mod2, mod3, mod5, weights = "waic")
 
 
-## ----eval = TRUE, echo = TRUE, warning = FALSE--------------------------------------------------
+## ----eval = TRUE, echo = TRUE, warning = FALSE-------------------------------------------------------------------------------------
 posterior_summary(mod1, pars = c("^b", "sigma") )
 posterior_summary(mod3, pars = c("^b", "sigma") )
 posterior_summary(mod5, pars = c("^b", "sigma") )
 
 
-## ----eval = TRUE, echo = TRUE-------------------------------------------------------------------
+## ----eval = TRUE, echo = TRUE------------------------------------------------------------------------------------------------------
 library(lme4)
 data(sleepstudy)
 head(sleepstudy, 20)
 
 
-## ----eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6-----------------------------------
+## ----eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6----------------------------------------------------------------------
 sleepstudy %>%
     ggplot(aes(x = Days, y = Reaction) ) +
     geom_smooth(method = "lm", colour = "black") +
@@ -377,7 +377,7 @@ sleepstudy %>%
     scale_x_continuous(breaks = c(0, 2, 4, 6, 8) )
 
 
-## ----eval = TRUE, echo = TRUE-------------------------------------------------------------------
+## ----eval = TRUE, echo = TRUE------------------------------------------------------------------------------------------------------
 fmod0 <- lm(Reaction ~ Days, sleepstudy)
 fmod1 <- lmer(Reaction ~ Days + (1 | Subject), sleepstudy)
 fmod2 <- lmer(Reaction ~ Days + (1 + Days | Subject), sleepstudy)
@@ -385,7 +385,7 @@ fmod2 <- lmer(Reaction ~ Days + (1 + Days | Subject), sleepstudy)
 anova(fmod1, fmod2)
 
 
-## ----eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------
+## ----eval = TRUE, echo = TRUE, results = "hide"------------------------------------------------------------------------------------
 mod6 <- brm(
   Reaction ~ 1 + Days,
   prior = c(
@@ -399,11 +399,11 @@ mod6 <- brm(
   )
 
 
-## ----eval = TRUE, echo = TRUE-------------------------------------------------------------------
+## ----eval = TRUE, echo = TRUE------------------------------------------------------------------------------------------------------
 posterior_summary(mod6)
 
 
-## ----eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------
+## ----eval = TRUE, echo = TRUE, results = "hide"------------------------------------------------------------------------------------
 mod7 <- brm(
   Reaction ~ 1 + Days + (1 | Subject),
   prior = c(
@@ -418,11 +418,11 @@ mod7 <- brm(
   )
 
 
-## ----eval = TRUE, echo = TRUE-------------------------------------------------------------------
+## ----eval = TRUE, echo = TRUE------------------------------------------------------------------------------------------------------
 posterior_summary(mod7, pars = c("^b", "sigma") )
 
 
-## ----eval = TRUE, echo = TRUE, results = "hide"-------------------------------------------------
+## ----eval = TRUE, echo = TRUE, results = "hide"------------------------------------------------------------------------------------
 mod8 <- brm(
   Reaction ~ 1 + Days + (1 + Days | Subject),
   prior = c(
@@ -437,11 +437,11 @@ mod8 <- brm(
   )
 
 
-## ----eval = TRUE, echo = TRUE-------------------------------------------------------------------
+## ----eval = TRUE, echo = TRUE------------------------------------------------------------------------------------------------------
 posterior_summary(mod8, pars = c("^b", "sigma") )
 
 
-## ----eval = TRUE, echo = TRUE-------------------------------------------------------------------
+## ----eval = TRUE, echo = TRUE------------------------------------------------------------------------------------------------------
 # calcul du WAIC et ajout du WAIC à chaque modèle
 mod6 <- add_criterion(mod6, "waic")
 mod7 <- add_criterion(mod7, "waic")

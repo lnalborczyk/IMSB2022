@@ -124,7 +124,7 @@ $$
 ## Half-Cauchy
 
 $$
-p(x\ \given \ x_{0}, \gamma) = \Big(\pi \gamma \Big[1 + \big(\tfrac{x-x_{0}}{\gamma}\big)^{2}\Big] \Big)^{-1}
+p(x \given x_{0}, \gamma) = \left(\pi \gamma \left[1 + \left(\frac{x-x_{0}}{\gamma}\right)^{2}\right] \right)^{-1}
 $$
 
 ```{r eval = TRUE, echo = TRUE, ig.width = 7.5, fig.height = 5}
@@ -154,8 +154,8 @@ mod1 <- brm(
 
 . . .
 
-```{r eval = TRUE, echo = TRUE}
-posterior_summary(mod1, probs = c(0.025, 0.975) )
+```{r eval = TRUE, echo = TRUE, warning = FALSE}
+posterior_summary(x = mod1, probs = c(0.025, 0.975), pars = c("^b_", "sigma") )
 ```
 
 ## Diagnostic plot
@@ -195,8 +195,8 @@ mod2 <- brm(
 
 ## Un intercept par café
 
-```{r eval = TRUE, echo = TRUE}
-posterior_summary(mod2)
+```{r eval = TRUE, echo = TRUE, warning = FALSE}
+posterior_summary(x = mod2, pars = "^b_")
 ```
 
 ## Modèle multi-niveaux
@@ -224,7 +224,7 @@ des **hyper-paramètres**, ce sont des paramètres pour des paramètres, et
 leurs priors sont appelés des **hyperpriors**. Il y a deux niveaux dans
 le modèle...
 
-## Équivalences (encore)
+## Équivalences
 
 $$
 \begin{align}
@@ -323,7 +323,7 @@ et $c$ une constante, le **shrinking factor** [@efron1977].
 
 ## Shrinkage magic [@efron1977]
 
-Le shrinking factor est déterminé à la fois par la variabilité (imprécision) de la mesure (e.g., son écart-type) et par la distance à l'estimation moyenne (i.e., $y - \bar{y}$). En d'autres termes, cet estimateur fait moins "confiance" (i.e., accorde moins de poids) aux observations imprécises et/ou extrêmes. Le shrinkage agit donc comme une protection contre le sur-apprentissage (overfitting).
+Le shrinking factor est déterminé à la fois par la variabilité (imprécision) de la mesure (e.g., son écart-type) et par la distance à l'estimation moyenne (i.e., $y - \bar{y}$). En d'autres termes, cet estimateur fait moins "confiance" (i.e., accorde moins de poids) aux observations imprécises et/ou extrêmes. En pratique, le shrinkage agit comme une protection contre le sur-apprentissage (overfitting).
 
 ```{r echo = FALSE, fig.align = "center", out.width = "75%"}
 knitr::include_graphics("figures/stein2.png")
@@ -345,8 +345,8 @@ On distingue en général trois perspectives (ou stratégies) :
     invariant, on estime un intercept commun (`mod1`).
 
 -   **No pooling** : on suppose que les temps d'attente de chaque café
-    sont uniques et indépendants: on estime un intercept par café, mais
-    sans informer le **niveau** supérieur (`mod2`).
+    sont uniques et indépendants : on estime un intercept par café, mais
+    sans informer le niveau supérieur (`mod2`).
 
 -   **Partial pooling** : on utilise un prior adaptatif, comme dans
     l'exemple précédent (`mod3`).
@@ -376,7 +376,7 @@ print(w, simplify = FALSE)
 ```
 
 On remarque que le modèle 3 a seulement 18 "effective parameters"
-(*pWAIC*), et moins de paramètres que le modèle 2, alors qu'il en a en
+(pWAIC) et moins de paramètres que le modèle 2, alors qu'il en a en
 réalité 2 de plus... `posterior_summary(mod3)[3, 1]` nous donne le
 sigma du prior adaptatif des $\alpha_{\text{café}}$
 ($\sigma_{\text{café}} = 0.82$). On remarque que ce sigma est très
@@ -726,8 +726,8 @@ expand.grid(eta = c(0.5, 2, 5, 10), K = c(2, 3, 4, 5) ) %>%
 
 ## Rappels de syntaxe
 
-Le package `brms` utilise la même syntaxe que les fonctions de base R
-(comme `lm`) ou que le package `lme4`.
+Le paquet `brms` utilise la même syntaxe que les fonctions de base R
+(comme `lm`) ou que le paquet `lme4`.
 
 ```{r eval = FALSE, echo = TRUE}
 Reaction ~ Days + (1 + Days | Subject)
@@ -743,8 +743,8 @@ généralement implicite, de sorte que les deux écritures ci-dessous sont
 équivalentes.
 
 ```{r eval = FALSE, echo = TRUE}
-c(Reaction, Memory) ~ Days + (1 + Days | Subject)
-c(Reaction, Memory) ~ 1 + Days + (1 + Days | Subject)
+Reaction ~ Days + (1 + Days | Subject)
+Reaction ~ 1 + Days + (1 + Days | Subject)
 ```
 
 ## Rappels de syntaxe
@@ -754,8 +754,8 @@ effets constants (effets fixes), tandis que la seconde partie (entre
 parenthèses) représente les effets "variants" ou "variables" (effets aléatoires).
 
 ```{r eval = FALSE, echo = TRUE}
-c(Reaction, Memory) ~ Days + (1 | Subject)
-c(Reaction, Memory) ~ Days + (Days | Subject)
+Reaction ~ 1 + Days + (1 | Subject)
+Reaction ~ 1 + Days + (1 + Days | Subject)
 ```
 
 Le premier modèle ci-dessus contient seulement un intercept variable,
@@ -771,7 +771,7 @@ corrélation entre ces deux effets. Dans le cas contraire, on peut
 supprimer cette corrélation (i.e., la fixer à 0) en utilisant `||`.
 
 ```{r eval = FALSE, echo = TRUE}
-c(Reaction, Memory) ~ Days + (1 + Days || Subject)
+Reaction ~ Days + (1 + Days || Subject)
 ```
 
 . . .
@@ -781,7 +781,7 @@ postulat peut être changé facilement en spécifiant la fonction souhaitée
 via l'argument `family`.
 
 ```{r eval = FALSE, echo = TRUE}
-brm(Reaction ~ 1 + Days + (1 + Days | Subject), family = lognormal() )
+brm(formula = Reaction ~ 1 + Days + (1 + Days | Subject), family = lognormal() )
 ```
 
 ## Modèle brms
@@ -791,7 +791,7 @@ varient par `cafe`.
 
 ```{r eval = TRUE, echo = TRUE, results = "hide"}
 mod5 <- brm(
-  wait ~ 1 + afternoon + (1 + afternoon | cafe),
+  formula = wait ~ 1 + afternoon + (1 + afternoon | cafe),
   prior = c(
     prior(normal(0, 10), class = Intercept),
     prior(normal(0, 10), class = b),
@@ -885,7 +885,7 @@ shrinkage %>%
 ## Comparaison de modèles
 
 On compare le premier modèle (complete pooling model), le troisième
-modèle (partial pooling model), et le dernier modèle.
+modèle (partial pooling model), et le dernier modèle (avec intercept et pente variable).
 
 ```{r eval = TRUE, echo = TRUE}
 # comparaison des WAIC de chaque modèle
