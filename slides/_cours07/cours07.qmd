@@ -320,7 +320,7 @@ $$
 <br>
 
 $$
-\text{BF}_{12} = \dfrac{p(D | \mathcal{M_{1}} )}{p(D | \mathcal{M_{2}} )} = \dfrac{\int p(\theta | \mathcal{M_{1}} ) p(D | \theta, \mathcal{M_{1}} ) \text{d}\theta}{\int p(\theta | \mathcal{M_{2}}) p(D | \theta, \mathcal{M_{2}} ) \text{d}\theta} = \dfrac{\int \mathrm{Binomial}(n, \theta)\mathrm{Beta}(6, 10)\text{d}\theta}{\int \mathrm{Binomial}(n, \theta)\mathrm{Beta}(20, 12) \text{d}\theta}
+\text{BF}_{12} = \dfrac{p(D \given \mathcal{M_{1}} )}{p(D \given \mathcal{M_{2}} )} = \dfrac{\int p(\theta \given \mathcal{M_{1}} ) p(D \given \theta, \mathcal{M_{1}} ) \text{d}\theta}{\int p(\theta \given \mathcal{M_{2}}) p(D \given \theta, \mathcal{M_{2}} ) \text{d}\theta} = \dfrac{\int \mathrm{Binomial}(n, \theta)\mathrm{Beta}(6, 10)\text{d}\theta}{\int \mathrm{Binomial}(n, \theta)\mathrm{Beta}(20, 12) \text{d}\theta}
 $$
 
 ## Facteur de Bayes, exemple d'application
@@ -1089,7 +1089,7 @@ ll <- log_lik(mod1) %>% data.frame()
 
 La deuxième partie du calcul du WAIC est le nombre de paramètres
 effectif, $p_{\text{WAIC}}$. On définit
-$\text{var}_{\theta}\log[p(y_{i} | \theta)]$ comme la variance de la
+$\text{var}_{\theta}\log[p(y_{i} \given \theta)]$ comme la variance de la
 log-vraisemblance pour chaque observation $i$ de l'échantillon
 d'entraînement.
 
@@ -1167,7 +1167,7 @@ chaque modèle (e.g., via le WAIC).
 
 ## Comparaison de modèles
 
-On essaye de prédire les kg par gramme de lait (`kcal.per.g`)
+On essaye de prédire les kcal par gramme de lait (`kcal.per.g`)
 avec les prédicteurs `neocortex` et le logarithme de `mass`. Nous allons
 ensuite fitter 4 modèles qui correspondent aux 4 combinaisons possibles
 de prédicteurs et les comparer en utilisant le WAIC.

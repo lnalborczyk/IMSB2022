@@ -63,6 +63,8 @@ Modèle linéaire généralisé <br> Cours n°07 : Comparaison de modèles <br>
 **Cours n°08 : Modèles multi-niveaux** <br> Cours n°09 : Modèles
 multi-niveaux généralisés <br> Cours n°10 : Data Hackathon <br>
 
+$$\newcommand\given[1][]{\:#1\vert\:}$$
+
 ## Modèles multi-niveaux
 
 Le but est de construire un modèle qui puisse **apprendre à plusieurs
@@ -70,12 +72,14 @@ niveaux**, qui puisse produire des estimations qui seront informées par
 les différents groupes présents dans les données. Nous allons suivre
 l'exemple suivant tout au long de ce cours.
 
+. . .
+
 Imaginons que nous ayons construit un robot visiteur de cafés, et que
 celui-ci s'amuse à mesurer le temps d'attente après avoir commandé. Ce
 robot visite 20 cafés différents, 5 fois le matin et 5 fois
 l'après-midi, et mesure le temps (en minutes) de service d'un café.
 
-```{r echo = FALSE, out.width = "400px"}
+```{r echo = FALSE, out.width = "300px"}
 knitr::include_graphics("figures/robot.png")
 ```
 
@@ -110,17 +114,17 @@ tous les bistrots confondus) pour être servi.
 
 $$
 \begin{align}
-w_{i} &\sim \mathrm{Normal}(\mu_{i}, \sigma) \\
-\mu_{i} &= \alpha \\
-\alpha &\sim \mathrm{Normal}(5, 10) \\
-\sigma &\sim \mathrm{HalfCauchy}(0, 2) \\
+\color{orangered}{w_{i}} \ &\color{orangered}{\sim \mathrm{Normal}(\mu_{i}, \sigma)} \\
+\color{black}{\mu_{i}} \ &\color{black}{= \alpha} \\
+\color{steelblue}{\alpha} \ &\color{steelblue}{\sim \mathrm{Normal}(5, 10)} \\
+\color{steelblue}{\sigma} \ &\color{steelblue}{\sim \mathrm{HalfCauchy}(0, 2)} \\
 \end{align}
 $$
 
 ## Half-Cauchy
 
 $$
-p(x\ |\ x_{0}, \gamma) = \Big(\pi \gamma \Big[1 + \big(\tfrac{x-x_{0}}{\gamma}\big)^{2}\Big] \Big)^{-1}
+p(x\ \given \ x_{0}, \gamma) = \Big(\pi \gamma \Big[1 + \big(\tfrac{x-x_{0}}{\gamma}\big)^{2}\Big] \Big)^{-1}
 $$
 
 ```{r eval = TRUE, echo = TRUE, ig.width = 7.5, fig.height = 5}
@@ -137,12 +141,13 @@ ggplot(data = data.frame(x = c(0, 10) ), aes(x = x) ) +
 library(brms)
 
 mod1 <- brm(
-  wait ~ 1,
+  formula = wait ~ 1,
   prior = c(
     prior(normal(5, 10), class = Intercept),
     prior(cauchy(0, 2), class = sigma)
     ),
   data = df,
+  # on utilise tous les coeurs disponibles
   cores = parallel::detectCores()
   )
 ```
@@ -157,7 +162,7 @@ posterior_summary(mod1, probs = c(0.025, 0.975) )
 
 ```{r eval = TRUE, echo = TRUE, fig.width = 14, fig.height = 7}
 plot(
-  mod1, combo = c("dens_overlay", "trace"),
+  x = mod1, combo = c("dens_overlay", "trace"),
   theme = theme_bw(base_size = 16, base_family = "Open Sans")
   )
 ```
@@ -169,16 +174,16 @@ construire 20 dummy variables.
 
 $$
 \begin{align}
-w_{i} &\sim \mathrm{Normal}(\mu_{i}, \sigma) \\
-\mu_{i} &= \alpha_{\text{café}[i]} \\
-\alpha_{\text{café}[i]} &\sim \mathrm{Normal}(5, 10) \\
-\sigma &\sim \mathrm{HalfCauchy}(0, 2) \\
+\color{orangered}{w_{i}} \ &\color{orangered}{\sim \mathrm{Normal}(\mu_{i}, \sigma)} \\
+\color{black}{\mu_{i}} \ &\color{black}{= \alpha_{\text{café}[i]}} \\
+\color{steelblue}{\alpha_{\text{café}[i]}} \ &\color{steelblue}{\sim \mathrm{Normal}(5, 10)} \\
+\color{steelblue}{\sigma} \ &\color{steelblue}{\sim \mathrm{HalfCauchy}(0, 2)} \\
 \end{align}
 $$
 
 ```{r eval = TRUE, echo = TRUE, results = "hide"}
 mod2 <- brm(
-  wait ~ 0 + factor(cafe),
+  formula = wait ~ 0 + factor(cafe),
   prior = c(
     prior(normal(5, 10), class = b),
     prior(cauchy(0, 2), class = sigma)
@@ -203,12 +208,12 @@ des données...
 
 $$
 \begin{align}
-\text{Niveau 1}: w_{i} &\sim \mathrm{Normal}(\mu_{i}, \sigma) \\
-\mu_{i} &= \alpha_{\text{café}[i]} \\
-\text{Niveau 2}: \alpha_{\text{café}} &\sim \mathrm{Normal}(\alpha,\sigma_{\text{café}}) \\
-\alpha &\sim \mathrm{Normal}(5, 10) \\
-\sigma_{\text{café}} &\sim \mathrm{HalfCauchy}(0, 2) \\
-\sigma &\sim \mathrm{HalfCauchy}(0, 2) \\
+\text{Niveau 1}: \color{orangered}{w_{i}} \ &\color{orangered}{\sim \mathrm{Normal}(\mu_{i}, \sigma)} \\
+\color{black}{\mu_{i}} \ &\color{black}{= \alpha_{\text{café}[i]}} \\
+\text{Niveau 2}: \color{steelblue}{\alpha_{\text{café}}} \ &\color{steelblue}{\sim \mathrm{Normal}(\alpha,\sigma_{\text{café}})} \\
+\color{steelblue}{\alpha} \ &\color{steelblue}{\sim \mathrm{Normal}(5, 10)} \\
+\color{steelblue}{\sigma_{\text{café}}} \ &\color{steelblue}{\sim \mathrm{HalfCauchy}(0, 2)} \\
+\color{steelblue}{\sigma} \ &\color{steelblue}{\sim \mathrm{HalfCauchy}(0, 2)} \\
 \end{align}
 $$
 
@@ -223,9 +228,9 @@ le modèle...
 
 $$
 \begin{align}
-w_{i} &\sim \mathrm{Normal}(\mu_{i}, \sigma) \\
-\mu_{i} &= \alpha_{\text{café}[i]} \\
-\alpha_{\text{café}} &\sim \mathrm{Normal}(\alpha, \sigma_{\text{café}}) \\
+\color{orangered}{w_{i}} \ &\color{orangered}{\sim \mathrm{Normal}(\mu_{i}, \sigma)} \\
+\color{black}{\mu_{i}} \ &\color{black}{= \alpha_{\text{café}[i]}} \\
+\color{steelblue}{\alpha_{\text{café}}} \ &\color{steelblue}{\sim \mathrm{Normal}(\alpha,\sigma_{\text{café}})} \\
 \end{align}
 $$
 
@@ -235,10 +240,9 @@ mais on pourrait, de la même manière, le définir dans le modèle linéaire
 
 $$
 \begin{align}
-w_{i} &\sim \mathrm{Normal}(\mu_{i}, \sigma) \\
-\mu_{i} &= \alpha + \alpha_{\text{café}[i]} \\
-\alpha_{\text{café}} &\sim \mathrm{Normal}(0, \sigma_{\text{café}}) \\
-\alpha &\sim \mathrm{Normal}(5, 10) \\
+\color{orangered}{w_{i}} \ &\color{orangered}{\sim \mathrm{Normal}(\mu_{i}, \sigma)} \\
+\color{black}{\mu_{i}} \ &\color{black}{= \alpha + \alpha_{\text{café}[i]}} \\
+\color{steelblue}{\alpha_{\text{café}}} \ &\color{steelblue}{\sim \mathrm{Normal}(0,\sigma_{\text{café}})} \\
 \end{align}
 $$
 
@@ -255,20 +259,22 @@ temps d'attente moyen par café...
 ## Équivalences (encore)
 
 ```{r eval = TRUE, echo = TRUE, out.width = "33%"}
-y1 <- rnorm(1e4, 10, 1)
-y2 <- 10 + rnorm(1e4, 0, 1)
+y1 <- rnorm(n = 1e4, mean = 5, sd = 1)
+y2 <- rnorm(n = 1e4, mean = 0, sd = 1) + 5
 
-dens(y1)
-dens(y2, add = TRUE)
+data.frame(y1 = y1, y2 = y2) %>%
+    pivot_longer(cols = 1:2, names_to = "x", values_to = "y") %>%
+    ggplot(aes(x = y, colour = x) ) +
+    geom_density(show.legend = FALSE)
 ```
 
-##  {background-iframe="http://mfviz.com/hierarchical-models/"}
+## {background-iframe="http://mfviz.com/hierarchical-models/"}
 
 ## Modèle multi-niveaux
 
 ```{r eval = TRUE, echo = TRUE, results = "hide"}
 mod3 <- brm(
-  wait ~ 1 + (1 | cafe),
+  formula = wait ~ 1 + (1 | cafe),
   prior = c(
     prior(normal(5, 10), class = Intercept),
     prior(cauchy(0, 2), class = sigma),
@@ -286,7 +292,7 @@ $\sigma_{\text{café}}$, et un intercept par café.
 
 ## Shrinkage
 
-```{r echo = FALSE, fig.width = 12, fig.height = 8}
+```{r echo = FALSE, fig.width = 14, fig.height = 8}
 library(wesanderson) # for plotting
 post <- as_draws_df(mod3) # extracts posterior samples
 
@@ -311,18 +317,13 @@ df %>%
 knitr::include_graphics("figures/stein1.png")
 ```
 
-The James-Stein estimator is defined as $z = \bar{y} + c(y - \bar{y})$,
-where $\bar{y}$ is the grand average, $y$ an individual estimation and
-$c$ a constant, the "shrinking factor" [@efron1977].
+L'estimateur James-Stein est défini comme $z = \bar{y} + c(y - \bar{y})$,
+où $\bar{y}$ désigne la moyenne de l'échantillon, $y$ une observation individuelle,
+et $c$ une constante, le **shrinking factor** [@efron1977].
 
 ## Shrinkage magic [@efron1977]
 
-The James-Stein estimator is determined both by the variability in the
-measure (e.g., its standard deviation, influencing the shrinking factor
-$c$) and by its distance to the average estimation (i.e.,
-$y - \bar{y}$). In other words, extreme observations are trusted less.
-Shrinkage therefore acts as **a safeguard against overfitting** in
-multilevel models.
+Le shrinking factor est déterminé à la fois par la variabilité (imprécision) de la mesure (e.g., son écart-type) et par la distance à l'estimation moyenne (i.e., $y - \bar{y}$). En d'autres termes, cet estimateur fait moins "confiance" (i.e., accorde moins de poids) aux observations imprécises et/ou extrêmes. Le shrinkage agit donc comme une protection contre le sur-apprentissage (overfitting).
 
 ```{r echo = FALSE, fig.align = "center", out.width = "75%"}
 knitr::include_graphics("figures/stein2.png")
@@ -341,14 +342,14 @@ moyenne générale).
 On distingue en général trois perspectives (ou stratégies) :
 
 -   **Complete pooling** : on suppose que le temps d'attente est
-    invariant, on estime un intercept commun (`mod1`)
+    invariant, on estime un intercept commun (`mod1`).
 
 -   **No pooling** : on suppose que les temps d'attente de chaque café
     sont uniques et indépendants: on estime un intercept par café, mais
-    sans informer le **niveau** supérieur (`mod2`)
+    sans informer le **niveau** supérieur (`mod2`).
 
 -   **Partial pooling** : on utilise un prior adaptatif, comme dans
-    l'exemple précédent (`mod3`)
+    l'exemple précédent (`mod3`).
 
 . . .
 
@@ -384,7 +385,7 @@ faible et correspond à assigner un prior très contraignant, ou
 
 ## Comparaison de modèles
 
-On compare le premier modèle (complete pooling model) et le troisième
+On compare les estimations du premier modèle (complete pooling model) et du troisième
 modèle (partial pooling model).
 
 ```{r eval = TRUE, echo = TRUE}
@@ -393,7 +394,7 @@ posterior_summary(mod3, pars = c("^b", "sigma") )
 ```
 
 Les deux modèles font la même prédiction (en moyenne) pour $\alpha$,
-mais le modèle 3 est plus incertain de sa prédiction que le modèle 1...
+mais le modèle 3 est plus incertain de sa prédiction que le modèle 1 (voir l'erreur standard pour $\alpha$)...
 
 . . .
 
@@ -409,10 +410,10 @@ fois (comme dans le cas précédent) mais qu'il visite plus souvent les
 cafés proches de chez lui...
 
 ```{r eval = TRUE, echo = TRUE, results = "hide"}
-df2 <- open_data(robot_unequal)
+df2 <- open_data(robot_unequal) # nouveau jeu de données
 
 mod4 <- brm(
-  wait ~ 1 + (1 | cafe),
+  formula = wait ~ 1 + (1 | cafe),
   prior = c(
     prior(normal(5, 10), class = Intercept),
     prior(cauchy(0, 2), class = sigma),
@@ -488,8 +489,8 @@ models et **nested or hierarchical** multilevel models. Le premier type
 de modèle concerne des données structurées selon deux (ou plus) facteurs
 aléatoires non "nichés". Le deuxième type de modèles concerne des
 données structurées de manière hiérarchique (e.g., un élève dans une
-classe dans une école dans une ville...). Voir [ce
-thread](https://stats.stackexchange.com/questions/228800/crossed-vs-nested-random-effects-how-do-they-differ-and-how-are-they-specified)
+classe dans une école dans une ville...). Voir [cette
+discussion](https://stats.stackexchange.com/questions/228800/crossed-vs-nested-random-effects-how-do-they-differ-and-how-are-they-specified)
 pour plus de détails.
 
 . . .
@@ -508,14 +509,14 @@ adaptatif.
 
 $$
 \begin{align}
-w_{i} &\sim \mathrm{Normal}(\mu_{i}, \sigma) \\
-\mu_{i} &= \alpha + \alpha_{\text{café}[i]} + \alpha_{\text{âge}[i]} \\
-\alpha_{\text{café}} &\sim \mathrm{Normal}(5, \sigma_{\text{café}}) \\
-\alpha_{\text{âge}} &\sim \mathrm{Normal}(5, \sigma_{\text{âge}}) \\
-\alpha &\sim \mathrm{Normal}(0, 10) \\
-\sigma_{\text{café}} &\sim \mathrm{HalfCauchy}(0, 2) \\
-\sigma_{\text{âge}} &\sim \mathrm{HalfCauchy}(0, 2) \\
-\sigma &\sim \mathrm{HalfCauchy}(0, 2) \\
+\color{orangered}{w_{i}} \ &\color{orangered}{\sim \mathrm{Normal}(\mu_{i}, \sigma)} \\
+\color{black}{\mu_{i}} \ &\color{black}{= \alpha + \alpha_{\text{café}[i]} + \alpha_{\text{âge}[i]}} \\
+\color{steelblue}{\alpha_{\text{café}}} \ &\color{steelblue}{\sim \mathrm{Normal}(5, \sigma_{\text{café}})} \\
+\color{steelblue}{\alpha_{\text{âge}}} \ &\color{steelblue}{\sim \mathrm{Normal}(5, \sigma_{\text{âge}})} \\
+\color{steelblue}{\alpha} \ &\color{steelblue}{\sim \mathrm{Normal}(0, 10)} \\
+\color{steelblue}{\sigma_{\text{café}}} \ &\color{steelblue}{\sim \mathrm{HalfCauchy}(0, 2)} \\
+\color{steelblue}{\sigma_{\text{âge}}} \ &\color{steelblue}{\sim \mathrm{HalfCauchy}(0, 2)} \\
+\color{steelblue}{\sigma} \ &\color{steelblue}{\sim \mathrm{HalfCauchy}(0, 2)} \\
 \end{align}
 $$
 
@@ -526,19 +527,19 @@ d'attente. Attend-on plus le matin, ou l'après-midi ?
 
 $$
 \begin{align}
-w_{i} &\sim \mathrm{Normal}(\mu_{i},\sigma) \\
-\mu_{i} &= \alpha_{\text{café}[i]} + \beta_{\text{café}[i]} A_{i}  \\
+\color{orangered}{w_{i}} \ &\color{orangered}{\sim \mathrm{Normal}(\mu_{i}, \sigma)} \\
+\color{black}{\mu_{i}} \ &\color{black}{= \alpha_{\text{café}[i]} + \beta_{\text{café}[i]} \times A_{i}} \\
 \end{align}
 $$
 
 Où $A_{i}$ est une dummy variable codée 0/1 pour le matin et
-l'après-midi et $\beta_{\text{café}}$ est un paramètre de différence
-entre le matin et l'après-midi.
+l'après-midi et où $\beta_{\text{café}}$ est donc un paramètre de différence
+(i.e., une pente) entre le matin et l'après-midi.
 
 . . .
 
 Remarque : on sait que les cafés ont des intercepts et des pentes qui
-covarient... Les cafés populaires seront surchargés le matin et beaucoup
+co-varient... Les cafés populaires seront surchargés le matin et beaucoup
 moins l'après-midi, résultant en une pente importante. Ces cafés auront
 aussi un temps d'attente moyen plus long (i.e., un intercept plus
 grand). Dans ces cafés, $\alpha$ est grand et $\beta$ est loin de zéro.
@@ -559,13 +560,12 @@ d'attente. Attend-on plus le matin, ou l'après-midi ?
 
 $$
 \begin{align}
-w_{i} &\sim \mathrm{Normal}(\mu_{i},\sigma) \\
-\mu_{i} &= \alpha_{\text{café}[i]} + \beta_{\text{café}[i]} A_{i}  \\
-\begin{bmatrix}
+\color{orangered}{w_{i}} \ &\color{orangered}{\sim \mathrm{Normal}(\mu_{i}, \sigma)} \\
+\color{black}{\mu_{i}} \ &\color{black}{= \alpha_{\text{café}[i]} + \beta_{\text{café}[i]} \times A_{i}} \\
+\color{steelblue}{\begin{bmatrix}
 \alpha_{\text{café}} \\
 \beta_{\text{café}} \\
-\end{bmatrix}
-&\sim \mathrm{MVNormal}\bigg(\begin{bmatrix} \alpha \\ \beta \end{bmatrix}, \textbf{S}\bigg) \\
+\end{bmatrix}} \ &\color{steelblue}{\sim \mathrm{MVNormal}\bigg(\begin{bmatrix} \alpha \\ \beta \end{bmatrix}, \textbf{S}\bigg)} \\
 \end{align}
 $$
 
@@ -598,6 +598,14 @@ $$
 $$
 
 ## Aparté : distribution gaussienne multivariée
+
+<!--
+
+<center>
+<iframe width=1200 height = 800 scrolling="no" frameborder="0" src="https://www.wolframcloud.com/obj/demonstrations/Published/TheBivariateNormalDistribution?_view=EMBED" style="border:0;"></iframe>
+</center>
+
+-->
 
 ```{r echo = FALSE, out.width = "800px"}
 knitr::include_graphics("figures/bivariate.png")
@@ -651,14 +659,13 @@ La deuxième méthode est pratique car elle considère séparément les
 
 $$
 \begin{align}
-w_{i} &\sim \mathrm{Normal}(\mu_{i},\sigma) \\
-\mu_{i} &= \alpha_{\text{café}[i]} + \beta_{\text{café}[i]} A_{i}  \\
-\begin{bmatrix}
+\color{orangered}{w_{i}} \ &\color{orangered}{\sim \mathrm{Normal}(\mu_{i}, \sigma)} \\
+\color{black}{\mu_{i}} \ &\color{black}{= \alpha_{\text{café}[i]} + \beta_{\text{café}[i]} \times A_{i}} \\
+\color{steelblue}{\begin{bmatrix}
 \alpha_{\text{café}} \\
 \beta_{\text{café}} \\
-\end{bmatrix}
-&\sim \mathrm{MVNormal}\bigg(\begin{bmatrix} \alpha \\ \beta \end{bmatrix}, \textbf{S}\bigg) \\
-\textbf{S} &=
+\end{bmatrix}} \ &\color{steelblue}{\sim \mathrm{MVNormal}\bigg(\begin{bmatrix} \alpha \\ \beta \end{bmatrix}, \textbf{S}\bigg)} \\
+\color{black}{\textbf{S}} \ &\color{black}{=
 \begin{pmatrix}
 \sigma_{\alpha} & 0 \\
 0 & \sigma_{\beta} \\
@@ -666,13 +673,13 @@ w_{i} &\sim \mathrm{Normal}(\mu_{i},\sigma) \\
 \textbf{R} \begin{pmatrix}
 \sigma_{\alpha} & 0 \\
 0 & \sigma_{\beta} \\
-\end{pmatrix} \\
-\alpha &\sim \mathrm{Normal} (0, 10) \\
-\beta &\sim \mathrm{Normal} (0, 10) \\
-\sigma &\sim \mathrm{HalfCauchy} (0, 1) \\
-\sigma_{\alpha} &\sim \mathrm{HalfCauchy} (0, 1) \\
-\sigma_{\beta} &\sim \mathrm{HalfCauchy} (0, 1) \\
-\textbf{R} &\sim \mathrm{LKJ}(2) \\
+\end{pmatrix}} \\
+\color{steelblue}{\alpha} \ &\color{steelblue}{\sim \mathrm{Normal} (0, 10)} \\
+\color{steelblue}{\beta} \ &\color{steelblue}{\sim \mathrm{Normal} (0, 10)} \\
+\color{steelblue}{\sigma_{\alpha}} \ &\color{steelblue}{\sim \mathrm{HalfCauchy} (0, 2)} \\
+\color{steelblue}{\sigma_{\beta}} \ &\color{steelblue}{\sim \mathrm{HalfCauchy} (0, 2)} \\
+\color{steelblue}{\sigma} \ &\color{steelblue}{\sim \mathrm{HalfCauchy} (0, 2)} \\
+\color{steelblue}{\textbf{R}} \ &\color{steelblue}{\sim \mathrm{LKJ}(2)} \\
 \end{align}
 $$
 
@@ -683,7 +690,7 @@ dernière ligne spécifie le prior pour $\textbf{R}$.
 
 ## LKJ prior
 
-D'après @lewandowski2009. Un seul paramètre $\zeta$ (zeta) spécifie la
+Prior proposé par @lewandowski2009. Un seul paramètre $\zeta$ (zeta) spécifie la
 concentration de la distribution du coefficient de corrélation. Le prior
 $\mathrm{LKJ}(2)$ définit un prior peu informatif pour $\rho$ (rho) qui est
 sceptique des corrélations extrêmes (i.e., des valeurs proches de $-1$ ou $1$).
@@ -968,8 +975,8 @@ précédents (e.g., WAIC) et concluez.
 
 ```{r eval = TRUE, echo = TRUE}
 fmod0 <- lm(Reaction ~ Days, sleepstudy)
-fmod1 <- lmer(Reaction ~ Days + (1|Subject), sleepstudy)
-fmod2 <- lmer(Reaction ~ Days + (1 + Days|Subject), sleepstudy)
+fmod1 <- lmer(Reaction ~ Days + (1 | Subject), sleepstudy)
+fmod2 <- lmer(Reaction ~ Days + (1 + Days | Subject), sleepstudy)
 
 anova(fmod1, fmod2)
 ```

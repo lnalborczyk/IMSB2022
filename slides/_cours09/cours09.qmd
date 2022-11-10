@@ -64,6 +64,8 @@ Modèle linéaire généralisé <br> Cours n°07 : Comparaison de modèles <br>
 Cours n°08 : Modèles multi-niveaux <br> **Cours n°09 : Modèles
 multi-niveaux généralisés** <br> Cours n°10 : Data Hackathon <br>
 
+$$\newcommand\given[1][]{\:#1\vert\:}$$
+
 ## Rappels de syntaxe
 
 Le package `brms` utilise la même syntaxe que les fonctions de base R
