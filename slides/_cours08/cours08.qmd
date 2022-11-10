@@ -224,7 +224,7 @@ des **hyper-paramètres**, ce sont des paramètres pour des paramètres, et
 leurs priors sont appelés des **hyperpriors**. Il y a deux niveaux dans
 le modèle...
 
-## Équivalences
+## Équivalences (encore)
 
 $$
 \begin{align}

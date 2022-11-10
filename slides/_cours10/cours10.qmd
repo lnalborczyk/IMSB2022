@@ -111,7 +111,7 @@ head(d3, 10)
 
 ## Problème n°4
 
-Ces données recensent le nombre de candidatures pour 6 départements (colonne `dept`) à Berkeley (données disponibles dans le package `rethinking`). La colonne `admit` indique le nombre de candidatures acceptées et la colonne `reject` le nombre de candidatures rejetées (la colonne `applications` est simplement la somme des deux), en fonction du sexe des candidats (`applicant.gender`).
+Ces données recensent le nombre de candidatures pour 6 départements (colonne `dept`) à Berkeley (données disponibles dans le paquet `rethinking`). La colonne `admit` indique le nombre de candidatures acceptées et la colonne `reject` le nombre de candidatures rejetées (la colonne `applications` est simplement la somme des deux), en fonction du sexe des candidats (`applicant.gender`).
 
 On veut savoir s'il existe un biais lié au sexe dans l'admission des étudiants à Berkeley.
 
@@ -143,7 +143,7 @@ Généralement, on fait lire des scénarios aux participants de l'étude, dans l
 Des études antérieures ont montré que ces jugements de moralité sont grandement influencés par trois mécanismes de raisonnement inconscients :
 
 * Le **principe d'action** : un préjudice causé par une action est jugé moralement moins acceptable qu'un préjudice causé par omission.
-* Le **principe d'intention** : un préjudice causé come étant le moyen vers un but est jugé moralement moins acceptable qu'un préjudice étant un effet secondaire (non désiré) d'un but.
+* Le **principe d'intention** : un préjudice causé comme étant le moyen vers un but est jugé moralement moins acceptable qu'un préjudice étant un effet secondaire (non désiré) d'un but.
 * Le **principe de contact** : un préjudice causé via contact physique est jugé moralement moins acceptable qu'un préjudice causé sans contact physique.
 
 ## Problème n°5
