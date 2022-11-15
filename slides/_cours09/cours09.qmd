@@ -159,7 +159,8 @@ présenté en détails dans deux blogposts, accessibles
 library(tidyverse)
 library(imsb)
 
-data <- open_data(absence_multilevel)
+data <- open_data(absence_multilevel) %>%
+    mutate(reminder = ifelse(test = reminder == 1, yes = 0.5, -0.5) )
 data %>% sample_frac() %>% head(10)
 ```
 
@@ -210,7 +211,7 @@ mod1 <- brm(
     prior = prior1,
     data = data,
     sample_prior = TRUE,
-    warmup = 2000, iter = 1e4,
+    warmup = 2000, iter = 10000,
     chains = 4, cores = parallel::detectCores(),
     control = list(adapt_delta = 0.95),
     backend = "cmdstanr"
@@ -256,12 +257,10 @@ ratio](https://en.wikipedia.org/wiki/Odds_ratio) (i.e., un rapport de
 cotes).
 
 ```{r eval = TRUE, echo = TRUE}
-fixef(mod1)[2, c(1, 3, 4)] %>% exp
+fixef(mod1)[2, c(1, 3, 4)] %>% exp()
 ```
 
-Ce ratio est environ égal à 4.77. On peut l'interpréter en disant
-qu'envoyer un mail de rappel multiplie par 4.77 la cote (i.e., le
-rapport $\frac{\Pr(\text{présent})}{\Pr(\text{absent})}$).
+Envoyer un mail de rappel multiplie par environ 18 la cote (i.e., le rapport $\frac{\Pr(\text{présent})}{\Pr(\text{absent})}$).
 
 ## Représenter les prédictions du modèle
 
@@ -313,7 +312,7 @@ accordée par le prior à la densité accordée par la distribution a
 posteriori.
 
 ```{r, echo = TRUE}
-(hyp1 <- hypothesis(x = mod1, "reminder = 0") ) # Savage-Dickey Bayes factor
+(hyp1 <- hypothesis(x = mod1, hypothesis = "reminder = 0") ) # Savage-Dickey Bayes factor
 1 / hyp1$hypothesis$Evid.Ratio # BF10 = 1 / BF01 (and BF01 = 1 / BF10)
 ```
 
@@ -421,7 +420,7 @@ de la distribution **a posteriori**. Une fois qu'on a une distribution a
 posteriori sur $\theta$, on peut simuler des données à partir de la
 **posterior predictive distribution** :
 
-$$p(\widetilde{y} | y) = \int p(\widetilde{y} | \theta) p(\theta | y) d \theta$$
+$$p(\widetilde{y} \given y) = \int p(\widetilde{y} \given \theta) p(\theta \given y) d \theta$$
 
 Si le modèle est un bon modèle, il devrait pouvoir générer des données
 qui ressemblent aux données qu'on a observées [e.g., @gabry2019].
@@ -462,7 +461,7 @@ appel de la fonction `brm()` en utilisant l'argument `control`.
 
 ```{r eval = FALSE, echo = TRUE}
 mod2 <- brm(
-    presence | trials(total) ~ 1 + reminder + (1 + reminder|researcher), 
+    presence | trials(total) ~ 1 + reminder + (1 + reminder | researcher), 
     family = binomial(link = "logit"),
     prior = prior2,
     data = data,
@@ -491,6 +490,8 @@ Un tutoriel sur les modèles de régression logistique ordinale
 
 Notre article tutoriel d'introduction aux modèles multi-niveaux avec
 `brms` [@nalborczyk2019].
+
+# Modèles de méta-analyse
 
 ## Méta-analyse
 
@@ -544,7 +545,7 @@ Où $\sigma_{j}^2 = v_{j}$ est la variance de l'effet dans l'étude $j$
 et $\alpha$ la taille d'effet dans la population. L'index
 $\alpha_{\text{study}[j]}$ indique la taille d'effet moyenne dans
 l'étude $j$. En plus de la variance dans l'échantillon $\sigma_{j}^2$
-(qui est connue), on estime aussi la variabilité des effets entre les
+(qui est connue), on estime la variabilité des effets entre les
 études $\text{Var}(\alpha_{\text{study}}) = \tau_{s}^{2}$ (niveau 2).
 
 ## Méta-analyse

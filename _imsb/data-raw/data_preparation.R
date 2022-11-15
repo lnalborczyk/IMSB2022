@@ -15,7 +15,8 @@ absence <- read.csv(file = here::here("data-raw/absence.csv") )
 usethis::use_data(absence, overwrite = TRUE)
 
 # code to prepare the absence_multilevel data
-absence_multilevel <- read.csv(file = here::here("data-raw/absenteeism.csv"), sep = ",")
+absence_multilevel <- read.csv(file = here::here("data-raw/absenteeism.csv"), sep = ",") |>
+    dplyr::mutate(reminder = ifelse(test = reminder == 1, yes = 0.5, no = -0.5) )
 usethis::use_data(absence_multilevel, overwrite = TRUE)
 
 # code to prepare the robot data
