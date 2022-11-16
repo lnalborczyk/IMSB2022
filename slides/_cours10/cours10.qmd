@@ -67,13 +67,20 @@ $$\newcommand\given[1][]{\:#1\vert\:}$$
 
 ## Introduction
 
-Cinq problèmes, cinq jeux de données. Le but est de comprendre et d'analyser ces données pour répondre à une (ou plusieurs) question(s) théorique(s).
+Cinq problèmes, cinq jeux de données. Le but est de comprendre et
+d'analyser ces données pour répondre à une (ou plusieurs) question(s)
+théorique(s).
 
-Vous devrez écrire le modèle mathématique, puis fitter ce modèle en utilisant `brms`.
+Vous devrez écrire le modèle mathématique, puis fitter ce modèle en
+utilisant `brms`.
 
-Ensuite, vous devrez évaluer le modèle, interpréter les résultats, et écrire un paragraphe de résultats (de type article) pour décrire vos analyses et vos conclusions.
+Ensuite, vous devrez évaluer le modèle, interpréter les résultats, et
+écrire un paragraphe de résultats (de type article) pour décrire vos
+analyses et vos conclusions.
 
-Les problèmes sont classés par ordre croissant de difficulté. Vous pouvez travailler individuellement ou par groupe, et des propositions de correction sont disponibles à la suite des énoncés.
+Les problèmes sont classés par ordre croissant de difficulté. Vous
+pouvez travailler individuellement ou par groupe, et des propositions de
+correction sont disponibles à la suite des énoncés.
 
 ## Problème n°1
 
@@ -89,7 +96,10 @@ head(d1, 10)
 
 ## Problème n°2
 
-Les données suivantes documentent le naufrage du titanic. La colonne `pclass` indique la classe dans laquelle chaque passager voyageait (un proxy pour le statut socio-économique), tandis que la colonne `parch` indique le nombre de parents et enfants à bord.
+Les données suivantes documentent le naufrage du titanic. La colonne
+`pclass` indique la classe dans laquelle chaque passager voyageait (un
+proxy pour le statut socio-économique), tandis que la colonne `parch`
+indique le nombre de parents et enfants à bord.
 
 Peut-on prédire la survie d'un passager grâce à ces informations ?
 
@@ -100,9 +110,14 @@ head(d2, 10)
 
 ## Problème n°3
 
-Ce jeu de données recense des informations sur le diamètre (colonne `diam`) de 80 pommes (chaque pomme étant identifiée par la colonne `id`), poussant sur 10 arbres différents (colonne `tree`). On a mesuré ce diamètre pendant 6 semaines successives (colonne `time`).
+Ce jeu de données recense des informations sur le diamètre (colonne
+`diam`) de 80 pommes (chaque pomme étant identifiée par la colonne
+`id`), poussant sur 10 arbres différents (colonne `tree`). On a mesuré
+ce diamètre pendant 6 semaines successives (colonne `time`).
 
-Que peut-on dire de la pousse de ces pommes, tout en considérant les structures de dépendance existant dans les données (i.e., chaque pomme poussait sur un arbre différent) ?
+Que peut-on dire de la pousse de ces pommes, tout en considérant les
+structures de dépendance existant dans les données (i.e., chaque pomme
+poussait sur un arbre différent) ?
 
 ```{r apples, eval = TRUE, echo = TRUE}
 d3 <- open_data(apples)
@@ -111,9 +126,15 @@ head(d3, 10)
 
 ## Problème n°4
 
-Ces données recensent le nombre de candidatures pour 6 départements (colonne `dept`) à Berkeley (données disponibles dans le paquet `rethinking`). La colonne `admit` indique le nombre de candidatures acceptées et la colonne `reject` le nombre de candidatures rejetées (la colonne `applications` est simplement la somme des deux), en fonction du sexe des candidats (`applicant.gender`).
+Ces données recensent le nombre de candidatures pour 6 départements
+(colonne `dept`) à Berkeley (données disponibles dans le paquet
+`rethinking`). La colonne `admit` indique le nombre de candidatures
+acceptées et la colonne `reject` le nombre de candidatures rejetées (la
+colonne `applications` est simplement la somme des deux), en fonction du
+sexe des candidats (`applicant.gender`).
 
-On veut savoir s'il existe un biais lié au sexe dans l'admission des étudiants à Berkeley.
+On veut savoir s'il existe un biais lié au sexe dans l'admission des
+étudiants à Berkeley.
 
 ```{r berkeley, eval = TRUE, echo = TRUE}
 d4 <- open_data(admission)
@@ -122,13 +143,19 @@ head(d4, 10)
 
 ## Problème n°5
 
-Le dilemme du tramway (trolley problem) est une expérience de pensée qui permet d'étudier les déterminants des jugements de moralité (i.e., qu'est-ce qui fait qu'on juge une action comme morale, ou pas ?).
+Le dilemme du tramway (trolley problem) est une expérience de pensée qui
+permet d'étudier les déterminants des jugements de moralité (i.e.,
+qu'est-ce qui fait qu'on juge une action comme morale, ou pas ?).
 
 . . .
 
-Sous une forme générale, ce dilemme consiste à poser la question suivante : si une personne peut effectuer un geste qui bénéficiera à un groupe de personnes A, mais, ce faisant, nuira à une personne B (seule); est-il moral pour la personne d'effectuer ce geste ?
+Sous une forme générale, ce dilemme consiste à poser la question
+suivante : si une personne peut effectuer un geste qui bénéficiera à un
+groupe de personnes A, mais, ce faisant, nuira à une personne B (seule);
+est-il moral pour la personne d'effectuer ce geste ?
 
-Voir [ce lien](https://fr.wikipedia.org/wiki/Dilemme_du_tramway) pour plus d'informations.
+Voir [ce lien](https://fr.wikipedia.org/wiki/Dilemme_du_tramway) pour
+plus d'informations.
 
 ```{r echo = FALSE, fig.align = "center", out.width = "1000px"}
 knitr::include_graphics("figures/trolley.png")
@@ -136,32 +163,54 @@ knitr::include_graphics("figures/trolley.png")
 
 ## Problème n°5
 
-Généralement, on fait lire des scénarios aux participants de l'étude, dans lesquels un individu doit prendre une décision dans une situation similaire à celle décrite à la slide précédente. Par exemple, imaginons que Denis ait le choix entre ne rien faire et laisser un train tuer cinq personnes, ou faire dérailler ce train mais tuer une personne. Ensuite, on demande aux participants de juger de la moralité de l'action choisie par Denis, sur une échelle de 1 à 7.
+Généralement, on fait lire des scénarios aux participants de l'étude,
+dans lesquels un individu doit prendre une décision dans une situation
+similaire à celle décrite à la slide précédente. Par exemple, imaginons
+que Denis ait le choix entre ne rien faire et laisser un train tuer cinq
+personnes, ou faire dérailler ce train mais tuer une personne. Ensuite,
+on demande aux participants de juger de la moralité de l'action choisie
+par Denis, sur une échelle de 1 à 7.
 
 . . .
 
-Des études antérieures ont montré que ces jugements de moralité sont grandement influencés par trois mécanismes de raisonnement inconscients :
+Des études antérieures ont montré que ces jugements de moralité sont
+grandement influencés par trois mécanismes de raisonnement inconscients
+:
 
-* Le **principe d'action** : un préjudice causé par une action est jugé moralement moins acceptable qu'un préjudice causé par omission.
-* Le **principe d'intention** : un préjudice causé comme étant le moyen vers un but est jugé moralement moins acceptable qu'un préjudice étant un effet secondaire (non désiré) d'un but.
-* Le **principe de contact** : un préjudice causé via contact physique est jugé moralement moins acceptable qu'un préjudice causé sans contact physique.
+-   Le **principe d'action** : un préjudice causé par une action est
+    jugé moralement moins acceptable qu'un préjudice causé par omission.
+-   Le **principe d'intention** : un préjudice causé comme étant le
+    moyen vers un but est jugé moralement moins acceptable qu'un
+    préjudice étant un effet secondaire (non désiré) d'un but.
+-   Le **principe de contact** : un préjudice causé via contact physique
+    est jugé moralement moins acceptable qu'un préjudice causé sans
+    contact physique.
 
 ## Problème n°5
 
-Ce jeu de données comprend 12 colonnes et 9930 lignes, pour 331 individus. L'outcome qui nous intéresse est `response`, un entier pouvant aller de 1 à 7, qui indique à quel point il est permis (moralement) de réaliser l'action décrite dans le scénario correspondant, en fonction de l'âge (`age`) et genre (`male`) du participant (`id`).
+Ce jeu de données comprend 12 colonnes et 9930 lignes, pour 331
+individus. L'outcome qui nous intéresse est `response`, un entier
+pouvant aller de 1 à 7, qui indique à quel point il est permis
+(moralement) de réaliser l'action décrite dans le scénario
+correspondant, en fonction de l'âge (`age`) et genre (`male`) du
+participant (`id`).
 
-On se demande comment les jugements d'acceptabilité sont influencés par les trois principes décrits slide précédente. Ces trois principes correspondent aux trois variables, `action`, `intention`, et `contact` (dummy-coded).
+On se demande comment les jugements d'acceptabilité sont influencés par
+les trois principes décrits slide précédente. Ces trois principes
+correspondent aux trois variables, `action`, `intention`, et `contact`
+(dummy-coded).
 
 ```{r morale, eval = TRUE, echo = TRUE}
 d5 <- open_data(morale)
 head(d5)
 ```
 
-# Propositions de réponse
+# Propositions de réponses
 
 ## Réponse possible problème n°1
 
-La taille de la mère a l'air "plus" prédictive de la taille d'un individu, et ce d'autant plus si cet individu est une femme...
+La taille de la mère a l'air "plus" prédictive de la taille d'un
+individu, et ce d'autant plus si cet individu est une femme...
 
 ```{r plot-parents, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5}
 d1 %>%
@@ -174,7 +223,8 @@ d1 %>%
 
 ## Réponse possible problème n°1
 
-On peut fitter plusieurs modèles avec `brms::brm()`, et les comparer en utilisant le WAIC.
+On peut fitter plusieurs modèles avec `brms::brm()`, et les comparer en
+utilisant le WAIC.
 
 ```{r models-parents-1, eval = TRUE, echo = TRUE, results = "hide"}
 library(brms)
@@ -279,7 +329,9 @@ pp_check(m3, nsamples = 1e2) + theme_bw(base_size = 20)
 
 ## Réponse possible problème n°2
 
-Cette situation revient à essayer de prédire un outcome dichotomique à l'aide de prédicteurs continus et / ou catégoriels. On peut utiliser un modèle de **régression logistique** (cf. Cours n°06).
+Cette situation revient à essayer de prédire un outcome dichotomique à
+l'aide de prédicteurs continus et / ou catégoriels. On peut utiliser un
+modèle de **régression logistique** (cf. Cours n°06).
 
 ```{r reshape-titanic, eval = TRUE, echo = TRUE}
 # centering and standardising predictors
@@ -307,7 +359,8 @@ d2 %>%
 
 ## Réponse possible problème n°2
 
-On peut fitter plusieurs modèles avec `brms::brm()`, et les comparer en utilisant le WAIC.
+On peut fitter plusieurs modèles avec `brms::brm()`, et les comparer en
+utilisant le WAIC.
 
 ```{r models-titanic-1, eval = TRUE, echo = TRUE, results = "hide"}
 prior0 <- prior(normal(0, 10), class = Intercept)
@@ -398,7 +451,11 @@ m3 %>%
 
 ## Réponse possible problème n°3
 
-Cette situation revient à essayer de prédire une variable continue (le diamètre) à l'aide de prédicteurs continus ordonnés (le temps), en sachant que le diamètre d'une pomme dépend de l'arbre sur lequel cette pomme pousse. On peut utiliser un modèle multi-niveaux (ou modèle mixte, cf. Cours n°08).
+Cette situation revient à essayer de prédire une variable continue (le
+diamètre) à l'aide de prédicteurs continus ordonnés (le temps), en
+sachant que le diamètre d'une pomme dépend de l'arbre sur lequel cette
+pomme pousse. On peut utiliser un modèle multi-niveaux (ou modèle mixte,
+cf. Cours n°08).
 
 ```{r, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5}
 d3 <- d3 %>% filter(diam != 0) # removing null data
@@ -414,7 +471,8 @@ d3 %>%
 
 ## Réponse possible problème n°3
 
-On peut fitter plusieurs modèles avec `brms::brm()` et les comparer ensuite en utilisant le WAIC.
+On peut fitter plusieurs modèles avec `brms::brm()` et les comparer
+ensuite en utilisant le WAIC.
 
 ```{r, eval = TRUE, echo = TRUE, results = "hide"}
 p1 <- c(
@@ -561,15 +619,27 @@ d3 %>%
 
 ## Réponse possible problème n°3
 
-Quelques notes sur la proposition de réponse concernant ce problème. Les modèles proposés ici pourraient être améliorés sur plusieurs aspects... est-ce que vous avez des idées ?
+Quelques notes sur la proposition de réponse concernant ce problème. Les
+modèles proposés ici pourraient être améliorés sur plusieurs aspects...
+est-ce que vous avez des idées ?
 
-Premièrement, notre prédicteur (temps) est mesuré en utilisant une échelle discrète (i.e., le nombre de semaines). Il s'agit d'un prédicteur ordinal (i.e., un prédicteur avec différentes catégories entre elles) et un meilleur modèle pour ce genre de données est présenté dans cet article : <https://onlinelibrary.wiley.com/doi/abs/10.1111/bmsp.12195>.
+Premièrement, notre prédicteur (temps) est mesuré en utilisant une
+échelle discrète (i.e., le nombre de semaines). Il s'agit d'un
+prédicteur ordinal (i.e., un prédicteur avec différentes catégories
+entre elles) et un meilleur modèle pour ce genre de données est présenté
+dans @bürkner2020.
 
-Deuxièmement, on pourrait affiner le modèle d'observation postulé pour le phénomène mesuré. Plus précisément, nous avons des informations sur la nature de la variable mesurée (le diamètre). En l'occurrence, on sait par exemple que le diamètre d'une pomme ne peut pas être négatif. On pourrait donc remplacer la fonction de vraisemblance Gaussienne par une fonction de vraisemblance Log-Normale ou Ex-Gaussienne (par exemple).
+Deuxièmement, on pourrait affiner le modèle d'observation postulé pour
+le phénomène mesuré. Plus précisément, nous avons des informations sur
+la nature de la variable mesurée (le diamètre). En l'occurrence, on sait
+par exemple que le diamètre d'une pomme ne peut pas être négatif. On
+pourrait donc remplacer la fonction de vraisemblance Gaussienne par une
+fonction de vraisemblance Log-Normale ou Ex-Gaussienne (par exemple).
 
 ## Réponse possible problème n°4
 
-Cette situation revient à essayer de prédire un outcome dichotomique (admit, reject) à l'aide de prédicteurs continus et/ou catégoriels.
+Cette situation revient à essayer de prédire un outcome dichotomique
+(admit, reject) à l'aide de prédicteurs continus et/ou catégoriels.
 
 ```{r plot-berkeley, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5}
 d4 %>%
@@ -581,7 +651,8 @@ d4 %>%
 
 ## Réponse possible problème n°4
 
-On peut fitter plusieurs modèles avec `brms::brm()` et les comparer ensuite en utilisant le WAIC.
+On peut fitter plusieurs modèles avec `brms::brm()` et les comparer
+ensuite en utilisant le WAIC.
 
 ```{r models-berkeley-1, eval = TRUE, echo = TRUE, results = "hide"}
 # centering gender predictor
@@ -683,7 +754,9 @@ d4 %>%
 
 ## Réponse possible problème n°5
 
-On essaye de prédire un jugement exprimé sous forme d'entier entre 1 et 7. Autrement dit, la variable qu'on essaye de prédire est une variable catégorielle, dont les catégories sont ordonnées de 1 à 7...
+On essaye de prédire un jugement exprimé sous forme d'entier entre 1 et
+7. Autrement dit, la variable qu'on essaye de prédire est une variable
+catégorielle, dont les catégories sont ordonnées de 1 à 7...
 
 ```{r plot-moral, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 6}
 d5$response %>% table %>%
@@ -692,7 +765,10 @@ d5$response %>% table %>%
 
 ## Réponse possible problème n°5
 
-Ce type de données peut se modéliser en utilisant le modèle de régression logistique ordinale, brièvement discuté à la fin du Cours n°09. Ci-dessous un exemple en utilisant `brms`, et les priors par défaut (NB : ces modèles peuvent être un peu longs à fitter).
+Ce type de données peut se modéliser en utilisant le modèle de
+régression logistique ordinale, brièvement discuté à la fin du Cours
+n°09. Ci-dessous un exemple en utilisant `brms`, et les priors par
+défaut (NB : ces modèles peuvent être un peu longs à fitter).
 
 ```{r models-moral, eval = TRUE, echo = TRUE, results = "hide"}
 moral1 <- brm(
@@ -716,7 +792,9 @@ moral2 <- brm(
 
 ## Réponse possible problème n°5
 
-Toutes les pentes sont négatives... ce qui signifie que chaque facteur réduit la réponse moyenne (i.e., le jugement de moralité). Ces pentes représentent des changements dans les log-odds cumulatifs.
+Toutes les pentes sont négatives... ce qui signifie que chaque facteur
+réduit la réponse moyenne (i.e., le jugement de moralité). Ces pentes
+représentent des changements dans les log-odds cumulatifs.
 
 ```{r WAIC-moral, eval = TRUE, echo = TRUE}
 brms::waic(moral1, moral2)
@@ -730,7 +808,8 @@ summary(moral2, prob = 0.95)
 
 ## Réponse possible problème n°5
 
-On peut représenter les prédictions du modèle en utilisant la fonction `brms::marginal_effects()`.
+On peut représenter les prédictions du modèle en utilisant la fonction
+`brms::marginal_effects()`.
 
 ```{r, eval = TRUE, echo = TRUE, message = FALSE, warning = FALSE}
 marg1 <- marginal_effects(moral2, "action", ordinal = TRUE)
@@ -752,7 +831,8 @@ p1 + p2 + p3 + plot_layout(guides = "collect") & theme(legend.position = "right"
 
 ## Réponse possible problème n°5
 
-Pour plus d'informations sur la régression logistique ordinale, voir [ce lien](https://stats.idre.ucla.edu/r/dae/ordinal-logistic-regression/), ce [tutorial](https://osf.io/57hdg/), ou le chapitre 11 de [McElreath (2015)](http://xcelab.net/rm/statistical-rethinking/).
+Pour plus d'informations sur la régression logistique ordinale, voir
+@liddell2018, @bürkner2019a, ou le chapitre 11 de @mcelreath2020c.
 
 ```{r ppc-moral-1, eval = TRUE, echo = TRUE, fig.width = 12, fig.height = 6}
 pp_check(moral2, nsamples = 1e2) +
@@ -766,3 +846,5 @@ pp_check(moral2, nsamples = 1e2, type = "bars", prob = 0.95, freq = FALSE) +
   scale_x_continuous(breaks = 1:7) +
   labs(x = "Moralité", y = "Proportion")
 ```
+
+## Références {.refs}

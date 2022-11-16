@@ -49,9 +49,12 @@ theme_set(theme_bw(base_size = 16, base_family = "Open Sans") )
 library(tidyverse)
 library(imsb)
 
+# import des données
 data <- open_data(absence_multilevel) %>%
-    mutate(reminder = ifelse(test = reminder == 1, yes = 0.5, -0.5) )
-data %>% sample_frac() %>% head(10)
+    mutate(reminder = ifelse(test = reminder == 1, yes = 0.5, no = -0.5) )
+
+# on affiche 12 lignes "au hasard" dans ces données
+data %>% sample_frac() %>% head(12)
 
 
 ## ----eval = TRUE, echo = TRUE---------------------------------------------------------------------------------------------------------
@@ -91,7 +94,7 @@ posterior_summary(x = mod1, pars = c("^b_", "^sd_") )
 
 ## ----eval = TRUE, echo = TRUE---------------------------------------------------------------------------------------------------------
 a <- fixef(mod1)[1] # on récupère la valeur de l'intercept
-exp(a) / (1 + exp(a) ) # équivalent à plogis(a)
+exp(a) / (1 + exp(a) ) # on "convertit" l'intercept en probabilité (équivalent à plogis(a))
 
 
 ## ----eval = TRUE, echo = TRUE---------------------------------------------------------------------------------------------------------
@@ -214,7 +217,7 @@ pp_check(object = mod2, nsamples = 1e3, type = "stat_2d")
 
 ## ----eval = FALSE, echo = TRUE--------------------------------------------------------------------------------------------------------
 ## mod2 <- brm(
-##     presence | trials(total) ~ 1 + reminder + (1 + reminder | researcher),
+##     formula = presence | trials(total) ~ 1 + reminder + (1 + reminder | researcher),
 ##     family = binomial(link = "logit"),
 ##     prior = prior2,
 ##     data = data,
